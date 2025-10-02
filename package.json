@@ -2,9 +2,12 @@
   "name": "persovita",
   "version": "1.0",
   "scripts": {
+    "install": "concurrently \"npm run server-i\" \"npm run client-i\"",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd backend && npm start",
-    "client": "cd frontend && npm start"
+    "client": "cd frontend && npm start",
+    "server-i": "cd backend && npm i",
+    "client-i": "cd frontend && npm i"
   },
   "devDependencies": {
     "concurrently": "^8.2.0"
