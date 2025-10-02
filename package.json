@@ -1,0 +1,20 @@
+{
+  "name": "persovita",
+  "version": "1.0",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm start",
+    "client": "cd frontend && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "keywords": [
+    "vitamin",
+    "AI",
+    "service",
+    "business"
+  ],
+  "author": "cfophoangvk",
+  "description": "Vitamin Subscription Service"
+}
