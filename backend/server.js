@@ -36,7 +36,7 @@ app.delete("/user", (req, res) => {
 
 //Dùng database.json để lưu CSDL
 app.get("/file", (req, res) => {
-  fs.readFile("database.json", "utf8", (err, data) => {
+  fs.readFile("db/database.json", "utf8", (err, data) => {
     if (err) {
       res.send("Cannot read database.json");
       return;

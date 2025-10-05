@@ -8,6 +8,8 @@
 ## Backend: (PORT: 6789):
 - Thêm dữ liệu các thứ vào file database.json
 - Thêm endpoint API vào server.js
+- Mỗi bảng là 1 file json, nằm trong folder db
+- Dùng fs để đọc file database.
 
 ## Frontend: (PORT: 5173):
 - 

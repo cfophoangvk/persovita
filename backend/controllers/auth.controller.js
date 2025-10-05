@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
 const { FRONTEND_URL } = require("../constants/constant.js");
 
-const dbPath = path.resolve(process.cwd(), "database.json");
+const dbPath = path.resolve(process.cwd(), "db/database.json");
 
 const login = async (req, res) => {
   const { email, password } = req.body;

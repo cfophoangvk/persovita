@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const dbPath = path.resolve(process.cwd(), "database.json");
+const dbPath = path.resolve(process.cwd(), "db/database.json");
 
 const parseIdList = (val) => {
   if (!val) return null;
