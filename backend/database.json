@@ -14,6 +14,122 @@
       "id": 3,
       "name": "Product 3",
       "description": "Description 31"
+    },
+    {
+      "id": 4,
+      "name": "Product 4",
+      "description": "Description 4"
+    },
+    {
+      "id": 5,
+      "name": "Product 5",
+      "description": "Description 5"
+    }
+  ],
+  "categories": [
+    { "id": 1, "name": "Mới" },
+    { "id": 2, "name": "Bán chạy nhất" }
+  ],
+  "topics": [
+    {
+      "id": 1,
+      "title": "Sinh lực & Chống mệt mỏi"
+    },
+    {
+      "id": 2,
+      "title": "Tiêu hoá"
+    },
+    {
+      "id": 3,
+      "title": "Vóc dáng"
+    },
+    {
+      "id": 4,
+      "title": "Căng thẳng"
+    },
+    {
+      "id": 5,
+      "title": "Da & Chống lão hoá"
+    },
+    {
+      "id": 6,
+      "title": "Tóc"
+    },
+    {
+      "id": 7,
+      "title": "Giấc ngủ"
+    },
+    {
+      "id": 8,
+      "title": "Trí nhớ & Tập trung"
+    },
+    {
+      "id": 9,
+      "title": "Miễn dịch"
+    },
+    {
+      "id": 10,
+      "title": "Sức khoẻ nữ giới"
+    },
+    {
+      "id": 11,
+      "title": "Sức khoẻ nam giới"
+    },
+    {
+      "id": 12,
+      "title": "Thị lực"
+    }
+  ],
+  "productCategories": [
+    { "productId": 1, "categoryId": 1 },
+    { "productId": 1, "categoryId": 2 },
+    { "productId": 2, "categoryId": 2 },
+    { "productId": 2, "categoryId": 1 },
+    { "productId": 3, "categoryId": 1 },
+    { "productId": 3, "categoryId": 2 }
+  ],
+  "productTopics": [
+    { "productId": 1, "topicId": 1 },
+    { "productId": 1, "topicId": 2 },
+    { "productId": 1, "topicId": 3 },
+    { "productId": 2, "topicId": 1 },
+    { "productId": 2, "topicId": 3 },
+    { "productId": 2, "topicId": 4 },
+    { "productId": 3, "topicId": 1 },
+    { "productId": 3, "topicId": 5 },
+    { "productId": 3, "topicId": 6 },
+    { "productId": 4, "topicId": 7 },
+    { "productId": 4, "topicId": 8 },
+    { "productId": 4, "topicId": 9 },
+    { "productId": 5, "topicId": 10 },
+    { "productId": 5, "topicId": 11 },
+    { "productId": 5, "topicId": 12 }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "user1@example.com",
+      "password": "$2b$12$vEOWcz3pKarOyZxqAbBXIufM/zZzm7KsFUDnv.cfFxPapxalJ6ofO",
+      "role": "user",
+      "createdAt": "2025-10-05T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "email": "user2@example.com",
+      "password": "$2a$12$4fzQru.reLea/HO.zKLTieyNlA6tWH0mb2C76OhCDi3ZICGQKtSze",
+      "role": "user",
+      "createdAt": "2025-10-05T00:00:00.000Z",
+      "resetToken": null,
+      "resetTokenExpires": null
+    },
+    {
+      "id": 3,
+      "email": "user3@example.com",
+      "password": "$2b$12$.7JY5tVxergPC28twVG5HegyKQsLj8f9vPFMcHnY3t.Tn5alV.9PG",
+      "role": "user",
+      "createdAt": "2025-10-05T07:44:45.376Z",
+      "resetToken": null,
+      "resetTokenExpires": null
     }
   ]
 }
