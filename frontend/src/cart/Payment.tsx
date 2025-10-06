@@ -87,7 +87,7 @@ const Payment: React.FC<{
         </div>
 
         <section>
-          <div className="mt-2">
+          <div className="mb-6 border-b pb-6">
             <div className="flex justify-between items-center text-sm text-gray-700">
               <div>2. Shipping</div>
               <div className="text-gray-600">

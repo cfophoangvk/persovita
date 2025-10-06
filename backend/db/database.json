@@ -27,8 +27,14 @@
     }
   ],
   "categories": [
-    { "id": 1, "name": "Mới" },
-    { "id": 2, "name": "Bán chạy nhất" }
+    {
+      "id": 1,
+      "name": "Mới"
+    },
+    {
+      "id": 2,
+      "name": "Bán chạy nhất"
+    }
   ],
   "topics": [
     {
@@ -81,29 +87,92 @@
     }
   ],
   "productCategories": [
-    { "productId": 1, "categoryId": 1 },
-    { "productId": 1, "categoryId": 2 },
-    { "productId": 2, "categoryId": 2 },
-    { "productId": 2, "categoryId": 1 },
-    { "productId": 3, "categoryId": 1 },
-    { "productId": 3, "categoryId": 2 }
+    {
+      "productId": 1,
+      "categoryId": 1
+    },
+    {
+      "productId": 1,
+      "categoryId": 2
+    },
+    {
+      "productId": 2,
+      "categoryId": 2
+    },
+    {
+      "productId": 2,
+      "categoryId": 1
+    },
+    {
+      "productId": 3,
+      "categoryId": 1
+    },
+    {
+      "productId": 3,
+      "categoryId": 2
+    }
   ],
   "productTopics": [
-    { "productId": 1, "topicId": 1 },
-    { "productId": 1, "topicId": 2 },
-    { "productId": 1, "topicId": 3 },
-    { "productId": 2, "topicId": 1 },
-    { "productId": 2, "topicId": 3 },
-    { "productId": 2, "topicId": 4 },
-    { "productId": 3, "topicId": 1 },
-    { "productId": 3, "topicId": 5 },
-    { "productId": 3, "topicId": 6 },
-    { "productId": 4, "topicId": 7 },
-    { "productId": 4, "topicId": 8 },
-    { "productId": 4, "topicId": 9 },
-    { "productId": 5, "topicId": 10 },
-    { "productId": 5, "topicId": 11 },
-    { "productId": 5, "topicId": 12 }
+    {
+      "productId": 1,
+      "topicId": 1
+    },
+    {
+      "productId": 1,
+      "topicId": 2
+    },
+    {
+      "productId": 1,
+      "topicId": 3
+    },
+    {
+      "productId": 2,
+      "topicId": 1
+    },
+    {
+      "productId": 2,
+      "topicId": 3
+    },
+    {
+      "productId": 2,
+      "topicId": 4
+    },
+    {
+      "productId": 3,
+      "topicId": 1
+    },
+    {
+      "productId": 3,
+      "topicId": 5
+    },
+    {
+      "productId": 3,
+      "topicId": 6
+    },
+    {
+      "productId": 4,
+      "topicId": 7
+    },
+    {
+      "productId": 4,
+      "topicId": 8
+    },
+    {
+      "productId": 4,
+      "topicId": 9
+    },
+    {
+      "productId": 5,
+      "topicId": 10
+    },
+    {
+      "productId": 5,
+      "topicId": 11
+    },
+    {
+      "productId": 5,
+      "topicId": 12
+    }
   ],
   "users": [
     {
@@ -132,33 +201,29 @@
       "resetTokenExpires": null
     }
   ],
-  "carts": [
+  "carts": [],
+  "shipping": [
     {
-      "id": 1,
-      "name": "Onely Welcome Kit",
-      "description": "A starter kit",
-      "price": 79900,
-      "quantity": 1,
-      "subscription": true,
-      "image": "https://via.placeholder.com/240x240.png?text=Onely+Kit"
+      "address": "64, Hello Street, Apt 2",
+      "method": "pickup"
     },
     {
-      "id": 2,
-      "name": "Dosing Spoon M",
-      "description": "Stainless steel",
-      "price": 4900,
-      "quantity": 1,
-      "subscription": false,
-      "image": "https://via.placeholder.com/240x240.png?text=Dosing+Spoon"
+      "address": "64, Hello Street, Apt 2",
+      "method": "pickup"
     },
     {
-      "id": 3,
-      "name": "Monthly Refill (30 days)",
-      "description": "Monthly refill pack",
-      "price": 35900,
-      "quantity": 1,
-      "subscription": false,
-      "image": "https://via.placeholder.com/240x240.png?text=Refill+30d"
+      "address": "64, Hello Street, Apt 2",
+      "method": "pickup"
+    }
+  ],
+  "payment": [
+    {
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":9.18,\"currency\":\"EUR\",\"items\":4,\"ts\":1759761176993}"
+    },
+    {
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":12.38,\"currency\":\"EUR\",\"items\":3,\"ts\":1759761531458}"
     }
   ]
 }

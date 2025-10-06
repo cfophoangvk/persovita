@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   XMarkIcon,
   QuestionMarkCircleIcon,
   InformationCircleIcon,
+  ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 import Shipping from "./Shipping";
 import Payment from "./Payment";
@@ -249,8 +251,10 @@ const Cart = () => {
     }
   }, [cartItems]);
 
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white relative">
       {showPaymentPage ? (
         <Payment
           productCount={cartItems.length}
@@ -278,6 +282,14 @@ const Cart = () => {
           {showShippingModal && (
             <ShippingInfoModal onClose={() => setShowShippingModal(false)} />
           )}
+
+          <button
+            onClick={() => navigate(-1)}
+            aria-label="Back"
+            className="absolute left-4 top-4 p-2 text-gray-600 hover:text-gray-800 z-40"
+          >
+            <ArrowLeftIcon className="w-6 h-6" />
+          </button>
 
           <div className="max-w-6xl mx-auto px-6 py-10">
             <header className="flex items-center justify-center mb-8">

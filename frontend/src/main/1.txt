@@ -1,4 +1,0 @@
-file chống mất thư mục (khi đẩy lên git thì thư mục sẽ bị mất nếu không có file bên trong)
-
-Chứa các file landing page, about us...
-Trang chủ

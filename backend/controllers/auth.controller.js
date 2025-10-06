@@ -129,7 +129,7 @@ const forgotPassword = async (req, res) => {
 
     await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
 
-    const resetUrl = `${FRONTEND_URL}/reset-password?${token}`;
+    const resetUrl = `${FRONTEND_URL}/reset-password/${token}`;
 
     // In production, send email here. For dev, log and return resetUrl.
     console.log(`Password reset link for ${email}: ${resetUrl}`);
