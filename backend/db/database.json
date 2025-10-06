@@ -2,18 +2,30 @@
   "products": [
     {
       "id": 1,
-      "name": "Product 1",
-      "description": "Description 1"
+      "name": "Onely Welcome Kit",
+      "description": "A starter kit",
+      "price": 79900,
+      "quantity": 1,
+      "subscription": true,
+      "image": "https://via.placeholder.com/240x240.png?text=Onely+Kit"
     },
     {
       "id": 2,
-      "name": "Product 2",
-      "description": "Description 2"
+      "name": "Dosing Spoon M",
+      "description": "Stainless steel",
+      "price": 4900,
+      "quantity": 1,
+      "subscription": false,
+      "image": "https://via.placeholder.com/240x240.png?text=Dosing+Spoon"
     },
     {
       "id": 3,
-      "name": "Product 3",
-      "description": "Description 31"
+      "name": "Monthly Refill (30 days)",
+      "description": "Monthly refill pack",
+      "price": 35900,
+      "quantity": 1,
+      "subscription": false,
+      "image": "https://via.placeholder.com/240x240.png?text=Refill+30d"
     }
   ]
 }

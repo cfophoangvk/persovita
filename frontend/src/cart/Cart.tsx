@@ -1,0 +1,512 @@
+import { useEffect, useState } from "react";
+import {
+  XMarkIcon,
+  QuestionMarkCircleIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/24/outline";
+import Shipping from "./Shipping";
+import Payment from "./Payment";
+
+type Product = {
+  id: number;
+  name: string;
+  description?: string;
+  price?: number;
+  quantity?: number;
+  subscription?: boolean;
+  image?: string;
+};
+
+const Modal = ({
+  children,
+  onClose,
+  customClasses = "",
+}: {
+  children: React.ReactNode;
+  onClose: () => void;
+  customClasses?: string;
+}) => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div
+      className={`bg-white rounded-2xl shadow-2xl max-w-lg w-full ${customClasses}`}
+    >
+      <button
+        onClick={onClose}
+        aria-label="Close"
+        className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+      >
+        <XMarkIcon className="w-5 h-5" />
+      </button>
+      {children}
+    </div>
+  </div>
+);
+
+const SubscriptionOfferModal = ({ onClose }: { onClose: () => void }) => (
+  <div className="fixed inset-0 z-50 flex flex-col justify-end">
+    <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+    <div className="bg-orange-400 text-white w-full rounded-t-2xl p-10 text-center">
+      <div className="flex justify-end">
+        <button onClick={onClose} className="text-white">
+          <XMarkIcon className="w-6 h-6" />
+        </button>
+      </div>
+      <div className="max-w-3xl mx-auto">
+        <p className="text-xl font-semibold">Save 10% on every order</p>
+        <p className="mt-3 font-semibold">Free personalization</p>
+        <p className="mt-3 font-semibold">Attractive loyalty program</p>
+        <div className="mt-6">***</div>
+        <p className="mt-6 text-sm">
+          Our subscription is 100% flexible and without commitment. You can
+          postpone, modify or suspend it at any time from your online account.
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
+const ShippingInfoModal = ({ onClose }: { onClose: () => void }) => (
+  <Modal onClose={onClose} customClasses="p-6">
+    <div className="p-4 text-center">
+      <h3 className="text-xl font-bold mb-3">Shipping</h3>
+      <p className="text-sm text-gray-700 mb-3">
+        Orders are prepared and shipped within <strong>2 business days</strong>.
+        Delivery time depends on your country.
+      </p>
+      <div className="text-left space-y-4 text-sm text-gray-700">
+        <p>
+          <strong>Free delivery</strong> within the European Union{" "}
+          <strong>for orders over €39</strong>.
+        </p>
+        <p>
+          <strong>Delivery to Switzerland costs €6</strong> and includes customs
+          fees.
+        </p>
+        <p>
+          <strong>Delivery to French overseas territories costs €15</strong>,
+          please note that additional customs fees may apply upon receipt.
+        </p>
+      </div>
+      <div className="mt-6 flex justify-center">
+        <button
+          onClick={onClose}
+          className="px-8 py-3 bg-orange-500 text-white rounded-full font-semibold"
+        >
+          Ok, I get it
+        </button>
+      </div>
+    </div>
+  </Modal>
+);
+
+const Cart = () => {
+  const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [showShippingModal, setShowShippingModal] = useState(false);
+  const [removingIds, setRemovingIds] = useState<number[]>([]);
+  const [flashIds, setFlashIds] = useState<number[]>([]);
+  const [showShippingPage, setShowShippingPage] = useState(false);
+  const [showPaymentPage, setShowPaymentPage] = useState(false);
+  const [shippingSummary, setShippingSummary] = useState<{
+    address?: string;
+    city?: string;
+    country?: string;
+  } | null>(null);
+
+  useEffect(() => {
+    fetch("http://localhost:6789/file")
+      .then((r) => r.json())
+      .then((data) => {
+        const items: Product[] = (data.products || []).map((p: any) => ({
+          ...p,
+          price: p.price ?? 35000,
+          quantity: p.quantity ?? 1,
+          subscription: p.subscription ?? false,
+          image: p.image ?? "https://via.placeholder.com/120x120?text=Product",
+        }));
+
+        try {
+          const saved = localStorage.getItem("persistCart");
+          if (saved) {
+            const savedItems: Product[] = JSON.parse(saved);
+            const merged = items.map((it) => {
+              const s = savedItems.find((si) => si.id === it.id);
+              return s
+                ? {
+                    ...it,
+                    quantity: s.quantity ?? it.quantity,
+                    subscription: s.subscription ?? it.subscription,
+                  }
+                : it;
+            });
+            setCartItems(merged);
+          } else {
+            setCartItems(items);
+          }
+        } catch (e) {
+          console.warn("Failed to merge saved cart", e);
+          setCartItems(items);
+        }
+
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const totalVND = cartItems.reduce(
+    (s, it) =>
+      s + (it.price ?? 0) * (it.quantity ?? 1) * (it.subscription ? 0.9 : 1),
+    0
+  );
+
+  const handleRemove = (id: number) => {
+    setRemovingIds((s) => [...s, id]);
+    setTimeout(() => {
+      setCartItems((prev) => prev.filter((p) => p.id !== id));
+      setRemovingIds((s) => s.filter((x) => x !== id));
+    }, 260);
+  };
+
+  const handleSetQuantity = (id: number, qty: number) =>
+    setCartItems((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, quantity: qty } : p))
+    );
+
+  const handleToggleSubscription = (id: number) => {
+    setCartItems((prev) =>
+      prev.map((p) =>
+        p.id === id ? { ...p, subscription: !p.subscription } : p
+      )
+    );
+    setFlashIds((s) => [...s, id]);
+    setTimeout(() => setFlashIds((s) => s.filter((x) => x !== id)), 300);
+  };
+
+  const FREE_SHIPPING_THRESHOLD = 39; // €
+  const SHIPPING_COST = 3.9; // €
+  const EXCHANGE_RATE = 28000;
+  const formatEur = (v: number) =>
+    (v / EXCHANGE_RATE).toFixed(2).replace(".", ",") + " €";
+
+  const productValueEur = cartItems.length > 0 ? totalVND / EXCHANGE_RATE : 0;
+  const shippingEur =
+    productValueEur >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  const totalEur = productValueEur + shippingEur;
+
+  // compute gross value (without subscription discount) and discounts
+  const grossVND = cartItems.reduce(
+    (s, it) => s + (it.price ?? 0) * (it.quantity ?? 1),
+    0
+  );
+  const discountsVND = grossVND - totalVND; // positive when there is a discount
+  const grossEur = grossVND / EXCHANGE_RATE;
+  const discountsEur = discountsVND / EXCHANGE_RATE;
+  const subtotalEur = totalVND / EXCHANGE_RATE;
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("persistCart", JSON.stringify(cartItems));
+    } catch (e) {
+      console.warn("Failed to persist cart", e);
+    }
+  }, [cartItems]);
+
+  return (
+    <div className="min-h-screen bg-white">
+      {showPaymentPage ? (
+        <Payment
+          productCount={cartItems.length}
+          totalEur={totalEur}
+          onBack={() => setShowPaymentPage(false)}
+          shippingSummary={shippingSummary}
+        />
+      ) : showShippingPage ? (
+        <Shipping
+          productCount={cartItems.length}
+          totalEur={totalEur}
+          onBack={() => setShowShippingPage(false)}
+          onProceed={(summary) => {
+            setShippingSummary(summary || null);
+            setShowPaymentPage(true);
+          }}
+        />
+      ) : (
+        <>
+          {showSubscriptionModal && (
+            <SubscriptionOfferModal
+              onClose={() => setShowSubscriptionModal(false)}
+            />
+          )}
+          {showShippingModal && (
+            <ShippingInfoModal onClose={() => setShowShippingModal(false)} />
+          )}
+
+          <div className="max-w-6xl mx-auto px-6 py-10">
+            <header className="flex items-center justify-center mb-8">
+              <h1 className="text-2xl tracking-widest font-semibold">
+                PERSOVITA
+              </h1>
+            </header>
+
+            <div className="flex gap-8">
+              <main className="flex-1">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-bold uppercase tracking-wider">
+                    YOUR CART
+                  </h2>
+                </div>
+
+                <div className="bg-[#FFF4DB] px-4 py-3 rounded-lg flex items-center justify-between mb-6">
+                  <div className="text-[#7a5b2a] font-medium">
+                    Save 10%. No commitment.
+                  </div>
+                  <button
+                    onClick={() => setShowSubscriptionModal(true)}
+                    className="w-8 h-8 inline-flex items-center justify-center rounded-full bg-[#f6e6c7] text-[#7a5b2a]"
+                  >
+                    <QuestionMarkCircleIcon className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {loading ? (
+                  <div className="text-center py-12 text-gray-500">
+                    Đang tải sản phẩm...
+                  </div>
+                ) : cartItems.length === 0 ? (
+                  <div className="text-center py-20 text-gray-400">
+                    <p className="text-lg">Giỏ hàng của bạn đang trống.</p>
+                    <p className="mt-4 text-sm text-gray-500">
+                      Add products to get started — subscription saves 10%.
+                    </p>
+                  </div>
+                ) : (
+                  <ul className="space-y-6">
+                    {cartItems.map((item) => (
+                      <li key={item.id}>
+                        <div
+                          className={`bg-white rounded-xl p-6 shadow-sm flex items-center relative transition-transform duration-200 ${
+                            removingIds.includes(item.id)
+                              ? "opacity-0 scale-95"
+                              : ""
+                          } ${
+                            flashIds.includes(item.id)
+                              ? "ring-2 ring-orange-200"
+                              : ""
+                          }`}
+                        >
+                          <button
+                            onClick={() => handleRemove(item.id)}
+                            className="absolute right-4 top-4 bg-white rounded-full w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 shadow"
+                          >
+                            <XMarkIcon className="w-4 h-4" />
+                          </button>
+
+                          <div className="w-24 h-24 bg-[#fbf7f5] rounded-md p-3 flex items-center justify-center mr-6">
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          </div>
+
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <p className="font-semibold text-gray-800 text-lg">
+                                  {item.name}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                  {item.description ?? "For 30 days"}
+                                </p>
+                                {item.subscription && (
+                                  <div className="inline-block mt-2 px-2 py-1 text-xs bg-orange-100 text-orange-700 rounded">
+                                    Monthly subscription
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="absolute right-4 top-12 flex items-center gap-4">
+                                <div className="text-sm text-gray-400 line-through">
+                                  {formatEur(item.price ?? 0)}
+                                </div>
+                                <div className="font-semibold text-gray-900">
+                                  {formatEur(
+                                    (item.price ?? 0) *
+                                      (item.quantity ?? 1) *
+                                      (item.subscription ? 0.9 : 1)
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="mt-4 flex items-center justify-between">
+                              <div>
+                                <label className="text-xs text-gray-500 block mb-1">
+                                  Quantity
+                                </label>
+                                <select
+                                  value={item.quantity}
+                                  onChange={(e) =>
+                                    handleSetQuantity(
+                                      item.id,
+                                      Number(e.target.value)
+                                    )
+                                  }
+                                  className="px-3 py-1 border border-gray-200 rounded-full text-sm w-20 text-center"
+                                >
+                                  {Array.from(
+                                    { length: 10 },
+                                    (_, i) => i + 1
+                                  ).map((n) => (
+                                    <option key={n} value={n}>
+                                      {n}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              <label className="flex items-center text-sm text-gray-600 gap-2">
+                                <input
+                                  id={`sub-${item.id}`}
+                                  type="checkbox"
+                                  checked={!!item.subscription}
+                                  onChange={() =>
+                                    handleToggleSubscription(item.id)
+                                  }
+                                  className="w-4 h-4 text-orange-600 bg-white border-gray-300 rounded"
+                                />
+                                Subscription
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+
+                    <li>
+                      <div className="mt-6 flex justify-center">
+                        <button className="px-6 py-3 w-3/4 border-2 border-orange-300 text-orange-600 rounded-full font-semibold hover:bg-orange-50">
+                          + Add products
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                )}
+              </main>
+
+              <aside
+                className="w-96 rounded-xl p-6"
+                style={{ backgroundColor: "#f7efe6" }}
+              >
+                <h3 className="text-sm font-bold uppercase tracking-wider text-orange-600">
+                  ORDER SUMMARY
+                </h3>
+
+                <div className="mt-4 border-t border-gray-200 pt-4">
+                  <div className="flex justify-between items-center text-xs font-semibold uppercase text-gray-600 pb-3 border-b border-gray-200">
+                    <span>PRODUCT</span>
+                    <span>PRICE</span>
+                  </div>
+
+                  <div className="py-3">
+                    {cartItems.map((it) => {
+                      const itemGross = (it.price ?? 0) * (it.quantity ?? 1);
+                      const itemSub = itemGross * (it.subscription ? 0.9 : 1);
+                      return (
+                        <div
+                          key={it.id}
+                          className="flex justify-between items-center py-2 border-b border-gray-100"
+                        >
+                          <div className="text-sm text-gray-800">
+                            {it.name}
+                            {it.subscription && (
+                              <div className="inline-block ml-2 px-2 py-0.5 text-xs bg-orange-100 text-orange-700 rounded">
+                                Monthly subscription
+                              </div>
+                            )}
+                          </div>
+                          <div className="text-right text-sm">
+                            <div className="text-gray-400 text-sm line-through">
+                              {formatEur(itemGross)}
+                            </div>
+                            <div className="font-semibold text-gray-900">
+                              {itemSub === 0 ? "Free" : formatEur(itemSub)}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="pt-4">
+                    <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
+                      <span className="font-semibold">PRODUCT VALUE</span>
+                      <span className="font-bold">
+                        {grossEur.toFixed(2).replace(".", ",")} €
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
+                      <span>Discounts</span>
+                      <span className="text-sm text-gray-700">
+                        -{discountsEur.toFixed(2).replace(".", ",")} €
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center border-t border-gray-200 pt-3 mt-2">
+                      <span className="font-semibold">SUB TOTAL</span>
+                      <span className="font-bold text-gray-900">
+                        {subtotalEur.toFixed(2).replace(".", ",")} €
+                      </span>
+                    </div>
+
+                    <div
+                      className="flex justify-between items-center text-sm text-gray-600 mt-3 cursor-pointer"
+                      onClick={() => setShowShippingModal(true)}
+                    >
+                      <span className="flex items-center gap-2">
+                        Shipping{" "}
+                        <InformationCircleIcon className="w-4 h-4 text-gray-500" />
+                      </span>
+                      <span className="font-bold text-gray-800">
+                        {shippingEur === 0
+                          ? "Free"
+                          : `${shippingEur.toFixed(2).replace(".", ",")} €`}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between items-center border-t border-gray-200 pt-4 mt-4">
+                      <span className="font-bold text-gray-800">TOTAL</span>
+                      <span className="text-xl font-extrabold">
+                        {totalEur.toFixed(2).replace(".", ",")} €
+                      </span>
+                    </div>
+
+                    <div className="mt-6 flex gap-3">
+                      <input
+                        type="text"
+                        placeholder="Coupon code"
+                        className="flex-1 p-3 border border-gray-200 rounded-full text-sm"
+                      />
+                      <button className="px-4 py-2 rounded-full bg-white border border-orange-300 text-orange-600">
+                        Add
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => setShowShippingPage(true)}
+                      className="w-full mt-6 py-4 text-white font-bold rounded-full shadow-lg"
+                      style={{ backgroundColor: "#f28d3d" }}
+                    >
+                      Proceed to shipping
+                    </button>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Cart;
