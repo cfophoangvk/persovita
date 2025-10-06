@@ -62,7 +62,27 @@ const Shipping: React.FC<{
       city,
       country,
     };
-    if (onProceed) onProceed(summary);
+    // persist shipping info to server for this demo
+    fetch("http://localhost:6789/api/shipping/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        address: summary.address,
+        city,
+        country,
+        email,
+        phone,
+        method,
+      }),
+    })
+      .then((r) => r.json())
+      .then(() => {
+        if (onProceed) onProceed(summary);
+      })
+      .catch(() => {
+        // still proceed locally
+        if (onProceed) onProceed(summary);
+      });
   };
 
   return (

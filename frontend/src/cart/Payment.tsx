@@ -28,6 +28,24 @@ const Payment: React.FC<{
       data
     )}`;
     setQrUrl(url);
+    // save a payment record to backend and clear cart
+    fetch("http://localhost:6789/api/payment/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        method: "qr",
+        info: data,
+        amount: Number(totalEur.toFixed(2)),
+      }),
+    })
+      .then((r) => r.json())
+      .then(() => {
+        // clear server cart after payment created
+        fetch("http://localhost:6789/api/cart/clear", { method: "POST" }).catch(
+          () => {}
+        );
+      })
+      .catch(() => {});
   };
 
   const handleCopy = async () => {

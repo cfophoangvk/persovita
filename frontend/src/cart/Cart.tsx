@@ -115,43 +115,59 @@ const Cart = () => {
   } | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:6789/file")
+    // prefer server cart if available
+    fetch("http://localhost:6789/api/cart/")
       .then((r) => r.json())
-      .then((data) => {
-        const items: Product[] = (data.products || []).map((p: any) => ({
-          ...p,
-          price: p.price ?? 35000,
-          quantity: p.quantity ?? 1,
-          subscription: p.subscription ?? false,
-          image: p.image ?? "https://via.placeholder.com/120x120?text=Product",
-        }));
-
-        try {
-          const saved = localStorage.getItem("persistCart");
-          if (saved) {
-            const savedItems: Product[] = JSON.parse(saved);
-            const merged = items.map((it) => {
-              const s = savedItems.find((si) => si.id === it.id);
-              return s
-                ? {
-                    ...it,
-                    quantity: s.quantity ?? it.quantity,
-                    subscription: s.subscription ?? it.subscription,
-                  }
-                : it;
-            });
-            setCartItems(merged);
-          } else {
-            setCartItems(items);
-          }
-        } catch (e) {
-          console.warn("Failed to merge saved cart", e);
-          setCartItems(items);
+      .then((res) => {
+        if (res && res.success) {
+          setCartItems(
+            (res.cart || []).map((p: any) => ({
+              id: p.id,
+              name: p.name,
+              description: p.description,
+              price: p.price ?? 35000,
+              quantity: p.quantity ?? 1,
+              subscription: p.subscription ?? false,
+              image:
+                p.image ?? "https://via.placeholder.com/120x120?text=Product",
+            }))
+          );
+        } else {
+          // fallback to file data
+          fetch("http://localhost:6789/file")
+            .then((r) => r.json())
+            .then((data) => {
+              const items: Product[] = (data.products || []).map((p: any) => ({
+                ...p,
+                price: p.price ?? 35000,
+                quantity: p.quantity ?? 1,
+                subscription: p.subscription ?? false,
+                image:
+                  p.image ?? "https://via.placeholder.com/120x120?text=Product",
+              }));
+              setCartItems(items);
+            })
+            .catch(() => {});
         }
-
-        setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        // network error -> fallback
+        fetch("http://localhost:6789/file")
+          .then((r) => r.json())
+          .then((data) => {
+            const items: Product[] = (data.products || []).map((p: any) => ({
+              ...p,
+              price: p.price ?? 35000,
+              quantity: p.quantity ?? 1,
+              subscription: p.subscription ?? false,
+              image:
+                p.image ?? "https://via.placeholder.com/120x120?text=Product",
+            }));
+            setCartItems(items);
+          })
+          .catch(() => {});
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const totalVND = cartItems.reduce(
@@ -163,15 +179,28 @@ const Cart = () => {
   const handleRemove = (id: number) => {
     setRemovingIds((s) => [...s, id]);
     setTimeout(() => {
+      // optimistically remove UI and call server
       setCartItems((prev) => prev.filter((p) => p.id !== id));
+      fetch("http://localhost:6789/api/cart/remove", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      }).catch(() => {});
       setRemovingIds((s) => s.filter((x) => x !== id));
     }, 260);
   };
 
-  const handleSetQuantity = (id: number, qty: number) =>
+  const handleSetQuantity = (id: number, qty: number) => {
     setCartItems((prev) =>
       prev.map((p) => (p.id === id ? { ...p, quantity: qty } : p))
     );
+    // sync to server
+    fetch("http://localhost:6789/api/cart/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, quantity: qty }),
+    }).catch(() => {});
+  };
 
   const handleToggleSubscription = (id: number) => {
     setCartItems((prev) =>
@@ -181,6 +210,14 @@ const Cart = () => {
     );
     setFlashIds((s) => [...s, id]);
     setTimeout(() => setFlashIds((s) => s.filter((x) => x !== id)), 300);
+    // sync subscription change to server (find the new value)
+    const item = cartItems.find((c) => c.id === id);
+    const newVal = item ? !item.subscription : true;
+    fetch("http://localhost:6789/api/cart/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, subscription: newVal }),
+    }).catch(() => {});
   };
 
   const FREE_SHIPPING_THRESHOLD = 39; // €
