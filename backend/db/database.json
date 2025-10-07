@@ -2,13 +2,13 @@
   "products": [
     {
       "id": 1,
-      "name": "Product 1",
-      "description": "Description 1"
+      "name": "Onely Welcome Kit",
+      "description": "A starter kit"
     },
     {
       "id": 2,
-      "name": "Product 2",
-      "description": "Description 2"
+      "name": "Dosing Spoon M",
+      "description": "Stainless steel"
     },
     {
       "id": 3,
@@ -27,8 +27,14 @@
     }
   ],
   "categories": [
-    { "id": 1, "name": "Mới" },
-    { "id": 2, "name": "Bán chạy nhất" }
+    {
+      "id": 1,
+      "name": "Mới"
+    },
+    {
+      "id": 2,
+      "name": "Bán chạy nhất"
+    }
   ],
   "topics": [
     {
@@ -81,29 +87,92 @@
     }
   ],
   "productCategories": [
-    { "productId": 1, "categoryId": 1 },
-    { "productId": 1, "categoryId": 2 },
-    { "productId": 2, "categoryId": 2 },
-    { "productId": 2, "categoryId": 1 },
-    { "productId": 3, "categoryId": 1 },
-    { "productId": 3, "categoryId": 2 }
+    {
+      "productId": 1,
+      "categoryId": 1
+    },
+    {
+      "productId": 1,
+      "categoryId": 2
+    },
+    {
+      "productId": 2,
+      "categoryId": 2
+    },
+    {
+      "productId": 2,
+      "categoryId": 1
+    },
+    {
+      "productId": 3,
+      "categoryId": 1
+    },
+    {
+      "productId": 3,
+      "categoryId": 2
+    }
   ],
   "productTopics": [
-    { "productId": 1, "topicId": 1 },
-    { "productId": 1, "topicId": 2 },
-    { "productId": 1, "topicId": 3 },
-    { "productId": 2, "topicId": 1 },
-    { "productId": 2, "topicId": 3 },
-    { "productId": 2, "topicId": 4 },
-    { "productId": 3, "topicId": 1 },
-    { "productId": 3, "topicId": 5 },
-    { "productId": 3, "topicId": 6 },
-    { "productId": 4, "topicId": 7 },
-    { "productId": 4, "topicId": 8 },
-    { "productId": 4, "topicId": 9 },
-    { "productId": 5, "topicId": 10 },
-    { "productId": 5, "topicId": 11 },
-    { "productId": 5, "topicId": 12 }
+    {
+      "productId": 1,
+      "topicId": 1
+    },
+    {
+      "productId": 1,
+      "topicId": 2
+    },
+    {
+      "productId": 1,
+      "topicId": 3
+    },
+    {
+      "productId": 2,
+      "topicId": 1
+    },
+    {
+      "productId": 2,
+      "topicId": 3
+    },
+    {
+      "productId": 2,
+      "topicId": 4
+    },
+    {
+      "productId": 3,
+      "topicId": 1
+    },
+    {
+      "productId": 3,
+      "topicId": 5
+    },
+    {
+      "productId": 3,
+      "topicId": 6
+    },
+    {
+      "productId": 4,
+      "topicId": 7
+    },
+    {
+      "productId": 4,
+      "topicId": 8
+    },
+    {
+      "productId": 4,
+      "topicId": 9
+    },
+    {
+      "productId": 5,
+      "topicId": 10
+    },
+    {
+      "productId": 5,
+      "topicId": 11
+    },
+    {
+      "productId": 5,
+      "topicId": 12
+    }
   ],
   "users": [
     {
@@ -131,5 +200,30 @@
       "resetToken": null,
       "resetTokenExpires": null
     }
-  ]
+  ],
+  "shipping": [
+    {
+      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
+      "method": "pickup"
+    },
+    {
+      "address": "64, Hello Street, Apt 2",
+      "method": "pickup"
+    }
+  ],
+  "payment": [
+    {
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":9.18,\"currency\":\"EUR\",\"items\":4,\"ts\":1759761176993}"
+    },
+    {
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":12.38,\"currency\":\"EUR\",\"items\":3,\"ts\":1759761531458}"
+    },
+    {
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":16.19,\"currency\":\"EUR\",\"items\":3,\"ts\":1759801291156}"
+    }
+  ],
+  "carts": []
 }

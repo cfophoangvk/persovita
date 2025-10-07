@@ -361,7 +361,32 @@ const ShopPage: React.FC = () => {
                           ? `${p.price.toLocaleString()} ${p.currency ?? "VND"}`
                           : "Contact"}
                       </div>
-                      <button className="w-9 h-9 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center hover:bg-amber-200 transition">
+                      <button
+                        onClick={() => {
+                          const payload = {
+                            id: p.id,
+                            name: p.name,
+                            price: p.price,
+                            quantity: 1,
+                            image: p.images?.[0] ?? "",
+                            subscription: false,
+                          };
+                          fetch("http://localhost:6789/api/cart/add", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(payload),
+                          })
+                            .then(() => {
+                              // dispatch event so header can refresh count
+                              window.dispatchEvent(
+                                new CustomEvent("cart:updated")
+                              );
+                              alert("Added to cart");
+                            })
+                            .catch(() => alert("Failed to add to cart"));
+                        }}
+                        className="w-9 h-9 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center hover:bg-amber-200 transition"
+                      >
                         +
                       </button>
                     </div>
