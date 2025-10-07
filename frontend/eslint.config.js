@@ -21,6 +21,10 @@ export default defineConfig([
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+<<<<<<< HEAD
+      "@typescript-eslint/no-unused-vars": "off",
+=======
+>>>>>>> 91baf367d83aa1d83df816093c2441114d76fa5c
     },
   },
 ]);
