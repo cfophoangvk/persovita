@@ -2,20 +2,19 @@ import Badge from "../components/Badge"
 import Button from "../components/Button"
 import Header from "../components/Header"
 
-const Page2 = (props: { name: string, acceptedPersonalData: boolean, onAcceptPersonalData: () => void, onNext: () => void }) => {
+const Page2 = (props: { title: string, name: string, acceptedPersonalData: boolean, onAcceptPersonalData: () => void, onNext: () => void }) => {
   return (
     <div className='flex flex-col items-center max-w-[600px]'>
-      <Badge text="GENERAL" />
-      <Header text={`Welcome ${props.name}!`}/>
+      <Badge text={props.title} />
+      <Header text={`Xin chào ${props.name}!`}/>
       <p className='text-lg text-center leading-6'>
-        We're going to ask you a few questions so that we can <strong>offer you a selection of supplements</strong> tailored to your needs.
+        Chúng tôi sẽ hỏi bạn một vài câu hỏi để có thể <strong>cung cấp cho bạn một số loại thực phẩm bổ sung</strong> phù hợp với nhu cầu của bạn.
       </p>
       <p className='text-lg text-center leading-6 mt-8'>
-        The purpose of this questionnaire is not to make a diagnosis, but to give you
-        recommendations on how to stay in good health.
+        Mục đích của bài kiểm tra này không phải là đưa ra chẩn đoán mà là đưa ra cho bạn những khuyến nghị về cách giữ gìn sức khỏe tốt.
       </p>
       <p className='text-lg text-center leading-6 mt-8'>
-        To do this, we will <strong>collect personal data</strong> about you.
+        Để thực hiện việc này, chúng tôi sẽ <strong>thu thập dữ liệu cá nhân</strong> về bạn.
       </p>
 
       <div className="mt-15 flex gap-5 items-center">
@@ -27,12 +26,11 @@ const Page2 = (props: { name: string, acceptedPersonalData: boolean, onAcceptPer
           onChange={props.onAcceptPersonalData}
         />
         <label htmlFor="personalData">
-          By ticking this box, I accept that the personal data I provide to Cuure will be used to
-          create my personalised Cuure of supplements.
+          Bằng cách đánh dấu vào ô này, tôi chấp nhận rằng dữ liệu cá nhân tôi cung cấp cho Cuure sẽ được sử dụng để tạo ra thực phẩm bổ sung được cá nhân hóa của tôi.
         </label>
       </div>
 
-      <Button onClick={props.onNext} disabled={!props.acceptedPersonalData} text="Next"/>
+      <Button onClick={props.onNext} disabled={!props.acceptedPersonalData} text="Tiếp tục"/>
     </div>
   )
 }

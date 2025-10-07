@@ -1,5 +1,0 @@
-file chống mất thư mục (khi đẩy lên git thì thư mục sẽ bị mất nếu không có file bên trong)
-
-Logic chung (hooks, thuật toán...)
-
-LƯU Ý KHÔNG CHO ASSET VÀO ĐÂY, MÀ CHO VÀO PUBLIC!
