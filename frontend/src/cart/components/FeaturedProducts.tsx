@@ -8,17 +8,23 @@ type Product = {
   image?: string;
 };
 
+// Hàm định dạng giá VNĐ
+const formatVND = (v: number) => {
+  // Giả định giá đã là VNĐ và sử dụng logic định dạng của bạn
+  return (v / 1000).toLocaleString("vi-VN") + ".000 VNĐ";
+};
+
 const FeaturedProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Constants for professional styling
-  const BRAND_COLOR = "text-indigo-700"; // New primary color
-  const BUTTON_BG = "bg-indigo-600 hover:bg-indigo-700"; // New button color
+  // Hằng số cho kiểu dáng chuyên nghiệp
+  const BRAND_COLOR = "text-indigo-700"; // Màu chính mới
+  const BUTTON_BG = "bg-indigo-600 hover:bg-indigo-700"; // Màu nút mới
 
   useEffect(() => {
     setLoading(true);
-    // Keeping your original fetch logic
+    // Giữ nguyên logic fetch gốc của bạn
     fetch("http://localhost:6789/file")
       .then((r) => r.json())
       .then((d) => {
@@ -26,6 +32,7 @@ const FeaturedProducts: React.FC = () => {
           id: p.id,
           name: p.name,
           description: p.description,
+          // Giữ nguyên giá mặc định 35000 (Giả định là 35.000 VNĐ)
           price: p.price ?? 35000,
           image: p.image ?? "/public/image/product1.jpg",
         }));
@@ -43,7 +50,7 @@ const FeaturedProducts: React.FC = () => {
       quantity: 1,
       image: p.image,
     };
-    // Keeping your original cart logic
+    // Giữ nguyên logic giỏ hàng gốc của bạn
     fetch("http://localhost:6789/api/cart/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -51,40 +58,40 @@ const FeaturedProducts: React.FC = () => {
     })
       .then(() => {
         window.dispatchEvent(new CustomEvent("cart:updated"));
-        alert(`"${p.name}" added to cart!`);
+        alert(`Đã thêm "${p.name}" vào giỏ hàng!`);
       })
-      .catch(() => alert("Failed to add to cart. Please try again."));
+      .catch(() => alert("Thêm vào giỏ hàng thất bại. Vui lòng thử lại."));
   };
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-16">
-      {/* HEADER SECTION */}
+      {/* PHẦN TIÊU ĐỀ */}
       <div className="flex flex-col sm:flex-row items-center justify-between mb-10 border-b pb-4">
         <h2 className={`text-4xl font-extrabold tracking-tight ${BRAND_COLOR}`}>
-          Featured Products
+          Sản Phẩm Nổi Bật
         </h2>
         <a
           href="/shop"
           className={`mt-4 sm:mt-0 text-md font-medium transition duration-200 ${BRAND_COLOR} hover:text-indigo-500`}
         >
-          View all products &rarr;
+          Xem tất cả sản phẩm &rarr;
         </a>
       </div>
 
-      {/* LOADING STATE */}
+      {/* TRẠNG THÁI ĐANG TẢI */}
       {loading ? (
         <div className="text-center py-10 text-xl text-gray-500">
-          Loading amazing products...
+          Đang tải các sản phẩm tuyệt vời...
         </div>
       ) : (
-        /* PRODUCT GRID */
+        /* LƯỚI SẢN PHẨM */
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((p) => (
             <div
               key={p.id}
               className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden group border border-gray-100"
             >
-              {/* IMAGE CONTAINER */}
+              {/* KHUNG ẢNH */}
               <a
                 href={`/product/${p.id}`}
                 className="block relative overflow-hidden h-64 bg-gray-50"
@@ -96,7 +103,7 @@ const FeaturedProducts: React.FC = () => {
                 />
               </a>
 
-              {/* PRODUCT DETAILS */}
+              {/* CHI TIẾT SẢN PHẨM */}
               <div className="p-5 flex-1 flex flex-col">
                 <div className="flex-1">
                   <a
@@ -112,20 +119,19 @@ const FeaturedProducts: React.FC = () => {
                   </p>
                 </div>
 
-                {/* PRICE & BUTTONS */}
+                {/* GIÁ & NÚT */}
                 <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
-                  {/* PRICE (Formatted) */}
+                  {/* GIÁ (Đã định dạng VNĐ) */}
                   <div className="font-extrabold text-xl text-gray-900">
-                    {((p.price ?? 0) / 1000).toLocaleString()} ₫{" "}
-                    {/* Keeping the currency format as is */}
+                    {formatVND(p.price ?? 0)}
                   </div>
 
-                  {/* ADD TO CART BUTTON */}
+                  {/* NÚT THÊM VÀO GIỎ HÀNG */}
                   <button
                     onClick={() => handleAdd(p)}
                     className={`px-5 py-2 ${BUTTON_BG} text-white rounded-lg text-sm font-semibold shadow-md transition duration-300 transform hover:-translate-y-0.5`}
                   >
-                    Add to Cart
+                    Thêm vào giỏ
                   </button>
                 </div>
               </div>

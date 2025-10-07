@@ -201,14 +201,9 @@
       "resetTokenExpires": null
     }
   ],
-  "carts": [],
   "shipping": [
     {
-      "address": "64, Hello Street, Apt 2",
-      "method": "pickup"
-    },
-    {
-      "address": "64, Hello Street, Apt 2",
+      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
       "method": "pickup"
     },
     {
@@ -224,6 +219,11 @@
     {
       "method": "qr",
       "info": "{\"merchant\":\"PERSOVITA\",\"amount\":12.38,\"currency\":\"EUR\",\"items\":3,\"ts\":1759761531458}"
+    },
+    {
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":16.19,\"currency\":\"EUR\",\"items\":3,\"ts\":1759801291156}"
     }
-  ]
+  ],
+  "carts": []
 }

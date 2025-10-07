@@ -1,55 +1,57 @@
+import React from "react";
+
 const AppFooter: React.FC = () => {
   return (
     <footer className="bg-[#f7f5f0] text-[#1f2937] mt-12">
       <div className="max-w-full mx-auto px-6 pt-12 pb-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Left: About (wide) */}
+          {/* Trái: Giới thiệu (cột rộng) */}
           <div className="md:col-span-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 border rounded-sm flex items-center justify-center text-lg font-bold">
-                C
+                P
               </div>
               <div>
-                <div className="font-semibold mb-4">ABOUT CUURE</div>
+                <div className="font-semibold mb-4">VỀ PERSOVITA</div>
                 <ul className="text-sm text-gray-700 space-y-2">
                   <li>
                     <a href="/about" className="hover:underline">
-                      About
+                      Giới thiệu
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:underline">
-                      Our Mission
+                      Sứ mệnh của chúng tôi
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:underline">
-                      Research & Development
+                      Nghiên cứu & Phát triển
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:underline">
-                      Science & Technology
+                      Khoa học & Công nghệ
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:underline">
-                      Our Commitments
+                      Các cam kết của chúng tôi
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:underline">
-                      Integrative Health
+                      Sức khỏe Toàn diện (Integrative Health)
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:underline">
-                      Why Supplementing
+                      Tại sao cần bổ sung
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:underline">
-                      Our Athletes
+                      Vận động viên của chúng tôi
                     </a>
                   </li>
                 </ul>
@@ -57,91 +59,91 @@ const AppFooter: React.FC = () => {
             </div>
           </div>
 
-          {/* Center columns: Offer + Help */}
+          {/* Cột giữa: Sản phẩm + Hỗ trợ */}
           <div className="md:col-span-2">
-            <div className="font-semibold mb-4">OUR OFFER</div>
+            <div className="font-semibold mb-4">SẢN PHẨM CỦA CHÚNG TÔI</div>
             <ul className="text-sm text-gray-700 space-y-2">
               <li>
                 <a href="#" className="hover:underline">
-                  Experience
+                  Trải nghiệm
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Our Products
+                  Các sản phẩm
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Cuure App
+                  Ứng dụng Persovita (Persovita App)
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Our Blog
+                  Blog
                 </a>
               </li>
             </ul>
           </div>
 
           <div className="md:col-span-3">
-            <div className="font-semibold mb-4">NEED HELP</div>
+            <div className="font-semibold mb-4">CẦN HỖ TRỢ</div>
             <ul className="text-sm text-gray-700 space-y-2">
               <li>
                 <a href="#" className="hover:underline">
-                  Help Center
+                  Trung tâm trợ giúp
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Customer Service
+                  Dịch vụ khách hàng
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Press and Partnerships
+                  Truyền thông và Đối tác
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Professionals
+                  Dành cho Chuyên gia
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Ambassador Programme
+                  Chương trình Đại sứ
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Career Center
+                  Trung tâm Tuyển dụng
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Right: Terms + Payments */}
+          {/* Phải: Điều khoản + Thanh toán */}
           <div className="md:col-span-3">
-            <div className="font-semibold mb-4">TERMS</div>
+            <div className="font-semibold mb-4">ĐIỀU KHOẢN</div>
             <ul className="text-sm text-gray-700 space-y-2 mb-4">
               <li>
                 <a href="#" className="hover:underline">
-                  Terms and conditions
+                  Điều khoản và Điều kiện
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Data Privacy
+                  Quyền riêng tư Dữ liệu
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Cookie preferences
+                  Tùy chọn Cookie
                 </a>
               </li>
             </ul>
 
-            <div className="font-semibold text-sm mb-3">SECURED PAYMENTS</div>
+            <div className="font-semibold text-sm mb-3">THANH TOÁN AN TOÀN</div>
             <div className="flex items-center gap-3">
               <div className="w-10 h-6 bg-white flex items-center justify-center text-xs rounded shadow">
                 VISA
@@ -159,18 +161,20 @@ const AppFooter: React.FC = () => {
           </div>
         </div>
 
-        {/* Disclaimer box centered */}
+        {/* Khung cảnh báo (Disclaimer) */}
         <div className="mt-8 flex justify-center">
           <div className="w-full md:w-3/4 border rounded p-4 text-center text-sm text-gray-600 bg-white">
-            Our products are not intended to diagnose, treat, cure or prevent
-            disease. If you are unwell, pregnant, or breastfeeding, consult your
-            GP or healthcare provider before taking any dietary supplements.
+            Các sản phẩm của chúng tôi không nhằm mục đích chẩn đoán, điều trị,
+            chữa khỏi hoặc ngăn ngừa bất kỳ bệnh nào. Nếu bạn đang không khỏe,
+            mang thai, hoặc cho con bú, vui lòng tham khảo ý kiến bác sĩ hoặc
+            nhà cung cấp dịch vụ chăm sóc sức khỏe trước khi sử dụng bất kỳ thực
+            phẩm bổ sung nào.
           </div>
         </div>
 
-        {/* Bottom copyright and small print */}
+        {/* Thông tin bản quyền và in nhỏ */}
         <div className="mt-6 text-xs text-gray-500 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>© {new Date().getFullYear()} Cuure. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} Cuure. Mọi quyền được bảo lưu.</div>
           <div className="text-center">
             Groupe Well SAS, 83 bd de Sébastopol, 75002 Paris
           </div>

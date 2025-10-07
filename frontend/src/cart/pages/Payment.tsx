@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import type { PaymentProps } from "../interfaces";
 
-const Payment: React.FC<{
-  productCount?: number;
-  totalEur?: number;
-  onBack?: () => void;
-  shippingSummary?: {
-    address?: string;
-    city?: string;
-    country?: string;
-  } | null;
-}> = ({ productCount = 0, totalEur = 0, onBack, shippingSummary = null }) => {
+const Payment: React.FC<PaymentProps> = ({
+  productCount = 0,
+  totalEur = 0,
+  onBack,
+  shippingSummary = null,
+}) => {
   const [qrUrl, setQrUrl] = useState<string | null>(null);
   const [payload, setPayload] = useState<string>("");
 
@@ -23,29 +20,23 @@ const Payment: React.FC<{
       ts: Date.now(),
     });
     setPayload(data);
-    // use a public QR generation endpoint (returns an image)
     const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
       data
     )}`;
     setQrUrl(url);
-    // save a payment record to backend and clear cart
-    fetch("http://localhost:6789/api/payment/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        method: "qr",
-        info: data,
-        amount: Number(totalEur.toFixed(2)),
-      }),
-    })
-      .then((r) => r.json())
-      .then(() => {
-        // clear server cart after payment created
-        fetch("http://localhost:6789/api/cart/clear", { method: "POST" }).catch(
-          () => {}
-        );
-      })
-      .catch(() => {});
+    import("../services/paymentService").then(
+      ({ addPayment, clearCartServer }) => {
+        addPayment({
+          method: "qr",
+          info: data,
+          amount: Number(totalEur.toFixed(2)),
+        })
+          .then(() => {
+            clearCartServer().catch(() => {});
+          })
+          .catch(() => {});
+      }
+    );
   };
 
   const handleCopy = async () => {
@@ -128,13 +119,13 @@ const Payment: React.FC<{
                     onClick={handleCopy}
                     className="px-4 py-2 rounded-full bg-gray-100"
                   >
-                    Copy payload
+                    Sao chép mã QR
                   </button>
                   <button
                     onClick={() => setQrUrl(null)}
                     className="px-4 py-2 rounded-full bg-white border"
                   >
-                    Close
+                    Đóng
                   </button>
                 </div>
                 <div className="mt-3 text-xs text-gray-500 break-words">

@@ -1,32 +1,32 @@
 import React from "react";
 
 const MedicineGuide: React.FC = () => (
-  // Retaining the background gradient and layout
+  // Giữ nguyên gradient nền và bố cục
   <div className="max-w-7xl mx-auto px-6 py-12 bg-gradient-to-r from-white to-white/90 rounded-lg shadow-xl">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-      {/* --- Main Content Column --- */}
+      {/* --- Cột Nội dung Chính --- */}
       <div>
         <h2 className="text-3xl font-extrabold text-orange-700">
-          Guide to Safe Medication Use
+          Cẩm Nang Hướng Dẫn Sử Dụng Thuốc An Toàn
         </h2>
         <p className="text-gray-600 mt-4 text-lg">
-          Essential advice on dosage, timing, and storage of medicine. Ensure
-          optimal treatment effectiveness and minimize risks.
+          Lời khuyên thiết yếu về liều lượng, thời điểm và cách bảo quản thuốc.
+          Đảm bảo **hiệu quả điều trị tối ưu** và **giảm thiểu rủi ro**.
         </p>
         <div className="mt-8">
           <a
-            href="/consultation" // Link change
+            href="/consultation" // Giữ nguyên link
             className="inline-block px-7 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full font-semibold transition duration-300 shadow-md"
           >
-            Learn More About Health
+            Tìm hiểu thêm về sức khỏe
           </a>
         </div>
       </div>
 
-      {/* --- Quick Tips Column --- */}
+      {/* --- Cột Mẹo Nhanh --- */}
       <div className="bg-blue-50 rounded-xl p-8 shadow-inner">
         <h3 className="text-xl font-bold text-orange-800 mb-4">
-          3 Golden Rules for Taking Medicine
+          3 Quy Tắc Vàng Khi Dùng Thuốc
         </h3>
         <ul className="space-y-4 text-gray-700">
           <li className="flex items-start">
@@ -34,8 +34,8 @@ const MedicineGuide: React.FC = () => (
               •
             </span>
             <p>
-              **Correct Dosage:** Always adhere to the dosage and frequency
-              prescribed by your doctor or pharmacist.
+              **Đúng Liều Lượng:** Luôn tuân thủ liều lượng và tần suất đã được
+              bác sĩ hoặc dược sĩ kê đơn.
             </p>
           </li>
           <li className="flex items-start">
@@ -43,8 +43,8 @@ const MedicineGuide: React.FC = () => (
               •
             </span>
             <p>
-              **Timing is Key:** Take medication at the right time (before/after
-              meals) as directed for the best effectiveness.
+              **Đúng Thời Điểm:** Uống thuốc đúng thời điểm (trước/sau bữa ăn)
+              theo hướng dẫn để đạt hiệu quả tốt nhất.
             </p>
           </li>
           <li className="flex items-start">
@@ -52,8 +52,8 @@ const MedicineGuide: React.FC = () => (
               •
             </span>
             <p>
-              **Check Expiry:** Do not use medication that is expired or shows
-              signs of damage.
+              **Kiểm Tra Hạn Sử Dụng:** Không sử dụng thuốc đã hết hạn hoặc có
+              dấu hiệu hư hỏng.
             </p>
           </li>
         </ul>

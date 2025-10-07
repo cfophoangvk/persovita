@@ -6,19 +6,16 @@ import {
   InformationCircleIcon,
   ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
-import Shipping from "./Shipping";
-import Payment from "./Payment";
+import Shipping from "./Shipping.tsx";
+import type { Product } from "../interfaces";
+import Payment from "./Payment.tsx";
+import {
+  fetchCart,
+  updateCart,
+  removeFromCart as svcRemoveFromCart,
+} from "../services/cartService";
 
-type Product = {
-  id: number;
-  name: string;
-  description?: string;
-  price?: number;
-  quantity?: number;
-  subscription?: boolean;
-  image?: string;
-};
-
+// Component Modal chung
 const Modal = ({
   children,
   onClose,
@@ -34,7 +31,7 @@ const Modal = ({
     >
       <button
         onClick={onClose}
-        aria-label="Close"
+        aria-label="Đóng"
         className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
       >
         <XMarkIcon className="w-5 h-5" />
@@ -44,6 +41,7 @@ const Modal = ({
   </div>
 );
 
+// Modal ưu đãi đăng ký (Subscription)
 const SubscriptionOfferModal = ({ onClose }: { onClose: () => void }) => (
   <div className="fixed inset-0 z-50 flex flex-col justify-end">
     <div className="absolute inset-0 bg-black/40" onClick={onClose} />
@@ -54,39 +52,48 @@ const SubscriptionOfferModal = ({ onClose }: { onClose: () => void }) => (
         </button>
       </div>
       <div className="max-w-3xl mx-auto">
-        <p className="text-xl font-semibold">Save 10% on every order</p>
-        <p className="mt-3 font-semibold">Free personalization</p>
-        <p className="mt-3 font-semibold">Attractive loyalty program</p>
+        <p className="text-xl font-semibold">Giảm 10% cho mọi đơn hàng</p>
+        <p className="mt-3 font-semibold">Cá nhân hóa miễn phí</p>
+        <p className="mt-3 font-semibold">
+          Chương trình khách hàng thân thiết hấp dẫn
+        </p>
         <div className="mt-6">***</div>
         <p className="mt-6 text-sm">
-          Our subscription is 100% flexible and without commitment. You can
-          postpone, modify or suspend it at any time from your online account.
+          Gói đăng ký của chúng tôi linh hoạt 100% và không ràng buộc. Bạn có
+          thể hoãn, sửa đổi hoặc tạm dừng bất cứ lúc nào từ tài khoản trực tuyến
+          của bạn.
         </p>
       </div>
     </div>
   </div>
 );
 
+// Modal thông tin vận chuyển
 const ShippingInfoModal = ({ onClose }: { onClose: () => void }) => (
   <Modal onClose={onClose} customClasses="p-6">
     <div className="p-4 text-center">
-      <h3 className="text-xl font-bold mb-3">Shipping</h3>
+      <h3 className="text-xl font-bold mb-3">Vận chuyển</h3>
       <p className="text-sm text-gray-700 mb-3">
-        Orders are prepared and shipped within <strong>2 business days</strong>.
-        Delivery time depends on your country.
+        Đơn hàng được chuẩn bị và vận chuyển trong vòng{" "}
+        <strong>2 ngày làm việc</strong>. Thời gian giao hàng phụ thuộc vào quốc
+        gia của bạn.
       </p>
       <div className="text-left space-y-4 text-sm text-gray-700">
         <p>
-          <strong>Free delivery</strong> within the European Union{" "}
-          <strong>for orders over €39</strong>.
+          <strong>Giao hàng miễn phí</strong> trong Liên minh Châu Âu{" "}
+          <strong>cho các đơn hàng trên 39 €</strong> (khoảng **1.092.000
+          VNĐ**).
         </p>
         <p>
-          <strong>Delivery to Switzerland costs €6</strong> and includes customs
-          fees.
+          <strong>Phí vận chuyển đến Thụy Sĩ là 6 €</strong> (khoảng **168.000
+          VNĐ**) và đã bao gồm phí hải quan.
         </p>
         <p>
-          <strong>Delivery to French overseas territories costs €15</strong>,
-          please note that additional customs fees may apply upon receipt.
+          <strong>
+            Phí vận chuyển đến các lãnh thổ hải ngoại Pháp là 15 €
+          </strong>{" "}
+          (khoảng **420.000 VNĐ**), xin lưu ý rằng phí hải quan bổ sung có thể
+          áp dụng khi nhận hàng.
         </p>
       </div>
       <div className="mt-6 flex justify-center">
@@ -94,13 +101,14 @@ const ShippingInfoModal = ({ onClose }: { onClose: () => void }) => (
           onClick={onClose}
           className="px-8 py-3 bg-orange-500 text-white rounded-full font-semibold"
         >
-          Ok, I get it
+          Đồng ý, tôi đã hiểu
         </button>
       </div>
     </div>
   </Modal>
 );
 
+// Component Giỏ hàng chính (Cart)
 const Cart = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -117,9 +125,8 @@ const Cart = () => {
   } | null>(null);
 
   useEffect(() => {
-    // prefer server cart if available
-    fetch("http://localhost:6789/api/cart/")
-      .then((r) => r.json())
+    // ưu tiên giỏ hàng từ máy chủ nếu có
+    fetchCart()
       .then((res) => {
         if (res && res.success) {
           setCartItems(
@@ -135,7 +142,7 @@ const Cart = () => {
             }))
           );
         } else {
-          // fallback to file data
+          // dự phòng dữ liệu từ file
           fetch("http://localhost:6789/file")
             .then((r) => r.json())
             .then((data) => {
@@ -153,7 +160,7 @@ const Cart = () => {
         }
       })
       .catch(() => {
-        // network error -> fallback
+        // lỗi mạng -> dự phòng
         fetch("http://localhost:6789/file")
           .then((r) => r.json())
           .then((data) => {
@@ -181,13 +188,9 @@ const Cart = () => {
   const handleRemove = (id: number) => {
     setRemovingIds((s) => [...s, id]);
     setTimeout(() => {
-      // optimistically remove UI and call server
+      // lạc quan xóa trên UI và gọi server
       setCartItems((prev) => prev.filter((p) => p.id !== id));
-      fetch("http://localhost:6789/api/cart/remove", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
-      }).catch(() => {});
+      svcRemoveFromCart(id).catch(() => {});
       setRemovingIds((s) => s.filter((x) => x !== id));
     }, 260);
   };
@@ -196,12 +199,8 @@ const Cart = () => {
     setCartItems((prev) =>
       prev.map((p) => (p.id === id ? { ...p, quantity: qty } : p))
     );
-    // sync to server
-    fetch("http://localhost:6789/api/cart/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, quantity: qty }),
-    }).catch(() => {});
+    // đồng bộ với server
+    updateCart({ id, quantity: qty }).catch(() => {});
   };
 
   const handleToggleSubscription = (id: number) => {
@@ -212,42 +211,48 @@ const Cart = () => {
     );
     setFlashIds((s) => [...s, id]);
     setTimeout(() => setFlashIds((s) => s.filter((x) => x !== id)), 300);
-    // sync subscription change to server (find the new value)
+    // đồng bộ thay đổi đăng ký với server (tìm giá trị mới)
     const item = cartItems.find((c) => c.id === id);
     const newVal = item ? !item.subscription : true;
-    fetch("http://localhost:6789/api/cart/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, subscription: newVal }),
-    }).catch(() => {});
+    updateCart({ id, subscription: newVal }).catch(() => {});
   };
 
-  const FREE_SHIPPING_THRESHOLD = 39; // €
-  const SHIPPING_COST = 3.9; // €
+  const FREE_SHIPPING_THRESHOLD_EUR = 39; // €
+  const SHIPPING_COST_EUR = 3.9; // €
   const EXCHANGE_RATE = 28000;
-  const formatEur = (v: number) =>
-    (v / EXCHANGE_RATE).toFixed(2).replace(".", ",") + " €";
 
-  const productValueEur = cartItems.length > 0 ? totalVND / EXCHANGE_RATE : 0;
-  const shippingEur =
-    productValueEur >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
-  const totalEur = productValueEur + shippingEur;
+  // *** HÀM ĐỊNH DẠNG TIỀN TỆ MỚI CHO VNĐ ***
+  const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";
 
-  // compute gross value (without subscription discount) and discounts
+  // Chuyển đổi ngưỡng và chi phí vận chuyển sang VNĐ
+  const SHIPPING_COST_VND = SHIPPING_COST_EUR * EXCHANGE_RATE;
+
+  const productValueVND = cartItems.length > 0 ? totalVND : 0;
+
+  // Tính chi phí vận chuyển bằng VNĐ
+  const shippingVND =
+    productValueVND / EXCHANGE_RATE >= FREE_SHIPPING_THRESHOLD_EUR
+      ? 0
+      : SHIPPING_COST_VND;
+
+  const totalVND_Final = productValueVND + shippingVND;
+
+  // tính toán giá trị gộp (chưa giảm giá đăng ký) và chiết khấu (bằng VNĐ)
   const grossVND = cartItems.reduce(
     (s, it) => s + (it.price ?? 0) * (it.quantity ?? 1),
     0
   );
-  const discountsVND = grossVND - totalVND; // positive when there is a discount
-  const grossEur = grossVND / EXCHANGE_RATE;
-  const discountsEur = discountsVND / EXCHANGE_RATE;
-  const subtotalEur = totalVND / EXCHANGE_RATE;
+  const discountsVND = grossVND - totalVND; // dương khi có chiết khấu
+  const subtotalVND = totalVND;
+
+  // Giữ lại các giá trị Euro cho việc truyền props (nếu Shipping/Payment yêu cầu)
+  const totalEur = totalVND_Final / EXCHANGE_RATE;
 
   useEffect(() => {
     try {
       localStorage.setItem("persistCart", JSON.stringify(cartItems));
     } catch (e) {
-      console.warn("Failed to persist cart", e);
+      console.warn("Lưu giỏ hàng thất bại", e);
     }
   }, [cartItems]);
 
@@ -258,16 +263,20 @@ const Cart = () => {
       {showPaymentPage ? (
         <Payment
           productCount={cartItems.length}
-          totalEur={totalEur}
+          totalEur={totalEur} // Truyền tổng Euro (hoặc bạn có thể tạo prop totalVND)
           onBack={() => setShowPaymentPage(false)}
           shippingSummary={shippingSummary}
         />
       ) : showShippingPage ? (
         <Shipping
           productCount={cartItems.length}
-          totalEur={totalEur}
+          totalEur={totalEur} // Truyền tổng Euro (hoặc bạn có thể tạo prop totalVND)
           onBack={() => setShowShippingPage(false)}
-          onProceed={(summary) => {
+          onProceed={(summary: {
+            address?: string;
+            city?: string;
+            country?: string;
+          }) => {
             setShippingSummary(summary || null);
             setShowPaymentPage(true);
           }}
@@ -285,7 +294,7 @@ const Cart = () => {
 
           <button
             onClick={() => navigate(-1)}
-            aria-label="Back"
+            aria-label="Quay lại"
             className="absolute left-4 top-4 p-2 text-gray-600 hover:text-gray-800 z-40"
           >
             <ArrowLeftIcon className="w-6 h-6" />
@@ -302,13 +311,13 @@ const Cart = () => {
               <main className="flex-1">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-bold uppercase tracking-wider">
-                    YOUR CART
+                    GIỎ HÀNG CỦA BẠN
                   </h2>
                 </div>
 
                 <div className="bg-[#FFF4DB] px-4 py-3 rounded-lg flex items-center justify-between mb-6">
                   <div className="text-[#7a5b2a] font-medium">
-                    Save 10%. No commitment.
+                    Tiết kiệm 10%. Không ràng buộc.
                   </div>
                   <button
                     onClick={() => setShowSubscriptionModal(true)}
@@ -326,7 +335,7 @@ const Cart = () => {
                   <div className="text-center py-20 text-gray-400">
                     <p className="text-lg">Giỏ hàng của bạn đang trống.</p>
                     <p className="mt-4 text-sm text-gray-500">
-                      Add products to get started — subscription saves 10%.
+                      Thêm sản phẩm để bắt đầu — đăng ký giúp tiết kiệm 10%.
                     </p>
                   </div>
                 ) : (
@@ -366,21 +375,22 @@ const Cart = () => {
                                   {item.name}
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                  {item.description ?? "For 30 days"}
+                                  {item.description ?? "Dùng trong 30 ngày"}
                                 </p>
                                 {item.subscription && (
                                   <div className="inline-block mt-2 px-2 py-1 text-xs bg-orange-100 text-orange-700 rounded">
-                                    Monthly subscription
+                                    Đăng ký hàng tháng
                                   </div>
                                 )}
                               </div>
 
+                              {/* HIỂN THỊ GIÁ BẰNG VNĐ */}
                               <div className="absolute right-4 top-12 flex items-center gap-4">
                                 <div className="text-sm text-gray-400 line-through">
-                                  {formatEur(item.price ?? 0)}
+                                  {formatVND(item.price ?? 0)}
                                 </div>
                                 <div className="font-semibold text-gray-900">
-                                  {formatEur(
+                                  {formatVND(
                                     (item.price ?? 0) *
                                       (item.quantity ?? 1) *
                                       (item.subscription ? 0.9 : 1)
@@ -392,7 +402,7 @@ const Cart = () => {
                             <div className="mt-4 flex items-center justify-between">
                               <div>
                                 <label className="text-xs text-gray-500 block mb-1">
-                                  Quantity
+                                  Số lượng
                                 </label>
                                 <select
                                   value={item.quantity}
@@ -425,7 +435,7 @@ const Cart = () => {
                                   }
                                   className="w-4 h-4 text-orange-600 bg-white border-gray-300 rounded"
                                 />
-                                Subscription
+                                Đăng ký
                               </label>
                             </div>
                           </div>
@@ -435,8 +445,11 @@ const Cart = () => {
 
                     <li>
                       <div className="mt-6 flex justify-center">
-                        <button className="px-6 py-3 w-3/4 border-2 border-orange-300 text-orange-600 rounded-full font-semibold hover:bg-orange-50">
-                          + Add products
+                        <button
+                          onClick={() => navigate("/")}
+                          className="px-6 py-3 w-3/4 border-2 border-orange-300 text-orange-600 rounded-full font-semibold hover:bg-orange-50"
+                        >
+                          + Thêm sản phẩm
                         </button>
                       </div>
                     </li>
@@ -449,13 +462,13 @@ const Cart = () => {
                 style={{ backgroundColor: "#f7efe6" }}
               >
                 <h3 className="text-sm font-bold uppercase tracking-wider text-orange-600">
-                  ORDER SUMMARY
+                  TỔNG KẾT ĐƠN HÀNG
                 </h3>
 
                 <div className="mt-4 border-t border-gray-200 pt-4">
                   <div className="flex justify-between items-center text-xs font-semibold uppercase text-gray-600 pb-3 border-b border-gray-200">
-                    <span>PRODUCT</span>
-                    <span>PRICE</span>
+                    <span>SẢN PHẨM</span>
+                    <span>GIÁ</span>
                   </div>
 
                   <div className="py-3">
@@ -471,16 +484,16 @@ const Cart = () => {
                             {it.name}
                             {it.subscription && (
                               <div className="inline-block ml-2 px-2 py-0.5 text-xs bg-orange-100 text-orange-700 rounded">
-                                Monthly subscription
+                                Đăng ký hàng tháng
                               </div>
                             )}
                           </div>
                           <div className="text-right text-sm">
                             <div className="text-gray-400 text-sm line-through">
-                              {formatEur(itemGross)}
+                              {formatVND(itemGross)}
                             </div>
                             <div className="font-semibold text-gray-900">
-                              {itemSub === 0 ? "Free" : formatEur(itemSub)}
+                              {itemSub === 0 ? "Miễn phí" : formatVND(itemSub)}
                             </div>
                           </div>
                         </div>
@@ -490,21 +503,21 @@ const Cart = () => {
 
                   <div className="pt-4">
                     <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
-                      <span className="font-semibold">PRODUCT VALUE</span>
-                      <span className="font-bold">
-                        {grossEur.toFixed(2).replace(".", ",")} €
+                      <span className="font-semibold">
+                        GIÁ TRỊ SẢN PHẨM (Gross)
                       </span>
+                      <span className="font-bold">{formatVND(grossVND)}</span>
                     </div>
                     <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
-                      <span>Discounts</span>
+                      <span>Giảm giá</span>
                       <span className="text-sm text-gray-700">
-                        -{discountsEur.toFixed(2).replace(".", ",")} €
+                        -{formatVND(discountsVND)}
                       </span>
                     </div>
                     <div className="flex justify-between items-center border-t border-gray-200 pt-3 mt-2">
-                      <span className="font-semibold">SUB TOTAL</span>
+                      <span className="font-semibold">TỔNG PHỤ (Subtotal)</span>
                       <span className="font-bold text-gray-900">
-                        {subtotalEur.toFixed(2).replace(".", ",")} €
+                        {formatVND(subtotalVND)}
                       </span>
                     </div>
 
@@ -513,31 +526,31 @@ const Cart = () => {
                       onClick={() => setShowShippingModal(true)}
                     >
                       <span className="flex items-center gap-2">
-                        Shipping{" "}
+                        Vận chuyển{" "}
                         <InformationCircleIcon className="w-4 h-4 text-gray-500" />
                       </span>
                       <span className="font-bold text-gray-800">
-                        {shippingEur === 0
-                          ? "Free"
-                          : `${shippingEur.toFixed(2).replace(".", ",")} €`}
+                        {shippingVND === 0
+                          ? "Miễn phí"
+                          : formatVND(shippingVND)}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center border-t border-gray-200 pt-4 mt-4">
-                      <span className="font-bold text-gray-800">TOTAL</span>
+                      <span className="font-bold text-gray-800">TỔNG CỘNG</span>
                       <span className="text-xl font-extrabold">
-                        {totalEur.toFixed(2).replace(".", ",")} €
+                        {formatVND(totalVND_Final)}
                       </span>
                     </div>
 
                     <div className="mt-6 flex gap-3">
                       <input
                         type="text"
-                        placeholder="Coupon code"
+                        placeholder="Mã giảm giá"
                         className="flex-1 p-3 border border-gray-200 rounded-full text-sm"
                       />
                       <button className="px-4 py-2 rounded-full bg-white border border-orange-300 text-orange-600">
-                        Add
+                        Thêm
                       </button>
                     </div>
                     <button
@@ -545,7 +558,7 @@ const Cart = () => {
                       className="w-full mt-6 py-4 text-white font-bold rounded-full shadow-lg"
                       style={{ backgroundColor: "#f28d3d" }}
                     >
-                      Proceed to shipping
+                      Tiến hành thanh toán
                     </button>
                   </div>
                 </div>

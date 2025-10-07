@@ -6,9 +6,7 @@ import ForgotPasswordPage from "./auth/pages/ForgotPasswordPage";
 import ResetPasswordPage from "./auth/pages/ResetPasswordPage";
 import ShopPage from "./drugs/pages/ShopPage";
 import DrugDetailsPage from "./drugs/pages/DrugDetailsPage";
-import Cart from "./cart/Cart";
-import Shipping from "./cart/Shipping";
-import Payment from "./cart/Payment";
+import Cart from "./cart/pages/Cart";
 import HomePage from "./main/HomePage";
 import AboutPage from "./main/AboutPage";
 
@@ -20,8 +18,6 @@ const App = () => {
         <Route path="shop" element={<ShopPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="products/:id" element={<DrugDetailsPage />} />
-        <Route path="shipping" element={<Shipping />} />
-        <Route path="payment" element={<Payment />} />
       </Route>
       <Route path="login" element={<LoginPage />} />
       <Route path="signup" element={<SignUpPage />} />
