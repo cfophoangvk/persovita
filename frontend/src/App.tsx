@@ -6,6 +6,7 @@ import ForgotPasswordPage from "./auth/pages/ForgotPasswordPage";
 import ResetPasswordPage from "./auth/pages/ResetPasswordPage";
 import ShopPage from "./drugs/pages/ShopPage";
 import DrugDetailsPage from "./drugs/pages/DrugDetailsPage";
+import TestPage from "./test/pages/TestPage";
 import Cart from "./cart/pages/Cart";
 import HomePage from "./main/HomePage";
 import AboutPage from "./main/AboutPage";
@@ -62,6 +63,7 @@ const App = () => {
           path="reset-password/:token"
           element={!user ? <ResetPasswordPage /> : <Navigate to="/" />}
         />
+        <Route path="test/*" element={<TestPage />} />
         <Route path="cart" element={<Cart />} />
       </Routes>
       <Toaster />

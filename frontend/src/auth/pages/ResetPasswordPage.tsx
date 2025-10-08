@@ -28,8 +28,8 @@ const ResetPasswordPage: React.FC = () => {
     <div className="min-h-screen bg-[#fbf9f6] flex items-start justify-center py-20">
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center">
-          <div className="text-4xl font-extrabold tracking-widest text-black mb-4">
-            cuure
+          <div className="text-4xl font-extrabold tracking-widest text-amber-400 mb-4">
+            <Link to="/">PERSOVITA</Link>
           </div>
           <p className="text-sm text-gray-600 mb-8">Đặt lại mật khẩu của bạn</p>
 

@@ -57,13 +57,20 @@ const AppHeader: React.FC = () => {
   }, [showPreview]);
 
   return (
-    <header className="bg-white border-b">
-      <div className="max-w-full mx-auto px-4 md:px-6 lg:px-8">
+    <header className="bg-white border-b fixed top-0 left-0 right-0 z-1">
+      <div className="max-w-full mx-auto px-2 relative">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Link
+            to="/"
+            className="text-2xl font-extrabold tracking-widest text-amber-400 hover:text-amber-600 transition duration-150"
+          >
+            PERSOVITA
+          </Link>
+        </div>
         <div className="flex items-center justify-between h-16">
-          {/* Trái: CTA và liên kết */}
           <div className="flex items-center gap-6">
             <Link
-              to="/test"
+              to="/test/page1"
               className="inline-flex items-center px-4 py-2 bg-amber-500 text-white rounded-full text-sm font-medium hover:bg-amber-600 transition duration-150"
             >
               Làm bài kiểm tra
@@ -84,19 +91,7 @@ const AppHeader: React.FC = () => {
             </nav>
           </div>
 
-          {/* Giữa: Logo */}
-          <div className="flex-1 flex items-center justify-center">
-            <Link
-              to="/"
-              className="text-2xl font-extrabold tracking-widest text-gray-900 hover:text-amber-600 transition duration-150"
-            >
-              PERSOVITA
-            </Link>
-          </div>
-
-          {/* Phải: Hành động */}
           <div className="flex items-center gap-4">
-            {/* Biểu tượng tìm kiếm */}
             <button
               aria-label="Tìm kiếm"
               className="p-2 rounded-full hover:bg-gray-100 transition duration-150"
@@ -114,7 +109,6 @@ const AppHeader: React.FC = () => {
               </svg>
             </button>
 
-            {/* Giỏ hàng */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -261,7 +255,6 @@ const AppHeader: React.FC = () => {
               </div>
             )}
 
-            {/* Biểu tượng tài khoản + đăng nhập */}
             <Link
               to="/login"
               className="hidden sm:inline-flex items-center gap-2 text-sm text-gray-700 hover:text-amber-600 transition duration-150"
