@@ -11,7 +11,9 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ error: "Email và mật khẩu là bắt buộc" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Email và mật khẩu là bắt buộc" });
   }
 
   try {
@@ -21,13 +23,13 @@ const login = async (req, res) => {
     if (!user)
       return res
         .status(401)
-        .json({ error: "Thông tin đăng nhập không hợp lệ" });
+        .json({ success: false, message: "Thông tin đăng nhập không hợp lệ" });
 
     const match = await bcrypt.compare(password, user.password);
     if (!match)
       return res
         .status(401)
-        .json({ error: "Thông tin đăng nhập không hợp lệ" });
+        .json({ success: false, message: "Thông tin đăng nhập không hợp lệ" });
 
     generateTokenAndSetCookie(res, user.id, user.email, user.role);
 
@@ -114,10 +116,10 @@ const forgotPassword = async (req, res) => {
     const userIndex = db.users.findIndex((u) => u.email === email);
     if (userIndex === -1) {
       // Don't reveal whether email exists
-      return res.status(200).json({
-        success: true,
+      return res.status(400).json({
+        success: false,
         message:
-          "Nếu email tồn tại, bạn sẽ nhận được hướng dẫn để đặt lại mật khẩu",
+          "Email này hiện không tồn tại trong hệ thống, vui lòng kiểm tra lại",
       });
     }
 
@@ -137,7 +139,7 @@ const forgotPassword = async (req, res) => {
     const responsePayload = {
       success: true,
       message:
-        "Nếu email tồn tại, bạn sẽ nhận được hướng dẫn để đặt lại mật khẩu",
+        "Nếu email tồn tại, bạn sẽ nhận được hướng dẫn để đặt lại mật khẩu. Vui lòng kiểm tra hộp thư đến hoặc thư mục spam.",
       resetUrl: resetUrl, // Chỉ để phát triển, xóa trong production
     };
 
@@ -198,7 +200,7 @@ const resetPassword = async (req, res) => {
     const { password: _p, ...userSafe } = db.users[userIndex];
     return res.status(200).json({
       success: true,
-      message: "Đặt lại mật khẩu thành công",
+      message: "Đặt lại mật khẩu thành công.",
       user: userSafe,
     });
   } catch (err) {

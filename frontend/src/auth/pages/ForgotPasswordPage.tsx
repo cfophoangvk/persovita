@@ -1,45 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../stores/useAuthStore";
 
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { message, success, isLoading, forgotPassword } = useAuthStore();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccessMessage(null);
-
-    if (!email) {
-      setError("Vui lòng nhập email");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const res = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "Lỗi server");
-
-      // In dev the API may return a resetUrl — show it for convenience
-      setSuccessMessage(
-        data?.resetUrl
-          ? `Hướng dẫn đã được gửi. (DEV) Reset link: ${data.resetUrl}`
-          : "Nếu email tồn tại, bạn sẽ nhận được hướng dẫn để đặt lại mật khẩu"
-      );
-      setEmail("");
-    } catch (err: any) {
-      setError(err.message || "Đã có lỗi");
-    } finally {
-      setLoading(false);
-    }
+    await forgotPassword(email);
   };
 
   return (
@@ -47,7 +16,7 @@ const ForgotPasswordPage: React.FC = () => {
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center">
           <div className="text-4xl font-extrabold tracking-widest text-black mb-4">
-            cuure
+            <Link to="/">cuure</Link>
           </div>
           <p className="text-sm text-gray-600 mb-8">
             Nhập email để nhận hướng dẫn đặt lại mật khẩu
@@ -57,14 +26,14 @@ const ForgotPasswordPage: React.FC = () => {
             onSubmit={onSubmit}
             className="w-full bg-white/60 backdrop-blur-sm p-6 rounded-xl shadow-sm"
           >
-            {error && (
+            {!success && (
               <div className="mb-4 text-sm text-red-600 bg-red-50 p-2 rounded">
-                {error}
+                {message}
               </div>
             )}
-            {successMessage && (
+            {success && (
               <div className="mb-4 text-sm text-green-700 bg-green-50 p-2 rounded break-words">
-                {successMessage}
+                {message}
               </div>
             )}
 
@@ -82,10 +51,10 @@ const ForgotPasswordPage: React.FC = () => {
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full py-2 rounded-full bg-[#f2c9ad] text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors disabled:opacity-60"
+              disabled={isLoading}
+              className="w-full py-2 rounded-full bg-amber-600 text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors disabled:opacity-60"
             >
-              {loading ? "Đang gửi..." : "Gửi hướng dẫn"}
+              {isLoading ? "Đang gửi..." : "Gửi hướng dẫn"}
             </button>
 
             <div className="flex justify-between mt-4 text-sm">

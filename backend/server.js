@@ -15,7 +15,7 @@ const paymentRoutes = require("./routes/payment.route.js");
 const app = express();
 
 app.use(express.json());
-app.use(cors()); //for fucking frontend app
+app.use(cors({ origin: "http://localhost:5173", credentials: true })); //for fucking frontend app
 app.use(cookieParser()); //for cookie
 app.get("/", (req, res) => {
   res.send("<h2>Hello Express Web API</h2>");

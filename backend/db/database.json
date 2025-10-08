@@ -177,28 +177,53 @@
   "users": [
     {
       "id": 1,
+      "fullName": "John Doe",
       "email": "user1@example.com",
-      "password": "$2b$12$vEOWcz3pKarOyZxqAbBXIufM/zZzm7KsFUDnv.cfFxPapxalJ6ofO",
+      "password": "$2b$12$PNeZNWBVnh.8NqwBS.m/cO7hQ8E2EqG2ftk4Yq1EgOXef9I7oHShe",
       "role": "user",
       "createdAt": "2025-10-05T00:00:00.000Z"
     },
     {
       "id": 2,
+      "fullName": "Jane Smith",
       "email": "user2@example.com",
       "password": "$2a$12$4fzQru.reLea/HO.zKLTieyNlA6tWH0mb2C76OhCDi3ZICGQKtSze",
       "role": "user",
       "createdAt": "2025-10-05T00:00:00.000Z",
-      "resetToken": null,
-      "resetTokenExpires": null
+      "resetToken": "640437fe89fa0f30ed6e691bdd22d2e5abd8043eab1fff40c60d01204c16f7c4",
+      "resetTokenExpires": 1759896131077
     },
     {
       "id": 3,
+      "fullName": "User Three",
       "email": "user3@example.com",
       "password": "$2b$12$.7JY5tVxergPC28twVG5HegyKQsLj8f9vPFMcHnY3t.Tn5alV.9PG",
       "role": "user",
       "createdAt": "2025-10-05T07:44:45.376Z",
-      "resetToken": null,
-      "resetTokenExpires": null
+      "resetToken": "36ce5b7bcf4150e1a74a6a742cc598bad11a619c24fc04b58f999872c572087b",
+      "resetTokenExpires": 1759896159242
+    },
+    {
+      "id": 4,
+      "fullName": "Nguyễn Văn Nghĩa",
+      "email": "nghiahtsdtq2003@gmail.com",
+      "password": "$2b$12$olaQdU0fqSHJR0jxuNgKrOqGVuURGjwNLaj5nCJE8lgex0eFUS/UO",
+      "role": "user",
+      "createdAt": "2025-10-07T15:01:33.377Z"
+    },
+    {
+      "id": 5,
+      "email": "haibip@email.com",
+      "password": "$2b$12$kd5MsyWvZAZBPfZRRdDIhui5lvJDN7sLbq18XJAr1UUFaxBxWZRZm",
+      "role": "user",
+      "createdAt": "2025-10-07T16:00:52.159Z"
+    },
+    {
+      "id": 6,
+      "email": "haibip1@email.com",
+      "password": "$2b$12$g4BS/c5YRo1O7506vrQfQeNKTjWOXaksOPWKYLcu5El6qR4KuOiPy",
+      "role": "user",
+      "createdAt": "2025-10-08T03:47:17.448Z"
     }
   ],
   "shipping": [

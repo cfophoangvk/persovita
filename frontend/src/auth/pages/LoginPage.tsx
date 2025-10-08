@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../stores/useAuthStore";
+import { Loader2 } from "lucide-react";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
 
+  const { login, isLoading } = useAuthStore();
+
   const onSubmit = (e: React.FormEvent) => {
+    login({ email, password });
     e.preventDefault();
-    // TODO: call login API
-    console.log("login", { email, password, remember });
   };
 
   return (
@@ -17,7 +20,7 @@ const LoginPage: React.FC = () => {
       <div className="w-full max-w-md bg-transparent">
         <div className="flex flex-col items-center">
           <div className="text-4xl font-extrabold tracking-widest text-black mb-4">
-            cuure
+            <Link to="/">cuure</Link>
           </div>
           <p className="text-sm text-gray-600 mb-8">
             Log in to your Cuure account
@@ -69,9 +72,13 @@ const LoginPage: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-2 rounded-full bg-[#f2c9ad] text-white font-medium shadow-md hover:brightness-95 mb-4"
+              className="w-full py-2 rounded-full bg-amber-600 text-white font-medium shadow-md hover:brightness-95 mb-4"
             >
-              Log in
+              {isLoading ? (
+                <Loader2 className="w-6 h-6 mx-auto animate-spin" />
+              ) : (
+                "Log In"
+              )}
             </button>
 
             <div className="flex items-center gap-3 my-4">
