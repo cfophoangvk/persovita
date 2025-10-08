@@ -1,61 +1,27 @@
 import React, { useState } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useAuthStore } from "../stores/useAuthStore";
+import toast from "react-hot-toast";
 
 const ResetPasswordPage: React.FC = () => {
   const { token } = useParams();
 
   const [newPassword, setNewPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-
-  const navigate = useNavigate();
+  const { isLoading, resetPassword } = useAuthStore();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
 
     if (!token) {
-      setError("Token không hợp lệ hoặc thiếu.");
-      return;
-    }
-    if (
-      !newPassword ||
-      typeof newPassword !== "string" ||
-      newPassword.length < 6
-    ) {
-      setError("Mật khẩu phải có ít nhất 6 ký tự.");
+      toast.error("Token không hợp lệ hoặc thiếu.");
       return;
     }
     if (newPassword !== confirm) {
-      setError("Mật khẩu xác nhận không khớp.");
+      toast.error("Mật khẩu xác nhận không khớp.");
       return;
     }
-
-    setLoading(true);
-    try {
-      const res = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, newPassword }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "Lỗi server");
-
-      setSuccess(
-        "Đặt lại mật khẩu thành công. Đang chuyển đến trang đăng nhập..."
-      );
-      setNewPassword("");
-      setConfirm("");
-
-      setTimeout(() => navigate("/login"), 1500);
-    } catch (err: any) {
-      setError(err.message || "Đã có lỗi");
-    } finally {
-      setLoading(false);
-    }
+    await resetPassword(token, newPassword);
   };
 
   return (
@@ -63,7 +29,7 @@ const ResetPasswordPage: React.FC = () => {
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center">
           <div className="text-4xl font-extrabold tracking-widest text-amber-400 mb-4">
-            PERSOVITA
+            <Link to="/">PERSOVITA</Link>
           </div>
           <p className="text-sm text-gray-600 mb-8">Đặt lại mật khẩu của bạn</p>
 
@@ -71,17 +37,6 @@ const ResetPasswordPage: React.FC = () => {
             onSubmit={onSubmit}
             className="w-full bg-white/60 backdrop-blur-sm p-6 rounded-xl shadow-sm"
           >
-            {error && (
-              <div className="mb-4 text-sm text-red-600 bg-red-50 p-2 rounded">
-                {error}
-              </div>
-            )}
-            {success && (
-              <div className="mb-4 text-sm text-green-700 bg-green-50 p-2 rounded">
-                {success}
-              </div>
-            )}
-
             <label className="block text-xs font-medium text-gray-700 mb-1">
               New password
             </label>
@@ -108,10 +63,10 @@ const ResetPasswordPage: React.FC = () => {
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full py-2 rounded-full bg-[#f2c9ad] text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors disabled:opacity-60"
+              disabled={isLoading}
+              className="w-full py-2 rounded-full bg-amber-600 text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors disabled:opacity-60"
             >
-              {loading ? "Đang xử lý..." : "Đặt lại mật khẩu"}
+              {isLoading ? "Đang xử lý..." : "Đặt lại mật khẩu"}
             </button>
 
             <div className="flex justify-between mt-4 text-sm">

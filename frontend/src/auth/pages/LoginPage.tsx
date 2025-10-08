@@ -1,27 +1,33 @@
 import { ArrowLeft } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../stores/useAuthStore";
+import { Loader2 } from "lucide-react";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
 
+  const { login, isLoading } = useAuthStore();
+
   const onSubmit = (e: React.FormEvent) => {
+    login({ email, password });
     e.preventDefault();
-    // TODO: call login API
-    console.log("login", { email, password, remember });
   };
 
   return (
     <div className="min-h-screen bg-[#fbf9f6] flex items-start justify-center py-20 relative">
-      <a className="absolute left-5 top-5 px-3 py-3 bg-stone-500 rounded-full hover:bg-stone-700 text-white" href="/">
+      <a
+        className="absolute left-5 top-5 px-3 py-3 bg-stone-500 rounded-full hover:bg-stone-700 text-white"
+        href="/"
+      >
         <ArrowLeft />
       </a>
       <div className="w-full max-w-md bg-transparent">
         <div className="flex flex-col items-center">
           <div className="text-4xl font-extrabold tracking-widest text-amber-400 mb-4">
-            PERSOVITA
+            <Link to="/">PERSOVITA</Link>
           </div>
           <p className="text-sm text-gray-600 mb-8">
             Đăng nhập tài khoản Persovita
@@ -69,9 +75,13 @@ const LoginPage: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-2 rounded-full bg-[#f2c9ad] text-white font-medium shadow-md hover:brightness-95 mb-4"
+              className="w-full py-2 rounded-full bg-amber-600 text-white font-medium shadow-md hover:brightness-95 mb-4"
             >
-              Đăng nhập
+              {isLoading ? (
+                <Loader2 className="w-6 h-6 mx-auto animate-spin" />
+              ) : (
+                "Đăng nhập"
+              )}
             </button>
 
             <div className="flex items-center gap-3 my-4">
