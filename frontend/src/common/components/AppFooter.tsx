@@ -173,12 +173,8 @@ const AppFooter: React.FC = () => {
         </div>
 
         {/* Thông tin bản quyền và in nhỏ */}
-        <div className="mt-6 text-xs text-gray-500 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>© {new Date().getFullYear()} Cuure. Mọi quyền được bảo lưu.</div>
-          <div className="text-center">
-            Groupe Well SAS, 83 bd de Sébastopol, 75002 Paris
-          </div>
-          <div>RCS Paris B 849 602 917</div>
+        <div className="mt-6 text-xs text-gray-500 text-center w-full gap-4">
+          © {new Date().getFullYear()} PERSOVITA. Mọi quyền được bảo lưu.
         </div>
       </div>
     </footer>

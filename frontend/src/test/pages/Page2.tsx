@@ -1,12 +1,12 @@
 import Badge from "../components/Badge"
 import Button from "../components/Button"
-import Header from "../components/Header"
+import Title from "../components/Title"
 
 const Page2 = (props: { title: string, name: string, acceptedPersonalData: boolean, onAcceptPersonalData: () => void, onNext: () => void }) => {
   return (
     <div className='flex flex-col items-center max-w-[600px]'>
       <Badge text={props.title} />
-      <Header text={`Xin chào ${props.name}!`}/>
+      <Title text={`Xin chào ${props.name}!`}/>
       <p className='text-lg text-center leading-6'>
         Chúng tôi sẽ hỏi bạn một vài câu hỏi để có thể <strong>cung cấp cho bạn một số loại thực phẩm bổ sung</strong> phù hợp với nhu cầu của bạn.
       </p>
@@ -26,7 +26,7 @@ const Page2 = (props: { title: string, name: string, acceptedPersonalData: boole
           onChange={props.onAcceptPersonalData}
         />
         <label htmlFor="personalData">
-          Bằng cách đánh dấu vào ô này, tôi chấp nhận rằng dữ liệu cá nhân tôi cung cấp cho Cuure sẽ được sử dụng để tạo ra thực phẩm bổ sung được cá nhân hóa của tôi.
+          Bằng cách đánh dấu vào ô này, tôi chấp nhận rằng dữ liệu cá nhân tôi cung cấp cho Persovita sẽ được sử dụng để tạo ra thực phẩm bổ sung được cá nhân hóa của tôi.
         </label>
       </div>
 

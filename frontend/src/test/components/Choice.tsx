@@ -1,5 +1,5 @@
 import Badge from "../components/Badge"
-import Header from "../components/Header"
+import Title from "./Title"
 import type { ChoiceProps } from "../interfaces/ChoiceProps"
 import ChoiceItem from "./ChoiceItem"
 
@@ -7,7 +7,7 @@ const Choice = (props: ChoiceProps) => {
   return (
     <div className="w-full flex flex-col items-center">
       <Badge text={props.title} image={props.image}/>
-      <Header text={props.header} />
+      <Title text={props.header} />
       {props.description && <div className="text-lg my-2">{props.description}</div>}
 
       <div className="w-full flex justify-center flex-wrap gap-4">

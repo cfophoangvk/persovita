@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -40,14 +41,17 @@ const SignUpPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbf9f6] flex items-start justify-center py-20">
+    <div className="min-h-screen bg-[#fbf9f6] flex items-start justify-center py-20 relative">
+      <a className="absolute left-5 top-5 px-3 py-3 bg-stone-500 rounded-full hover:bg-stone-700 text-white" href="/">
+        <ArrowLeft />
+      </a>
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center">
-          <div className="text-4xl font-extrabold tracking-widest text-black mb-4">
-            cuure
+          <div className="text-4xl font-extrabold tracking-widest text-amber-400 mb-4">
+            PERSOVITA
           </div>
           <p className="text-sm text-gray-600 mb-8">
-            Create your Cuure account
+            Tạo tài khoản Persovita mới
           </p>
 
           <form
@@ -61,13 +65,13 @@ const SignUpPage: React.FC = () => {
             )}
 
             <label className="block text-xs font-medium text-gray-700 mb-1">
-              Full name
+              Họ tên
             </label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder="Nguyen Van A"
+              placeholder="Nguyễn Văn A"
               className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-amber-200"
             />
 
@@ -78,13 +82,13 @@ const SignUpPage: React.FC = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="email@gmail.com"
+              placeholder="abc@gmail.com"
               required
               className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-amber-200"
             />
 
             <label className="block text-xs font-medium text-gray-700 mb-1">
-              Password
+              Mật khẩu
             </label>
             <input
               type="password"
@@ -96,7 +100,7 @@ const SignUpPage: React.FC = () => {
             />
 
             <label className="block text-xs font-medium text-gray-700 mb-1">
-              Confirm password
+              Nhập lại mật khẩu
             </label>
             <input
               type="password"
@@ -115,7 +119,7 @@ const SignUpPage: React.FC = () => {
                   onChange={(e) => setAgree(e.target.checked)}
                   className="w-4 h-4 rounded border-gray-300"
                 />
-                <span>I agree to the terms and privacy policy</span>
+                <span>Tôi đồng ý với Điều khoản và Điều kiện</span>
               </label>
             </div>
 
@@ -123,7 +127,7 @@ const SignUpPage: React.FC = () => {
               type="submit"
               className="w-full py-2 rounded-full bg-[#f2c9ad] text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors"
             >
-              Create account
+              Tạo tài khoản
             </button>
 
             <div className="flex items-center gap-3 my-4">
@@ -137,7 +141,7 @@ const SignUpPage: React.FC = () => {
               className="w-full py-2 rounded-full border border-gray-300 bg-white flex items-center justify-center gap-3 text-sm text-black font-medium hover:bg-amber-50 active:bg-amber-100 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-amber-200"
             >
               <img src={googleBase64} alt="google" className="w-5 h-5" />
-              <span>Sign up with Google</span>
+              <span>Đăng ký với Google</span>
             </button>
 
             <div className="flex justify-between mt-6 text-sm">
@@ -145,10 +149,10 @@ const SignUpPage: React.FC = () => {
                 to="/forgot-password"
                 className="text-amber-400 hover:underline"
               >
-                Forgot your password?
+                Quên mật khẩu?
               </Link>
               <Link to="/login" className="text-amber-400 hover:underline">
-                Log in
+                Đăng nhập
               </Link>
             </div>
           </form>

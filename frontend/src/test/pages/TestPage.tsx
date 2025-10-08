@@ -12,8 +12,9 @@ import { ICON } from '../constants/icon';
 import ChoiceCheckbox from '../components/ChoiceCheckbox';
 import { SECTION } from '../constants/section';
 import { CHOICE_ITEMS } from '../constants/choiceItem';
-import { TestUtils } from '../../utils/TestUtils';
+import { TestUtils } from '../utils/TestUtils';
 import TestResult from '../components/TestResult';
+import Header from '../components/Header';
 
 const TestPage = () => {
   const [hasError, setHasError] = useState<boolean>(false);
@@ -67,7 +68,7 @@ const TestPage = () => {
         setSupplementText('Hoàn hảo! Chúng tôi sẽ cố gắng thỏa mãn sự tò mò của bạn!')
         break;
       case 3:
-        setSupplementText('Hoàn hảo! Chúng tôi thiết kế Cuure để thuyết phục những người hoài nghi!')
+        setSupplementText('Hoàn hảo! Chúng tôi thiết kế Persovita để thuyết phục những người hoài nghi!')
         break;
       default:
         setSupplementText('');
@@ -182,7 +183,8 @@ const TestPage = () => {
   ]
 
   return (
-    <div className="min-h-screen flex justify-center items-center w-full overflow-hidden">
+    <div className="min-h-screen flex justify-center items-center w-full overflow-hidden relative">
+      <Header />
       <SwitchTransition mode='out-in'>
         <CSSTransition key={location.key} classNames='fade' timeout={2000} unmountOnExit nodeRef={nodeRef}>
           <div ref={nodeRef}>

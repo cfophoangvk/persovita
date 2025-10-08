@@ -1,6 +1,6 @@
 import Badge from "../components/Badge"
 import Button from "../components/Button"
-import Header from "../components/Header"
+import Title from "../components/Title"
 import { ICON } from "../constants/icon"
 import { SECTION } from "../constants/section"
 
@@ -91,7 +91,7 @@ const Page14 = (props: { title: string, header: string, description: string, obj
   return (
     <div className="flex flex-col items-center my-4">
       <Badge text={props.title} />
-      <Header text={props.header} />
+      <Title text={props.header} />
       <p className='text-lg text-center leading-6 my-4'>
         {props.description}
       </p>

@@ -1,5 +1,5 @@
 import Badge from "../components/Badge";
-import Header from "../components/Header";
+import Title from "./Title";
 import Button from "../components/Button";
 import type { InputProps } from "../interfaces/InputProps";
 
@@ -7,7 +7,7 @@ const Input = (props: InputProps) => {
   return (
     <div className='flex flex-col items-center'>
       <Badge text={props.title} />
-      <Header text={props.description} />
+      <Title text={props.description} />
       <input
         type="text"
         placeholder="Nhập vào đây..."

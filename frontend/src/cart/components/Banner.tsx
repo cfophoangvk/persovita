@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 const DEFAULT_IMAGES = [
-  "/public/image/banner1.jpg",
-  "/public/image/banner2.jpg",
-  "/public/image/banner3.png",
+  "/src/cart/assets/banner1.jpg",
+  "/src/cart/assets/banner2.jpg",
+  "/src/cart/assets/banner3.png",
 ];
 
 const Banner: React.FC = () => {
@@ -14,7 +14,7 @@ const Banner: React.FC = () => {
   useEffect(() => {
     const t = setInterval(() => setIdx((i) => (i + 1) % images.length), 4000);
     return () => clearInterval(t);
-  }, [images.length]);
+  }, [idx]);
 
   return (
     <div
@@ -25,7 +25,7 @@ const Banner: React.FC = () => {
       }}
     >
       {/* Lớp phủ (overlay) gradient màu trắng để tăng độ tương phản của chữ */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/60 to-transparent" />
+      <div className="absolute inset-0 bg-stone-300/80" />
 
       {/* Nội dung chính của banner */}
       <div className="relative max-w-7xl mx-auto px-6 py-32 text-center">

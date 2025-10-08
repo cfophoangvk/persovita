@@ -4,7 +4,7 @@ const FeaturedReviews: React.FC = () => (
   <div className="max-w-7xl mx-auto px-6 py-12 bg-white">
     <div className="flex items-center justify-between mb-8">
       <h2 className="text-3xl font-extrabold text-orange-800">
-        Khách Hàng Nói Gì Về Chúng Tôi
+        Khách hàng nói gì về chúng tôi
       </h2>
       <a
         href="/testimonials"
@@ -19,7 +19,7 @@ const FeaturedReviews: React.FC = () => (
       <div className="bg-blue-50 p-7 rounded-lg shadow-md border border-blue-100 transform hover:scale-105 transition duration-300">
         <div className="text-yellow-500 text-xl mb-3">★★★★★</div>
         <p className="text-gray-800 leading-relaxed">
-          "Dịch vụ khám bệnh rất **chuyên nghiệp**, bác sĩ tận tâm. Tôi rất hài
+          "Dịch vụ khám bệnh rất <b>chuyên nghiệp</b>, bác sĩ tận tâm. Tôi rất hài
           lòng với kết quả điều trị."
         </p>
         <div className="text-sm text-gray-600 font-semibold mt-4">
@@ -31,7 +31,7 @@ const FeaturedReviews: React.FC = () => (
       <div className="bg-blue-50 p-7 rounded-lg shadow-md border border-blue-100 transform hover:scale-105 transition duration-300">
         <div className="text-yellow-500 text-xl mb-3">★★★★★</div>
         <p className="text-gray-800 leading-relaxed">
-          "Phòng khám sạch sẽ, trang thiết bị **hiện đại**. Quy trình tư vấn
+          "Phòng khám sạch sẽ, trang thiết bị <b>hiện đại</b>. Quy trình tư vấn
           nhanh chóng và hiệu quả. Rất khuyến khích!"
         </p>
         <div className="text-sm text-gray-600 font-semibold mt-4">
@@ -44,7 +44,7 @@ const FeaturedReviews: React.FC = () => (
         <div className="text-yellow-500 text-xl mb-3">★★★★★</div>
         <p className="text-gray-800 leading-relaxed">
           "Tôi đã sử dụng thuốc này theo lời khuyên của bác sĩ và tình trạng sức
-          khỏe của tôi đã **cải thiện đáng kể**."
+          khỏe của tôi đã <b>cải thiện đáng kể</b>."
         </p>
         <div className="text-sm text-gray-600 font-semibold mt-4">
           — Lê Thanh Trúc

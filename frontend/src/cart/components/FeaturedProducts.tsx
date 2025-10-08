@@ -34,7 +34,7 @@ const FeaturedProducts: React.FC = () => {
           description: p.description,
           // Giữ nguyên giá mặc định 35000 (Giả định là 35.000 VNĐ)
           price: p.price ?? 35000,
-          image: p.image ?? "/public/image/product1.jpg",
+          image: p.image ?? "/src/cart/assets/product1.jpg",
         }));
         setProducts(list);
       })
