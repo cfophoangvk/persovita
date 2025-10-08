@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
+import { useAuthStore } from "../../auth/stores/useAuthStore";
+import { LogIn, LogOut } from "lucide-react";
 
 // Hàm hỗ trợ định dạng tiền tệ sang Euro (do logic giá gốc là Euro)
 const formatEuro = (value: number) => {
@@ -12,6 +14,9 @@ const AppHeader: React.FC = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [cartItems, setCartItems] = useState<any[]>([]);
   const panelRef = useRef<HTMLDivElement | null>(null);
+
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
 
   const fetchCount = async () => {
     try {
@@ -255,23 +260,24 @@ const AppHeader: React.FC = () => {
               </div>
             )}
 
-            <Link
-              to="/login"
-              className="hidden sm:inline-flex items-center gap-2 text-sm text-gray-700 hover:text-amber-600 transition duration-150"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-600"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
+            {!user && (
+              <Link
+                to="/login"
+                className="hidden sm:inline-flex items-center gap-2 text-sm text-gray-700 hover:text-amber-600 transition duration-150"
               >
-                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-              <span>Đăng nhập</span>
-            </Link>
+                <LogIn className="w-5 h-5 mr-1" />
+                <span>Đăng nhập</span>
+              </Link>
+            )}
+            {user && (
+              <button
+                onClick={() => logout(() => navigate("/login"))}
+                className="hidden sm:inline-flex items-center gap-2 text-sm text-gray-700 hover:text-amber-600 transition duration-150"
+              >
+                <LogOut className="w-5 h-5 mr-1" />
+                <span>Đăng xuất</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

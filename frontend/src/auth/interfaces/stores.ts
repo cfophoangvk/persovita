@@ -9,7 +9,7 @@ interface AuthState {
   checkingAuth: boolean;
   signup: (data: SignUpRequestBody, onSuccess?: () => void) => Promise<void>;
   login: (data: LoginRequestBody, onSuccess?: () => void) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: (onSuccess?: () => void) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (
     token: string,
