@@ -1,146 +1,125 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-
-type Product = {
-  id: number;
-  name: string;
-  price?: number;
-  currency?: string;
-  images?: string[];
-  categories?: string[]; // optional, may be names or slugs
-  badges?: string[];
-  description?: string;
-};
+import { useDrugStore } from "../stores/useDrugStore";
+import { useDebounce } from "../hooks/useDebounce";
+import type { Drug } from "../interfaces/drug";
 
 const PAGE_SIZES = [12, 24, 48];
 
 const ShopPage: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  // Filters / sort / pagination
+  // local UI state
   const [search, setSearch] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  // NOTE: ids are strings (follow /interfaces/drug.ts)
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
+  const [selectedTopicIds, setSelectedTopicIds] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<
     "relevance" | "price-asc" | "price-desc"
   >("relevance");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/products");
-        if (!res.ok) throw new Error("Fetch products failed");
-        const data = await res.json();
-        // expect data.products or data
-        const list: Product[] = data?.products ?? data ?? [];
-        setProducts(list);
-      } catch (err: any) {
-        // fallback sample if API not available
-        // Example of image links: "/images/products/amoxicillin-500-14.jpg"
-        setProducts([
-          {
-            id: 1,
-            name: "Paracetamol 500mg",
-            price: 45000,
-            currency: "VND",
-            images: [
-              "https://tse2.mm.bing.net/th/id/OIP.W7NNdONWEXM2_wQ8QvEhYwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-            ],
-            categories: ["Analgesic", "OTC"],
-            badges: ["NEW"],
-            description: "Giảm đau, hạ sốt. 20 viên/hộp.",
-          },
-          {
-            id: 2,
-            name: "Amoxicillin 500mg",
-            price: 120000,
-            currency: "VND",
-            images: [
-              "https://tse1.mm.bing.net/th/id/OIP.sKb67xJHoAk7ecSQmE0KaQHaEJ?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-            ],
-            categories: ["Antibiotic", "Prescription"],
-            badges: ["BEST-SELLER"],
-            description: "Kháng sinh phổ rộng.",
-          },
-          {
-            id: 3,
-            name: "Cough Syrup - Honey & Herbs",
-            price: 89000,
-            currency: "VND",
-            images: [
-              "https://5.imimg.com/data5/SELLER/Default/2022/5/ZD/QP/KK/101626867/herbal-honey-cough-syrup-1000x1000.jpg",
-            ],
-            categories: ["Cough & Cold", "OTC"],
-            badges: [],
-            description: "Si rô ho, dịu cổ họng. 120ml/chai.",
-          },
-        ]);
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // debounced inputs
+  const debouncedSearch = useDebounce(search, 400);
+  const debouncedCategoryIds = useDebounce(selectedCategoryIds, 300);
+  const debouncedTopicIds = useDebounce(selectedTopicIds, 300);
 
-    fetchProducts();
-  }, []);
+  // store
+  const { drugs, filterDrugs, isLoading } = useDrugStore();
 
-  useEffect(() => {
-    // reset page when filters change
-    setPage(1);
-  }, [search, selectedCategories, sortBy, limit]);
+  // meta from API
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
+  // build available categories/topics from returned products
   const categoriesAvailable = useMemo(() => {
-    const setC = new Set<string>();
-    for (const p of products) {
-      (p.categories || []).forEach((c) => setC.add(c));
+    const map = new Map<string, string>();
+    for (const p of (drugs as Drug[]) || []) {
+      (p.categories || []).forEach((c: any) => {
+        if (typeof c === "string") return;
+        map.set(String(c.id), c.name);
+      });
     }
-    return Array.from(setC);
-  }, [products]);
+    return Array.from(map.entries()).map(([id, name]) => ({ id, name }));
+  }, [drugs]);
 
-  const filtered = useMemo(() => {
-    let list = products.slice();
-
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      list = list.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          (p.description || "").toLowerCase().includes(q)
-      );
+  const topicsAvailable = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const p of (drugs as Drug[]) || []) {
+      (p.topics || []).forEach((t: any) => {
+        if (typeof t === "string") return;
+        map.set(String(t.id), t.title);
+      });
     }
+    return Array.from(map.entries()).map(([id, title]) => ({ id, title }));
+  }, [drugs]);
 
-    if (selectedCategories.length) {
-      list = list.filter((p) =>
-        (p.categories || []).some((c) => selectedCategories.includes(c))
-      );
-    }
-
-    if (sortBy === "price-asc") {
-      list.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
-    } else if (sortBy === "price-desc") {
-      list.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
-    }
-
-    return list;
-  }, [products, search, selectedCategories, sortBy]);
-
-  const total = filtered.length;
-  const totalPages = Math.max(1, Math.ceil(total / limit));
-  const start = (page - 1) * limit;
-  const paged = filtered.slice(start, start + limit);
-
-  const toggleCategory = (c: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]
+  // helper toggles (string ids)
+  const toggleCategory = (id: string) =>
+    setSelectedCategoryIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
+  const toggleTopic = (id: string) =>
+    setSelectedTopicIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+
+  // build query string for backend
+  const buildQuery = () => {
+    const params = new URLSearchParams();
+    if (debouncedCategoryIds && debouncedCategoryIds.length) {
+      params.set("categoryIds", debouncedCategoryIds.join(","));
+    }
+    if (debouncedTopicIds && debouncedTopicIds.length) {
+      params.set("topicIds", debouncedTopicIds.join(","));
+    }
+    if (debouncedSearch && debouncedSearch.trim()) {
+      params.set("q", debouncedSearch.trim());
+    }
+    params.set("page", String(page));
+    params.set("limit", String(limit));
+    if (sortBy && sortBy !== "relevance") params.set("sort", sortBy);
+    return params.toString();
   };
+
+  // fetch when debounced inputs change or page/limit change
+  useEffect(() => {
+    const q = buildQuery();
+    let mounted = true;
+    (async () => {
+      // use store method which now returns parsed response
+      const data = await filterDrugs(q);
+      if (!mounted) return;
+      if (data) {
+        setTotal(data.meta?.total ?? data.products?.length ?? 0);
+        setTotalPages(data.meta?.totalPages ?? 1);
+        // page might be out of range after filter change
+        if (page > (data.meta?.totalPages ?? 1)) setPage(1);
+      } else {
+        setTotal(0);
+        setTotalPages(1);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    debouncedSearch,
+    debouncedCategoryIds,
+    debouncedTopicIds,
+    page,
+    limit,
+    sortBy,
+  ]);
+
+  // derived values for UI
+  const totalItems = total;
+  const start = (page - 1) * limit;
+  // const paged = (drugs ?? []).slice(0, limit); // store already returns page-limited items
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero (banner background with text overlay) */}
+      {/* Hero */}
       <div
         className="relative w-full bg-center bg-no-repeat bg-cover"
         style={{
@@ -148,7 +127,6 @@ const ShopPage: React.FC = () => {
             "url('https://4deb4f30d3ceeb7ccf4ed7029328c64e.cdn.bubble.io/cdn-cgi/image/w=,h=,f=auto,dpr=1,fit=contain/d75/f1740073833085x562625109128317000/BANNER%2016%20%283%29.jpg')",
         }}
       >
-        {/* subtle overlay to ensure text readable */}
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 flex items-center">
           <div className="max-w-2xl z-10">
@@ -166,7 +144,6 @@ const ShopPage: React.FC = () => {
               products created by Scientists, to meet all your needs.
             </p>
           </div>
-          {/* right side is part of background image; keep empty spacer for layout */}
           <div className="hidden md:block flex-1" />
         </div>
       </div>
@@ -177,7 +154,6 @@ const ShopPage: React.FC = () => {
           {/* Sidebar */}
           <aside className="col-span-12 md:col-span-3">
             <div className="md:sticky md:top-20 space-y-6">
-              {/* Sort */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Sort by
@@ -197,46 +173,21 @@ const ShopPage: React.FC = () => {
                 </select>
               </div>
 
-              {/* Formats (kept simple) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Formats
+                  Categories
                 </label>
-                <div className="space-y-2 text-sm text-gray-700">
-                  {["Bottles", "Packs", "Powders", "Liquids", "Tubes"].map(
-                    (f) => (
-                      <label key={f} className="flex items-center gap-2">
-                        <input type="checkbox" className="w-4 h-4" />
-                        <span>{f}</span>
-                      </label>
-                    )
-                  )}
-                </div>
-              </div>
-
-              {/* Categories */}
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Categories
-                  </label>
-                  <span className="text-xs text-gray-500">
-                    {selectedCategories.length > 0
-                      ? `${selectedCategories.length} selected`
-                      : ""}
-                  </span>
-                </div>
                 <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
                   {categoriesAvailable.length ? (
                     categoriesAvailable.map((c) => (
-                      <label key={c} className="flex items-center gap-2">
+                      <label key={c.id} className="flex items-center gap-2">
                         <input
                           type="checkbox"
-                          checked={selectedCategories.includes(c)}
-                          onChange={() => toggleCategory(c)}
+                          checked={selectedCategoryIds.includes(c.id)}
+                          onChange={() => toggleCategory(c.id)}
                           className="w-4 h-4"
                         />
-                        <span>{c}</span>
+                        <span>{c.name}</span>
                       </label>
                     ))
                   ) : (
@@ -245,41 +196,46 @@ const ShopPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Topics (if products have topics field) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   Topics
                 </label>
                 <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
-                  {/** build topics list from products if available */}
-                  {(() => {
-                    const topicsSet = new Set<string>();
-                    products.forEach((p: any) => {
-                      (p.topics || []).forEach((t: string) => topicsSet.add(t));
-                    });
-                    const topics = Array.from(topicsSet);
-                    if (!topics.length) {
-                      return (
-                        <div className="text-xs text-gray-400">No topics</div>
-                      );
-                    }
-                    return topics.map((t) => (
-                      <label key={t} className="flex items-center gap-2">
-                        <input type="checkbox" className="w-4 h-4" />
-                        <span>{t}</span>
+                  {topicsAvailable.length ? (
+                    topicsAvailable.map((t) => (
+                      <label key={t.id} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedTopicIds.includes(t.id)}
+                          onChange={() => toggleTopic(t.id)}
+                          className="w-4 h-4"
+                        />
+                        <span>{t.title}</span>
                       </label>
-                    ));
-                  })()}
+                    ))
+                  ) : (
+                    <div className="text-xs text-gray-400">No topics</div>
+                  )}
                 </div>
               </div>
 
-              {/* Actions */}
-              <div className="flex m-auto items-center w-3/4 gap-3">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    setSelectedCategoryIds([]);
+                    setSelectedTopicIds([]);
+                    setSearch("");
+                    setPage(1);
+                  }}
+                  className="flex-1 py-2 rounded-full border border-gray-300 bg-white text-sm hover:bg-gray-50 transition"
+                >
+                  Reset
+                </button>
                 <button
                   onClick={() => setPage(1)}
                   className="flex-1 py-2 rounded-full bg-amber-200 text-amber-900 text-sm font-medium hover:bg-amber-300 transition"
                 >
-                  Reset
+                  Apply
                 </button>
               </div>
             </div>
@@ -288,7 +244,7 @@ const ShopPage: React.FC = () => {
           {/* Products */}
           <main className="col-span-12 md:col-span-9">
             <div className="flex items-center justify-between mb-6">
-              <div className="text-sm text-gray-600">{total} products</div>
+              <div className="text-sm text-gray-600">{totalItems} products</div>
 
               <div className="flex items-center gap-3">
                 <input
@@ -299,7 +255,10 @@ const ShopPage: React.FC = () => {
                 />
                 <select
                   value={limit}
-                  onChange={(e) => setLimit(parseInt(e.target.value, 10))}
+                  onChange={(e) => {
+                    setLimit(parseInt(e.target.value, 10));
+                    setPage(1);
+                  }}
                   className="px-2 py-2 border border-gray-200 rounded text-sm"
                 >
                   {PAGE_SIZES.map((s) => (
@@ -313,12 +272,12 @@ const ShopPage: React.FC = () => {
 
             {/* Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {loading ? (
+              {isLoading ? (
                 <div className="col-span-full text-center py-10 text-gray-500">
                   Loading...
                 </div>
-              ) : paged.length ? (
-                paged.map((p) => (
+              ) : (drugs ?? []).length ? (
+                (drugs ?? []).map((p: Drug) => (
                   <div
                     key={p.id}
                     className="bg-white border border-gray-100 rounded-lg p-4 shadow-sm hover:shadow-md transition"
@@ -329,14 +288,14 @@ const ShopPage: React.FC = () => {
                         alt={p.name}
                         className="object-contain h-full w-full"
                       />
-                      {p.badges?.length ? (
+                      {p.categories?.length ? (
                         <div className="absolute top-3 right-3 space-y-1">
-                          {p.badges!.map((b, i) => (
+                          {p.categories.map((c) => (
                             <span
-                              key={i}
+                              key={c.id}
                               className="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded"
                             >
-                              {b}
+                              {c.name}
                             </span>
                           ))}
                         </div>
@@ -377,7 +336,6 @@ const ShopPage: React.FC = () => {
                             body: JSON.stringify(payload),
                           })
                             .then(() => {
-                              // dispatch event so header can refresh count
                               window.dispatchEvent(
                                 new CustomEvent("cart:updated")
                               );
@@ -402,8 +360,9 @@ const ShopPage: React.FC = () => {
             {/* Pagination */}
             <div className="mt-8 flex items-center justify-between">
               <div className="text-sm text-gray-600">
-                Showing {start + 1}–{Math.min(start + paged.length, total)} of{" "}
-                {total} products
+                Showing {start + 1}–
+                {Math.min(start + (drugs?.length ?? 0), totalItems)} of{" "}
+                {totalItems} products
               </div>
 
               <div className="flex items-center gap-2">
@@ -415,7 +374,6 @@ const ShopPage: React.FC = () => {
                   Prev
                 </button>
 
-                {/* simple page numbers */}
                 <div className="hidden md:flex items-center gap-1">
                   {Array.from({ length: totalPages }).map((_, i) => {
                     const pageNum = i + 1;

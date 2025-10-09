@@ -135,6 +135,10 @@ const getProductsByFilters = async (req, res) => {
     const raw = await fs.promises.readFile(dbPath, "utf-8");
     const db = JSON.parse(raw);
 
+    // lookup maps for names
+    const categoryMap = new Map((db.categories || []).map((c) => [c.id, c]));
+    const topicMap = new Map((db.topics || []).map((t) => [t.id, t]));
+
     // helper to build set of productIds matching any of given categoryIds/topicIds
     const productIdsByCategories = (ids) => {
       if (!ids || !ids.length) return null;
@@ -174,15 +178,52 @@ const getProductsByFilters = async (req, res) => {
       filteredProducts = db.products || [];
     }
 
+    // pagination (apply on filtered results)
     const total = filteredProducts.length;
     const totalPages = Math.max(1, Math.ceil(total / limit));
     const start = (page - 1) * limit;
     const end = start + limit;
     const paged = filteredProducts.slice(start, end);
 
+    // enrich products: replace id arrays with objects containing name/title
+    const enrichProduct = (p) => {
+      // get category ids: prefer explicit p.categories, fallback to relation table
+      const catIds =
+        Array.isArray(p.categories) && p.categories.length
+          ? p.categories
+          : (db.productCategories || [])
+              .filter((pc) => pc.productId === p.id)
+              .map((pc) => pc.categoryId);
+
+      const topicIdsLocal =
+        Array.isArray(p.topics) && p.topics.length
+          ? p.topics
+          : (db.productTopics || [])
+              .filter((pt) => pt.productId === p.id)
+              .map((pt) => pt.topicId);
+
+      const categories = (catIds || []).map((id) => {
+        const c = categoryMap.get(id);
+        return { id, name: c ? c.name : null };
+      });
+
+      const topics = (topicIdsLocal || []).map((id) => {
+        const t = topicMap.get(id);
+        return { id, title: t ? t.title : null };
+      });
+
+      return {
+        ...p,
+        categories,
+        topics,
+      };
+    };
+
+    const pagedEnriched = paged.map(enrichProduct);
+
     return res.status(200).json({
       success: true,
-      products: paged,
+      products: pagedEnriched,
       meta: {
         total,
         page,
