@@ -229,25 +229,31 @@
   "shipping": [
     {
       "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
+      "email": "vanan123@email.com",
+      "phone": "+84 901234567",
       "method": "pickup"
     },
     {
-      "address": "64, Hello Street, Apt 2",
+      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
+      "email": "vanan123@email.com",
+      "phone": "+84 901234567",
+      "method": "pickup"
+    },
+    {
+      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
+      "email": "vanan123@email.com",
+      "phone": "+84 901234567",
       "method": "pickup"
     }
   ],
   "payment": [
     {
       "method": "qr",
-      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":9.18,\"currency\":\"EUR\",\"items\":4,\"ts\":1759761176993}"
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":102000,\"currency\":\"VND\",\"items\":1,\"ts\":1759944547469}"
     },
     {
       "method": "qr",
-      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":12.38,\"currency\":\"EUR\",\"items\":3,\"ts\":1759761531458}"
-    },
-    {
-      "method": "qr",
-      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":16.19,\"currency\":\"EUR\",\"items\":3,\"ts\":1759801291156}"
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":75000,\"currency\":\"VND\",\"items\":1,\"ts\":1759945293457}"
     }
   ],
   "carts": []

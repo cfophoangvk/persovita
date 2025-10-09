@@ -245,13 +245,11 @@ const ShopPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Topics (if products have topics field) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   Topics
                 </label>
                 <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
-                  {/** build topics list from products if available */}
                   {(() => {
                     const topicsSet = new Set<string>();
                     products.forEach((p: any) => {

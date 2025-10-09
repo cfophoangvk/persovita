@@ -1,6 +1,6 @@
 export interface PaymentProps {
   productCount?: number;
-  totalEur?: number;
+  totalVND?: number;
   onBack?: () => void;
   shippingSummary?: {
     address?: string;

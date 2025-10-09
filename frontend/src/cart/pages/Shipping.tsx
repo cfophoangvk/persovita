@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import type { ShippingMethod } from "../interfaces/shipping";
 
-// Tỷ giá hối đoái
-const EXCHANGE_RATE = 28000; // 1 € = 28.000 VNĐ
-
 // Hàm định dạng VNĐ
 const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";
 
@@ -20,31 +17,28 @@ const SHIPPING_METHODS: ShippingMethod[] = [
     id: "home_priv",
     title: "Giao hàng tận nhà",
     subtitle: "Giao hàng trong 48 giờ",
-    price: 1.0, // 1.0 €
+    price: 10000,
   },
   {
     id: "home_colis",
     title: "Giao hàng tận nhà",
     subtitle: "Giao hàng trong 24 giờ",
-    price: 2.0, // 2.0 €
+    price: 20000, // 2.0 €
   },
 ];
 
 const Shipping: React.FC<{
   productCount?: number;
-  totalEur?: number;
+  totalVND?: number;
   onBack?: () => void;
   onProceed?: (summary: {
     address?: string;
     city?: string;
     country?: string;
   }) => void;
-}> = ({ productCount = 0, totalEur = 0, onBack, onProceed }) => {
-  // Chuyển đổi tổng Euro sang VNĐ
-  const totalVND = totalEur * EXCHANGE_RATE;
-
+}> = ({ productCount = 0, totalVND = 0, onBack, onProceed }) => {
   // Thông tin mặc định đã chuyển sang Hà Nội
-  const [email, setEmail] = useState("mary@email.com");
+  const [email, setEmail] = useState("vanan123@email.com");
   const [firstName, setFirstName] = useState("Nguyễn");
   const [lastName, setLastName] = useState("Văn An");
   const [address1, setAddress1] = useState("64, Ngõ Chùa Liên Phái");
@@ -70,8 +64,6 @@ const Shipping: React.FC<{
     import("../services/shippingService").then(({ addShipping }) => {
       addShipping({
         address: summary.address,
-        city,
-        country,
         email,
         phone,
         method,
@@ -214,8 +206,7 @@ const Shipping: React.FC<{
             <div className="space-y-3">
               {SHIPPING_METHODS.map((m) => {
                 // Chuyển đổi giá từ Euro sang VNĐ
-                const priceVND =
-                  m.price === "Free" ? 0 : (m.price as number) * EXCHANGE_RATE;
+                const priceVND = m.price === "Free" ? 0 : (m.price as number);
                 const priceDisplay =
                   m.price === "Free" ? "Miễn phí" : formatVND(priceVND);
 
