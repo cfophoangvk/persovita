@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import type { PaymentProps } from "../interfaces";
+import { Link } from "react-router-dom";
 
 const Payment: React.FC<PaymentProps> = ({
   productCount = 0,
-  totalEur = 0,
+  totalVND = 0,
   onBack,
   shippingSummary = null,
 }) => {
@@ -14,8 +15,8 @@ const Payment: React.FC<PaymentProps> = ({
   const handleGenerateQr = () => {
     const data = JSON.stringify({
       merchant: "PERSOVITA",
-      amount: Number(totalEur.toFixed(2)),
-      currency: "EUR",
+      amount: Number(totalVND.toFixed(2)),
+      currency: "VND",
       items: productCount,
       ts: Date.now(),
     });
@@ -29,7 +30,7 @@ const Payment: React.FC<PaymentProps> = ({
         addPayment({
           method: "qr",
           info: data,
-          amount: Number(totalEur.toFixed(2)),
+          amount: Number(totalVND.toFixed(2)),
         })
           .then(() => {
             clearCartServer().catch(() => {});
@@ -72,7 +73,7 @@ const Payment: React.FC<PaymentProps> = ({
               </span>
             </div>
             <div className="text-base font-semibold">
-              {totalEur.toFixed(2).replace(".", ",")} €
+              {totalVND.toFixed(2).replace(".", ",")} €
             </div>
           </div>
         </div>
@@ -130,6 +131,16 @@ const Payment: React.FC<PaymentProps> = ({
                 </div>
                 <div className="mt-3 text-xs text-gray-500 break-words">
                   {payload}
+                </div>
+                <div className="mt-4 flex justify-center">
+                  {" "}
+                  {/* Thêm 'flex justify-center' để căn giữa Link */}
+                  <Link
+                    to="/"
+                    className="block w-1/2 text-center py-2 bg-amber-500 text-white rounded-full font-semibold hover:bg-amber-600 transition duration-150"
+                  >
+                    Thanh toán thành công, quay về trang chủ
+                  </Link>
                 </div>
               </div>
             )}
