@@ -4,17 +4,32 @@ const {
   JWT_EXPIRES_IN,
   COOKIE_NAME,
   COOKIE_EXPIRES_IN,
+  REMEMBER_COOKIE_EXPIRES,
 } = require("../constants/constant.js");
 
-const generateTokenAndSetCookie = (res, userId, email, role) => {
+const generateTokenAndSetCookie = (
+  res,
+  userId,
+  email,
+  role,
+  remember = false
+) => {
   const token = jwt.sign({ id: userId, email, role }, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN,
   });
-  res.cookie(COOKIE_NAME, token, {
+  // Set cookie options depending on environment. For local dev (http + different ports)
+  // SameSite 'lax' is a reasonable default; in production where backend/frontend might be on different domains,
+  // use 'none' and secure: true (requires HTTPS).
+  const isProd = process.env.NODE_ENV === "production";
+  const cookieOptions = {
     httpOnly: true,
-    sameSite: "strict",
-    maxAge: COOKIE_EXPIRES_IN,
-  });
+    sameSite: isProd ? "none" : "lax",
+    secure: isProd, // secure cookies only in production (HTTPS)
+    maxAge: remember ? REMEMBER_COOKIE_EXPIRES : COOKIE_EXPIRES_IN,
+    path: "/",
+  };
+
+  res.cookie(COOKIE_NAME, token, cookieOptions);
   return token;
 };
 

@@ -224,22 +224,28 @@
       "password": "$2b$12$g4BS/c5YRo1O7506vrQfQeNKTjWOXaksOPWKYLcu5El6qR4KuOiPy",
       "role": "user",
       "createdAt": "2025-10-08T03:47:17.448Z"
+    },
+    {
+      "id": 7,
+      "fullName": "nguyen van hai",
+      "email": "nguyenvanhaivghy2003@gmail.com",
+      "role": "user",
+      "picture": "https://lh3.googleusercontent.com/a/ACg8ocLFRGyDiX7Qw2EgHWGwM0_dshDmn2LbB02eaf4VeauNmaCdleU=s96-c",
+      "createdAt": "2025-10-09T14:42:47.657Z",
+      "phone": "",
+      "address": ""
+    },
+    {
+      "id": 8,
+      "email": "nguyenvanhaivghy2000@gmail.com",
+      "password": "$2b$12$AiEIUUezaUAx4mU90pyDLuWk.NHI0QHy02Ez2NVz/y9LxWdRUxSn2",
+      "role": "user",
+      "createdAt": "2025-10-09T15:12:22.744Z"
     }
   ],
   "shipping": [
     {
-      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
-      "email": "vanan123@email.com",
-      "phone": "+84 901234567",
-      "method": "pickup"
-    },
-    {
-      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
-      "email": "vanan123@email.com",
-      "phone": "+84 901234567",
-      "method": "pickup"
-    },
-    {
+      "userId": 8,
       "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
       "email": "vanan123@email.com",
       "phone": "+84 901234567",
@@ -248,12 +254,9 @@
   ],
   "payment": [
     {
+      "userId": 8,
       "method": "qr",
-      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":102000,\"currency\":\"VND\",\"items\":1,\"ts\":1759944547469}"
-    },
-    {
-      "method": "qr",
-      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":75000,\"currency\":\"VND\",\"items\":1,\"ts\":1759945293457}"
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":75000,\"currency\":\"VND\",\"items\":1,\"ts\":1760023720893}"
     }
   ],
   "carts": []

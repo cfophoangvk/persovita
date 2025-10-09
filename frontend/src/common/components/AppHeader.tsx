@@ -19,7 +19,9 @@ const AppHeader: React.FC = () => {
 
   const fetchCount = async () => {
     try {
-      const res = await fetch("http://localhost:6789/api/cart/");
+      const res = await fetch("http://localhost:6789/api/cart/", {
+        credentials: "include",
+      });
       const data = await res.json();
       setCount((data.cart || []).length || 0);
     } catch (e) {
@@ -53,7 +55,7 @@ const AppHeader: React.FC = () => {
   // Lấy chi tiết giỏ hàng khi mở xem trước
   useEffect(() => {
     if (showPreview) {
-      fetch("http://localhost:6789/api/cart/")
+      fetch("http://localhost:6789/api/cart/", { credentials: "include" })
         .then((r) => r.json())
         .then((d) => setCartItems(d.cart || []))
         .catch(() => setCartItems([]));
@@ -259,6 +261,28 @@ const AppHeader: React.FC = () => {
                   </div>
                 </div>
               </div>
+            )}
+
+            {/* Profile avatar: visible when logged in */}
+            {user && (
+              <Link to="/profile" title={user.fullName || user.email}>
+                {user.picture ? (
+                  <img
+                    src={user.picture}
+                    alt={user.fullName || user.email}
+                    className="hidden sm:inline-flex w-9 h-9 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full bg-amber-400 text-white font-semibold">
+                    {(user.fullName || user.email || "U")
+                      .split(" ")
+                      .map((s: string) => s[0])
+                      .slice(0, 2)
+                      .join("")
+                      .toUpperCase()}
+                  </div>
+                )}
+              </Link>
             )}
 
             {!user && (

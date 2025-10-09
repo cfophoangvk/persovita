@@ -8,6 +8,7 @@ interface SignUpRequestBody {
 interface LoginRequestBody {
   email: string;
   password: string;
+  remember?: boolean;
 }
 
 export type { SignUpRequestBody, LoginRequestBody };

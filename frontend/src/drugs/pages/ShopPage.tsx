@@ -362,7 +362,7 @@ const ShopPage: React.FC = () => {
                       <button
                         onClick={() => {
                           const payload = {
-                            id: p.id,
+                            productId: p.id,
                             name: p.name,
                             price: p.price,
                             quantity: 1,
@@ -371,9 +371,15 @@ const ShopPage: React.FC = () => {
                           };
                           fetch("http://localhost:6789/api/cart/add", {
                             method: "POST",
+                            credentials: "include",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload),
                           })
+                            .then((res) => {
+                              if (res.status === 401)
+                                return (window.location.href = "/login");
+                              return res.json();
+                            })
                             .then(() => {
                               // dispatch event so header can refresh count
                               window.dispatchEvent(

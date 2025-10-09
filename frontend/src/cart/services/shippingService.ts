@@ -1,13 +1,24 @@
-export async function addShipping(payload: any) {
-  const res = await fetch("http://localhost:6789/api/shipping/add", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+async function handleResponse(res: Response) {
+  if (res.status === 401) {
+    window.location.href = "/login";
+    return { success: false, message: "Unauthorized" };
+  }
   return res.json();
 }
 
+export async function addShipping(payload: any) {
+  const res = await fetch("http://localhost:6789/api/shipping/add", {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return handleResponse(res);
+}
+
 export async function getShipping() {
-  const res = await fetch("http://localhost:6789/api/shipping/");
-  return res.json();
+  const res = await fetch("http://localhost:6789/api/shipping/", {
+    credentials: "include",
+  });
+  return handleResponse(res);
 }

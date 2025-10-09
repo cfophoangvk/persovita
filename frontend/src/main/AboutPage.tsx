@@ -4,7 +4,7 @@ import FadeInSection from "../layouts/FadeInSection";
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16">
+    <div className="max-w-7xl mx-auto px-6 py-16 mt-10">
       <FadeInSection>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Nội dung chính */}
@@ -39,12 +39,6 @@ const AboutPage: React.FC = () => {
                 className="px-5 py-3 bg-[#f28d3d] text-white rounded-full font-semibold transition duration-150 hover:bg-orange-600"
               >
                 Xem Sản Phẩm
-              </Link>
-              <Link
-                to="/contact"
-                className="px-5 py-3 border border-gray-300 rounded-full text-gray-700 transition duration-150 hover:border-orange-500 hover:text-orange-500"
-              >
-                Liên Hệ Với Chúng Tôi
               </Link>
             </div>
           </div>

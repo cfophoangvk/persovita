@@ -33,14 +33,28 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ isLoading: false });
     }
   },
-  login: async ({ email, password }) => {
+  login: async ({ email, password, remember }: any) => {
     set({ isLoading: true, success: false });
 
     try {
-      const res = await axiosInstance.post("/auth/login", { email, password });
+      const res = await axiosInstance.post("/auth/login", {
+        email,
+        password,
+        remember,
+      });
 
       set({ success: true, user: res.data.user, message: res.data.message });
       toast.success(res.data.message);
+      // Persist remembered email in localStorage only on successful login
+      try {
+        if (remember) {
+          localStorage.setItem("rememberEmail", email);
+        } else {
+          localStorage.removeItem("rememberEmail");
+        }
+      } catch (e) {
+        // ignore storage errors (e.g., blocked storage)
+      }
     } catch (error: any) {
       toast.error(
         error.response?.data?.message || "An error occurred during login"
@@ -119,6 +133,21 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ success: false, user: null });
     } finally {
       set({ checkingAuth: false });
+    }
+  },
+  updateProfile: async (data: {
+    fullName?: string;
+    phone?: string;
+    address?: string;
+  }) => {
+    try {
+      const res = await axiosInstance.post("/auth/update-profile", data);
+      set({ success: true, user: res.data.user, message: res.data.message });
+      toast.success(res.data.message || "Cập nhật hồ sơ thành công");
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Cập nhật thất bại");
+      console.log(error);
+      set({ success: false });
     }
   },
 }));

@@ -16,16 +16,20 @@ const writeDb = async (db) => {
 const getCart = async (req, res) => {
   try {
     const db = await readDb();
-    return res.status(200).json({ success: true, cart: db.carts || [] });
+    const all = db.carts || [];
+    const userId = req.id;
+    const cart = all.filter((c) => c.userId === userId);
+    return res.status(200).json({ success: true, cart });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
 
-// POST /api/cart/add -> body: { id, name, price, quantity, image, subscription }
-// If item exists by id -> increment quantity (or set), otherwise push
+// POST /api/cart/add -> body: { productId, name, price, quantity, image, subscription }
+// If item exists by productId for the user -> increment quantity, otherwise push
 const addToCart = async (req, res) => {
   const {
+    productId,
     id,
     name,
     price,
@@ -33,17 +37,25 @@ const addToCart = async (req, res) => {
     image,
     subscription = false,
   } = req.body;
-  if (!id)
-    return res.status(400).json({ success: false, message: "id is required" });
+  const pid = productId || id;
+  if (!pid)
+    return res
+      .status(400)
+      .json({ success: false, message: "productId (or id) is required" });
   try {
     const db = await readDb();
     db.carts = db.carts || [];
-    const existing = db.carts.find((c) => c.id === id);
+    const userId = req.id;
+    // Find item for this user by product id
+    const existing = db.carts.find(
+      (c) => c.userId === userId && c.productId === pid
+    );
     if (existing) {
       existing.quantity = (Number(existing.quantity) || 0) + Number(quantity);
     } else {
       db.carts.push({
-        id,
+        userId,
+        productId: pid,
         name,
         price,
         quantity: Number(quantity),
@@ -52,7 +64,8 @@ const addToCart = async (req, res) => {
       });
     }
     await writeDb(db);
-    return res.status(201).json({ success: true, cart: db.carts });
+    const cart = db.carts.filter((c) => c.userId === userId);
+    return res.status(201).json({ success: true, cart });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
@@ -60,13 +73,19 @@ const addToCart = async (req, res) => {
 
 // POST /api/cart/update -> body: { id, quantity, subscription }
 const updateCartItem = async (req, res) => {
-  const { id, quantity, subscription } = req.body;
-  if (!id)
-    return res.status(400).json({ success: false, message: "id is required" });
+  const { productId, id, quantity, subscription } = req.body;
+  const pid = productId || id;
+  if (!pid)
+    return res
+      .status(400)
+      .json({ success: false, message: "productId (or id) is required" });
   try {
     const db = await readDb();
     db.carts = db.carts || [];
-    const item = db.carts.find((c) => c.id === id);
+    const userId = req.id;
+    const item = db.carts.find(
+      (c) => c.userId === userId && c.productId === pid
+    );
     if (!item)
       return res
         .status(404)
@@ -74,7 +93,8 @@ const updateCartItem = async (req, res) => {
     if (quantity !== undefined) item.quantity = Number(quantity);
     if (subscription !== undefined) item.subscription = !!subscription;
     await writeDb(db);
-    return res.status(200).json({ success: true, cart: db.carts });
+    const cart = db.carts.filter((c) => c.userId === userId);
+    return res.status(200).json({ success: true, cart });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
@@ -82,14 +102,21 @@ const updateCartItem = async (req, res) => {
 
 // POST /api/cart/remove -> body: { id }
 const removeFromCart = async (req, res) => {
-  const { id } = req.body;
-  if (!id)
-    return res.status(400).json({ success: false, message: "id is required" });
+  const { productId, id } = req.body;
+  const pid = productId || id;
+  if (!pid)
+    return res
+      .status(400)
+      .json({ success: false, message: "productId (or id) is required" });
   try {
     const db = await readDb();
-    db.carts = (db.carts || []).filter((c) => c.id !== id);
+    const userId = req.id;
+    db.carts = (db.carts || []).filter(
+      (c) => !(c.userId === userId && c.productId === pid)
+    );
     await writeDb(db);
-    return res.status(200).json({ success: true, cart: db.carts });
+    const cart = db.carts.filter((c) => c.userId === userId);
+    return res.status(200).json({ success: true, cart });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
@@ -99,7 +126,8 @@ const removeFromCart = async (req, res) => {
 const clearCart = async (req, res) => {
   try {
     const db = await readDb();
-    db.carts = [];
+    const userId = req.id;
+    db.carts = (db.carts || []).filter((c) => c.userId !== userId);
     await writeDb(db);
     return res.status(200).json({ success: true, cart: [] });
   } catch (err) {
