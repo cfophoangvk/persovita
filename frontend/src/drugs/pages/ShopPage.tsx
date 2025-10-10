@@ -16,8 +16,8 @@ const ShopPage: React.FC = () => {
   const [selectedBrandIds, setSelectedBrandIds] = useState<string[]>([]);
   const [selectedFeatureIds, setSelectedFeatureIds] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<
-    "relevance" | "price-asc" | "price-desc"
-  >("relevance");
+    "name-asc" | "name-desc" | "price-asc" | "price-desc"
+  >("name-asc");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(3);
 
@@ -82,7 +82,7 @@ const ShopPage: React.FC = () => {
     }
     params.set("page", String(page));
     params.set("limit", String(limit));
-    if (sortBy && sortBy !== "relevance") params.set("sort", sortBy);
+    if (sortBy && sortBy !== "name-asc") params.set("sort", sortBy);
     return params.toString();
   };
 
@@ -173,12 +173,17 @@ const ShopPage: React.FC = () => {
                   value={sortBy}
                   onChange={(e) =>
                     setSortBy(
-                      e.target.value as "relevance" | "price-asc" | "price-desc"
+                      e.target.value as
+                        | "name-asc"
+                        | "name-desc"
+                        | "price-asc"
+                        | "price-desc"
                     )
                   }
                   className="w-full rounded border border-gray-200 p-2 text-sm bg-white"
                 >
-                  <option value="relevance">Mức độ liên quan</option>
+                  <option value="name-asc">Từ A-Z</option>
+                  <option value="name-desc">Từ Z-A</option>
                   <option value="price-asc">Giá thấp nhất</option>
                   <option value="price-desc">Giá cao nhất</option>
                 </select>
@@ -245,10 +250,11 @@ const ShopPage: React.FC = () => {
                     setSelectedBrandIds([]);
                     setSearch("");
                     setPage(1);
+                    setSortBy("name-asc");
                   }}
                   className="flex-1 py-2 rounded-full border border-gray-300 bg-amber-300 text-sm hover:bg-amber-400 transition"
                 >
-                  Reset
+                  Đặt lại
                 </button>
               </div>
             </div>
@@ -257,7 +263,7 @@ const ShopPage: React.FC = () => {
           {/* Products */}
           <main className="col-span-12 md:col-span-9">
             <div className="flex items-center justify-between mb-6">
-              <div className="text-sm text-gray-600">{totalItems} products</div>
+              <div className="text-sm text-gray-600">{totalItems} sản phẩm</div>
 
               <div className="flex items-center gap-3">
                 <input
@@ -376,9 +382,9 @@ const ShopPage: React.FC = () => {
             {/* Pagination */}
             <div className="mt-8 flex items-center justify-between">
               <div className="text-sm text-gray-600">
-                Showing {start + 1}–
-                {Math.min(start + (drugs?.length ?? 0), totalItems)} of{" "}
-                {totalItems} products
+                Hiển thị {start + 1}–
+                {Math.min(start + (drugs?.length ?? 0), totalItems)} trong số{" "}
+                {totalItems} sản phẩm
               </div>
 
               <div className="flex items-center gap-2">

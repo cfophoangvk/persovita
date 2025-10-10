@@ -204,10 +204,15 @@ const getProductsByTopic = async (req, res) => {
 
 // New: filter by brand(s) (one-to-many) and feature(s) (many-to-many).
 // Query example: /products/filter?featureIds=1,2&brandId=2&page=1&limit=10
-const getProductsByFilters = async (req, res) => {
+const getProductsBySearchAndFilters = async (req, res) => {
   // support both singular/plural param names for compatibility
   const brandIds = parseIdList(req.query.brandIds || req.query.brandId);
   const featureIds = parseIdList(req.query.featureIds || req.query.featureId);
+
+  // search query and sort
+  const q =
+    typeof req.query.q === "string" ? req.query.q.trim().toLowerCase() : null;
+  const sort = typeof req.query.sort === "string" ? req.query.sort : null;
 
   // pagination params
   let page = parseInt(req.query.page, 10);
@@ -228,16 +233,14 @@ const getProductsByFilters = async (req, res) => {
     // normalize product -> brand ids (product may store brandId, brand, brands array or brands numeric)
     const productBrandIds = (p) => {
       if (!p) return [];
-      // if brands is an array -> map to numbers
       if (Array.isArray(p.brands) && p.brands.length)
         return p.brands.map(Number);
-      // if brands is a single id (number or string) -> wrap as array
-      if (p.brands != null && !Array.isArray(p.brands))
-        return [Number(p.brands)];
       if (p.brandIds && Array.isArray(p.brandIds))
         return p.brandIds.map(Number);
       if (p.brandId != null) return [Number(p.brandId)];
       if (p.brand != null) return [Number(p.brand)];
+      if (p.brands != null && !Array.isArray(p.brands))
+        return [Number(p.brands)];
       return [];
     };
 
@@ -295,8 +298,73 @@ const getProductsByFilters = async (req, res) => {
         featureSet.has(p.id)
       );
     } else {
-      // no filters: return all
+      // no filters: start with all
       filteredProducts = db.products || [];
+    }
+
+    // apply q (search) if present — search in product name, description, brand name, feature title
+    if (q) {
+      const qLower = q.toLowerCase();
+      filteredProducts = filteredProducts.filter((p) => {
+        // product fields
+        if (p.name && String(p.name).toLowerCase().includes(qLower))
+          return true;
+        if (
+          p.description &&
+          String(p.description).toLowerCase().includes(qLower)
+        )
+          return true;
+        // brands attached on product
+        const bIds = productBrandIds(p);
+        if (bIds && bIds.length) {
+          for (const bid of bIds) {
+            const b = brandMap.get(Number(bid));
+            if (b && String(b.name).toLowerCase().includes(qLower)) return true;
+          }
+        }
+        // product.features array
+        if (Array.isArray(p.features) && p.features.length) {
+          for (const fid of p.features) {
+            const f = featureMap.get(Number(fid));
+            if (f && String(f.title).toLowerCase().includes(qLower))
+              return true;
+          }
+        }
+        // relation table lookup
+        const relFeatureIds = (db.productFeatures || [])
+          .filter((pf) => pf.productId === p.id)
+          .map((pf) => pf.featureId);
+        if (relFeatureIds && relFeatureIds.length) {
+          for (const fid of relFeatureIds) {
+            const f = featureMap.get(Number(fid));
+            if (f && String(f.title).toLowerCase().includes(qLower))
+              return true;
+          }
+        }
+        return false;
+      });
+    }
+
+    // sort if requested
+    if (sort) {
+      if (sort === "price-asc") {
+        filteredProducts.sort(
+          (a, b) => (Number(a.price) || 0) - (Number(b.price) || 0)
+        );
+      } else if (sort === "price-desc") {
+        filteredProducts.sort(
+          (a, b) => (Number(b.price) || 0) - (Number(a.price) || 0)
+        );
+      } else if (sort === "name-asc") {
+        filteredProducts.sort((a, b) =>
+          String(a.name).localeCompare(String(b.name))
+        );
+      } else if (sort === "name-desc") {
+        filteredProducts.sort((a, b) =>
+          String(b.name).localeCompare(String(a.name))
+        );
+      }
+      // otherwise leave default order (relevance or DB order)
     }
 
     // pagination
@@ -306,16 +374,16 @@ const getProductsByFilters = async (req, res) => {
     const end = start + limit;
     const paged = filteredProducts.slice(start, end);
 
-    // enrich product objects: attach categories (brands) and topics (features) as arrays of objects
+    // enrich product objects: attach brands and features arrays of objects
     const enrichProduct = (p) => {
-      // categories <- brands
+      // brands
       const bIds = productBrandIds(p);
       const brands = (bIds || []).map((id) => {
         const b = brandMap.get(id);
         return { id, name: b ? b.name : null };
       });
 
-      // topics <- features (prefer p.features else relation table)
+      // features (prefer p.features else relation table)
       const fIds =
         Array.isArray(p.features) && p.features.length
           ? p.features.map(Number)
@@ -358,5 +426,5 @@ module.exports = {
   getProductById,
   getProductsByCategory,
   getProductsByTopic,
-  getProductsByFilters,
+  getProductsBySearchAndFilters,
 };
