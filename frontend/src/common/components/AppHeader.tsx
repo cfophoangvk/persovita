@@ -2,11 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { LogIn, LogOut } from "lucide-react";
+import useScrollHeaderEffect from "../hooks/useScrollHeaderEffect";
+import { motion } from "framer-motion";
 
-// Hàm hỗ trợ định dạng tiền tệ sang Euro (do logic giá gốc là Euro)
-const formatEuro = (value: number) => {
-  // Giữ nguyên logic chia cho 28000 và định dạng ban đầu của bạn
-  return (value / 28000).toFixed(2).replace(".", ",") + " €";
+// Định dạng sang VNĐ (dùng cho hiển thị trong header và preview)
+const formatVND = (value: number) => {
+  return value.toLocaleString("vi-VN") + " VNĐ";
 };
 
 const AppHeader: React.FC = () => {
@@ -61,8 +62,32 @@ const AppHeader: React.FC = () => {
     }
   }, [showPreview]);
 
+  const { show } = useScrollHeaderEffect();
+
   return (
-    <header className="bg-white border-b fixed top-0 left-0 right-0 z-1">
+    <motion.header
+      className="bg-white border-b fixed top-0 left-0 right-0 z-1"
+      initial={{ y: 0, opacity: 1 }}
+      animate={
+        show
+          ? {
+              y: 0,
+              opacity: 1,
+              transition: {
+                y: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.8 },
+              },
+            }
+          : {
+              y: "-110%",
+              opacity: 0,
+              transition: {
+                y: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 1.2 },
+              },
+            }
+      }
+    >
       <div className="max-w-full mx-auto px-2 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <Link
@@ -196,7 +221,7 @@ const AppHeader: React.FC = () => {
                               </div>
                             </div>
                             <div className="text-sm font-semibold text-gray-900">
-                              {formatEuro(it.price || 0)}
+                              {formatVND(it.price || 0)}
                             </div>
                           </li>
                         ))}
@@ -208,39 +233,41 @@ const AppHeader: React.FC = () => {
                 <div className="px-4 py-3 border-t">
                   <div className="text-sm font-semibold">Tóm tắt đơn hàng</div>
                   <div className="mt-3 text-sm text-gray-700 space-y-1">
-                    <div className="flex justify-between">
-                      <span>Giá trị sản phẩm</span>
-                      <span>
-                        {(() => {
-                          const v = (cartItems || []).reduce(
-                            (s, a) => s + (a.price || 0) * (a.quantity || 1),
-                            0
-                          );
-                          return formatEuro(v);
-                        })()}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Giảm giá</span>
-                      <span>0,00 €</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Vận chuyển</span>
-                      <span>3,90 €</span>
-                    </div>
-                    <div className="flex justify-between font-bold mt-2 pt-2 border-t border-gray-200 text-base text-gray-900">
-                      <span>TỔNG CỘNG</span>
-                      <span>
-                        {(() => {
-                          const v = (cartItems || []).reduce(
-                            (s, a) => s + (a.price || 0) * (a.quantity || 1),
-                            0
-                          );
-                          const total = v / 28000 + 3.9;
-                          return total.toFixed(2).replace(".", ",") + " €";
-                        })()}
-                      </span>
-                    </div>
+                    {(() => {
+                      const v = (cartItems || []).reduce(
+                        (s, a) => s + (a.price || 0) * (a.quantity || 1),
+                        0
+                      );
+                      const shippingVND = v > 0 ? 30000 : 0;
+                      const totalVND = v + shippingVND;
+
+                      return (
+                        <>
+                          <div className="flex justify-between">
+                            <span>Giá trị sản phẩm</span>
+                            <span>{formatVND(v)}</span>
+                          </div>
+
+                          <div className="flex justify-between">
+                            <span>Giảm giá</span>
+                            <span>{formatVND(0)}</span>
+                          </div>
+
+                          {/* Hiển thị vận chuyển chỉ khi có sản phẩm trong giỏ */}
+                          {cartItems && cartItems.length > 0 && (
+                            <div className="flex justify-between">
+                              <span>Vận chuyển</span>
+                              <span>{formatVND(shippingVND)}</span>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between font-bold mt-2 pt-2 border-t border-gray-200 text-base text-gray-900">
+                            <span>TỔNG CỘNG</span>
+                            <span>{formatVND(totalVND)}</span>
+                          </div>
+                        </>
+                      );
+                    })()}
                   </div>
                   <div className="mt-3 text-xs text-gray-500 bg-amber-50 p-3 rounded">
                     Việc áp dụng mã khuyến mãi và quản lý tùy chọn mua hàng được
@@ -281,7 +308,7 @@ const AppHeader: React.FC = () => {
           </div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 

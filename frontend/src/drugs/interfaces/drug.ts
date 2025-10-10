@@ -1,3 +1,7 @@
+import type { Brand } from "./brand";
+import type { Feature } from "./feature";
+import type { Ingredient } from "./ingredient";
+
 interface Drug {
   id: string;
   name: string;
@@ -5,18 +9,14 @@ interface Drug {
   price: number;
   currency: string;
   images: string[];
-  categories: Category[];
-  topics: Topic[];
-}
-
-interface Category {
-  id: string;
-  name: string;
-}
-
-interface Topic {
-  id: string;
-  title: string;
+  brands: Brand[];
+  features: Feature[];
+  amount: number;
+  activeIngredients: Ingredient[];
+  additiveIngredients: string;
+  usage: string;
+  contraindication: string;
+  related: Drug[];
 }
 
 export type { Drug };

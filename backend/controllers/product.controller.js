@@ -32,16 +32,107 @@ const getProducts = async (req, res) => {
 };
 
 const getProductById = async (req, res) => {
-  const id = parseInt(req.params.id, 10);
+  const id = Number(req.params.id);
   try {
     const raw = await fs.promises.readFile(dbPath, "utf-8");
     const db = JSON.parse(raw);
-    const product = (db.products || []).find((p) => p.id === id);
-    if (!product)
+
+    // lookup maps
+    const brandMap = new Map((db.brands || []).map((b) => [b.id, b]));
+    const featureMap = new Map((db.features || []).map((f) => [f.id, f]));
+
+    // normalize product -> brand ids (product may store brandId, brand, brands array or brands numeric)
+    const productBrandIds = (p) => {
+      if (!p) return [];
+      if (Array.isArray(p.brands) && p.brands.length)
+        return p.brands.map(Number);
+      if (p.brandIds && Array.isArray(p.brandIds))
+        return p.brandIds.map(Number);
+      if (p.brandId != null) return [Number(p.brandId)];
+      if (p.brand != null) return [Number(p.brand)];
+      if (p.brands != null && !Array.isArray(p.brands))
+        return [Number(p.brands)];
+      return [];
+    };
+
+    // enrich logic (same as filter)
+    const enrichProduct = (p) => {
+      const bIds = productBrandIds(p);
+      const brands = (bIds || []).map((bid) => {
+        const b = brandMap.get(bid);
+        return { id: bid, name: b ? b.name : null };
+      });
+
+      const fIds =
+        Array.isArray(p.features) && p.features.length
+          ? p.features.map(Number)
+          : (db.productFeatures || [])
+              .filter((pf) => pf.productId === p.id)
+              .map((pf) => Number(pf.featureId));
+
+      const features = (fIds || []).map((fid) => {
+        const f = featureMap.get(fid);
+        return { id: fid, title: f ? f.title : null };
+      });
+
+      return {
+        ...p,
+        brands,
+        features,
+      };
+    };
+
+    const product = (db.products || []).find((pr) => Number(pr.id) === id);
+    if (!product) {
       return res
         .status(404)
         .json({ success: false, message: "Product not found" });
-    return res.status(200).json({ success: true, product });
+    }
+
+    const enriched = enrichProduct(product);
+
+    // find related products by shared feature ids
+    const mainFeatureIds =
+      Array.isArray(product.features) && product.features.length
+        ? product.features.map(Number)
+        : (db.productFeatures || [])
+            .filter((pf) => pf.productId === product.id)
+            .map((pf) => Number(pf.featureId));
+
+    const featureIdSet = new Set((mainFeatureIds || []).map(Number));
+    const relatedIdsFromProducts = new Set(
+      (db.products || [])
+        .filter((p) => {
+          if (Number(p.id) === Number(product.id)) return false;
+          const pF = Array.isArray(p.features) ? p.features.map(Number) : [];
+          return pF.some((f) => featureIdSet.has(f));
+        })
+        .map((p) => p.id)
+    );
+
+    const relatedIdsFromRelation = new Set(
+      (db.productFeatures || [])
+        .filter(
+          (pf) =>
+            featureIdSet.has(Number(pf.featureId)) &&
+            Number(pf.productId) !== Number(product.id)
+        )
+        .map((pf) => pf.productId)
+    );
+
+    const combinedRelatedIds = new Set([
+      ...relatedIdsFromProducts,
+      ...relatedIdsFromRelation,
+    ]);
+
+    const relatedProducts = (db.products || [])
+      .filter((p) => combinedRelatedIds.has(p.id))
+      .slice(0, 6) // limit related items
+      .map(enrichProduct);
+
+    return res
+      .status(200)
+      .json({ success: true, product: enriched, related: relatedProducts });
   } catch (err) {
     console.error("getProductById error:", err);
     return res.status(500).json({ success: false, message: err.message });
@@ -111,17 +202,12 @@ const getProductsByTopic = async (req, res) => {
   }
 };
 
-// New: filter by multiple categories and multiple topics simultaneously.
-// Query example: /products/filter?categoryIds=1,2&topicIds=3,4&page=1&limit=10
-// Behavior:
-// - If both categoryIds and topicIds provided: return products that match at least one of the categories AND at least one of the topics.
-// - If only one type provided: filter by that type.
-// - Supports pagination via page & limit.
+// New: filter by brand(s) (one-to-many) and feature(s) (many-to-many).
+// Query example: /products/filter?featureIds=1,2&brandId=2&page=1&limit=10
 const getProductsByFilters = async (req, res) => {
-  const categoryIds = parseIdList(
-    req.query.categoryIds || req.query.categoryId
-  );
-  const topicIds = parseIdList(req.query.topicIds || req.query.topicId);
+  // support both singular/plural param names for compatibility
+  const brandIds = parseIdList(req.query.brandIds || req.query.brandId);
+  const featureIds = parseIdList(req.query.featureIds || req.query.featureId);
 
   // pagination params
   let page = parseInt(req.query.page, 10);
@@ -135,87 +221,117 @@ const getProductsByFilters = async (req, res) => {
     const raw = await fs.promises.readFile(dbPath, "utf-8");
     const db = JSON.parse(raw);
 
-    // lookup maps for names
-    const categoryMap = new Map((db.categories || []).map((c) => [c.id, c]));
-    const topicMap = new Map((db.topics || []).map((t) => [t.id, t]));
+    // build lookup maps for brands and features
+    const brandMap = new Map((db.brands || []).map((b) => [b.id, b]));
+    const featureMap = new Map((db.features || []).map((f) => [f.id, f]));
 
-    // helper to build set of productIds matching any of given categoryIds/topicIds
-    const productIdsByCategories = (ids) => {
-      if (!ids || !ids.length) return null;
-      return new Set(
-        (db.productCategories || [])
-          .filter((pc) => ids.includes(pc.categoryId))
-          .map((pc) => pc.productId)
-      );
-    };
-    const productIdsByTopics = (ids) => {
-      if (!ids || !ids.length) return null;
-      return new Set(
-        (db.productTopics || [])
-          .filter((pt) => ids.includes(pt.topicId))
-          .map((pt) => pt.productId)
-      );
+    // normalize product -> brand ids (product may store brandId, brand, brands array or brands numeric)
+    const productBrandIds = (p) => {
+      if (!p) return [];
+      // if brands is an array -> map to numbers
+      if (Array.isArray(p.brands) && p.brands.length)
+        return p.brands.map(Number);
+      // if brands is a single id (number or string) -> wrap as array
+      if (p.brands != null && !Array.isArray(p.brands))
+        return [Number(p.brands)];
+      if (p.brandIds && Array.isArray(p.brandIds))
+        return p.brandIds.map(Number);
+      if (p.brandId != null) return [Number(p.brandId)];
+      if (p.brand != null) return [Number(p.brand)];
+      return [];
     };
 
-    const catSet = productIdsByCategories(categoryIds);
-    const topicSet = productIdsByTopics(topicIds);
+    // products that match any of given brand ids
+    const productIdsByBrands = (ids) => {
+      if (!ids || !ids.length) return null;
+      const idSet = new Set(ids.map(Number));
+      return new Set(
+        (db.products || [])
+          .filter((p) => {
+            const bids = productBrandIds(p);
+            return bids.some((b) => idSet.has(b));
+          })
+          .map((p) => p.id)
+      );
+    };
+
+    // products that match any of given feature ids (features can be on product.features array
+    // or via productFeatures relation table)
+    const productIdsByFeatures = (ids) => {
+      if (!ids || !ids.length) return null;
+      const idSet = new Set(ids.map(Number));
+
+      const fromProducts = (db.products || [])
+        .filter(
+          (p) =>
+            Array.isArray(p.features) &&
+            p.features.some((f) => idSet.has(Number(f)))
+        )
+        .map((p) => p.id);
+
+      const fromRelation = (db.productFeatures || [])
+        .filter((pf) => idSet.has(Number(pf.featureId)))
+        .map((pf) => pf.productId);
+
+      return new Set([...fromProducts, ...fromRelation]);
+    };
+
+    const brandSet = productIdsByBrands(brandIds);
+    const featureSet = productIdsByFeatures(featureIds);
 
     let filteredProducts;
-    if (catSet && topicSet) {
-      // intersection: must be in both sets
+    if (brandSet && featureSet) {
+      // must match at least one brand AND at least one feature
       const intersection = new Set(
-        [...catSet].filter((id) => topicSet.has(id))
+        [...brandSet].filter((id) => featureSet.has(id))
       );
       filteredProducts = (db.products || []).filter((p) =>
         intersection.has(p.id)
       );
-    } else if (catSet) {
-      filteredProducts = (db.products || []).filter((p) => catSet.has(p.id));
-    } else if (topicSet) {
-      filteredProducts = (db.products || []).filter((p) => topicSet.has(p.id));
+    } else if (brandSet) {
+      filteredProducts = (db.products || []).filter((p) => brandSet.has(p.id));
+    } else if (featureSet) {
+      filteredProducts = (db.products || []).filter((p) =>
+        featureSet.has(p.id)
+      );
     } else {
       // no filters: return all
       filteredProducts = db.products || [];
     }
 
-    // pagination (apply on filtered results)
+    // pagination
     const total = filteredProducts.length;
     const totalPages = Math.max(1, Math.ceil(total / limit));
     const start = (page - 1) * limit;
     const end = start + limit;
     const paged = filteredProducts.slice(start, end);
 
-    // enrich products: replace id arrays with objects containing name/title
+    // enrich product objects: attach categories (brands) and topics (features) as arrays of objects
     const enrichProduct = (p) => {
-      // get category ids: prefer explicit p.categories, fallback to relation table
-      const catIds =
-        Array.isArray(p.categories) && p.categories.length
-          ? p.categories
-          : (db.productCategories || [])
-              .filter((pc) => pc.productId === p.id)
-              .map((pc) => pc.categoryId);
-
-      const topicIdsLocal =
-        Array.isArray(p.topics) && p.topics.length
-          ? p.topics
-          : (db.productTopics || [])
-              .filter((pt) => pt.productId === p.id)
-              .map((pt) => pt.topicId);
-
-      const categories = (catIds || []).map((id) => {
-        const c = categoryMap.get(id);
-        return { id, name: c ? c.name : null };
+      // categories <- brands
+      const bIds = productBrandIds(p);
+      const brands = (bIds || []).map((id) => {
+        const b = brandMap.get(id);
+        return { id, name: b ? b.name : null };
       });
 
-      const topics = (topicIdsLocal || []).map((id) => {
-        const t = topicMap.get(id);
-        return { id, title: t ? t.title : null };
+      // topics <- features (prefer p.features else relation table)
+      const fIds =
+        Array.isArray(p.features) && p.features.length
+          ? p.features.map(Number)
+          : (db.productFeatures || [])
+              .filter((pf) => pf.productId === p.id)
+              .map((pf) => Number(pf.featureId));
+
+      const features = (fIds || []).map((id) => {
+        const f = featureMap.get(id);
+        return { id, title: f ? f.title : null };
       });
 
       return {
         ...p,
-        categories,
-        topics,
+        brands,
+        features,
       };
     };
 

@@ -18,12 +18,12 @@ const getShipping = async (req, res) => {
 };
 
 const addShipping = async (req, res) => {
-  const { address, method } = req.body;
+  const { address, email, phone, method } = req.body;
   try {
     const raw = await fs.promises.readFile(dbPath, "utf-8");
     const db = JSON.parse(raw);
     db.shipping = db.shipping || [];
-    db.shipping.push({ address, method });
+    db.shipping.push({ address, email, phone, method });
     await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2));
     return res.status(201).json({ success: true });
   } catch (err) {

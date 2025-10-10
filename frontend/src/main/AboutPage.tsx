@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import FadeInSection from "../layouts/FadeInSection";
 
 const AboutPage: React.FC = () => {
@@ -13,10 +14,10 @@ const AboutPage: React.FC = () => {
             </h1>
             <p className="text-gray-700 mb-4 text-lg">
               Chúng tôi là một nhà thuốc gia đình được cấp phép, cam kết cung
-              cấp các loại thuốc và thực phẩm bổ sung **chính hãng, chất lượng
-              cao**. Đội ngũ **dược sĩ chuyên nghiệp** của chúng tôi đảm bảo mọi
-              sản phẩm đều đáp ứng các tiêu chuẩn nghiêm ngặt về chất lượng và
-              an toàn.
+              cấp các loại thuốc và thực phẩm bổ sung{" "}
+              <b>chính hãng, chất lượng cao</b>. Đội ngũ{" "}
+              <b>dược sĩ chuyên nghiệp </b>của chúng tôi đảm bảo mọi sản phẩm
+              đều đáp ứng các tiêu chuẩn nghiêm ngặt về chất lượng và an toàn.
             </p>
             <p className="text-gray-700 mb-4">
               Chúng tôi tìm nguồn sản phẩm từ các nhà sản xuất uy tín, thực hiện
@@ -25,26 +26,26 @@ const AboutPage: React.FC = () => {
               lời khuyên chuyên môn, đội ngũ của chúng tôi luôn sẵn sàng hỗ trợ.
             </p>
             <p className="text-gray-700 mb-6">
-              **Vận chuyển nhanh**, **giá cả minh bạch** và **chăm sóc khách
-              hàng tận tâm** là những trụ cột trong dịch vụ của chúng tôi. Nếu
-              bạn có bất kỳ lo lắng nào về tương tác thuốc, thai kỳ hoặc các
-              bệnh lý có sẵn, vui lòng tham khảo ý kiến dược sĩ của chúng tôi
-              hoặc nhà cung cấp dịch vụ chăm sóc sức khỏe trước khi dùng bất kỳ
-              loại thuốc hay thực phẩm bổ sung nào.
+              Vận chuyển nhanh, giá cả minh bạch và chăm sóc khách hàng tận tâm
+              là những trụ cột trong dịch vụ của chúng tôi. Nếu bạn có bất kỳ lo
+              lắng nào về tương tác thuốc, thai kỳ hoặc các bệnh lý có sẵn, vui
+              lòng tham khảo ý kiến dược sĩ của chúng tôi hoặc nhà cung cấp dịch
+              vụ chăm sóc sức khỏe trước khi dùng bất kỳ loại thuốc hay thực
+              phẩm bổ sung nào.
             </p>
             <div className="flex gap-3">
-              <a
-                href="/shop"
+              <Link
+                to="/shop"
                 className="px-5 py-3 bg-[#f28d3d] text-white rounded-full font-semibold transition duration-150 hover:bg-orange-600"
               >
                 Xem Sản Phẩm
-              </a>
-              <a
-                href="/contact"
+              </Link>
+              <Link
+                to="/contact"
                 className="px-5 py-3 border border-gray-300 rounded-full text-gray-700 transition duration-150 hover:border-orange-500 hover:text-orange-500"
               >
                 Liên Hệ Với Chúng Tôi
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -55,15 +56,14 @@ const AboutPage: React.FC = () => {
             </h3>
             <ul className="list-disc pl-5 text-gray-800 space-y-3">
               <li>
-                Chỉ hợp tác với các nhà cung cấp được cấp phép, đạt chuẩn
-                **GMP** (Thực hành sản xuất tốt).
+                Chỉ hợp tác với các nhà cung cấp được cấp phép, đạt chuẩn GMP
+                (Thực hành sản xuất tốt).
               </li>
               <li>
-                Có sẵn dịch vụ tư vấn **dược sĩ** về đơn thuốc và tương tác
-                thuốc.
+                Có sẵn dịch vụ tư vấn dược sĩ về đơn thuốc và tương tác thuốc.
               </li>
-              <li>Đóng gói **an toàn** và giao hàng **nhanh chóng**.</li>
-              <li>Hướng dẫn dán nhãn và bảo quản **rõ ràng, chi tiết**.</li>
+              <li>Đóng gói an toàn và giao hàng nhanh chóng.</li>
+              <li>Hướng dẫn dán nhãn và bảo quản rõ ràng, chi tiết.</li>
             </ul>
           </div>
         </div>

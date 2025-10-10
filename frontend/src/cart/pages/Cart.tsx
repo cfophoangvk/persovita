@@ -74,26 +74,19 @@ const ShippingInfoModal = ({ onClose }: { onClose: () => void }) => (
     <div className="p-4 text-center">
       <h3 className="text-xl font-bold mb-3">Vận chuyển</h3>
       <p className="text-sm text-gray-700 mb-3">
-        Đơn hàng được chuẩn bị và vận chuyển trong vòng{" "}
-        <strong>2 ngày làm việc</strong>. Thời gian giao hàng phụ thuộc vào quốc
-        gia của bạn.
+        Đơn hàng được chuẩn bị và vận chuyển trong vòng
+        <strong> 2 ngày làm việc</strong>. Thời gian giao hàng phụ thuộc vào gói
+        bạn chọn
       </p>
       <div className="text-left space-y-4 text-sm text-gray-700">
         <p>
-          <strong>Giao hàng miễn phí</strong> trong Liên minh Châu Âu{" "}
-          <strong>cho các đơn hàng trên 39 €</strong> (khoảng **1.092.000
-          VNĐ**).
+          <strong>Giao hàng miễn phí cho các đơn hàng trên 500.000 VNĐ</strong>
         </p>
         <p>
-          <strong>Phí vận chuyển đến Thụy Sĩ là 6 €</strong> (khoảng **168.000
-          VNĐ**) và đã bao gồm phí hải quan.
+          <strong>Phí vận chuyển trong 1 ngày là thêm 10.000 VNĐ</strong>
         </p>
         <p>
-          <strong>
-            Phí vận chuyển đến các lãnh thổ hải ngoại Pháp là 15 €
-          </strong>{" "}
-          (khoảng **420.000 VNĐ**), xin lưu ý rằng phí hải quan bổ sung có thể
-          áp dụng khi nhận hàng.
+          <strong>Phí vận chuyển trong 1 ngày là thêm 20.000 VNĐ</strong>
         </p>
       </div>
       <div className="mt-6 flex justify-center">
@@ -181,7 +174,7 @@ const Cart = () => {
 
   const totalVND = cartItems.reduce(
     (s, it) =>
-      s + (it.price ?? 0) * (it.quantity ?? 1) * (it.subscription ? 0.9 : 1),
+      s + (it.price ?? 0) * (it.quantity ?? 1) * (it.subscription ? 0.8 : 1),
     0
   );
 
@@ -217,23 +210,12 @@ const Cart = () => {
     updateCart({ id, subscription: newVal }).catch(() => {});
   };
 
-  const FREE_SHIPPING_THRESHOLD_EUR = 39; // €
-  const SHIPPING_COST_EUR = 3.9; // €
-  const EXCHANGE_RATE = 28000;
-
-  // *** HÀM ĐỊNH DẠNG TIỀN TỆ MỚI CHO VNĐ ***
   const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";
-
-  // Chuyển đổi ngưỡng và chi phí vận chuyển sang VNĐ
-  const SHIPPING_COST_VND = SHIPPING_COST_EUR * EXCHANGE_RATE;
 
   const productValueVND = cartItems.length > 0 ? totalVND : 0;
 
   // Tính chi phí vận chuyển bằng VNĐ
-  const shippingVND =
-    productValueVND / EXCHANGE_RATE >= FREE_SHIPPING_THRESHOLD_EUR
-      ? 0
-      : SHIPPING_COST_VND;
+  const shippingVND = productValueVND > 0 ? 30000 : 0;
 
   const totalVND_Final = productValueVND + shippingVND;
 
@@ -244,9 +226,6 @@ const Cart = () => {
   );
   const discountsVND = grossVND - totalVND; // dương khi có chiết khấu
   const subtotalVND = totalVND;
-
-  // Giữ lại các giá trị Euro cho việc truyền props (nếu Shipping/Payment yêu cầu)
-  const totalEur = totalVND_Final / EXCHANGE_RATE;
 
   useEffect(() => {
     try {
@@ -263,14 +242,14 @@ const Cart = () => {
       {showPaymentPage ? (
         <Payment
           productCount={cartItems.length}
-          totalEur={totalEur} // Truyền tổng Euro (hoặc bạn có thể tạo prop totalVND)
+          totalVND={totalVND_Final}
           onBack={() => setShowPaymentPage(false)}
           shippingSummary={shippingSummary}
         />
       ) : showShippingPage ? (
         <Shipping
           productCount={cartItems.length}
-          totalEur={totalEur} // Truyền tổng Euro (hoặc bạn có thể tạo prop totalVND)
+          totalVND={totalVND_Final}
           onBack={() => setShowShippingPage(false)}
           onProceed={(summary: {
             address?: string;
@@ -474,7 +453,7 @@ const Cart = () => {
                   <div className="py-3">
                     {cartItems.map((it) => {
                       const itemGross = (it.price ?? 0) * (it.quantity ?? 1);
-                      const itemSub = itemGross * (it.subscription ? 0.9 : 1);
+                      const itemSub = itemGross * (it.subscription ? 0.8 : 1);
                       return (
                         <div
                           key={it.id}
@@ -503,9 +482,7 @@ const Cart = () => {
 
                   <div className="pt-4">
                     <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
-                      <span className="font-semibold">
-                        GIÁ TRỊ SẢN PHẨM (Gross)
-                      </span>
+                      <span className="font-semibold">GIÁ TRỊ SẢN PHẨM</span>
                       <span className="font-bold">{formatVND(grossVND)}</span>
                     </div>
                     <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
@@ -515,7 +492,7 @@ const Cart = () => {
                       </span>
                     </div>
                     <div className="flex justify-between items-center border-t border-gray-200 pt-3 mt-2">
-                      <span className="font-semibold">TỔNG PHỤ (Subtotal)</span>
+                      <span className="font-semibold">TỔNG PHỤ</span>
                       <span className="font-bold text-gray-900">
                         {formatVND(subtotalVND)}
                       </span>
