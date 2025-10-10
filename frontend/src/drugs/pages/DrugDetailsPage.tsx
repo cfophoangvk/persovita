@@ -72,18 +72,18 @@ const DrugDetailsPage: React.FC = () => {
     () => [
       {
         value: "91%",
-        title: "OF OUR CUSTOMERS",
-        desc: "Noticed an improvement in their key area after 3 months.",
+        title: "TRONG SỐ KHÁCH HÀNG CỦA CHÚNG TÔI",
+        desc: "Nhận thấy sự cải thiện trong lĩnh vực chính của họ sau 3 tháng.",
       },
       {
         value: "94%",
-        title: "OF OUR CUSTOMERS",
-        desc: "Noticed an improvement in their overall health after 3 months.",
+        title: "TRONG SỐ KHÁCH HÀNG CỦA CHÚNG TÔI",
+        desc: "Nhận thấy sự cải thiện trong sức khỏe tổng thể của họ sau 3 tháng.",
       },
       {
         value: "76",
-        title: "CLINICAL AND PRECLINICAL TRIALS",
-        desc: "conducted on our ingredients, including placebo-controlled trials.",
+        title: "CÁC THỬ NGHIỆM LÂM SÀNG VÀ TIỀN LÂM SÀNG",
+        desc: "đã được tiến hành trên các thành phần của chúng tôi, bao gồm các thử nghiệm có đối chứng với giả dược.",
       },
     ],
     []
@@ -92,7 +92,7 @@ const DrugDetailsPage: React.FC = () => {
   if (isLoading && !product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Loading...
+        Đang tải...
       </div>
     );
   }
@@ -100,7 +100,7 @@ const DrugDetailsPage: React.FC = () => {
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Product not found
+        Sản phẩm không tồn tại.
       </div>
     );
   }
@@ -239,7 +239,7 @@ const DrugDetailsPage: React.FC = () => {
                       ) : (
                         <tr>
                           <td colSpan={2} className="p-2 text-center">
-                            No data available
+                            Không xác định
                           </td>
                         </tr>
                       )}
@@ -247,15 +247,17 @@ const DrugDetailsPage: React.FC = () => {
                   </table>
                 </div>
 
-                <div
-                  className="text-sm text-gray-700 mt-4"
-                  // sanitize trước khi inject để tránh XSS
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(
-                      product.additiveIngredients || "Not specified"
-                    ),
-                  }}
-                />
+                {product.additiveIngredients && (
+                  <div
+                    className="text-sm text-gray-700 mt-4"
+                    // sanitize trước khi inject để tránh XSS
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        product.additiveIngredients || "Not specified"
+                      ),
+                    }}
+                  />
+                )}
               </Accordion>
 
               <Accordion
@@ -295,11 +297,7 @@ const DrugDetailsPage: React.FC = () => {
         <section className="mt-16 bg-[#f5f1ec] rounded p-8">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-4 text-center">
-              <h2 className="text-4xl font-bold">
-                Proven
-                <br />
-                results
-              </h2>
+              <h2 className="text-4xl font-bold">Kết quả đã được chứng minh</h2>
             </div>
             <div className="lg:col-span-8 space-y-6 border-l border-gray-200 pl-6">
               {provenStats.map((s, i) => (
