@@ -11,6 +11,8 @@ const productRoutes = require("./routes/product.route.js");
 const cartRoutes = require("./routes/cart.route.js");
 const shippingRoutes = require("./routes/shipping.route.js");
 const paymentRoutes = require("./routes/payment.route.js");
+const featureRoutes = require("./routes/feature.route.js");
+const brandRoutes = require("./routes/brand.route.js");
 
 const app = express();
 
@@ -53,6 +55,8 @@ app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/shipping", shippingRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/features", featureRoutes);
+app.use("/api/brands", brandRoutes);
 
 const PORT = 6789;
 app.listen(PORT, () => {

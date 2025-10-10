@@ -1,154 +1,145 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDrugStore } from "../stores/useDrugStore";
+import { useDebounce } from "../hooks/useDebounce";
+import type { Drug } from "../interfaces/drug";
+import { useFeatureStore } from "../stores/useFeatureStore";
+import { useBrandStore } from "../stores/useBrandStore";
+import { Loader2 } from "lucide-react";
 
-type Product = {
-  id: number;
-  name: string;
-  price?: number;
-  currency?: string;
-  images?: string[];
-  categories?: string[]; // optional, may be names or slugs
-  badges?: string[];
-  description?: string;
-};
-
-const PAGE_SIZES = [12, 24, 48];
+const PAGE_SIZES = [3, 6, 9, 12];
 
 const ShopPage: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(false);
+  // local UI state
   const [search, setSearch] = useState("");
-  const [formats, setFormats] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  // ids stored as strings for UI checkbox keys
+  const [selectedBrandIds, setSelectedBrandIds] = useState<string[]>([]);
+  const [selectedFeatureIds, setSelectedFeatureIds] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<
     "relevance" | "price-asc" | "price-desc"
   >("relevance");
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(12);
+  const [limit, setLimit] = useState(3);
 
+  // debounced inputs
+  const debouncedSearch = useDebounce(search, 400);
+  const debouncedBrandIds = useDebounce(selectedBrandIds, 300);
+  const debouncedFeatureIds = useDebounce(selectedFeatureIds, 300);
+
+  // store
+  const { drugs, filterDrugs, isLoading: isLoadingDrugs } = useDrugStore();
+  const {
+    features,
+    fetchFeatures,
+    isLoading: isLoadingFeatures,
+  } = useFeatureStore();
+  const { brands, fetchBrands, isLoading: isLoadingBrands } = useBrandStore();
+
+  // meta from API
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
+  // ensure brands/features loaded for sidebar
   useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/products");
-        if (!res.ok) throw new Error("Fetch products failed");
-        const data = await res.json();
-        const list: Product[] = data?.products ?? data ?? [];
-        setProducts(list);
-      } catch (err: any) {
-        setProducts([
-          {
-            id: 1,
-            name: "Paracetamol 500mg",
-            price: 45000,
-            currency: "VND",
-            images: [
-              "https://tse2.mm.bing.net/th/id/OIP.W7NNdONWEXM2_wQ8QvEhYwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-            ],
-            categories: ["Thuốc giảm đau", "Thuốc không kê đơn"],
-            badges: ["NEW"],
-            description: "Giảm đau, hạ sốt. 20 viên/hộp.",
-          },
-          {
-            id: 2,
-            name: "Amoxicillin 500mg",
-            price: 120000,
-            currency: "VND",
-            images: [
-              "https://tse1.mm.bing.net/th/id/OIP.sKb67xJHoAk7ecSQmE0KaQHaEJ?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-            ],
-            categories: ["Thuốc kháng sinh", "Thuốc kê đơn"],
-            badges: ["BEST-SELLER"],
-            description: "Kháng sinh phổ rộng.",
-          },
-          {
-            id: 3,
-            name: "Cough Syrup - Honey & Herbs",
-            price: 89000,
-            currency: "VND",
-            images: [
-              "https://5.imimg.com/data5/SELLER/Default/2022/5/ZD/QP/KK/101626867/herbal-honey-cough-syrup-1000x1000.jpg",
-            ],
-            categories: ["Ho & Cảm lạnh", "Thuốc không kê đơn"],
-            badges: [],
-            description: "Si rô ho, dịu cổ họng. 120ml/chai.",
-          },
-        ]);
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
+    if (typeof fetchBrands === "function") fetchBrands();
+    if (typeof fetchFeatures === "function") fetchFeatures();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const reset = () => {
-    setPage(1);
-    setSearch('');
-    setFormats([]);
-    setSelectedCategories([]);
-    setSortBy("relevance");
-  }
+  // available lists for sidebar (ids as strings)
+  const brandsAvailable = useMemo(() => {
+    if (!Array.isArray(brands)) return [];
+    return brands.map((b: any) => ({ id: String(b.id), name: b.name }));
+  }, [brands]);
 
+  const topicsAvailable = useMemo(() => {
+    if (!Array.isArray(features)) return [];
+    return features.map((t: any) => ({ id: String(t.id), title: t.title }));
+  }, [features]);
+
+  // helper toggles (string ids)
+  const toggleBrand = (id: string) =>
+    setSelectedBrandIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  const toggleFeature = (id: string) =>
+    setSelectedFeatureIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+
+  // build query string for backend
+  const buildQuery = () => {
+    const params = new URLSearchParams();
+    if (debouncedBrandIds && debouncedBrandIds.length) {
+      // backend accepts brandId or brandIds; use brandIds for multiples
+      params.set("brandIds", debouncedBrandIds.join(","));
+    }
+    if (debouncedFeatureIds && debouncedFeatureIds.length) {
+      params.set("featureIds", debouncedFeatureIds.join(","));
+    }
+    if (debouncedSearch && debouncedSearch.trim()) {
+      params.set("q", debouncedSearch.trim());
+    }
+    params.set("page", String(page));
+    params.set("limit", String(limit));
+    if (sortBy && sortBy !== "relevance") params.set("sort", sortBy);
+    return params.toString();
+  };
+
+  // fetch when debounced inputs change or page/limit change
   useEffect(() => {
-    setPage(1);
-  }, [search, selectedCategories, sortBy, limit]);
+    const q = buildQuery();
+    let mounted = true;
 
-  const categoriesAvailable = useMemo(() => {
-    const setC = new Set<string>();
-    for (const p of products) {
-      (p.categories || []).forEach((c) => setC.add(c));
-    }
-    return Array.from(setC);
-  }, [products]);
+    (async () => {
+      const data = await filterDrugs(q);
+      if (!mounted) return;
 
-  const filtered = useMemo(() => {
-    let list = products.slice();
+      if (data) {
+        const totalResp = data.meta?.total ?? data.products?.length ?? 0;
+        const totalPagesResp = Math.max(1, data.meta?.totalPages ?? 1);
 
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      list = list.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          (p.description || "").toLowerCase().includes(q)
-      );
-    }
+        // If current page out of range, reset page to 1 and exit (next effect will fetch)
+        if (page > totalPagesResp) {
+          setTotal(totalResp);
+          setTotalPages(totalPagesResp);
+          if (page !== 1) setPage(1);
+          return;
+        }
 
-    if (selectedCategories.length) {
-      list = list.filter((p) =>
-        (p.categories || []).some((c) => selectedCategories.includes(c))
-      );
-    }
+        setTotal(totalResp);
+        setTotalPages(totalPagesResp);
+      } else {
+        setTotal(0);
+        setTotalPages(1);
+      }
+    })();
 
-    if (sortBy === "price-asc") {
-      list.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
-    } else if (sortBy === "price-desc") {
-      list.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
-    }
+    return () => {
+      mounted = false;
+    };
+    // include debounced arrays and pagination/sort
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    debouncedSearch,
+    debouncedBrandIds,
+    debouncedFeatureIds,
+    page,
+    limit,
+    sortBy,
+  ]);
 
-    return list;
-  }, [products, search, selectedCategories, sortBy]);
-
-  const total = filtered.length;
-  const totalPages = Math.max(1, Math.ceil(total / limit));
+  // derived values for UI
+  const totalItems = total;
   const start = (page - 1) * limit;
-  const paged = filtered.slice(start, start + limit);
-
-  const toggleCategory = (c: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]
-    );
-  };
-
-  const toggleFormat = (c: string) => {
-    setFormats((prev) =>
-      prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]
-    );
-  };
 
   return (
     <div className="min-h-screen bg-white">
+      <div className="relative w-full bg-center bg-no-repeat bg-cover">
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
+        <div className="relative max-w-7xl py-8"></div>
+      </div>
+      {/* Hero */}
       <div
         className="relative w-full bg-center bg-no-repeat bg-cover"
         style={{
@@ -159,11 +150,11 @@ const ShopPage: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 flex items-center">
           <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Sản phẩm
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Sản phẩm</h1>
             <p className="text-gray-600 max-w-xl">
-              Khoa học. Hiệu quả. Đơn giản. Khám phá các dòng sản phẩm đa dạng của chúng tôi được các nhà khoa học sáng tạo, đáp ứng mọi nhu cầu của bạn.
+              Khoa học. Hiệu quả. Đơn giản. Khám phá các dòng sản phẩm đa dạng
+              của chúng tôi được các nhà khoa học sáng tạo, đáp ứng mọi nhu cầu
+              của bạn.
             </p>
           </div>
           <div className="hidden md:block flex-1" />
@@ -195,83 +186,69 @@ const ShopPage: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Đơn vị sản phẩm
+                  Danh mục thương hiệu
                 </label>
-                <div className="space-y-2 text-sm text-gray-700">
-                  {["Chai", "Gói", "Bột", "Chất lỏng", "Tuýp"].map(
-                    (format) => (
-                      <label key={format} className="flex items-center gap-2">
-                        <input type="checkbox" className="w-4 h-4" checked={formats.includes(format)} onChange={() => toggleFormat(format)} />
-                        <span>{format}</span>
-                      </label>
-                    )
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Danh mục
-                  </label>
-                  <span className="text-xs text-gray-500">
-                    {selectedCategories.length > 0
-                      ? `${selectedCategories.length} selected`
-                      : ""}
-                  </span>
-                </div>
                 <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
-                  {categoriesAvailable.length ? (
-                    categoriesAvailable.map((category) => (
-                      <label key={category} className="flex items-center gap-2">
+                  {isLoadingBrands ? (
+                    <Loader2 />
+                  ) : brandsAvailable.length ? (
+                    brandsAvailable.map((c) => (
+                      <label key={c.id} className="flex items-center gap-2">
                         <input
                           type="checkbox"
-                          checked={selectedCategories.includes(category)}
-                          onChange={() => toggleCategory(category)}
+                          checked={selectedBrandIds.includes(c.id)}
+                          onChange={() => toggleBrand(c.id)}
                           className="w-4 h-4"
                         />
-                        <span>{category}</span>
+                        <span>{c.name}</span>
                       </label>
                     ))
                   ) : (
-                    <div className="text-xs text-gray-400">Không có danh mục</div>
+                    <div className="text-xs text-gray-400">
+                      Không có danh mục
+                    </div>
                   )}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Chủ đề
+                  Danh mục chức năng
                 </label>
                 <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
-                  {(() => {
-                    const topicsSet = new Set<string>();
-                    products.forEach((product: any) => {
-                      (product.topics || []).forEach((topic: string) => topicsSet.add(topic));
-                    });
-                    const topics = Array.from(topicsSet);
-                    if (!topics.length) {
-                      return (
-                        <div className="text-xs text-gray-400">Không có chủ đề</div>
-                      );
-                    }
-                    return topics.map((t) => (
-                      <label key={t} className="flex items-center gap-2">
-                        <input type="checkbox" className="w-4 h-4" />
-                        <span>{t}</span>
+                  {isLoadingFeatures ? (
+                    <Loader2 />
+                  ) : topicsAvailable.length ? (
+                    topicsAvailable.map((t) => (
+                      <label key={t.id} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedFeatureIds.includes(t.id)}
+                          onChange={() => toggleFeature(t.id)}
+                          className="w-4 h-4"
+                        />
+                        <span>{t.title}</span>
                       </label>
-                    ));
-                  })()}
+                    ))
+                  ) : (
+                    <div className="text-xs text-gray-400">
+                      Không có chức năng
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Actions */}
-              <div className="flex m-auto items-center w-3/4 gap-3">
+              <div className="flex items-center gap-3 w-3/4 m-auto">
                 <button
-                  onClick={() => reset()}
-                  className="flex-1 py-2 rounded-full bg-amber-200 text-amber-900 text-sm font-medium hover:bg-amber-300 transition"
+                  onClick={() => {
+                    setSelectedFeatureIds([]);
+                    setSelectedBrandIds([]);
+                    setSearch("");
+                    setPage(1);
+                  }}
+                  className="flex-1 py-2 rounded-full border border-gray-300 bg-amber-300 text-sm hover:bg-amber-400 transition"
                 >
-                  Đặt lại
+                  Reset
                 </button>
               </div>
             </div>
@@ -280,18 +257,24 @@ const ShopPage: React.FC = () => {
           {/* Products */}
           <main className="col-span-12 md:col-span-9">
             <div className="flex items-center justify-between mb-6">
-              <div className="text-sm text-gray-600">{total} sản phẩm</div>
+              <div className="text-sm text-gray-600">{totalItems} products</div>
 
               <div className="flex items-center gap-3">
                 <input
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setPage(1);
+                  }}
                   placeholder="Tìm tên sản phẩm..."
                   className="px-3 py-2 border border-gray-200 rounded text-sm"
                 />
                 <select
                   value={limit}
-                  onChange={(e) => setLimit(parseInt(e.target.value, 10))}
+                  onChange={(e) => {
+                    setLimit(parseInt(e.target.value, 10));
+                    setPage(1);
+                  }}
                   className="px-2 py-2 border border-gray-200 rounded text-sm"
                 >
                   {PAGE_SIZES.map((s) => (
@@ -305,12 +288,12 @@ const ShopPage: React.FC = () => {
 
             {/* Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {loading ? (
+              {isLoadingDrugs ? (
                 <div className="col-span-full text-center py-10 text-gray-500">
                   Đang chờ...
                 </div>
-              ) : paged.length ? (
-                paged.map((p) => (
+              ) : (drugs ?? []).length ? (
+                (drugs ?? []).map((p: Drug) => (
                   <div
                     key={p.id}
                     className="bg-white border border-gray-100 rounded-lg p-4 shadow-sm hover:shadow-md transition"
@@ -321,14 +304,14 @@ const ShopPage: React.FC = () => {
                         alt={p.name}
                         className="object-contain h-full w-full"
                       />
-                      {p.badges?.length ? (
+                      {p.brands?.length ? (
                         <div className="absolute top-3 right-3 space-y-1">
-                          {p.badges!.map((b, i) => (
+                          {p.brands.map((c: any) => (
                             <span
-                              key={i}
+                              key={c.id}
                               className="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded"
                             >
-                              {b}
+                              {c.name}
                             </span>
                           ))}
                         </div>
@@ -393,8 +376,9 @@ const ShopPage: React.FC = () => {
             {/* Pagination */}
             <div className="mt-8 flex items-center justify-between">
               <div className="text-sm text-gray-600">
-                Đã hiện {start + 1}–{Math.min(start + paged.length, total)} trên{" "}
-                {total} sản phẩm
+                Showing {start + 1}–
+                {Math.min(start + (drugs?.length ?? 0), totalItems)} of{" "}
+                {totalItems} products
               </div>
 
               <div className="flex items-center gap-2">

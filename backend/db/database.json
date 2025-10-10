@@ -3,40 +3,179 @@
     {
       "id": 1,
       "name": "Onely Welcome Kit",
-      "description": "A starter kit"
+      "description": "A starter kit",
+      "price": 45000,
+      "currency": "VND",
+      "images": [
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Onely_Welcome_Kit_1_ozqv0r.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Onely_Welcome_Kit_2_wuoq4m.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Onely_Welcome_Kit_3_hz7v4m.jpg"
+      ],
+      "brands": 1,
+      "features": [1, 2, 3],
+      "amount": 60,
+      "activeIngredients": [
+        {
+          "name": "Natri (từ Natri Hyaluronate)",
+          "amount": "10mg"
+        },
+        {
+          "name": "Axit Hyaluronic (từ Sodium Hyaluronate)",
+          "amount": "100 mg"
+        },
+        {
+          "name": "MSM (Methylsulfonylmethane)",
+          "amount": "900 mg"
+        }
+      ],
+      "additiveIngredients": "<strong>Các thành phần khác: </strong> Hypromellose (viên nang cellulose), Axit Stearic (nguồn thực vật) và Silicon Dioxide.<br/>Không sản xuất từ ​​đậu nành, sữa, trứng, cá, động vật có vỏ, hạt cây hoặc vừng.",
+      "usage": "Usage is here",
+      "contraindication": "Contraindication is here"
     },
     {
       "id": 2,
       "name": "Dosing Spoon M",
-      "description": "Stainless steel"
+      "description": "Stainless steel",
+      "price": 99000,
+      "currency": "VND",
+      "images": [
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Dosing_Spoon_M_1_yz8m4m.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Dosing_Spoon_M_2_j3qv4m.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Dosing_Spoon_M_3_ozqv0r.jpg"
+      ],
+      "brands": 2,
+      "features": [1, 3, 4],
+      "amount": 60,
+      "activeIngredients": [
+        {
+          "name": "Axit Hyaluronic (từ Sodium Hyaluronate)",
+          "amount": "100 mg"
+        },
+        {
+          "name": "Natri (từ Natri Hyaluronate)",
+          "amount": "10mg"
+        },
+        {
+          "name": "MSM (Methylsulfonylmethane)",
+          "amount": "900 mg"
+        }
+      ],
+      "additiveIngredients": "Additive is here",
+      "usage": "Usage is here",
+      "contraindication": "Contraindication is here"
     },
     {
       "id": 3,
       "name": "Product 3",
-      "description": "Description 31"
+      "description": "Description 31",
+      "price": 129000,
+      "currency": "VND",
+      "images": [
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Dosing_Spoon_S_1_ozqv0r.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Dosing_Spoon_S_2_yz8m4m.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Dosing_Spoon_S_3_j3qv4m.jpg"
+      ],
+      "brands": 1,
+      "features": [1, 5, 6],
+      "amount": 50,
+      "activeIngredients": [
+        {
+          "name": "Axit Hyaluronic (từ Sodium Hyaluronate)",
+          "amount": "100 mg"
+        },
+        {
+          "name": "Natri (từ Natri Hyaluronate)",
+          "amount": "10mg"
+        },
+        {
+          "name": "MSM (Methylsulfonylmethane)",
+          "amount": "900 mg"
+        }
+      ],
+      "additiveIngredients": "Additive is here",
+      "usage": "Usage is here",
+      "contraindication": "Contraindication is here"
     },
     {
       "id": 4,
       "name": "Product 4",
-      "description": "Description 4"
+      "description": "Description 4",
+      "price": 45000,
+      "currency": "VND",
+      "images": [
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Onely_Welcome_Kit_1_ozqv0r.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Onely_Welcome_Kit_2_wuoq4m.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Onely_Welcome_Kit_3_hz7v4m.jpg"
+      ],
+      "brands": 2,
+      "features": [7, 8, 9],
+      "amount": 50,
+      "activeIngredients": [
+        {
+          "name": "Axit Hyaluronic (từ Sodium Hyaluronate)",
+          "amount": "100 mg"
+        },
+        {
+          "name": "Natri (từ Natri Hyaluronate)",
+          "amount": "10mg"
+        },
+        {
+          "name": "MSM (Methylsulfonylmethane)",
+          "amount": "900 mg"
+        }
+      ],
+      "additiveIngredients": "Additive is here",
+      "usage": "Usage is here",
+      "contraindication": "Contraindication is here"
     },
     {
       "id": 5,
       "name": "Product 5",
-      "description": "Description 5"
+      "description": "Description 5",
+      "price": 99000,
+      "currency": "VND",
+      "images": [
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Dosing_Spoon_M_1_yz8m4m.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Dosing_Spoon_M_2_j3qv4m.jpg",
+        "https://res.cloudinary.com/dx9d6f1eu/image/upload/v1707188233/persovita/products/Dosing_Spoon_M_3_ozqv0r.jpg"
+      ],
+      "brands": 3,
+      "features": [10, 11, 12],
+      "amount": 70,
+      "activeIngredients": [
+        {
+          "name": "Axit Hyaluronic (từ Sodium Hyaluronate)",
+          "amount": "100 mg"
+        },
+        {
+          "name": "Natri (từ Natri Hyaluronate)",
+          "amount": "10mg"
+        },
+        {
+          "name": "MSM (Methylsulfonylmethane)",
+          "amount": "900 mg"
+        }
+      ],
+      "additiveIngredients": "Additive is here",
+      "usage": "Usage is here",
+      "contraindication": "Contraindication is here"
     }
   ],
-  "categories": [
+  "brands": [
     {
       "id": 1,
-      "name": "Mới"
+      "name": "Nature's Bounty"
     },
     {
       "id": 2,
-      "name": "Bán chạy nhất"
+      "name": "Viridian"
+    },
+    {
+      "id": 3,
+      "name": "Now Foods"
     }
   ],
-  "topics": [
+  "features": [
     {
       "id": 1,
       "title": "Sinh lực & Chống mệt mỏi"
@@ -86,92 +225,66 @@
       "title": "Thị lực"
     }
   ],
-  "productCategories": [
+  "productFeatures": [
     {
       "productId": 1,
-      "categoryId": 1
-    },
-    {
-      "productId": 1,
-      "categoryId": 2
-    },
-    {
-      "productId": 2,
-      "categoryId": 2
-    },
-    {
-      "productId": 2,
-      "categoryId": 1
-    },
-    {
-      "productId": 3,
-      "categoryId": 1
-    },
-    {
-      "productId": 3,
-      "categoryId": 2
-    }
-  ],
-  "productTopics": [
-    {
-      "productId": 1,
-      "topicId": 1
+      "featureId": 1
     },
     {
       "productId": 1,
-      "topicId": 2
+      "featureId": 2
     },
     {
       "productId": 1,
-      "topicId": 3
+      "featureId": 3
     },
     {
       "productId": 2,
-      "topicId": 1
+      "featureId": 1
     },
     {
       "productId": 2,
-      "topicId": 3
+      "featureId": 3
     },
     {
       "productId": 2,
-      "topicId": 4
+      "featureId": 4
     },
     {
       "productId": 3,
-      "topicId": 1
+      "featureId": 1
     },
     {
       "productId": 3,
-      "topicId": 5
+      "featureId": 5
     },
     {
       "productId": 3,
-      "topicId": 6
+      "featureId": 6
     },
     {
       "productId": 4,
-      "topicId": 7
+      "featureId": 7
     },
     {
       "productId": 4,
-      "topicId": 8
+      "featureId": 8
     },
     {
       "productId": 4,
-      "topicId": 9
+      "featureId": 9
     },
     {
       "productId": 5,
-      "topicId": 10
+      "featureId": 10
     },
     {
       "productId": 5,
-      "topicId": 11
+      "featureId": 11
     },
     {
       "productId": 5,
-      "topicId": 12
+      "featureId": 12
     }
   ],
   "users": [
@@ -224,6 +337,13 @@
       "password": "$2b$12$g4BS/c5YRo1O7506vrQfQeNKTjWOXaksOPWKYLcu5El6qR4KuOiPy",
       "role": "user",
       "createdAt": "2025-10-08T03:47:17.448Z"
+    },
+    {
+      "id": 7,
+      "email": "nghiahtsdtq20031@gmail.com",
+      "password": "$2b$12$zb9eA7hgXjRP0rP/F3sENOyOeFM2Lknr71ZH2vkeHNIUQZ1dImGIy",
+      "role": "user",
+      "createdAt": "2025-10-09T13:13:12.854Z"
     }
   ],
   "shipping": [

@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { LogIn, LogOut } from "lucide-react";
+import useScrollHeaderEffect from "../hooks/useScrollHeaderEffect";
+import { motion } from "framer-motion";
 
 // Định dạng sang VNĐ (dùng cho hiển thị trong header và preview)
 const formatVND = (value: number) => {
@@ -60,8 +62,32 @@ const AppHeader: React.FC = () => {
     }
   }, [showPreview]);
 
+  const { show } = useScrollHeaderEffect();
+
   return (
-    <header className="bg-white border-b fixed top-0 left-0 right-0 z-1">
+    <motion.header
+      className="bg-white border-b fixed top-0 left-0 right-0 z-1"
+      initial={{ y: 0, opacity: 1 }}
+      animate={
+        show
+          ? {
+              y: 0,
+              opacity: 1,
+              transition: {
+                y: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.8 },
+              },
+            }
+          : {
+              y: "-110%",
+              opacity: 0,
+              transition: {
+                y: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 1.2 },
+              },
+            }
+      }
+    >
       <div className="max-w-full mx-auto px-2 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <Link
@@ -282,7 +308,7 @@ const AppHeader: React.FC = () => {
           </div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
