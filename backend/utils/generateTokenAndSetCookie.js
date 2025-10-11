@@ -1,13 +1,12 @@
 const jwt = require("jsonwebtoken");
 const {
-  JWT_SECRET,
   JWT_EXPIRES_IN,
   COOKIE_NAME,
   COOKIE_EXPIRES_IN,
 } = require("../constants/constant.js");
 
 const generateTokenAndSetCookie = (res, userId, email, role) => {
-  const token = jwt.sign({ id: userId, email, role }, JWT_SECRET, {
+  const token = jwt.sign({ id: userId, email, role }, process.env.JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN,
   });
   // Set cookie options depending on environment. For local dev (http + different ports)

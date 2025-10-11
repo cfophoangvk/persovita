@@ -3,15 +3,10 @@ const path = require("path");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
-// Ensure dotenv is loaded if not already (safe to call multiple times)
-try {
-  require("dotenv").config();
-} catch (e) {
-  // dotenv may not be installed in production; that's OK
-}
-const { FRONTEND_URL } = require("../constants/constant.js");
 
 const dbPath = path.resolve(process.cwd(), "db/database.json");
+
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 const login = async (req, res) => {
   const { email, password, remember = false } = req.body;

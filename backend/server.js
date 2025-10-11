@@ -12,11 +12,16 @@ const cartRoutes = require("./routes/cart.route.js");
 const shippingRoutes = require("./routes/shipping.route.js");
 const paymentRoutes = require("./routes/payment.route.js");
 const orderRoutes = require("./routes/order.route.js");
+const featureRoutes = require("./routes/feature.route.js");
+const brandRoutes = require("./routes/brand.route.js");
+const dotenv = require("dotenv");
+
+dotenv.config(); //load biến môi trường từ file .env
 
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173", credentials: true })); //for fucking frontend app
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true })); //for fucking frontend app
 app.use(cookieParser()); //for cookie
 app.get("/", (req, res) => {
   res.send("<h2>Hello Express Web API</h2>");
@@ -55,6 +60,8 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/shipping", shippingRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/features", featureRoutes);
+app.use("/api/brands", brandRoutes);
 
 const PORT = 6789;
 app.listen(PORT, () => {

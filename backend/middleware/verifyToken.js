@@ -8,7 +8,7 @@ const verifyToken = async (req, res, next) => {
       .status(401)
       .json({ success: false, message: "Unauthorized - Không có token" });
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!decoded)
       return res
@@ -19,12 +19,10 @@ const verifyToken = async (req, res, next) => {
     next();
   } catch (error) {
     console.log("Lỗi ở hàm verifyToken ", error.message || error);
-    return res
-      .status(401)
-      .json({
-        success: false,
-        message: "Unauthorized - Token invalid or expired",
-      });
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized - Token invalid or expired",
+    });
   }
 };
 

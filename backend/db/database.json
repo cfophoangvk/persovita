@@ -2,176 +2,304 @@
   "products": [
     {
       "id": 1,
-      "name": "Onely Welcome Kit",
-      "description": "A starter kit"
+      "name": "Hyaluronic Acid",
+      "description": "Hyaluronic Acid  là một hợp chất có trong mọi mô của cơ thể, với nồng độ cao nhất xuất hiện ở các mô liên kết như da và sụn. Axit hyaluronic là một thành phần quan trọng của dịch khớp, nơi nó hoạt động như một chất bôi trơn và có vai trò chống lại lực nén. MSM được thêm vào sản phẩm này dưới dạng hợp chất lưu huỳnh tự nhiên, cung cấp các liên kết hóa học cần thiết để hình thành và duy trì các mô liên kết trong cơ thể con người bao gồm cả sụn khớp.",
+      "price": 1001606,
+      "currency": "VND",
+      "images": [
+        "/src/drugs/assets/products/product-1/product-1.png",
+        "/src/drugs/assets/products/product-1/product-2.png",
+        "/src/drugs/assets/products/product-1/product-3.png"
+      ],
+      "brands": 1,
+      "features": [1, 2],
+      "amount": 60,
+      "activeIngredients": [
+        {
+          "name": "Natri (từ Natri Hyaluronate)",
+          "amount": "10mg"
+        },
+        {
+          "name": "Axit Hyaluronic (từ Sodium Hyaluronate)",
+          "amount": "100 mg"
+        },
+        {
+          "name": "MSM (Methylsulfonylmethane)",
+          "amount": "900 mg"
+        }
+      ],
+      "additiveIngredients": "<strong>Các thành phần khác: </strong> Hypromellose (viên nang cellulose), Axit Stearic (nguồn thực vật) và Silicon Dioxide.<br/>Không sản xuất từ ​​đậu nành, sữa, trứng, cá, động vật có vỏ, hạt cây hoặc vừng.",
+      "usage": "Hỗ trợ giảm đau khớp <br /> Cải thiện tình trạng khô khớp <br/> Phòng tránh loãng xương <br />Dưỡng ẩm cho da <br/>Góp phần chống lão hóa<br/>Hỗ trợ giảm tình trạng viêm da<br/>Hỗ trợ giảm trào ngược dạ dày",
+      "contraindication": "Chỉ dành cho người lớn. Tham khảo ý kiến ​​bác sĩ nếu đang mang thai/cho con bú, đang dùng thuốc khác hoặc có bệnh lý nền (đặc biệt là bệnh tăng nhãn áp). Để xa tầm tay trẻ em."
     },
     {
       "id": 2,
-      "name": "Dosing Spoon M",
-      "description": "Stainless steel"
+      "name": "Turmeric Capsules",
+      "description": "Nghệ là một thành phần thảo dược có lịch sử sử dụng lâu đời ở Ấn Độ. Các thành phần hoạt tính trong nghệ bao gồm các flavonoid có lợi gọi là Curcuminoid, một chất chống oxy hóa có nguồn gốc thực vật.* Viên nghệ Nature's Bounty® 1.000mg chứa chất chống oxy hóa, giúp chống lại các gốc tự do trong cơ thể.* Các gốc tự do góp phần gây ra stress oxy hóa, từ đó có thể dẫn đến lão hóa sớm của tế bào.*",
+      "price": 421576,
+      "currency": "VND",
+      "images": ["/src/drugs/assets/products/product-2/product-1.webp"],
+      "brands": 2,
+      "features": [1, 8, 10, 11, 14],
+      "amount": 60,
+      "activeIngredients": [
+        {
+          "name": "Nghệ (Curcuma longa) (rễ)",
+          "amount": "900 mg"
+        },
+        {
+          "name": "Chiết xuất nghệ (Curcuma longa) (rễ) (Chuẩn hóa để chứa 95% Curcuminoids)",
+          "amount": "100 mg"
+        },
+        {
+          "name": "Chiết xuất hạt tiêu đen BioPerine® (Piper nigrum) (quả)",
+          "amount": "5mg"
+        }
+      ],
+      "additiveIngredients": "Thành phần khác: Gelatin, Axit stearic thực vật.",
+      "usage": "Chống viêm và chống oxy hóa, bảo vệ sức khỏe, tăng sức đề kháng cho cơ thể khỏe mạnh. <br/>Làm giảm triệu chứng đau dạ dày, tá tràng.<br/>Tăng cường chức năng gan, giúp thanh lọc, loại bỏ độc tố cho cơ thể, ngăn ngừa tổn thương gan. <br/>Hỗ trợ giảm cholesterol, tốt cho sức khỏe tim mạch và não bộ.<br/>Giúp chống lại các tác nhân oxy hóa gây lão hóa da, mang đến làn da khỏe mạnh, hồng hào, tươi trẻ dài lâu.",
+      "contraindication": "Không sử dụng nếu bạn đang mang thai hoặc cho con bú, nếu bạn bị rối loạn đường mật, rối loạn gan, hoặc nếu bạn đang dùng thuốc chống đông máu, thuốc chống ung thư hoặc thuốc ức chế miễn dịch. Chỉ dành cho người lớn. Không dùng các thực phẩm bổ sung khác có chứa curcumin và/hoặc curcuminoid trong cùng một ngày.<br/>Nhìn chung, phụ nữ mang thai và cho con bú nên tham khảo ý kiến ​​chuyên gia chăm sóc sức khỏe trước khi dùng bất kỳ loại thực phẩm bổ sung nào."
     },
     {
       "id": 3,
-      "name": "Product 3",
-      "description": "Description 31"
+      "name": "Boswellia Extract",
+      "description": "Chiết xuất Boswellia NOW® là chiết xuất chuẩn hóa từ cây Boswellia serrata , còn được gọi là nhũ hương, một loại thực vật dạng nhựa đã được các nhà thảo dược học Ayurvedic truyền thống sử dụng hàng thế kỷ. Các nghiên cứu khoa học đã chứng minh rằng axit boswellic, thành phần hoạt tính sinh học của cây boswellia, có tác dụng lên các enzyme quan trọng liên quan đến việc duy trì các mô khỏe mạnh.* Thông qua các cơ chế này, cây boswellia có thể giúp hỗ trợ hệ miễn dịch phản ứng cân bằng với những thay đổi thường gặp trong cuộc sống hàng ngày.",
+      "price": 712104,
+      "currency": "VND",
+      "images": [
+        "/src/drugs/assets/products/product-3/product-1.png",
+        "/src/drugs/assets/products/product-3/product-2.png",
+        "/src/drugs/assets/products/product-3/product-3.png"
+      ],
+      "brands": 1,
+      "features": [1, 6],
+      "amount": 90,
+      "activeIngredients": [
+        {
+          "name": "Chiết xuất Boswellia (Boswellia serrata)",
+          "amount": "500 mg"
+        }
+      ],
+      "additiveIngredients": "Thành phần khác: Dầu MCT, Gelatin bò, Glycerin, Nước.",
+      "usage": "Đặc tính kháng viêm mạnh<br/>Hỗ trợ giảm đau và cải thiện chức năng khớp<br/>Hỗ trợ sức khỏe đường hô hấp",
+      "contraindication": "Khó chịu Tiêu hóa: Có thể gây khó chịu đường tiêu hóa nhẹ, thoáng qua. Lưu ý chung: Tham khảo ý kiến bác sĩ nếu mang thai/cho con bú, đang dùng thuốc, hoặc có bất kỳ tình trạng sức khỏe nào."
     },
     {
       "id": 4,
-      "name": "Product 4",
-      "description": "Description 4"
+      "name": "Glucosamine Chondroitin SMS",
+      "description": "Glucosamine – Chondroitin – MSM cường độ cao góp phần vào sức khỏe của các khớp xương, vốn chịu áp lực hàng ngày do luyện tập cường độ cao, tình trạng viêm mãn tính, hoặc thậm chí do tư thế không đúng khi làm việc hoặc khi ngủ. Sản phẩm chứa glucosamine, một trong những thành phần chính của sụn khớp và chịu trách nhiệm sản xuất các chất cần thiết cho hoạt động bình thường của khớp. Thực phẩm bổ sung này được coi là hữu ích trong các trường hợp viêm xương khớp và nói chung là các tình trạng thoái hóa khớp, chấn thương thể thao, và giúp tái tạo các mô trong và xung quanh khớp.",
+      "price": 869000,
+      "currency": "VND",
+      "images": ["/src/drugs/assets/products/product-4/product-1.webp"],
+      "brands": 3,
+      "features": [1, 10, 11],
+      "amount": 60,
+      "activeIngredients": [
+        {
+          "name": "Glucosamine Hydrochloride không có vỏ",
+          "amount": "750mg"
+        },
+        {
+          "name": "Glucosamine",
+          "amount": "623 mg"
+        },
+        {
+          "name": "Chondroitin sulfat",
+          "amount": "600 mg"
+        },
+        {
+          "name": "MSM (dưới dạng methylsulfonylmethane)",
+          "amount": "368 mg"
+        }
+      ],
+      "additiveIngredients": "Glucosamine Hydrochloride không chứa động vật có vỏ, Chondroitin Sulphate, MSM (dưới dạng methylsulfonylmethane), Chất tạo khối (cellulose vi tinh thể), Chất tạo bóng (hydroxypropylmethyl cellulose, glycerin thực vật (dầu hạt cải)), Chất chống vón cục (silicon dioxide, magie stearat thực vật).",
+      "usage": "Góp phần tăng cường cấu trúc của khớp, sụn và gân<br/>Cung cấp khả năng bảo vệ chống lại các cú sốc<br/>Thúc đẩy phục hồi sụn<br/>Có tác dụng giảm đau nhẹ   ",
+      "contraindication": "Không khuyến cáo sử dụng cho phụ nữ mang thai hoặc đang cho con bú, người bị tiểu đường hoặc tiền tiểu đường, người bị hen suyễn, người đang dùng thuốc đối kháng vitamin K, người bị dị ứng với động vật có vỏ hoặc côn trùng, và người đang kiểm soát chế độ ăn uống thiếu natri, kali hoặc canxi. Chỉ dành cho người lớn.<br/>Nhìn chung, phụ nữ mang thai và cho con bú nên tham khảo ý kiến ​​chuyên gia chăm sóc sức khỏe trước khi dùng bất kỳ loại thực phẩm bổ sung nào."
     },
     {
       "id": 5,
-      "name": "Product 5",
-      "description": "Description 5"
+      "name": "Multivitamins",
+      "description": "Complete Daily Multivitamin là viên uống bổ sung 19 loại vitamin và khoáng chất cho cơ thể, hỗ trợ chống oxy hóa, giúp nâng cao sức đề kháng.",
+      "price": 490000,
+      "currency": "VND",
+      "images": [
+        "/src/drugs/assets/products/product-5/product-1.jpg",
+        "/src/drugs/assets/products/product-5/product-2.png",
+        "/src/drugs/assets/products/product-5/product-3.png",
+        "/src/drugs/assets/products/product-5/product-4.png",
+        "/src/drugs/assets/products/product-5/product-5.jpg"
+      ],
+      "brands": 4,
+      "features": [2, 3, 8, 10, 11, 13, 16, 17],
+      "amount": 200,
+      "activeIngredients": [
+        {
+          "name": "Vitamin A",
+          "amount": "225 mcg RE"
+        },
+        {
+          "name": "Vitamin B1",
+          "amount": "567,4 mcg"
+        },
+        {
+          "name": "Vitamin B2",
+          "amount": "1,3 mg"
+        },
+        {
+          "name": "Nicotinamide",
+          "amount": "16 mg"
+        },
+        {
+          "name": "Vitamin B6",
+          "amount": "0,6 mg"
+        },
+        {
+          "name": "Vitamin B12",
+          "amount": "2 mcg"
+        },
+        {
+          "name": "Vitamin C",
+          "amount": "25 mg"
+        },
+        {
+          "name": "Vitamin D3",
+          "amount": "300 IU"
+        },
+        {
+          "name": "Vitamin E",
+          "amount": "3 IU"
+        },
+        {
+          "name": "Biotin",
+          "amount": "30 mcg"
+        },
+        {
+          "name": "Acid folic",
+          "amount": "100 mcg"
+        },
+        {
+          "name": "Vitamin B5",
+          "amount": "2,00 mg"
+        },
+        {
+          "name": "Kẽm",
+          "amount": "1,40 mg"
+        },
+        {
+          "name": "Chrom",
+          "amount": "5 mcg"
+        },
+        {
+          "name": "Đồng",
+          "amount": "170 mcg"
+        },
+        {
+          "name": "Iod",
+          "amount": "50 mcg"
+        },
+        {
+          "name": "Sắt",
+          "amount": "1,9 mg"
+        },
+        {
+          "name": "Magie",
+          "amount": "42 mg"
+        },
+        {
+          "name": "Mangan",
+          "amount": "1 mg"
+        }
+      ],
+      "usage": "Hỗ trợ bổ sung một số vitamin, khoáng chất cho cơ thể.<br/>Hỗ trợ chống oxy hóa, giúp nâng cao sức đề kháng cho cơ thể.",
+      "contraindication": "Không sử dụng nếu đang mang thai, dự định thụ thai hoặc bị rối loạn tuyến giáp. Chỉ dùng cho người lớn.<br/>Nhìn chung, phụ nữ mang thai và cho con bú nên tham khảo ý kiến ​​chuyên gia chăm sóc sức khỏe trước khi dùng bất kỳ loại thực phẩm bổ sung nào."
     }
   ],
-  "categories": [
+  "brands": [
     {
       "id": 1,
-      "name": "Mới"
+      "name": "Now Foods"
     },
     {
       "id": 2,
-      "name": "Bán chạy nhất"
-    }
-  ],
-  "topics": [
-    {
-      "id": 1,
-      "title": "Sinh lực & Chống mệt mỏi"
-    },
-    {
-      "id": 2,
-      "title": "Tiêu hoá"
+      "name": "Nature's bounty "
     },
     {
       "id": 3,
-      "title": "Vóc dáng"
+      "name": "SOLGAR"
     },
     {
       "id": 4,
-      "title": "Căng thẳng"
+      "name": "Nature's Way"
+    }
+  ],
+  "features": [
+    {
+      "id": 1,
+      "title": "Khớp"
     },
     {
-      "id": 5,
-      "title": "Da & Chống lão hoá"
+      "id": 2,
+      "title": "Làm đẹp & Chăm sóc da"
     },
     {
-      "id": 6,
+      "id": 3,
       "title": "Tóc"
     },
     {
+      "id": 4,
+      "title": "Tim mạch & Tuần hoàn"
+    },
+    {
+      "id": 5,
+      "title": "Thụ thai & Thai sản"
+    },
+    {
+      "id": 6,
+      "title": "Tiêu Hóa"
+    },
+    {
       "id": 7,
-      "title": "Giấc ngủ"
+      "title": "Giảm cân"
     },
     {
       "id": 8,
-      "title": "Trí nhớ & Tập trung"
+      "title": "Trí nhớ & Sự tập trung"
     },
     {
       "id": 9,
-      "title": "Miễn dịch"
+      "title": "Sức khỏe phụ nữ"
     },
     {
       "id": 10,
-      "title": "Sức khoẻ nữ giới"
+      "title": "Sức khỏe nam giới"
     },
     {
       "id": 11,
-      "title": "Sức khoẻ nam giới"
+      "title": "Sức khỏe xương"
     },
     {
       "id": 12,
-      "title": "Thị lực"
-    }
-  ],
-  "productCategories": [
-    {
-      "productId": 1,
-      "categoryId": 1
+      "title": "Giấc ngủ"
     },
     {
-      "productId": 1,
-      "categoryId": 2
+      "id": 13,
+      "title": "Hộ trợ tầm nhìn"
     },
     {
-      "productId": 2,
-      "categoryId": 2
+      "id": 14,
+      "title": "Thể thao"
     },
     {
-      "productId": 2,
-      "categoryId": 1
+      "id": 15,
+      "title": "Căng thẳng"
     },
     {
-      "productId": 3,
-      "categoryId": 1
+      "id": 16,
+      "title": "Hệ miễn dịch"
     },
     {
-      "productId": 3,
-      "categoryId": 2
-    }
-  ],
-  "productTopics": [
-    {
-      "productId": 1,
-      "topicId": 1
-    },
-    {
-      "productId": 1,
-      "topicId": 2
-    },
-    {
-      "productId": 1,
-      "topicId": 3
-    },
-    {
-      "productId": 2,
-      "topicId": 1
-    },
-    {
-      "productId": 2,
-      "topicId": 3
-    },
-    {
-      "productId": 2,
-      "topicId": 4
-    },
-    {
-      "productId": 3,
-      "topicId": 1
-    },
-    {
-      "productId": 3,
-      "topicId": 5
-    },
-    {
-      "productId": 3,
-      "topicId": 6
-    },
-    {
-      "productId": 4,
-      "topicId": 7
-    },
-    {
-      "productId": 4,
-      "topicId": 8
-    },
-    {
-      "productId": 4,
-      "topicId": 9
-    },
-    {
-      "productId": 5,
-      "topicId": 10
-    },
-    {
-      "productId": 5,
-      "topicId": 11
-    },
-    {
-      "productId": 5,
-      "topicId": 12
+      "id": 17,
+      "title": "Năng lượng & Sức sống"
     }
   ],
   "users": [
@@ -227,23 +355,10 @@
     },
     {
       "id": 7,
-      "fullName": "nguyen van hai",
-      "email": "nguyenvanhaivghy2003@gmail.com",
+      "email": "nghiahtsdtq20031@gmail.com",
+      "password": "$2b$12$zb9eA7hgXjRP0rP/F3sENOyOeFM2Lknr71ZH2vkeHNIUQZ1dImGIy",
       "role": "user",
-      "picture": "https://lh3.googleusercontent.com/a/ACg8ocLFRGyDiX7Qw2EgHWGwM0_dshDmn2LbB02eaf4VeauNmaCdleU=s96-c",
-      "createdAt": "2025-10-09T14:42:47.657Z",
-      "phone": "",
-      "address": ""
-    },
-    {
-      "id": 8,
-      "email": "nguyenvanhaivghy2000@gmail.com",
-      "password": "$2b$12$AiEIUUezaUAx4mU90pyDLuWk.NHI0QHy02Ez2NVz/y9LxWdRUxSn2",
-      "role": "user",
-      "createdAt": "2025-10-09T15:12:22.744Z",
-      "fullName": "Thuận Lành",
-      "phone": "",
-      "address": ""
+      "createdAt": "2025-10-09T13:13:12.854Z"
     }
   ],
   "shipping": [

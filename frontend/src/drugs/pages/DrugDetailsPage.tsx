@@ -1,25 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import type { Drug } from "../interfaces/drug";
+import { useDrugStore } from "../stores/useDrugStore";
+import DOMPurify from "dompurify";
 
-type Product = {
-  id: number;
-  name: string;
-  description?: string;
-  price?: number;
-  currency?: string;
-  images?: string[];
-  badges?: string[];
-  categories?: string[];
-  topics?: string[];
-  duration?: string;
-  servings?: string;
-  rating?: number;
-  reviewsCount?: number;
-  highlights?: string[];
-};
-
-const ProductPlaceholder: Product = {
-  id: 1,
+const ProductPlaceholder: Drug = {
+  id: "1",
   name: "Sample product",
   description: "Product description goes here.",
   price: 45000,
@@ -27,24 +13,24 @@ const ProductPlaceholder: Product = {
   images: [
     "https://tse2.mm.bing.net/th/id/OIP.W7NNdONWEXM2_wQ8QvEhYwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
   ],
-  badges: ["NEW"],
-  categories: ["OTC"],
-  topics: ["Digestion"],
-  duration: "30 days",
-  servings: "2 capsules per day",
-  rating: 4.5,
-  reviewsCount: 43,
-  highlights: [
-    "Green tea helps boost metabolism and promotes fat oxidation.",
-    "Green tea is traditionally used to support the body's drainage functions.",
-  ],
+  brands: [],
+  features: [],
+  amount: 60,
+  activeIngredients: [],
+  additiveIngredients: "",
+  usage: "",
+  contraindication: "",
+  related: [],
 };
 
 const DrugDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [related, setRelated] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    drug,
+    getDrugById,
+    related: relatedFromStore,
+    isLoading,
+  } = useDrugStore();
 
   // carousel
   const [index, setIndex] = useState(0);
@@ -56,109 +42,23 @@ const DrugDetailsPage: React.FC = () => {
   const [openQuality, setOpenQuality] = useState(false);
 
   useEffect(() => {
-    let mounted = true;
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`/api/products/${id}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (mounted) setProduct(data.product ?? data);
-        } else {
-          // fallback sample when API not available
-          if (mounted)
-            setProduct({ ...ProductPlaceholder, id: Number(id || 1) });
-        }
-      } catch {
-        if (mounted) setProduct({ ...ProductPlaceholder, id: Number(id || 1) });
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    };
-    fetchData();
-    return () => {
-      mounted = false;
-    };
+    if (!id) return;
+    // fetch product (store will set drug and related)
+    getDrugById(id);
+    // reset carousel index
+    setIndex(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  // fetch related by topic (simple)
-  useEffect(() => {
-    if (!product) return;
-    const fetchRelated = async () => {
-      try {
-        // attempt API by topic
-        const topics = product.topics || [];
-        if (topics.length) {
-          const q = encodeURIComponent(topics[0]);
-          const res = await fetch(`/api/products?topic=${q}`);
-          if (res.ok) {
-            const data = await res.json();
-            const items: Product[] = data.products ?? data ?? [];
-            // exclude current
-            setRelated(items.filter((p) => p.id !== product.id).slice(0, 6));
-            return;
-          }
-        }
-      } catch (e) {
-        // ignore
-        console.error(e);
-      }
-      // fallback sample
-      setRelated([
-        {
-          ...ProductPlaceholder,
-          id: 101,
-          name: "Related A",
-          price: 45000,
-          images: [
-            "https://tse2.mm.bing.net/th/id/OIP.W7NNdONWEXM2_wQ8QvEhYwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-          ],
-          topics: product.topics,
-        },
-        {
-          ...ProductPlaceholder,
-          id: 102,
-          name: "Related B",
-          price: 45000,
-          images: [
-            "https://tse2.mm.bing.net/th/id/OIP.W7NNdONWEXM2_wQ8QvEhYwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-          ],
-          topics: product.topics,
-        },
-        {
-          ...ProductPlaceholder,
-          id: 103,
-          name: "Related C",
-          price: 45000,
-          images: [
-            "https://tse2.mm.bing.net/th/id/OIP.W7NNdONWEXM2_wQ8QvEhYwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-          ],
-          topics: product.topics,
-        },
-        {
-          ...ProductPlaceholder,
-          id: 103,
-          name: "Related C",
-          price: 45000,
-          images: [
-            "https://tse2.mm.bing.net/th/id/OIP.W7NNdONWEXM2_wQ8QvEhYwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-          ],
-          topics: product.topics,
-        },
-        {
-          ...ProductPlaceholder,
-          id: 103,
-          name: "Related C",
-          price: 45000,
-          images: [
-            "https://tse2.mm.bing.net/th/id/OIP.W7NNdONWEXM2_wQ8QvEhYwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-          ],
-          topics: product.topics,
-        },
-      ]);
-    };
-    fetchRelated();
-  }, [product]);
+  const product = drug ?? (id ? { ...ProductPlaceholder, id } : null);
+  // backend returns related array; if store set drugs from related we can use that,
+  // otherwise read product.related if present
+  const related =
+    product && Array.isArray(product.related) && product.related.length
+      ? product.related
+      : Array.isArray(relatedFromStore) && relatedFromStore.length
+      ? relatedFromStore
+      : [];
 
   const images =
     product?.images && product.images.length
@@ -172,27 +72,27 @@ const DrugDetailsPage: React.FC = () => {
     () => [
       {
         value: "91%",
-        title: "OF OUR CUSTOMERS",
-        desc: "Noticed an improvement in their key area after 3 months.",
+        title: "TRONG SỐ KHÁCH HÀNG CỦA CHÚNG TÔI",
+        desc: "Nhận thấy sự cải thiện trong lĩnh vực chính của họ sau 3 tháng.",
       },
       {
         value: "94%",
-        title: "OF OUR CUSTOMERS",
-        desc: "Noticed an improvement in their overall health after 3 months.",
+        title: "TRONG SỐ KHÁCH HÀNG CỦA CHÚNG TÔI",
+        desc: "Nhận thấy sự cải thiện trong sức khỏe tổng thể của họ sau 3 tháng.",
       },
       {
         value: "76",
-        title: "CLINICAL AND PRECLINICAL TRIALS",
-        desc: "conducted on our ingredients, including placebo-controlled trials.",
+        title: "CÁC THỬ NGHIỆM LÂM SÀNG VÀ TIỀN LÂM SÀNG",
+        desc: "đã được tiến hành trên các thành phần của chúng tôi, bao gồm các thử nghiệm có đối chứng với giả dược.",
       },
     ],
     []
   );
 
-  if (loading) {
+  if (isLoading && !product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Loading...
+        Đang tải...
       </div>
     );
   }
@@ -200,7 +100,7 @@ const DrugDetailsPage: React.FC = () => {
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Product not found
+        Sản phẩm không tồn tại.
       </div>
     );
   }
@@ -267,7 +167,9 @@ const DrugDetailsPage: React.FC = () => {
             <div className="flex items-start justify-between">
               <div>
                 <div className="text-xs text-gray-500 uppercase mb-1">
-                  {product.categories?.join(" · ")}
+                  {Array.isArray(product.brands)
+                    ? product.brands.map((b: any) => b.name).join(" · ")
+                    : ""}
                 </div>
                 <h1 className="text-3xl font-bold leading-tight mb-2">
                   {product.name}
@@ -275,11 +177,11 @@ const DrugDetailsPage: React.FC = () => {
                 <div className="flex items-center gap-3 text-sm text-gray-500">
                   <div className="flex items-center gap-1">
                     <span className="text-amber-500 font-semibold">
-                      {product.rating ?? 4.5}
+                      {(product as any).rating ?? 4.5}
                     </span>
                     <span className="text-gray-400">★</span>
                     <span className="text-gray-400">
-                      ({product.reviewsCount ?? 43} reviews)
+                      ({(product as any).reviewsCount ?? 43} reviews)
                     </span>
                   </div>
                 </div>
@@ -295,55 +197,14 @@ const DrugDetailsPage: React.FC = () => {
                   : "Contact"}
               </div>
               <div className="text-sm text-gray-500 mt-1">
-                {product.duration ?? "30 days"} |{" "}
-                {product.servings ?? "2 capsules per day"}
+                Số viên: <b>{product.amount ?? 60} viên</b>
               </div>
             </div>
-
-            {/* availability / format buttons */}
-            <div className="space-y-3">
-              <div className="text-sm text-gray-500">Available in:</div>
-              <div className="flex gap-3 mt-2">
-                <button className="flex-1 py-3 border rounded-lg text-sm border-amber-300 text-amber-800 bg-white">
-                  Personalized Box ✓
-                </button>
-                <button className="flex-1 py-3 border rounded-lg text-sm border-gray-200 bg-white">
-                  Bottle
-                </button>
-              </div>
-
-              <button className="w-full mt-4 py-3 rounded-full bg-amber-500 text-white font-medium hover:bg-amber-600 transition">
-                Add to my personalized box
-              </button>
-
-              <div className="mt-4 text-xs text-gray-500 bg-gray-50 p-3 rounded">
-                Is this product <strong>right for you?</strong> Take our{" "}
-                <Link to="/test" className="underline text-amber-600">
-                  online test
-                </Link>{" "}
-                to find out.
-              </div>
-            </div>
-
-            {/* highlights */}
-            <ul className="mt-6 space-y-3">
-              {(product.highlights || []).map((h, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-3 text-sm text-gray-700"
-                >
-                  <span className="w-6 h-6 rounded-full border border-amber-200 flex items-center justify-center text-amber-600">
-                    ✓
-                  </span>
-                  <span>{h}</span>
-                </li>
-              ))}
-            </ul>
 
             {/* Accordions */}
             <div className="mt-8 space-y-4">
               <Accordion
-                title="DESCRIPTION"
+                title="MÔ TẢ"
                 open={openDesc}
                 onToggle={() => setOpenDesc(!openDesc)}
               >
@@ -353,7 +214,7 @@ const DrugDetailsPage: React.FC = () => {
               </Accordion>
 
               <Accordion
-                title="COMPOSITION"
+                title="THÀNH PHẦN"
                 open={openComp}
                 onToggle={() => setOpenComp(!openComp)}
               >
@@ -362,46 +223,71 @@ const DrugDetailsPage: React.FC = () => {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="bg-gray-100">
-                        <th className="p-2 text-left">Active ingredients</th>
-                        <th className="p-2 text-right">
-                          For 2 capsules per day
-                        </th>
+                        <th className="p-2 text-left">Thành phần chính</th>
+                        <th className="p-2 text-right">Trong 1 viên nang</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td className="p-2">Green tea extract</td>
-                        <td className="p-2 text-right">250 mg</td>
-                      </tr>
-                      <tr>
-                        <td className="p-2">Vitamin C</td>
-                        <td className="p-2 text-right">17.2 mg</td>
-                      </tr>
+                      {Array.isArray(product.activeIngredients) &&
+                      product.activeIngredients.length ? (
+                        product.activeIngredients.map((ing, i) => (
+                          <tr key={i}>
+                            <td className="p-2">{ing.name}</td>
+                            <td className="p-2 text-right">{ing.amount}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={2} className="p-2 text-center">
+                            Không xác định
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
+
+                {product.additiveIngredients && (
+                  <div
+                    className="text-sm text-gray-700 mt-4"
+                    // sanitize trước khi inject để tránh XSS
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        product.additiveIngredients || "Not specified"
+                      ),
+                    }}
+                  />
+                )}
               </Accordion>
 
               <Accordion
-                title="DIRECTIONS FOR USE"
+                title="CÔNG DỤNG"
                 open={openDirections}
                 onToggle={() => setOpenDirections(!openDirections)}
               >
-                <div className="text-sm text-gray-700">
-                  Take 2 capsules per day with a glass of water, or as directed
-                  by your healthcare professional.
-                </div>
+                <div
+                  className="text-sm text-gray-700"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      product.usage || "Not specified"
+                    ),
+                  }}
+                />
               </Accordion>
 
               <Accordion
-                title="QUALITY AND TRACEABILITY"
+                title="CHỐNG CHỈ ĐỊNH"
                 open={openQuality}
                 onToggle={() => setOpenQuality(!openQuality)}
               >
-                <div className="text-sm text-gray-700">
-                  Manufactured in certified facilities. Traceability information
-                  available on request.
-                </div>
+                <div
+                  className="text-sm text-gray-700"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      product.contraindication || "Not specified"
+                    ),
+                  }}
+                />
               </Accordion>
             </div>
           </div>
@@ -411,11 +297,7 @@ const DrugDetailsPage: React.FC = () => {
         <section className="mt-16 bg-[#f5f1ec] rounded p-8">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-4 text-center">
-              <h2 className="text-4xl font-bold">
-                Proven
-                <br />
-                results
-              </h2>
+              <h2 className="text-4xl font-bold">Kết quả đã được chứng minh</h2>
             </div>
             <div className="lg:col-span-8 space-y-6 border-l border-gray-200 pl-6">
               {provenStats.map((s, i) => (
