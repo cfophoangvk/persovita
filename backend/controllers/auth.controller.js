@@ -3,9 +3,10 @@ const path = require("path");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
-const { FRONTEND_URL } = require("../constants/constant.js");
 
 const dbPath = path.resolve(process.cwd(), "db/database.json");
+
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 const login = async (req, res) => {
   const { email, password } = req.body;
