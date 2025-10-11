@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import type { Drug } from "../interfaces/drug";
 import { useDrugStore } from "../stores/useDrugStore";
 import DOMPurify from "dompurify";
+import ProductReviews from "../components/ProductReviews";
 
 const ProductPlaceholder: Drug = {
   id: "1",
@@ -57,8 +58,8 @@ const DrugDetailsPage: React.FC = () => {
     product && Array.isArray(product.related) && product.related.length
       ? product.related
       : Array.isArray(relatedFromStore) && relatedFromStore.length
-      ? relatedFromStore
-      : [];
+        ? relatedFromStore
+        : [];
 
   const images =
     product?.images && product.images.length
@@ -107,7 +108,7 @@ const DrugDetailsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-10">
+      <div className="max-w-7xl mx-auto py-10">
         <nav className="text-sm text-gray-500 mb-4">
           <span className="hover:text-amber-600 transition">
             <Link to="/">Home</Link>
@@ -148,9 +149,8 @@ const DrugDetailsPage: React.FC = () => {
                 <button
                   key={i}
                   onClick={() => setIndex(i)}
-                  className={`w-20 h-20 rounded-md overflow-hidden border ${
-                    i === index ? "border-amber-300" : "border-gray-200"
-                  }`}
+                  className={`w-20 h-20 rounded-md overflow-hidden border ${i === index ? "border-amber-300" : "border-gray-200"
+                    }`}
                 >
                   <img
                     src={src}
@@ -191,9 +191,8 @@ const DrugDetailsPage: React.FC = () => {
             <div className="mt-6 mb-6">
               <div className="text-2xl font-extrabold">
                 {product.price
-                  ? `${product.price.toLocaleString()} ${
-                      product.currency ?? "VND"
-                    }`
+                  ? `${product.price.toLocaleString()} ${product.currency ?? "VND"
+                  }`
                   : "Contact"}
               </div>
               <div className="text-sm text-gray-500 mt-1">
@@ -229,7 +228,7 @@ const DrugDetailsPage: React.FC = () => {
                     </thead>
                     <tbody>
                       {Array.isArray(product.activeIngredients) &&
-                      product.activeIngredients.length ? (
+                        product.activeIngredients.length ? (
                         product.activeIngredients.map((ing, i) => (
                           <tr key={i}>
                             <td className="p-2">{ing.name}</td>
@@ -347,6 +346,8 @@ const DrugDetailsPage: React.FC = () => {
             ))}
           </div>
         </section>
+
+        <ProductReviews productId={Number(id)} />
       </div>
     </div>
   );

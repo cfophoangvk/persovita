@@ -67,8 +67,8 @@ const getProductById = async (req, res) => {
         Array.isArray(p.features) && p.features.length
           ? p.features.map(Number)
           : (db.productFeatures || [])
-              .filter((pf) => pf.productId === p.id)
-              .map((pf) => Number(pf.featureId));
+            .filter((pf) => pf.productId === p.id)
+            .map((pf) => Number(pf.featureId));
 
       const features = (fIds || []).map((fid) => {
         const f = featureMap.get(fid);
@@ -96,8 +96,8 @@ const getProductById = async (req, res) => {
       Array.isArray(product.features) && product.features.length
         ? product.features.map(Number)
         : (db.productFeatures || [])
-            .filter((pf) => pf.productId === product.id)
-            .map((pf) => Number(pf.featureId));
+          .filter((pf) => pf.productId === product.id)
+          .map((pf) => Number(pf.featureId));
 
     const featureIdSet = new Set((mainFeatureIds || []).map(Number));
     const relatedIdsFromProducts = new Set(
@@ -388,8 +388,8 @@ const getProductsBySearchAndFilters = async (req, res) => {
         Array.isArray(p.features) && p.features.length
           ? p.features.map(Number)
           : (db.productFeatures || [])
-              .filter((pf) => pf.productId === p.id)
-              .map((pf) => Number(pf.featureId));
+            .filter((pf) => pf.productId === p.id)
+            .map((pf) => Number(pf.featureId));
 
       const features = (fIds || []).map((id) => {
         const f = featureMap.get(id);
@@ -421,10 +421,35 @@ const getProductsBySearchAndFilters = async (req, res) => {
   }
 };
 
+const getProductReviewById = async (req, res) => {
+  const idQuery = req.params.id;
+
+  if (!idQuery || isNaN(Number(idQuery))) {
+    return res.status(400).send("Truyền sai id. Ngu như bò (bò ở đây là TL)!");
+  }
+
+  const id = Number(idQuery);
+
+  try {
+    const db = await fs.promises.readFile(dbPath, "utf-8");
+    const data = JSON.parse(db);
+    const productReviews = data.productReviews.filter(review => review.productId === id);
+    const numberOfReviews = productReviews.length;
+    if (numberOfReviews) {
+      return res.status(200).json(productReviews)
+    }
+  } catch (error) {
+    console.log("PRODUCT REVIEW ERROR: " + error);
+  }
+
+  return res.status(404).send("Không tìm thấy bài đánh giá!");
+}
+
 module.exports = {
   getProducts,
   getProductById,
   getProductsByCategory,
   getProductsByTopic,
   getProductsBySearchAndFilters,
+  getProductReviewById
 };

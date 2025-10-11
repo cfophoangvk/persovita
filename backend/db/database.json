@@ -447,5 +447,70 @@
       "info": "{\"merchant\":\"PERSOVITA\",\"amount\":75000,\"currency\":\"VND\",\"items\":1,\"ts\":1759945293457}"
     }
   ],
-  "carts": []
+  "carts": [],
+  "productReviews": [
+    {
+      "productId": 1,
+      "reviewBy": "Thồn Lành",
+      "reviewDate": "2025-04-06",
+      "stars": 5,
+      "description": "Lần đầu làm chuyện ấy, quá tốt rồi!"
+    },
+    {
+      "productId": 1,
+      "reviewBy": "Chôn Lùng",
+      "reviewDate": "2025-04-07",
+      "stars": 5,
+      "description": "Lần đầu làm chuyện ấy lần 2, quá tốt rồi!"
+    },
+    {
+      "productId": 1,
+      "reviewBy": "Anonymous member",
+      "reviewDate": "2025-04-06",
+      "stars": 5,
+      "description": "Wow thật không thể tin nổi!"
+    },
+    {
+      "productId": 1,
+      "reviewBy": "HoangVK2",
+      "reviewDate": "2025-04-06",
+      "stars": 5,
+      "description": "Bởi tôi ăn uống điều độ và làm việc có chừng mực nên tôi chóng lớn lắm. Chẳng bao lâu, tôi đã trở thành một chàng dế thanh niên cường tráng. Đôi càng tôi mẫm bóng. Những cái vuốt ở chân, ở khoeo cứ cứng dần và nhọn hoắt. Thỉnh thoảng, muốn thử sự lợi hại của những chiếc vuốt, tôi co cẳng lên, đạp phanh phách vào các ngọn cỏ. Những ngọn cỏ gãy rạp, y như có nhát dao vừa lia qua. Đôi cánh tôi, trước kia ngắn hủn hoẳn bây giờ thành cái áo dài kín xuống tận chấm đuôi. Mỗi khi tôi vũ lên, đã nghe tiếng phành phạch giòn giã."
+    },
+    {
+      "productId": 1,
+      "reviewBy": "HaiNV",
+      "reviewDate": "2025-04-08",
+      "stars": 4,
+      "description": "Lúc tôi đi bách bộ thì cả người tôi rung rinh một màu nâu bóng mỡ soi gương được và rất ưa nhìn. Đầu tôi to ra và nổi từng tảng, rất bướng. Hai cái răng đen nhánh lúc nào cũng nhai ngoàm ngoạp như hai lưỡi liềm máy làm việc. Sợi râu tôi dài và uốn cong một vẻ rất đỗi hùng dũng. Tôi lấy làm hãnh diện với bà con về cặp râu ấy lắm. Cứ chốc chốc tôi lại trịnh trọng và khoan thai đưa cả hai chân lên vuốt râu."
+    },
+    {
+      "productId": 1,
+      "reviewBy": "NghiaNV",
+      "reviewDate": "2025-04-08",
+      "stars": 4,
+      "description": "Tôi đi đứng oai vệ. Mỗi bước đi, tôi làm điệu dún dẩy các khoeo chân, rung lên rung xuống hai chiếc râu. Cho ra kiểu cách con nhà võ. Tôi tợn lắm."
+    },
+    {
+      "productId": 2,
+      "reviewBy": "TrungNT",
+      "reviewDate": "2025-04-08",
+      "stars": 5,
+      "description": "Dám cà khịa với tất cả mọi bà con trong xóm. Khi tôi to tiếng thì ai cũng nhịn, không ai đáp lại.\n Bởi vì quanh quẩn, ai cũng quen thuộc mình cả. Không nói, có lẽ họ nể hơn là sợ. Nhưng tôi lại tưởng thế là không ai dám ho he."
+    },
+    {
+      "productId": 2,
+      "reviewBy": "BinhNV2",
+      "reviewDate": "2025-04-08",
+      "stars": 3,
+      "description": "Ấy vậy, tôi cho là tôi giỏi. Những gã xốc nổi thương lầm cử chỉ ngông cuồng là tài ba. Tôi đã khái quát mấy chị Cào Cào ngụ ngoài đầu bờ,\n khiến mỗi lần thấy tôi đi qua, các chị phải núp khuôn mặt trái xoan dưới nhánh cỏ, chỉ dám đưa mắt lên nhìn trộm."
+    },
+    {
+      "productId": 2,
+      "reviewBy": "NghiaDT",
+      "reviewDate": "2025-04-08",
+      "stars": 5,
+      "description": "Thỉnh thoảng, tôi ngứa chân đã một cái, ghẹo anh Gọng Vó lấm láp vừa ngơ ngác dưới đầm lên. Tôi càng tưởng tôi là tay ghế gớm, có thể sắp đứng đầu thiên hạ rồi"
+    }
+  ]
 }
