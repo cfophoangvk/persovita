@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "mysecretkey";
-
 const verifyToken = async (req, res, next) => {
   const token = req.cookies.token;
   if (!token)
@@ -9,7 +7,7 @@ const verifyToken = async (req, res, next) => {
       .status(401)
       .json({ success: false, message: "Unauthorized - Không có token" });
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!decoded)
       return res

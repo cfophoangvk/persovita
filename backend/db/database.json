@@ -302,68 +302,6 @@
       "title": "Năng lượng & Sức sống"
     }
   ],
-  "productFeatures": [
-    {
-      "productId": 1,
-      "featureId": 1
-    },
-    {
-      "productId": 1,
-      "featureId": 2
-    },
-    {
-      "productId": 1,
-      "featureId": 3
-    },
-    {
-      "productId": 2,
-      "featureId": 1
-    },
-    {
-      "productId": 2,
-      "featureId": 3
-    },
-    {
-      "productId": 2,
-      "featureId": 4
-    },
-    {
-      "productId": 3,
-      "featureId": 1
-    },
-    {
-      "productId": 3,
-      "featureId": 5
-    },
-    {
-      "productId": 3,
-      "featureId": 6
-    },
-    {
-      "productId": 4,
-      "featureId": 7
-    },
-    {
-      "productId": 4,
-      "featureId": 8
-    },
-    {
-      "productId": 4,
-      "featureId": 9
-    },
-    {
-      "productId": 5,
-      "featureId": 10
-    },
-    {
-      "productId": 5,
-      "featureId": 11
-    },
-    {
-      "productId": 5,
-      "featureId": 12
-    }
-  ],
   "users": [
     {
       "id": 1,
