@@ -33,28 +33,14 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ isLoading: false });
     }
   },
-  login: async ({ email, password, remember }: any) => {
+  login: async ({ email, password }) => {
     set({ isLoading: true, success: false });
 
     try {
-      const res = await axiosInstance.post("/auth/login", {
-        email,
-        password,
-        remember,
-      });
+      const res = await axiosInstance.post("/auth/login", { email, password });
 
       set({ success: true, user: res.data.user, message: res.data.message });
       toast.success(res.data.message);
-      // Persist remembered email in localStorage only on successful login
-      try {
-        if (remember) {
-          localStorage.setItem("rememberEmail", email);
-        } else {
-          localStorage.removeItem("rememberEmail");
-        }
-      } catch (e) {
-        // ignore storage errors (e.g., blocked storage)
-      }
     } catch (error: any) {
       toast.error(
         error.response?.data?.message || "An error occurred during login"

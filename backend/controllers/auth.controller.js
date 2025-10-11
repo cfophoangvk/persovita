@@ -3,6 +3,12 @@ const path = require("path");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
+// Ensure dotenv is loaded if not already (safe to call multiple times)
+try {
+  require("dotenv").config();
+} catch (e) {
+  // dotenv may not be installed in production; that's OK
+}
 const { FRONTEND_URL } = require("../constants/constant.js");
 
 const dbPath = path.resolve(process.cwd(), "db/database.json");
@@ -266,7 +272,10 @@ const googleAuthRedirect = (req, res) => {
     `${req.protocol}://${req.get("host")}/api/auth/google/callback`
   );
   const scope = encodeURIComponent("openid email profile");
-  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=519123096401-45dsv48mpd1a1ek5m4u9643b9mup96ja.apps.googleusercontent.com&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(
+    clientId
+  )}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
   res.redirect(url);
 };
 
@@ -282,9 +291,8 @@ const googleAuthCallback = async (req, res) => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
         code,
-        client_id:
-          "519123096401-45dsv48mpd1a1ek5m4u9643b9mup96ja.apps.googleusercontent.com",
-        client_secret: "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",
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET,
         redirect_uri: `${req.protocol}://${req.get(
           "host"
         )}/api/auth/google/callback`,
@@ -342,6 +350,9 @@ const googleAuthCallback = async (req, res) => {
     res.status(500).send("Google auth failed");
   }
 };
+
+// GOOGLE_CLIENT_ID = 519123096401-45dsv48mpd1a1ek5m4u9643b9mup96ja.apps.googleusercontent.com
+// GOOGLE_CLIENT_SECRET= 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
 
 module.exports = {
   login,

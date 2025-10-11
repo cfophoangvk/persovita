@@ -240,24 +240,53 @@
       "email": "nguyenvanhaivghy2000@gmail.com",
       "password": "$2b$12$AiEIUUezaUAx4mU90pyDLuWk.NHI0QHy02Ez2NVz/y9LxWdRUxSn2",
       "role": "user",
-      "createdAt": "2025-10-09T15:12:22.744Z"
+      "createdAt": "2025-10-09T15:12:22.744Z",
+      "fullName": "Thuận Lành",
+      "phone": "",
+      "address": ""
     }
   ],
   "shipping": [
     {
+      "id": 1,
       "userId": 8,
       "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
       "email": "vanan123@email.com",
       "phone": "+84 901234567",
-      "method": "pickup"
+      "method": "home_priv"
     }
   ],
   "payment": [
     {
+      "id": 1,
       "userId": 8,
       "method": "qr",
-      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":75000,\"currency\":\"VND\",\"items\":1,\"ts\":1760023720893}"
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":129000,\"currency\":\"VND\",\"items\":1,\"shippingMethod\":\"home_priv\",\"shippingMethodCost\":10000,\"ts\":1760073785654}"
     }
   ],
-  "carts": []
+  "carts": [],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 8,
+      "items": [
+        {
+          "productId": 3,
+          "name": "Cough Syrup - Honey & Herbs",
+          "price": 89000,
+          "quantity": 1,
+          "image": "https://5.imimg.com/data5/SELLER/Default/2022/5/ZD/QP/KK/101626867/herbal-honey-cough-syrup-1000x1000.jpg",
+          "subscription": false
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "home_priv",
+      "shippingMethodCost": 10000,
+      "shippingBase": 30000,
+      "paymentId": 1,
+      "total": 129000,
+      "status": "pending",
+      "createdAt": "2025-10-10T05:23:05.694Z"
+    }
+  ]
 }

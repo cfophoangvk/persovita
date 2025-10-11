@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
 import { Loader2 } from "lucide-react";
@@ -9,23 +9,11 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
 
-  useEffect(() => {
-    try {
-      const remembered = localStorage.getItem("rememberEmail");
-      if (remembered) {
-        setEmail(remembered);
-        setRemember(true);
-      }
-    } catch (e) {
-      // ignore
-    }
-  }, []);
-
   const { login, isLoading } = useAuthStore();
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
+    login({ email, password });
     e.preventDefault();
-    await login({ email, password, remember });
   };
 
   return (
@@ -104,18 +92,9 @@ const LoginPage: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => {
-                try {
-                  if (remember) {
-                    localStorage.setItem("rememberEmail", email);
-                  } else {
-                    localStorage.removeItem("rememberEmail");
-                  }
-                } catch (e) {
-                  // ignore storage errors
-                }
-                window.location.href = `http://localhost:6789/api/auth/google?remember=${remember}`;
-              }}
+              onClick={() =>
+                (window.location.href = "http://localhost:6789/api/auth/google")
+              }
               className="w-full py-2 rounded-full border border-gray-300 bg-white flex items-center justify-center gap-3 text-sm text-black font-medium
                          hover:bg-amber-50 active:bg-amber-100 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-amber-200"
             >

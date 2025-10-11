@@ -4,16 +4,9 @@ const {
   JWT_EXPIRES_IN,
   COOKIE_NAME,
   COOKIE_EXPIRES_IN,
-  REMEMBER_COOKIE_EXPIRES,
 } = require("../constants/constant.js");
 
-const generateTokenAndSetCookie = (
-  res,
-  userId,
-  email,
-  role,
-  remember = false
-) => {
+const generateTokenAndSetCookie = (res, userId, email, role) => {
   const token = jwt.sign({ id: userId, email, role }, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN,
   });
@@ -25,7 +18,7 @@ const generateTokenAndSetCookie = (
     httpOnly: true,
     sameSite: isProd ? "none" : "lax",
     secure: isProd, // secure cookies only in production (HTTPS)
-    maxAge: remember ? REMEMBER_COOKIE_EXPIRES : COOKIE_EXPIRES_IN,
+    maxAge: COOKIE_EXPIRES_IN,
     path: "/",
   };
 
