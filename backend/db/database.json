@@ -230,6 +230,62 @@
     {
       "id": 4,
       "name": "Nature's Way"
+    },
+    {
+      "id": 5,
+      "name": "ARKOPHARMA"
+    },
+    {
+      "id": 6,
+      "name": "Viridian"
+    },
+    {
+      "id": 7,
+      "name": "Sunday Natural"
+    },
+    {
+      "id": 8,
+      "name": "SuperSmart"
+    },
+    {
+      "id": 9,
+      "name": "Swisse"
+    },
+    {
+      "id": 10,
+      "name": "Nutri&Co Clear"
+    },
+    {
+      "id": 11,
+      "name": "Webber Naturals"
+    },
+    {
+      "id": 12,
+      "name": "Weightworld"
+    },
+    {
+      "id": 13,
+      "name": "Swanson"
+    },
+    {
+      "id": 14,
+      "name": "Vitabiotics"
+    },
+    {
+      "id": 15,
+      "name": "BodyBio"
+    },
+    {
+      "id": 16,
+      "name": "SOLNUVI"
+    },
+    {
+      "id": 17,
+      "name": "JBA"
+    },
+    {
+      "id": 18,
+      "name": "Country Life"
     }
   ],
   "features": [
