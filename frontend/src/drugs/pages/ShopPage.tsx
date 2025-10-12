@@ -345,7 +345,7 @@ const ShopPage: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <div className="text-lg font-bold">
                         {p.price
-                          ? `${p.price.toLocaleString()} ${p.currency ?? "VND"}`
+                          ? `${p.price.toLocaleString()} VND`
                           : "Contact"}
                       </div>
                       <button

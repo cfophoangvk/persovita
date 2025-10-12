@@ -10,7 +10,6 @@ const ProductPlaceholder: Drug = {
   name: "Sample product",
   description: "Product description goes here.",
   price: 45000,
-  currency: "VND",
   images: [
     "https://tse2.mm.bing.net/th/id/OIP.W7NNdONWEXM2_wQ8QvEhYwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
   ],
@@ -191,8 +190,7 @@ const DrugDetailsPage: React.FC = () => {
             <div className="mt-6 mb-6">
               <div className="text-2xl font-extrabold">
                 {product.price
-                  ? `${product.price.toLocaleString()} ${product.currency ?? "VND"
-                  }`
+                  ? `${product.price.toLocaleString()} VND`
                   : "Contact"}
               </div>
               <div className="text-sm text-gray-500 mt-1">
@@ -339,7 +337,7 @@ const DrugDetailsPage: React.FC = () => {
                 <div className="text-sm font-medium">{r.name}</div>
                 <div className="text-sm text-gray-500 mt-1">
                   {r.price
-                    ? `${r.price.toLocaleString()} ${r.currency ?? "VND"}`
+                    ? `${r.price.toLocaleString()} VND`
                     : "Contact"}
                 </div>
               </Link>

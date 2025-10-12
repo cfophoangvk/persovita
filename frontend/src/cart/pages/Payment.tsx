@@ -21,7 +21,6 @@ const Payment: React.FC<PaymentProps> = ({
     const data = JSON.stringify({
       merchant: "PERSOVITA",
       amount: Number(totalWithShipping.toFixed(2)),
-      currency: "VND",
       items: productCount,
       shippingMethod: (shippingSummary as any)?.method || null,
       shippingMethodCost: methodCost,
