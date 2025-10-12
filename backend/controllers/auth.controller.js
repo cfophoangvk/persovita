@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
 const dbPath = path.resolve(process.cwd(), "db/database.json");
+const { sendMail } = require("../utils/mailer");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -33,6 +34,15 @@ const login = async (req, res) => {
       return res
         .status(401)
         .json({ success: false, message: "Thông tin đăng nhập không hợp lệ" });
+
+    // block login if email not verified
+    // if (!user.isVerified) {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message:
+    //       "Email chưa được xác thực. Vui lòng kiểm tra email để xác thực hoặc gửi lại email xác thực.",
+    //   });
+    // }
 
     generateTokenAndSetCookie(res, user.id, user.email, user.role, remember);
 
@@ -76,6 +86,11 @@ const signup = async (req, res) => {
     const newId = db.users.length
       ? Math.max(...db.users.map((u) => u.id)) + 1
       : 1;
+
+    // generate email verification token
+    const verifyToken = crypto.randomBytes(32).toString("hex");
+    const verifyExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+
     const newUser = {
       id: newId,
       fullName: fullName || "",
@@ -86,17 +101,48 @@ const signup = async (req, res) => {
       phone: phone || "",
       address: address || "",
       createdAt: new Date().toISOString(),
+      // email verification fields
+      // isVerified: false,
+      // emailVerifyToken: verifyToken,
+      // emailVerifyExpires: verifyExpires,
     };
 
     db.users.push(newUser);
     await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
 
-    generateTokenAndSetCookie(res, newUser.id, newUser.email, newUser.role);
+    // send verification email (best-effort)
+    // const verifyUrl = `${FRONTEND_URL}/verify-email/${verifyToken}`;
+    // const subject = "Xác thực email - PERSOVITA";
+    // const html = `
+    //   <div style="font-family: Arial, Helvetica, sans-serif; color: #333;">
+    //     <h2 style="color:#f28d3d">PERSOVITA — Xác thực email</h2>
+    //     <p>Xin chào ${newUser.fullName || ""},</p>
+    //     <p>Vui lòng xác thực email bằng cách nhấn nút bên dưới. Liên kết có hiệu lực trong 24 giờ.</p>
+    //     <p style="text-align:center; margin: 24px 0;">
+    //       <a href="${verifyUrl}" style="background:#f28d3d; color:white; padding:12px 20px; text-decoration:none; border-radius:6px;">Xác thực email</a>
+    //     </p>
+    //     <p>Nếu nút không hoạt động, sao chép đường dẫn sau vào trình duyệt:</p>
+    //     <pre style="background:#f7f7f7; padding:10px; border-radius:6px;">${verifyUrl}</pre>
+    //     <p>Trân trọng,<br/>Đội ngũ PERSOVITA</p>
+    //   </div>
+    // `;
+    // try {
+    //   await sendMail({ to: email, subject, html });
+    // } catch (mailErr) {
+    //   console.error(
+    //     "Failed to send verification email:",
+    //     mailErr?.message || mailErr
+    //   );
+    //   // do not fail signup if email sending fails
+    // }
+
+    // generateTokenAndSetCookie(res, newUser.id, newUser.email, newUser.role);
 
     const { password: _storedPassword, ...userSafe } = newUser;
     return res.status(201).json({
       success: true,
-      message: "Tạo tài khoản thành công",
+      message:
+        "Tạo tài khoản thành công." /**. Vui lòng kiểm tra email để xác thực tài khoản.**/,
       user: userSafe,
     });
   } catch (err) {
@@ -139,9 +185,6 @@ const forgotPassword = async (req, res) => {
     await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
 
     const resetUrl = `${FRONTEND_URL}/reset-password/${token}`;
-
-    // Prepare professional HTML email
-    const { sendMail } = require("../utils/mailer");
 
     const subject = "Hướng dẫn đặt lại mật khẩu - PERSOVITA";
     const html = `
@@ -380,6 +423,50 @@ const googleAuthCallback = async (req, res) => {
   }
 };
 
+const verifyEmail = async (req, res) => {
+  try {
+    const raw = await fs.promises.readFile(dbPath, "utf-8");
+    const db = JSON.parse(raw);
+
+    //Treat as verification callback: token param or query
+    const token = req.params.token || req.query.token;
+    if (!token) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Token là bắt buộc" });
+    }
+
+    const userIndex = db.users.findIndex((u) => u.emailVerifyToken === token);
+    if (userIndex === -1) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Token không hợp lệ" });
+    }
+
+    if (
+      !db.users[userIndex].emailVerifyExpires ||
+      db.users[userIndex].emailVerifyExpires < Date.now()
+    ) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Token đã hết hạn" });
+    }
+
+    db.users[userIndex].isVerified = true;
+    delete db.users[userIndex].emailVerifyToken;
+    delete db.users[userIndex].emailVerifyExpires;
+
+    await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
+
+    // redirect to frontend success page
+    const redirectTo = `${FRONTEND_URL || "/"}?verify=success`;
+    return res.redirect(redirectTo);
+  } catch (err) {
+    console.error("Lỗi ở verifyEmail:", err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 module.exports = {
   login,
   signup,
@@ -390,4 +477,5 @@ module.exports = {
   updateProfile,
   googleAuthRedirect,
   googleAuthCallback,
+  verifyEmail,
 };
