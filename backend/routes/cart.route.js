@@ -7,10 +7,12 @@ const {
   clearCart,
 } = require("../controllers/cart.controller.js");
 
-router.get("/", getCart);
-router.post("/add", addToCart);
-router.post("/update", updateCartItem);
-router.post("/remove", removeFromCart);
-router.post("/clear", clearCart);
+const verifyToken = require("../middleware/verifyToken.js");
+
+router.get("/", verifyToken, getCart);
+router.post("/add", verifyToken, addToCart);
+router.post("/update", verifyToken, updateCartItem);
+router.post("/remove", verifyToken, removeFromCart);
+router.post("/clear", verifyToken, clearCart);
 
 module.exports = router;

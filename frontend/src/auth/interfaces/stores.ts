@@ -17,6 +17,11 @@ interface AuthState {
     onSuccess?: () => void
   ) => Promise<void>;
   checkAuth: () => Promise<void>;
+  updateProfile?: (data: {
+    fullName?: string;
+    phone?: string;
+    address?: string;
+  }) => Promise<void>;
 }
 
 export type { AuthState };

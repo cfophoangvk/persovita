@@ -13,11 +13,18 @@ const Payment: React.FC<PaymentProps> = ({
   const [payload, setPayload] = useState<string>("");
 
   const handleGenerateQr = () => {
+    const methodCost =
+      (shippingSummary as any) && (shippingSummary as any).price
+        ? Number((shippingSummary as any).price)
+        : 0;
+    const totalWithShipping = Number(totalVND) + methodCost;
     const data = JSON.stringify({
       merchant: "PERSOVITA",
-      amount: Number(totalVND.toFixed(2)),
+      amount: Number(totalWithShipping.toFixed(2)),
       currency: "VND",
       items: productCount,
+      shippingMethod: (shippingSummary as any)?.method || null,
+      shippingMethodCost: methodCost,
       ts: Date.now(),
     });
     setPayload(data);
@@ -25,19 +32,30 @@ const Payment: React.FC<PaymentProps> = ({
       data
     )}`;
     setQrUrl(url);
-    import("../services/paymentService").then(
-      ({ addPayment, clearCartServer }) => {
-        addPayment({
-          method: "qr",
-          info: data,
-          amount: Number(totalVND.toFixed(2)),
+    // create order on backend (order creation will persist shipping/payment)
+    Promise.all([
+      import("../services/orderService"),
+      import("../services/paymentService"),
+    ])
+      .then(([{ createOrder }, { clearCartServer }]) => {
+        createOrder({
+          shipping: shippingSummary,
+          payment: { method: "qr", info: data },
         })
-          .then(() => {
-            clearCartServer().catch(() => {});
+          .then((res) => {
+            // expect { success: true, order }
+            if (res && res.success) {
+              clearCartServer().catch(() => {});
+            }
           })
-          .catch(() => {});
-      }
-    );
+          .catch((err) => {
+            console.error("createOrder error", err);
+            alert("Order creation failed");
+          });
+      })
+      .catch((err) => {
+        console.error("import services failed", err);
+      });
   };
 
   const handleCopy = async () => {
@@ -73,7 +91,30 @@ const Payment: React.FC<PaymentProps> = ({
               </span>
             </div>
             <div className="text-base font-semibold">
-              {totalVND.toFixed(2).replace(".", ",")} €
+              {Number(totalVND).toLocaleString("vi-VN")} ₫
+            </div>
+          </div>
+          <div className="mt-3 flex justify-between items-center">
+            <div className="text-sm text-gray-700">Phí vận chuyển</div>
+            <div className="text-base font-semibold">
+              {Number(
+                (shippingSummary as any) && (shippingSummary as any).price
+                  ? (shippingSummary as any).price
+                  : 0
+              ).toLocaleString("vi-VN")}{" "}
+              ₫
+            </div>
+          </div>
+          <div className="mt-3 flex justify-between items-center font-bold">
+            <div>Tổng cộng</div>
+            <div>
+              {Number(
+                Number(totalVND) +
+                  ((shippingSummary as any) && (shippingSummary as any).price
+                    ? (shippingSummary as any).price
+                    : 0)
+              ).toLocaleString("vi-VN")}{" "}
+              ₫
             </div>
           </div>
         </div>

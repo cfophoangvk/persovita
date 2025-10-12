@@ -5,8 +5,10 @@ const {
   removePayment,
 } = require("../controllers/payment.controller.js");
 
-router.get("/", getPayment);
-router.post("/add", addPayment);
-router.post("/remove", removePayment);
+const verifyToken = require("../middleware/verifyToken.js");
+
+router.get("/", verifyToken, getPayment);
+router.post("/add", verifyToken, addPayment);
+router.post("/remove", verifyToken, removePayment);
 
 module.exports = router;

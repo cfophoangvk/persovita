@@ -3,13 +3,15 @@ const path = require("path");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
-
 const dbPath = path.resolve(process.cwd(), "db/database.json");
 
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+const dotenv = require("dotenv");
+dotenv.config();
+
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, remember = false } = req.body;
 
   if (!email || !password) {
     return res
@@ -32,7 +34,7 @@ const login = async (req, res) => {
         .status(401)
         .json({ success: false, message: "Thông tin đăng nhập không hợp lệ" });
 
-    generateTokenAndSetCookie(res, user.id, user.email, user.role);
+    generateTokenAndSetCookie(res, user.id, user.email, user.role, remember);
 
     const { password: _storedPassword, ...userSafe } = user;
     return res.status(200).json({
@@ -46,7 +48,7 @@ const login = async (req, res) => {
   }
 };
 const signup = async (req, res) => {
-  const { email, password, role } = req.body;
+  const { email, password, role, fullName, phone, address, picture } = req.body;
 
   if (!email || !password) {
     return res
@@ -76,9 +78,13 @@ const signup = async (req, res) => {
       : 1;
     const newUser = {
       id: newId,
+      fullName: fullName || "",
       email,
       password: hashed,
       role: role || "user",
+      picture: picture || "",
+      phone: phone || "",
+      address: address || "",
       createdAt: new Date().toISOString(),
     };
 
@@ -134,17 +140,43 @@ const forgotPassword = async (req, res) => {
 
     const resetUrl = `${FRONTEND_URL}/reset-password/${token}`;
 
-    // In production, send email here. For dev, log and return resetUrl.
-    console.log(`Password reset link for ${email}: ${resetUrl}`);
+    // Prepare professional HTML email
+    const { sendMail } = require("../utils/mailer");
 
-    const responsePayload = {
+    const subject = "Hướng dẫn đặt lại mật khẩu - PERSOVITA";
+    const html = `
+      <div style="font-family: Arial, Helvetica, sans-serif; color: #333;">
+        <h2 style="color:#f28d3d">PERSOVITA — Đặt lại mật khẩu</h2>
+        <p>Xin chào,</p>
+        <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản liên kết với <strong>${email}</strong>.</p>
+        <p>Để đặt lại mật khẩu, vui lòng nhấn nút bên dưới. Liên kết này có hiệu lực trong 1 giờ.</p>
+        <p style="text-align:center; margin: 24px 0;">
+          <a href="${resetUrl}" style="background:#f28d3d; color:white; padding:12px 20px; text-decoration:none; border-radius:6px;">Đặt lại mật khẩu</a>
+        </p>
+        <p>Nếu nút không hoạt động, sao chép và dán đường dẫn sau vào trình duyệt của bạn:</p>
+        <pre style="background:#f7f7f7; padding:10px; border-radius:6px;">${resetUrl}</pre>
+        <p>Nếu bạn không yêu cầu thay đổi này, xin hãy bỏ qua email này. Tài khoản của bạn sẽ an toàn.</p>
+        <p>Trân trọng,<br/>Đội ngũ PERSOVITA</p>
+      </div>
+    `;
+
+    try {
+      await sendMail({ to: email, subject, html });
+    } catch (mailErr) {
+      console.error("Failed to send reset email:", mailErr.message || mailErr);
+      // still return generic success so we don't reveal account existence
+      return res.status(200).json({
+        success: true,
+        message:
+          "Yêu cầu đã được ghi nhận. Nếu email tồn tại, bạn sẽ nhận được hướng dẫn để đặt lại mật khẩu.",
+      });
+    }
+
+    return res.status(200).json({
       success: true,
       message:
         "Nếu email tồn tại, bạn sẽ nhận được hướng dẫn để đặt lại mật khẩu. Vui lòng kiểm tra hộp thư đến hoặc thư mục spam.",
-      resetUrl: resetUrl, // Chỉ để phát triển, xóa trong production
-    };
-
-    return res.status(200).json(responsePayload);
+    });
   } catch (err) {
     console.error("Lỗi ở forgotPassword:", err);
     return res.status(500).json({ success: false, message: err.message });
@@ -230,6 +262,124 @@ const checkAuth = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  try {
+    const { fullName, phone, address } = req.body;
+    const raw = await fs.promises.readFile(dbPath, "utf-8");
+    const db = JSON.parse(raw);
+    const userIndex = db.users.findIndex((u) => u.id === req.id);
+    if (userIndex === -1) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    // Update only allowed fields
+    if (typeof fullName === "string") db.users[userIndex].fullName = fullName;
+    if (typeof phone === "string") db.users[userIndex].phone = phone;
+    if (typeof address === "string") db.users[userIndex].address = address;
+
+    await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
+
+    const { password, ...userSafe } = db.users[userIndex];
+    return res.status(200).json({
+      success: true,
+      message: "Cập nhật hồ sơ thành công",
+      user: userSafe,
+    });
+  } catch (err) {
+    console.error("Lỗi ở updateProfile:", err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+// Google OAuth: redirect to Google's consent screen
+const googleAuthRedirect = (req, res) => {
+  const redirectUri = encodeURIComponent(
+    `${req.protocol}://${req.get("host")}/api/auth/google/callback`
+  );
+  const scope = encodeURIComponent("openid email profile");
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(
+    clientId
+  )}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
+  res.redirect(url);
+};
+
+// Google OAuth callback
+const googleAuthCallback = async (req, res) => {
+  const code = req.query.code;
+  if (!code) return res.status(400).send("No code provided");
+
+  try {
+    // Exchange code for tokens
+    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        code,
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET,
+        redirect_uri: `${req.protocol}://${req.get(
+          "host"
+        )}/api/auth/google/callback`,
+        grant_type: "authorization_code",
+      }),
+    });
+    const tokenJson = await tokenRes.json();
+    if (tokenJson.error)
+      throw new Error(tokenJson.error_description || tokenJson.error);
+
+    // Get user info
+    const profileRes = await fetch(
+      "https://www.googleapis.com/oauth2/v2/userinfo",
+      {
+        headers: { Authorization: `Bearer ${tokenJson.access_token}` },
+      }
+    );
+    const profile = await profileRes.json();
+
+    // Read DB and create/find user
+    const raw = await fs.promises.readFile(dbPath, "utf-8");
+    const db = JSON.parse(raw);
+    let user = db.users.find((u) => u.email === profile.email);
+    if (!user) {
+      const newId = db.users.length
+        ? Math.max(...db.users.map((u) => u.id)) + 1
+        : 1;
+      user = {
+        id: newId,
+        fullName: profile.name || "",
+        email: profile.email,
+        role: "user",
+        picture: profile.picture || "",
+        phone: "",
+        address: "",
+        createdAt: new Date().toISOString(),
+      };
+      db.users.push(user);
+      await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
+    }
+
+    // generate token and set cookie
+    // honor optional remember flag (e.g. /api/auth/google?remember=true)
+    const rememberFlag = String(req.query.remember || "false") === "true";
+    generateTokenAndSetCookie(
+      res,
+      user.id,
+      user.email,
+      user.role,
+      rememberFlag
+    );
+
+    // redirect to frontend
+    res.redirect(FRONTEND_URL || "/");
+  } catch (err) {
+    console.error("Google OAuth error:", err);
+    res.status(500).send("Google auth failed");
+  }
+};
+
 module.exports = {
   login,
   signup,
@@ -237,4 +387,7 @@ module.exports = {
   forgotPassword,
   resetPassword,
   checkAuth,
+  updateProfile,
+  googleAuthRedirect,
+  googleAuthCallback,
 };

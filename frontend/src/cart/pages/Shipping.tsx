@@ -54,11 +54,18 @@ const Shipping: React.FC<{
       alert("Vui lòng điền đầy đủ các trường bắt buộc.");
       return;
     }
-    const summary = {
+    const summary: any = {
       address: `${address1}${address2 ? ", " + address2 : ""}`,
       city,
       country,
+      method,
     };
+
+    // find selected method's price
+    const sel = SHIPPING_METHODS.find((m) => m.id === method);
+    const price = sel && sel.price !== "Free" ? (sel.price as number) : 0;
+    // attach price in VND
+    summary["price"] = price;
 
     // Gọi API (giữ nguyên logic gốc)
     import("../services/shippingService").then(({ addShipping }) => {
@@ -67,6 +74,7 @@ const Shipping: React.FC<{
         email,
         phone,
         method,
+        price,
       })
         .then(() => {
           if (onProceed) onProceed(summary);

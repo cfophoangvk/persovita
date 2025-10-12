@@ -147,6 +147,7 @@ const ShopPage: React.FC = () => {
             "url('https://4deb4f30d3ceeb7ccf4ed7029328c64e.cdn.bubble.io/cdn-cgi/image/w=,h=,f=auto,dpr=1,fit=contain/d75/f1740073833085x562625109128317000/BANNER%2016%20%283%29.jpg')",
         }}
       >
+        {/* subtle overlay to ensure text readable */}
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 flex items-center">
           <div className="max-w-2xl">
@@ -157,17 +158,21 @@ const ShopPage: React.FC = () => {
               của bạn.
             </p>
           </div>
+          {/* right side is part of background image; keep empty spacer for layout */}
           <div className="hidden md:block flex-1" />
         </div>
       </div>
 
+      {/* Content */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-10">
         <div className="grid grid-cols-12 gap-8">
+          {/* Sidebar */}
           <aside className="col-span-12 md:col-span-3">
             <div className="md:sticky md:top-20 space-y-6">
+              {/* Sort */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Bộ lọc
+                  Sort by
                 </label>
                 <select
                   value={sortBy}
@@ -189,6 +194,7 @@ const ShopPage: React.FC = () => {
                 </select>
               </div>
 
+              {/* Formats (kept simple) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   Danh mục thương hiệu
@@ -254,7 +260,7 @@ const ShopPage: React.FC = () => {
                   }}
                   className="flex-1 py-2 rounded-full border border-gray-300 bg-amber-300 text-sm hover:bg-amber-400 transition"
                 >
-                  Đặt lại
+                  Reset
                 </button>
               </div>
             </div>
@@ -285,7 +291,7 @@ const ShopPage: React.FC = () => {
                 >
                   {PAGE_SIZES.map((s) => (
                     <option key={s} value={s}>
-                      {s} sản phẩm/ trang
+                      {s} / page
                     </option>
                   ))}
                 </select>
@@ -296,7 +302,7 @@ const ShopPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {isLoadingDrugs ? (
                 <div className="col-span-full text-center py-10 text-gray-500">
-                  Đang chờ...
+                  Loading...
                 </div>
               ) : (drugs ?? []).length ? (
                 (drugs ?? []).map((p: Drug) => (
@@ -345,7 +351,7 @@ const ShopPage: React.FC = () => {
                       <button
                         onClick={() => {
                           const payload = {
-                            id: p.id,
+                            productId: p.id,
                             name: p.name,
                             price: p.price,
                             quantity: 1,
@@ -354,10 +360,17 @@ const ShopPage: React.FC = () => {
                           };
                           fetch("http://localhost:6789/api/cart/add", {
                             method: "POST",
+                            credentials: "include",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload),
                           })
+                            .then((res) => {
+                              if (res.status === 401)
+                                return (window.location.href = "/login");
+                              return res.json();
+                            })
                             .then(() => {
+                              // dispatch event so header can refresh count
                               window.dispatchEvent(
                                 new CustomEvent("cart:updated")
                               );
@@ -374,7 +387,7 @@ const ShopPage: React.FC = () => {
                 ))
               ) : (
                 <div className="col-span-full text-center text-gray-500 py-10">
-                  Không có sản phẩm nào
+                  No products found
                 </div>
               )}
             </div>
@@ -393,9 +406,10 @@ const ShopPage: React.FC = () => {
                   disabled={page === 1}
                   className="px-3 py-2 rounded border border-gray-200 bg-white text-sm disabled:opacity-50 hover:bg-gray-50"
                 >
-                  Trước
+                  Prev
                 </button>
 
+                {/* simple page numbers */}
                 <div className="hidden md:flex items-center gap-1">
                   {Array.from({ length: totalPages }).map((_, i) => {
                     const pageNum = i + 1;
@@ -420,7 +434,7 @@ const ShopPage: React.FC = () => {
                   disabled={page === totalPages}
                   className="px-3 py-2 rounded border border-gray-200 bg-white text-sm disabled:opacity-50 hover:bg-gray-50"
                 >
-                  Tiếp
+                  Next
                 </button>
               </div>
             </div>

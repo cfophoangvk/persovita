@@ -121,4 +121,19 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ checkingAuth: false });
     }
   },
+  updateProfile: async (data: {
+    fullName?: string;
+    phone?: string;
+    address?: string;
+  }) => {
+    try {
+      const res = await axiosInstance.post("/auth/update-profile", data);
+      set({ success: true, user: res.data.user, message: res.data.message });
+      toast.success(res.data.message || "Cập nhật hồ sơ thành công");
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Cập nhật thất bại");
+      console.log(error);
+      set({ success: false });
+    }
+  },
 }));

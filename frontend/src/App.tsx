@@ -10,7 +10,6 @@ import TestPage from "./test/pages/TestPage";
 import Cart from "./cart/pages/Cart";
 import HomePage from "./main/HomePage";
 import AboutPage from "./main/AboutPage";
-import ContactPage from "./main/ContactPage";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./auth/stores/useAuthStore";
 import { useEffect } from "react";
@@ -41,7 +40,6 @@ const App = () => {
         <Route element={<MainLayout />} path="/">
           <Route index element={<HomePage />} />
           <Route path="shop" element={<ShopPage />} />
-          <Route path="contact" element={<ContactPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="products/:id" element={<DrugDetailsPage />} />
           <Route

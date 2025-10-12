@@ -365,6 +365,9 @@
       "email": "user1@example.com",
       "password": "$2b$12$PNeZNWBVnh.8NqwBS.m/cO7hQ8E2EqG2ftk4Yq1EgOXef9I7oHShe",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-05T00:00:00.000Z"
     },
     {
@@ -373,6 +376,9 @@
       "email": "user2@example.com",
       "password": "$2a$12$4fzQru.reLea/HO.zKLTieyNlA6tWH0mb2C76OhCDi3ZICGQKtSze",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-05T00:00:00.000Z",
       "resetToken": "640437fe89fa0f30ed6e691bdd22d2e5abd8043eab1fff40c60d01204c16f7c4",
       "resetTokenExpires": 1759896131077
@@ -383,6 +389,9 @@
       "email": "user3@example.com",
       "password": "$2b$12$.7JY5tVxergPC28twVG5HegyKQsLj8f9vPFMcHnY3t.Tn5alV.9PG",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-05T07:44:45.376Z",
       "resetToken": "36ce5b7bcf4150e1a74a6a742cc598bad11a619c24fc04b58f999872c572087b",
       "resetTokenExpires": 1759896159242
@@ -393,61 +402,101 @@
       "email": "nghiahtsdtq2003@gmail.com",
       "password": "$2b$12$olaQdU0fqSHJR0jxuNgKrOqGVuURGjwNLaj5nCJE8lgex0eFUS/UO",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-07T15:01:33.377Z"
     },
     {
       "id": 5,
+      "fullName": "",
       "email": "haibip@email.com",
       "password": "$2b$12$kd5MsyWvZAZBPfZRRdDIhui5lvJDN7sLbq18XJAr1UUFaxBxWZRZm",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-07T16:00:52.159Z"
     },
     {
       "id": 6,
+      "fullName": "",
       "email": "haibip1@email.com",
       "password": "$2b$12$g4BS/c5YRo1O7506vrQfQeNKTjWOXaksOPWKYLcu5El6qR4KuOiPy",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-08T03:47:17.448Z"
     },
     {
       "id": 7,
+      "fullName": "",
       "email": "nghiahtsdtq20031@gmail.com",
       "password": "$2b$12$zb9eA7hgXjRP0rP/F3sENOyOeFM2Lknr71ZH2vkeHNIUQZ1dImGIy",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-09T13:13:12.854Z"
+    },
+    {
+      "id": 8,
+      "fullName": "Nguyễn Văn Hải",
+      "email": "nguyenvanhaivghy2003@gmail.com",
+      "password": "$2b$12$I2dlBTTbYHJd8zVBFhZ0xOmy.hbE0xOvnz.EZUsy28AgT8.fJZ.di",
+      "role": "user",
+      "picture": "",
+      "phone": "0123466789",
+      "address": "mmmm",
+      "createdAt": "2025-10-11T05:05:26.113Z",
+      "resetToken": "0e256c0f000630f4ba4a786cb34ec7145de9ffbbda3493dcc8fb6fc949325283",
+      "resetTokenExpires": 1760164136606
     }
   ],
   "shipping": [
     {
+      "id": 1,
+      "userId": 8,
       "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
       "email": "vanan123@email.com",
       "phone": "+84 901234567",
-      "method": "pickup"
-    },
-    {
-      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
-      "email": "vanan123@email.com",
-      "phone": "+84 901234567",
-      "method": "pickup"
-    },
-    {
-      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
-      "email": "vanan123@email.com",
-      "phone": "+84 901234567",
-      "method": "pickup"
+      "method": "home_priv"
     }
   ],
   "payment": [
     {
+      "id": 1,
+      "userId": 8,
       "method": "qr",
-      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":102000,\"currency\":\"VND\",\"items\":1,\"ts\":1759944547469}"
-    },
-    {
-      "method": "qr",
-      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":75000,\"currency\":\"VND\",\"items\":1,\"ts\":1759945293457}"
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":129000,\"currency\":\"VND\",\"items\":1,\"shippingMethod\":\"home_priv\",\"shippingMethodCost\":10000,\"ts\":1760073785654}"
     }
   ],
   "carts": [],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 8,
+      "items": [
+        {
+          "productId": 3,
+          "name": "Cough Syrup - Honey & Herbs",
+          "price": 89000,
+          "quantity": 1,
+          "image": "https://5.imimg.com/data5/SELLER/Default/2022/5/ZD/QP/KK/101626867/herbal-honey-cough-syrup-1000x1000.jpg",
+          "subscription": false
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "home_priv",
+      "shippingMethodCost": 10000,
+      "shippingBase": 30000,
+      "paymentId": 1,
+      "total": 129000,
+      "status": "pending",
+      "createdAt": "2025-10-10T05:23:05.694Z"
+    }
+  ],
   "productReviews": [
     {
       "productId": 1,

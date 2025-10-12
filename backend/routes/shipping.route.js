@@ -5,8 +5,10 @@ const {
   removeShipping,
 } = require("../controllers/shipping.controller.js");
 
-router.get("/", getShipping);
-router.post("/add", addShipping);
-router.post("/remove", removeShipping);
+const verifyToken = require("../middleware/verifyToken.js");
+
+router.get("/", verifyToken, getShipping);
+router.post("/add", verifyToken, addShipping);
+router.post("/remove", verifyToken, removeShipping);
 
 module.exports = router;

@@ -44,7 +44,7 @@ const FeaturedProducts: React.FC = () => {
 
   const handleAdd = (p: Product) => {
     const payload = {
-      id: p.id,
+      productId: p.id,
       name: p.name,
       price: p.price,
       quantity: 1,
@@ -53,9 +53,14 @@ const FeaturedProducts: React.FC = () => {
     // Giữ nguyên logic giỏ hàng gốc của bạn
     fetch("http://localhost:6789/api/cart/add", {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     })
+      .then((res) => {
+        if (res.status === 401) return (window.location.href = "/login");
+        return res.json();
+      })
       .then(() => {
         window.dispatchEvent(new CustomEvent("cart:updated"));
         alert(`Đã thêm "${p.name}" vào giỏ hàng!`);
