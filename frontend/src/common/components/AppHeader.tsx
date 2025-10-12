@@ -13,9 +13,10 @@ const formatVND = (value: number) => {
 const AppHeader: React.FC = () => {
   const [count, setCount] = useState<number>(0);
   const [showPreview, setShowPreview] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [cartItems, setCartItems] = useState<any[]>([]);
   const panelRef = useRef<HTMLDivElement | null>(null);
-
+  const profileRef = useRef<HTMLDivElement | null>(null);
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
 
@@ -39,20 +40,34 @@ const AppHeader: React.FC = () => {
 
     // Xử lý đóng xem trước giỏ hàng khi click bên ngoài
     const onDocClick = (e: MouseEvent) => {
-      if (!showPreview) return;
+      if (!showPreview && !showProfileMenu) return;
       const target = e.target as Node;
-      if (panelRef.current && !panelRef.current.contains(target)) {
+      if (panelRef.current && panelRef.current.contains(target)) {
+        // click inside cart panel - ignore
+      } else if (profileRef.current && profileRef.current.contains(target)) {
+        // click inside profile menu - ignore
+      } else {
         setShowPreview(false);
+        setShowProfileMenu(false);
       }
     };
     document.addEventListener("click", onDocClick);
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowPreview(false);
+        setShowProfileMenu(false);
+      }
+    };
+    document.addEventListener("keydown", onKey);
 
     return () => {
       clearInterval(t);
       window.removeEventListener("cart:updated", onUpdate as EventListener);
       document.removeEventListener("click", onDocClick);
+      document.removeEventListener("keydown", onKey);
     };
-  }, [showPreview]);
+  }, [showPreview, showProfileMenu]);
 
   // Lấy chi tiết giỏ hàng khi mở xem trước
   useEffect(() => {
@@ -289,46 +304,93 @@ const AppHeader: React.FC = () => {
               </div>
             )}
 
-            {/* Profile avatar: visible when logged in */}
-            {user && (
-              <Link to="/profile" title={user.fullName || user.email}>
-                {user.picture ? (
-                  <img
-                    src={user.picture}
-                    alt={user.fullName || user.email}
-                    className="hidden sm:inline-flex w-9 h-9 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full bg-amber-400 text-white font-semibold">
-                    {(user.fullName || user.email || "U")
-                      .split(" ")
-                      .map((s: string) => s[0])
-                      .slice(0, 2)
-                      .join("")
-                      .toUpperCase()}
-                  </div>
-                )}
-              </Link>
-            )}
+            <div className="relative" ref={profileRef}>
+              {user && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowProfileMenu((s) => !s);
+                  }}
+                  className="inline-flex items-center gap-2 focus:outline-none"
+                  aria-haspopup="true"
+                  aria-expanded={showProfileMenu}
+                  title={user?.fullName || user?.email || "Tài khoản"}
+                >
+                  {user ? (
+                    user.picture ? (
+                      <img
+                        src={user.picture}
+                        alt={user.fullName || user.email}
+                        className="w-9 h-9 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-9 h-9 rounded-full bg-amber-400 text-white font-semibold flex items-center justify-center">
+                        {(user.fullName || user.email || "U")
+                          .split(" ")
+                          .map((s: string) => s[0])
+                          .slice(0, 2)
+                          .join("")
+                          .toUpperCase()}
+                      </div>
+                    )
+                  ) : (
+                    <div className="w-9 h-9 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" />
+                        <path d="M4 20v-1c0-2.761 3.134-5 8-5s8 2.239 8 5v1" />
+                      </svg>
+                    </div>
+                  )}
+                </button>
+              )}
+              {user && showProfileMenu && (
+                <div
+                  className="absolute right-0 mt-2 w-44 bg-white border rounded-md shadow-lg z-50"
+                  role="menu"
+                  aria-label="Profile menu"
+                >
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      if (user) navigate("/profile");
+                      else navigate("/login");
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                    role="menuitem"
+                  >
+                    Xem hồ sơ
+                  </button>
 
-            {!user && (
-              <Link
-                to="/login"
-                className="hidden sm:inline-flex items-center gap-2 text-sm text-gray-700 hover:text-amber-600 transition duration-150"
-              >
-                <LogIn className="w-5 h-5 mr-1" />
-                <span>Đăng nhập</span>
-              </Link>
-            )}
-            {user && (
-              <button
-                onClick={() => logout(() => navigate("/login"))}
-                className="hidden sm:inline-flex items-center gap-2 text-sm text-gray-700 hover:text-amber-600 transition duration-150"
-              >
-                <LogOut className="w-5 h-5 mr-1" />
-                <span>Đăng xuất</span>
-              </button>
-            )}
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      logout(() => navigate("/login"));
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    role="menuitem"
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              )}
+              {!user && (
+                <button
+                  onClick={() => navigate("/login")}
+                  className="inline-flex items-center gap-2 px-3 py-1 border border-zinc-400 text-zinc-600 rounded-3xl hover:bg-zinc-100 transition duration-150"
+                  title="Đăng nhập"
+                >
+                  <LogIn className="w-4 h-4" />
+                  <span>Đăng nhập</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -2357,6 +2357,17 @@
       "createdAt": "2025-10-11T05:05:26.113Z",
       "resetToken": "0e256c0f000630f4ba4a786cb34ec7145de9ffbbda3493dcc8fb6fc949325283",
       "resetTokenExpires": 1760164136606
+    },
+    {
+      "id": 9,
+      "fullName": "John Doe",
+      "email": "nghiahtsdtq20032@gmail.com",
+      "password": "$2b$12$ZKe1mxCcdhiaOpWZzg3k1eMi8SCzeOAA83ka9m7flm1N/QMXJEt1.",
+      "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
+      "createdAt": "2025-10-12T10:53:04.597Z"
     }
   ],
   "shipping": [
