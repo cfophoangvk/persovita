@@ -172,7 +172,7 @@ const ShopPage: React.FC = () => {
               {/* Sort */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Sort by
+                  Sắp xếp theo
                 </label>
                 <select
                   value={sortBy}
@@ -291,7 +291,7 @@ const ShopPage: React.FC = () => {
                 >
                   {PAGE_SIZES.map((s) => (
                     <option key={s} value={s}>
-                      {s} / page
+                      {s} / trang
                     </option>
                   ))}
                 </select>
@@ -302,7 +302,7 @@ const ShopPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {isLoadingDrugs ? (
                 <div className="col-span-full text-center py-10 text-gray-500">
-                  Loading...
+                  Đang chờ...
                 </div>
               ) : (drugs ?? []).length ? (
                 (drugs ?? []).map((p: Drug) => (
@@ -387,7 +387,7 @@ const ShopPage: React.FC = () => {
                 ))
               ) : (
                 <div className="col-span-full text-center text-gray-500 py-10">
-                  No products found
+                  Không tìm thấy sản phẩm nào
                 </div>
               )}
             </div>
@@ -406,7 +406,7 @@ const ShopPage: React.FC = () => {
                   disabled={page === 1}
                   className="px-3 py-2 rounded border border-gray-200 bg-white text-sm disabled:opacity-50 hover:bg-gray-50"
                 >
-                  Prev
+                  Trước
                 </button>
 
                 {/* simple page numbers */}
@@ -434,7 +434,7 @@ const ShopPage: React.FC = () => {
                   disabled={page === totalPages}
                   className="px-3 py-2 rounded border border-gray-200 bg-white text-sm disabled:opacity-50 hover:bg-gray-50"
                 >
-                  Next
+                  Tiếp
                 </button>
               </div>
             </div>
