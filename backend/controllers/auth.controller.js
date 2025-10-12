@@ -3,10 +3,12 @@ const path = require("path");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
-
 const dbPath = path.resolve(process.cwd(), "db/database.json");
 
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+const dotenv = require("dotenv");
+dotenv.config();
+
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const login = async (req, res) => {
   const { email, password, remember = false } = req.body;
@@ -46,7 +48,7 @@ const login = async (req, res) => {
   }
 };
 const signup = async (req, res) => {
-  const { email, password, role } = req.body;
+  const { email, password, role, fullName, phone, address, picture } = req.body;
 
   if (!email || !password) {
     return res
@@ -76,9 +78,13 @@ const signup = async (req, res) => {
       : 1;
     const newUser = {
       id: newId,
+      fullName: fullName || "",
       email,
       password: hashed,
       role: role || "user",
+      picture: picture || "",
+      phone: phone || "",
+      address: address || "",
       createdAt: new Date().toISOString(),
     };
 
@@ -134,17 +140,43 @@ const forgotPassword = async (req, res) => {
 
     const resetUrl = `${FRONTEND_URL}/reset-password/${token}`;
 
-    // In production, send email here. For dev, log and return resetUrl.
-    console.log(`Password reset link for ${email}: ${resetUrl}`);
+    // Prepare professional HTML email
+    const { sendMail } = require("../utils/mailer");
 
-    const responsePayload = {
+    const subject = "Hướng dẫn đặt lại mật khẩu - PERSOVITA";
+    const html = `
+      <div style="font-family: Arial, Helvetica, sans-serif; color: #333;">
+        <h2 style="color:#f28d3d">PERSOVITA — Đặt lại mật khẩu</h2>
+        <p>Xin chào,</p>
+        <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản liên kết với <strong>${email}</strong>.</p>
+        <p>Để đặt lại mật khẩu, vui lòng nhấn nút bên dưới. Liên kết này có hiệu lực trong 1 giờ.</p>
+        <p style="text-align:center; margin: 24px 0;">
+          <a href="${resetUrl}" style="background:#f28d3d; color:white; padding:12px 20px; text-decoration:none; border-radius:6px;">Đặt lại mật khẩu</a>
+        </p>
+        <p>Nếu nút không hoạt động, sao chép và dán đường dẫn sau vào trình duyệt của bạn:</p>
+        <pre style="background:#f7f7f7; padding:10px; border-radius:6px;">${resetUrl}</pre>
+        <p>Nếu bạn không yêu cầu thay đổi này, xin hãy bỏ qua email này. Tài khoản của bạn sẽ an toàn.</p>
+        <p>Trân trọng,<br/>Đội ngũ PERSOVITA</p>
+      </div>
+    `;
+
+    try {
+      await sendMail({ to: email, subject, html });
+    } catch (mailErr) {
+      console.error("Failed to send reset email:", mailErr.message || mailErr);
+      // still return generic success so we don't reveal account existence
+      return res.status(200).json({
+        success: true,
+        message:
+          "Yêu cầu đã được ghi nhận. Nếu email tồn tại, bạn sẽ nhận được hướng dẫn để đặt lại mật khẩu.",
+      });
+    }
+
+    return res.status(200).json({
       success: true,
       message:
         "Nếu email tồn tại, bạn sẽ nhận được hướng dẫn để đặt lại mật khẩu. Vui lòng kiểm tra hộp thư đến hoặc thư mục spam.",
-      resetUrl: resetUrl, // Chỉ để phát triển, xóa trong production
-    };
-
-    return res.status(200).json(responsePayload);
+    });
   } catch (err) {
     console.error("Lỗi ở forgotPassword:", err);
     return res.status(500).json({ success: false, message: err.message });
@@ -317,10 +349,12 @@ const googleAuthCallback = async (req, res) => {
         : 1;
       user = {
         id: newId,
-        fullName: profile.name,
+        fullName: profile.name || "",
         email: profile.email,
         role: "user",
-        picture: profile.picture,
+        picture: profile.picture || "",
+        phone: "",
+        address: "",
         createdAt: new Date().toISOString(),
       };
       db.users.push(user);
@@ -345,9 +379,6 @@ const googleAuthCallback = async (req, res) => {
     res.status(500).send("Google auth failed");
   }
 };
-
-// GOOGLE_CLIENT_ID = 519123096401-45dsv48mpd1a1ek5m4u9643b9mup96ja.apps.googleusercontent.com
-// GOOGLE_CLIENT_SECRET= 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
 
 module.exports = {
   login,

@@ -12,7 +12,10 @@
         "/src/drugs/assets/products/product-1/product-3.png"
       ],
       "brands": 1,
-      "features": [1, 2],
+      "features": [
+        1,
+        2
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -38,9 +41,17 @@
       "description": "Nghệ là một thành phần thảo dược có lịch sử sử dụng lâu đời ở Ấn Độ. Các thành phần hoạt tính trong nghệ bao gồm các flavonoid có lợi gọi là Curcuminoid, một chất chống oxy hóa có nguồn gốc thực vật.* Viên nghệ Nature's Bounty® 1.000mg chứa chất chống oxy hóa, giúp chống lại các gốc tự do trong cơ thể.* Các gốc tự do góp phần gây ra stress oxy hóa, từ đó có thể dẫn đến lão hóa sớm của tế bào.*",
       "price": 421576,
       "currency": "VND",
-      "images": ["/src/drugs/assets/products/product-2/product-1.webp"],
+      "images": [
+        "/src/drugs/assets/products/product-2/product-1.webp"
+      ],
       "brands": 2,
-      "features": [1, 8, 10, 11, 14],
+      "features": [
+        1,
+        8,
+        10,
+        11,
+        14
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -72,7 +83,10 @@
         "/src/drugs/assets/products/product-3/product-3.png"
       ],
       "brands": 1,
-      "features": [1, 6],
+      "features": [
+        1,
+        6
+      ],
       "amount": 90,
       "activeIngredients": [
         {
@@ -90,9 +104,15 @@
       "description": "Glucosamine – Chondroitin – MSM cường độ cao góp phần vào sức khỏe của các khớp xương, vốn chịu áp lực hàng ngày do luyện tập cường độ cao, tình trạng viêm mãn tính, hoặc thậm chí do tư thế không đúng khi làm việc hoặc khi ngủ. Sản phẩm chứa glucosamine, một trong những thành phần chính của sụn khớp và chịu trách nhiệm sản xuất các chất cần thiết cho hoạt động bình thường của khớp. Thực phẩm bổ sung này được coi là hữu ích trong các trường hợp viêm xương khớp và nói chung là các tình trạng thoái hóa khớp, chấn thương thể thao, và giúp tái tạo các mô trong và xung quanh khớp.",
       "price": 869000,
       "currency": "VND",
-      "images": ["/src/drugs/assets/products/product-4/product-1.webp"],
+      "images": [
+        "/src/drugs/assets/products/product-4/product-1.webp"
+      ],
       "brands": 3,
-      "features": [1, 10, 11],
+      "features": [
+        1,
+        10,
+        11
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -130,7 +150,16 @@
         "/src/drugs/assets/products/product-5/product-5.jpg"
       ],
       "brands": 4,
-      "features": [2, 3, 8, 10, 11, 13, 16, 17],
+      "features": [
+        2,
+        3,
+        8,
+        10,
+        11,
+        13,
+        16,
+        17
+      ],
       "amount": 200,
       "activeIngredients": [
         {
@@ -309,6 +338,9 @@
       "email": "user1@example.com",
       "password": "$2b$12$PNeZNWBVnh.8NqwBS.m/cO7hQ8E2EqG2ftk4Yq1EgOXef9I7oHShe",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-05T00:00:00.000Z"
     },
     {
@@ -317,6 +349,9 @@
       "email": "user2@example.com",
       "password": "$2a$12$4fzQru.reLea/HO.zKLTieyNlA6tWH0mb2C76OhCDi3ZICGQKtSze",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-05T00:00:00.000Z",
       "resetToken": "640437fe89fa0f30ed6e691bdd22d2e5abd8043eab1fff40c60d01204c16f7c4",
       "resetTokenExpires": 1759896131077
@@ -327,6 +362,9 @@
       "email": "user3@example.com",
       "password": "$2b$12$.7JY5tVxergPC28twVG5HegyKQsLj8f9vPFMcHnY3t.Tn5alV.9PG",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-05T07:44:45.376Z",
       "resetToken": "36ce5b7bcf4150e1a74a6a742cc598bad11a619c24fc04b58f999872c572087b",
       "resetTokenExpires": 1759896159242
@@ -337,28 +375,56 @@
       "email": "nghiahtsdtq2003@gmail.com",
       "password": "$2b$12$olaQdU0fqSHJR0jxuNgKrOqGVuURGjwNLaj5nCJE8lgex0eFUS/UO",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-07T15:01:33.377Z"
     },
     {
       "id": 5,
+      "fullName": "",
       "email": "haibip@email.com",
       "password": "$2b$12$kd5MsyWvZAZBPfZRRdDIhui5lvJDN7sLbq18XJAr1UUFaxBxWZRZm",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-07T16:00:52.159Z"
     },
     {
       "id": 6,
+      "fullName": "",
       "email": "haibip1@email.com",
       "password": "$2b$12$g4BS/c5YRo1O7506vrQfQeNKTjWOXaksOPWKYLcu5El6qR4KuOiPy",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-08T03:47:17.448Z"
     },
     {
       "id": 7,
+      "fullName": "",
       "email": "nghiahtsdtq20031@gmail.com",
       "password": "$2b$12$zb9eA7hgXjRP0rP/F3sENOyOeFM2Lknr71ZH2vkeHNIUQZ1dImGIy",
       "role": "user",
+      "picture": "",
+      "phone": "",
+      "address": "",
       "createdAt": "2025-10-09T13:13:12.854Z"
+    },
+    {
+      "id": 8,
+      "fullName": "Nguyễn Văn Hải",
+      "email": "nguyenvanhaivghy2003@gmail.com",
+      "password": "$2b$12$I2dlBTTbYHJd8zVBFhZ0xOmy.hbE0xOvnz.EZUsy28AgT8.fJZ.di",
+      "role": "user",
+      "picture": "",
+      "phone": "0123466789",
+      "address": "mmmm",
+      "createdAt": "2025-10-11T05:05:26.113Z",
+      "resetToken": "0e256c0f000630f4ba4a786cb34ec7145de9ffbbda3493dcc8fb6fc949325283",
+      "resetTokenExpires": 1760164136606
     }
   ],
   "shipping": [

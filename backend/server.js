@@ -21,7 +21,7 @@ dotenv.config(); //load biến môi trường từ file .env
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true })); //for fucking frontend app
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true })); //for fucking frontend app
 app.use(cookieParser()); //for cookie
 app.get("/", (req, res) => {
   res.send("<h2>Hello Express Web API</h2>");
