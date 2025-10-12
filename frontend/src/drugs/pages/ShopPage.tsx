@@ -7,7 +7,7 @@ import { useFeatureStore } from "../stores/useFeatureStore";
 import { useBrandStore } from "../stores/useBrandStore";
 import { Loader2 } from "lucide-react";
 
-const PAGE_SIZES = [3, 6, 9, 12];
+const PAGE_SIZES = [9, 12, 24, 48];
 
 const ShopPage: React.FC = () => {
   // local UI state
@@ -19,7 +19,7 @@ const ShopPage: React.FC = () => {
     "name-asc" | "name-desc" | "price-asc" | "price-desc"
   >("name-asc");
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(PAGE_SIZES[0]);
 
   // debounced inputs
   const debouncedSearch = useDebounce(search, 400);
@@ -409,24 +409,63 @@ const ShopPage: React.FC = () => {
                   Trước
                 </button>
 
-                {/* simple page numbers */}
+                {/* paginated buttons with ellipsis */}
                 <div className="hidden md:flex items-center gap-1">
-                  {Array.from({ length: totalPages }).map((_, i) => {
-                    const pageNum = i + 1;
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => setPage(pageNum)}
-                        className={`px-3 py-2 rounded text-sm border ${
-                          page === pageNum
-                            ? "bg-amber-200 border-amber-300 font-medium"
-                            : "bg-white border-gray-200 hover:bg-gray-50"
-                        }`}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  })}
+                  {(() => {
+                    if (totalPages <= 1) return null;
+                    // build set of pages to show: first block, current block, last block
+                    const pages = new Set<number>();
+                    const blockSize = 3;
+                    // first block
+                    for (let i = 1; i <= Math.min(blockSize, totalPages); i++)
+                      pages.add(i);
+                    // current block (centered on current page, size 3)
+                    for (
+                      let i = Math.max(1, page - 1);
+                      i <= Math.min(totalPages, page + 1);
+                      i++
+                    )
+                      pages.add(i);
+                    // last block
+                    for (
+                      let i = Math.max(1, totalPages - (blockSize - 1));
+                      i <= totalPages;
+                      i++
+                    )
+                      pages.add(i);
+
+                    const sorted = Array.from(pages).sort((a, b) => a - b);
+                    const nodes: React.ReactNode[] = [];
+                    let last = 0;
+                    sorted.forEach((pNum) => {
+                      if (last && pNum - last > 1) {
+                        // gap -> ellipsis
+                        nodes.push(
+                          <span
+                            key={`dots-${last}-${pNum}`}
+                            className="px-2 text-sm text-gray-500"
+                          >
+                            …
+                          </span>
+                        );
+                      }
+                      nodes.push(
+                        <button
+                          key={pNum}
+                          onClick={() => setPage(pNum)}
+                          className={`px-3 py-2 rounded text-sm border ${
+                            page === pNum
+                              ? "bg-amber-200 border-amber-300 font-medium"
+                              : "bg-white border-gray-200 hover:bg-gray-50"
+                          }`}
+                        >
+                          {pNum}
+                        </button>
+                      );
+                      last = pNum;
+                    });
+                    return nodes;
+                  })()}
                 </div>
 
                 <button
