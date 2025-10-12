@@ -12,10 +12,7 @@
         "/src/drugs/assets/products/product-1/product-3.png"
       ],
       "brands": 1,
-      "features": [
-        1,
-        2
-      ],
+      "features": [1, 2],
       "amount": 60,
       "activeIngredients": [
         {
@@ -41,17 +38,9 @@
       "description": "Nghệ là một thành phần thảo dược có lịch sử sử dụng lâu đời ở Ấn Độ. Các thành phần hoạt tính trong nghệ bao gồm các flavonoid có lợi gọi là Curcuminoid, một chất chống oxy hóa có nguồn gốc thực vật.* Viên nghệ Nature's Bounty® 1.000mg chứa chất chống oxy hóa, giúp chống lại các gốc tự do trong cơ thể.* Các gốc tự do góp phần gây ra stress oxy hóa, từ đó có thể dẫn đến lão hóa sớm của tế bào.*",
       "price": 421576,
       "currency": "VND",
-      "images": [
-        "/src/drugs/assets/products/product-2/product-1.webp"
-      ],
+      "images": ["/src/drugs/assets/products/product-2/product-1.webp"],
       "brands": 2,
-      "features": [
-        1,
-        8,
-        10,
-        11,
-        14
-      ],
+      "features": [1, 8, 10, 11, 14],
       "amount": 60,
       "activeIngredients": [
         {
@@ -83,10 +72,7 @@
         "/src/drugs/assets/products/product-3/product-3.png"
       ],
       "brands": 1,
-      "features": [
-        1,
-        6
-      ],
+      "features": [1, 6],
       "amount": 90,
       "activeIngredients": [
         {
@@ -104,15 +90,9 @@
       "description": "Glucosamine – Chondroitin – MSM cường độ cao góp phần vào sức khỏe của các khớp xương, vốn chịu áp lực hàng ngày do luyện tập cường độ cao, tình trạng viêm mãn tính, hoặc thậm chí do tư thế không đúng khi làm việc hoặc khi ngủ. Sản phẩm chứa glucosamine, một trong những thành phần chính của sụn khớp và chịu trách nhiệm sản xuất các chất cần thiết cho hoạt động bình thường của khớp. Thực phẩm bổ sung này được coi là hữu ích trong các trường hợp viêm xương khớp và nói chung là các tình trạng thoái hóa khớp, chấn thương thể thao, và giúp tái tạo các mô trong và xung quanh khớp.",
       "price": 869000,
       "currency": "VND",
-      "images": [
-        "/src/drugs/assets/products/product-4/product-1.webp"
-      ],
+      "images": ["/src/drugs/assets/products/product-4/product-1.webp"],
       "brands": 3,
-      "features": [
-        1,
-        10,
-        11
-      ],
+      "features": [1, 10, 11],
       "amount": 60,
       "activeIngredients": [
         {
@@ -150,16 +130,7 @@
         "/src/drugs/assets/products/product-5/product-5.jpg"
       ],
       "brands": 4,
-      "features": [
-        2,
-        3,
-        8,
-        10,
-        11,
-        13,
-        16,
-        17
-      ],
+      "features": [2, 3, 8, 10, 11, 13, 16, 17],
       "amount": 200,
       "activeIngredients": [
         {
@@ -259,6 +230,62 @@
     {
       "id": 4,
       "name": "Nature's Way"
+    },
+    {
+      "id": 5,
+      "name": "ARKOPHARMA"
+    },
+    {
+      "id": 6,
+      "name": "Viridian"
+    },
+    {
+      "id": 7,
+      "name": "Sunday Natural"
+    },
+    {
+      "id": 8,
+      "name": "SuperSmart"
+    },
+    {
+      "id": 9,
+      "name": "Swisse"
+    },
+    {
+      "id": 10,
+      "name": "Nutri&Co Clear"
+    },
+    {
+      "id": 11,
+      "name": "Webber Naturals"
+    },
+    {
+      "id": 12,
+      "name": "Weightworld"
+    },
+    {
+      "id": 13,
+      "name": "Swanson"
+    },
+    {
+      "id": 14,
+      "name": "Vitabiotics"
+    },
+    {
+      "id": 15,
+      "name": "BodyBio"
+    },
+    {
+      "id": 16,
+      "name": "SOLNUVI"
+    },
+    {
+      "id": 17,
+      "name": "JBA"
+    },
+    {
+      "id": 18,
+      "name": "Country Life"
     }
   ],
   "features": [
@@ -468,6 +495,71 @@
       "total": 129000,
       "status": "pending",
       "createdAt": "2025-10-10T05:23:05.694Z"
+    }
+  ],
+  "productReviews": [
+    {
+      "productId": 1,
+      "reviewBy": "Thồn Lành",
+      "reviewDate": "2025-04-06",
+      "stars": 5,
+      "description": "Lần đầu làm chuyện ấy, quá tốt rồi!"
+    },
+    {
+      "productId": 1,
+      "reviewBy": "Chôn Lùng",
+      "reviewDate": "2025-04-07",
+      "stars": 5,
+      "description": "Lần đầu làm chuyện ấy lần 2, quá tốt rồi!"
+    },
+    {
+      "productId": 1,
+      "reviewBy": "Anonymous member",
+      "reviewDate": "2025-04-06",
+      "stars": 5,
+      "description": "Wow thật không thể tin nổi!"
+    },
+    {
+      "productId": 1,
+      "reviewBy": "HoangVK2",
+      "reviewDate": "2025-04-06",
+      "stars": 5,
+      "description": "Bởi tôi ăn uống điều độ và làm việc có chừng mực nên tôi chóng lớn lắm. Chẳng bao lâu, tôi đã trở thành một chàng dế thanh niên cường tráng. Đôi càng tôi mẫm bóng. Những cái vuốt ở chân, ở khoeo cứ cứng dần và nhọn hoắt. Thỉnh thoảng, muốn thử sự lợi hại của những chiếc vuốt, tôi co cẳng lên, đạp phanh phách vào các ngọn cỏ. Những ngọn cỏ gãy rạp, y như có nhát dao vừa lia qua. Đôi cánh tôi, trước kia ngắn hủn hoẳn bây giờ thành cái áo dài kín xuống tận chấm đuôi. Mỗi khi tôi vũ lên, đã nghe tiếng phành phạch giòn giã."
+    },
+    {
+      "productId": 1,
+      "reviewBy": "HaiNV",
+      "reviewDate": "2025-04-08",
+      "stars": 4,
+      "description": "Lúc tôi đi bách bộ thì cả người tôi rung rinh một màu nâu bóng mỡ soi gương được và rất ưa nhìn. Đầu tôi to ra và nổi từng tảng, rất bướng. Hai cái răng đen nhánh lúc nào cũng nhai ngoàm ngoạp như hai lưỡi liềm máy làm việc. Sợi râu tôi dài và uốn cong một vẻ rất đỗi hùng dũng. Tôi lấy làm hãnh diện với bà con về cặp râu ấy lắm. Cứ chốc chốc tôi lại trịnh trọng và khoan thai đưa cả hai chân lên vuốt râu."
+    },
+    {
+      "productId": 1,
+      "reviewBy": "NghiaNV",
+      "reviewDate": "2025-04-08",
+      "stars": 4,
+      "description": "Tôi đi đứng oai vệ. Mỗi bước đi, tôi làm điệu dún dẩy các khoeo chân, rung lên rung xuống hai chiếc râu. Cho ra kiểu cách con nhà võ. Tôi tợn lắm."
+    },
+    {
+      "productId": 2,
+      "reviewBy": "TrungNT",
+      "reviewDate": "2025-04-08",
+      "stars": 5,
+      "description": "Dám cà khịa với tất cả mọi bà con trong xóm. Khi tôi to tiếng thì ai cũng nhịn, không ai đáp lại.\n Bởi vì quanh quẩn, ai cũng quen thuộc mình cả. Không nói, có lẽ họ nể hơn là sợ. Nhưng tôi lại tưởng thế là không ai dám ho he."
+    },
+    {
+      "productId": 2,
+      "reviewBy": "BinhNV2",
+      "reviewDate": "2025-04-08",
+      "stars": 3,
+      "description": "Ấy vậy, tôi cho là tôi giỏi. Những gã xốc nổi thương lầm cử chỉ ngông cuồng là tài ba. Tôi đã khái quát mấy chị Cào Cào ngụ ngoài đầu bờ,\n khiến mỗi lần thấy tôi đi qua, các chị phải núp khuôn mặt trái xoan dưới nhánh cỏ, chỉ dám đưa mắt lên nhìn trộm."
+    },
+    {
+      "productId": 2,
+      "reviewBy": "NghiaDT",
+      "reviewDate": "2025-04-08",
+      "stars": 5,
+      "description": "Thỉnh thoảng, tôi ngứa chân đã một cái, ghẹo anh Gọng Vó lấm láp vừa ngơ ngác dưới đầm lên. Tôi càng tưởng tôi là tay ghế gớm, có thể sắp đứng đầu thiên hạ rồi"
     }
   ]
 }
