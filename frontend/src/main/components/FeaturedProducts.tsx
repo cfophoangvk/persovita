@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
-
-type Product = {
-  id: number;
-  name: string;
-  description?: string;
-  price?: number;
-  image?: string;
-};
+import type { Product } from "../../cart/interfaces";
 
 // Hàm định dạng giá VNĐ
 const formatVND = (v: number) => {
   // Giả định giá đã là VNĐ và sử dụng logic định dạng của bạn
-  return (v / 1000).toLocaleString("vi-VN") + ".000 VNĐ";
+  return v.toLocaleString("vi-VN") + " VNĐ";
 };
 
 const FeaturedProducts: React.FC = () => {
@@ -19,8 +12,8 @@ const FeaturedProducts: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   // Hằng số cho kiểu dáng chuyên nghiệp
-  const BRAND_COLOR = "text-indigo-700"; // Màu chính mới
-  const BUTTON_BG = "bg-indigo-600 hover:bg-indigo-700"; // Màu nút mới
+  const BRAND_COLOR = "text-orange-700"; // Màu chính mới
+  const BUTTON_BG = "bg-orange-600 hover:bg-orange-700"; // Màu nút mới
 
   useEffect(() => {
     setLoading(true);
@@ -28,13 +21,12 @@ const FeaturedProducts: React.FC = () => {
     fetch("http://localhost:6789/file")
       .then((r) => r.json())
       .then((d) => {
-        const list = (d.products || []).map((p: any) => ({
+        const list = (d.products || []).slice(0, 8).map((p: any) => ({
           id: p.id,
           name: p.name,
           description: p.description,
-          // Giữ nguyên giá mặc định 35000 (Giả định là 35.000 VNĐ)
-          price: p.price ?? 35000,
-          image: p.image ?? "/src/cart/assets/product1.jpg",
+          price: p.price,
+          images: p.images,
         }));
         setProducts(list);
       })
@@ -48,7 +40,7 @@ const FeaturedProducts: React.FC = () => {
       name: p.name,
       price: p.price,
       quantity: 1,
-      image: p.image,
+      images: p.images?.[0],
     };
     // Giữ nguyên logic giỏ hàng gốc của bạn
     fetch("http://localhost:6789/api/cart/add", {
@@ -102,7 +94,7 @@ const FeaturedProducts: React.FC = () => {
                 className="block relative overflow-hidden h-64 bg-gray-50"
               >
                 <img
-                  src={p.image}
+                  src={p.images?.[0]}
                   alt={p.name}
                   className="object-cover w-full h-full transform transition-transform duration-500 group-hover:scale-105"
                 />

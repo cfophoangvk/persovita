@@ -5,5 +5,5 @@ export type Product = {
   price?: number;
   quantity?: number;
   subscription?: boolean;
-  image?: string;
+  images?: string[];
 };
