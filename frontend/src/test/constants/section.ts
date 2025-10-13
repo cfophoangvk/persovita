@@ -1,5 +1,5 @@
 export const SECTION = {
-  GENERAL: "CHUNG",
+  GENERAL: "TỔNG QUAN",
   GOALS: "MỤC TIÊU",
   BRAIN: "BỘ NÃO",
   ENERGY: "NĂNG LƯỢNG",

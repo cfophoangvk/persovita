@@ -1,5 +1,5 @@
 import '../assets/styles.css';
-import { useRef, useState, type JSX } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import { CSSTransition, SwitchTransition } from "react-transition-group"
 import Page2 from './Page2';
@@ -25,6 +25,7 @@ const TestPage = () => {
   const [email, setEmail] = useState<string>('');
   const [selectedObjectives, setSelectedObjectives] = useState<number[]>([]);
   const [selectedMockItem, setSelectedMockItem] = useState<number[]>([]);
+  const [currentProgress, setCurrentProgress] = useState<number>(0);
   // const [selectedHeartCondition, setSelectedHeartCondition] = useState<number[]>([]);
   // const [selectedSkinProblem, setSelectedSkinProblem] = useState<number[]>([]);
   // const [selectedHairProblem, setSelectedHairProblem] = useState<number[]>([]);
@@ -58,6 +59,25 @@ const TestPage = () => {
       handleNext();
     }
   }
+
+  const getCurrentProgress = () => {
+    const pathName = location.pathname;
+    if (pathName === '/test/result') {
+      return 100;
+    }
+    const match = pathName.match(/(\d+)/);
+    if (!match) {
+      return 0;
+    }
+    const page = Number(match[0]);
+    const totalPages = testElements.length;
+
+    return ((page - 1) / (totalPages - 1) * 100);
+  }
+
+  useEffect(() => {
+    setCurrentProgress(getCurrentProgress());
+  })
 
   const handleSelectSupplements = (item: number) => {
     switch (item) {
@@ -184,10 +204,10 @@ const TestPage = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center w-full overflow-hidden relative">
-      <Header />
+      <Header currentProgress={currentProgress}/>
       <SwitchTransition mode='out-in'>
         <CSSTransition key={location.key} classNames='fade' timeout={2000} unmountOnExit nodeRef={nodeRef}>
-          <div ref={nodeRef}>
+          <div ref={nodeRef} className='mt-[70px]'>
             <Routes location={location}>
               {testElements.map((element, index) => <Route key={index} path={`page${index + 1}`} element={element} />)}
             </Routes>
