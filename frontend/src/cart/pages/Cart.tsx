@@ -341,7 +341,7 @@ const Cart = () => {
 
                           <div className="w-24 h-24 bg-[#fbf7f5] rounded-md p-3 flex items-center justify-center mr-6">
                             <img
-                              src={item.image}
+                              src={item.images?.[0]}
                               alt={item.name}
                               className="max-w-full max-h-full object-contain"
                             />
@@ -372,7 +372,7 @@ const Cart = () => {
                                   {formatVND(
                                     (item.price ?? 0) *
                                       (item.quantity ?? 1) *
-                                      (item.subscription ? 0.9 : 1)
+                                      (item.subscription ? 0.8 : 1)
                                   )}
                                 </div>
                               </div>

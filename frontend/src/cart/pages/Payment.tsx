@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import type { PaymentProps } from "../interfaces";
 import { Link } from "react-router-dom";
+import qrImg from "../assets/qr.jpg";
 
 const Payment: React.FC<PaymentProps> = ({
   productCount = 0,
@@ -27,10 +28,8 @@ const Payment: React.FC<PaymentProps> = ({
       ts: Date.now(),
     });
     setPayload(data);
-    const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
-      data
-    )}`;
-    setQrUrl(url);
+    // use local placeholder QR image from assets
+    setQrUrl(qrImg);
     // create order on backend (order creation will persist shipping/payment)
     Promise.all([
       import("../services/orderService"),
@@ -168,9 +167,6 @@ const Payment: React.FC<PaymentProps> = ({
                   >
                     Đóng
                   </button>
-                </div>
-                <div className="mt-3 text-xs text-gray-500 break-words">
-                  {payload}
                 </div>
                 <div className="mt-4 flex justify-center">
                   {" "}

@@ -11,7 +11,10 @@
         "/src/drugs/assets/products/product-1/product-3.png"
       ],
       "brands": 1,
-      "features": [1, 2],
+      "features": [
+        1,
+        2
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -36,9 +39,17 @@
       "name": "Turmeric Capsules",
       "description": "Nghệ là một thành phần thảo dược có lịch sử sử dụng lâu đời ở Ấn Độ. Các thành phần hoạt tính trong nghệ bao gồm các flavonoid có lợi gọi là Curcuminoid, một chất chống oxy hóa có nguồn gốc thực vật.* Viên nghệ Nature's Bounty® 1.000mg chứa chất chống oxy hóa, giúp chống lại các gốc tự do trong cơ thể.* Các gốc tự do góp phần gây ra stress oxy hóa, từ đó có thể dẫn đến lão hóa sớm của tế bào.*",
       "price": 421576,
-      "images": ["/src/drugs/assets/products/product-2/product-1.png"],
+      "images": [
+        "/src/drugs/assets/products/product-2/product-1.png"
+      ],
       "brands": 2,
-      "features": [1, 8, 10, 11, 14],
+      "features": [
+        1,
+        8,
+        10,
+        11,
+        14
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -69,7 +80,10 @@
         "/src/drugs/assets/products/product-3/product-3.png"
       ],
       "brands": 1,
-      "features": [1, 6],
+      "features": [
+        1,
+        6
+      ],
       "amount": 90,
       "activeIngredients": [
         {
@@ -86,9 +100,15 @@
       "name": "Glucosamine Chondroitin SMS",
       "description": "Glucosamine – Chondroitin – MSM cường độ cao góp phần vào sức khỏe của các khớp xương, vốn chịu áp lực hàng ngày do luyện tập cường độ cao, tình trạng viêm mãn tính, hoặc thậm chí do tư thế không đúng khi làm việc hoặc khi ngủ. Sản phẩm chứa glucosamine, một trong những thành phần chính của sụn khớp và chịu trách nhiệm sản xuất các chất cần thiết cho hoạt động bình thường của khớp. Thực phẩm bổ sung này được coi là hữu ích trong các trường hợp viêm xương khớp và nói chung là các tình trạng thoái hóa khớp, chấn thương thể thao, và giúp tái tạo các mô trong và xung quanh khớp.",
       "price": 869000,
-      "images": ["/src/drugs/assets/products/product-4/product-1.png"],
+      "images": [
+        "/src/drugs/assets/products/product-4/product-1.png"
+      ],
       "brands": 3,
-      "features": [1, 10, 11],
+      "features": [
+        1,
+        10,
+        11
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -125,7 +145,16 @@
         "/src/drugs/assets/products/product-5/product-5.png"
       ],
       "brands": 4,
-      "features": [2, 3, 8, 10, 11, 13, 16, 17],
+      "features": [
+        2,
+        3,
+        8,
+        10,
+        11,
+        13,
+        16,
+        17
+      ],
       "amount": 200,
       "activeIngredients": [
         {
@@ -213,9 +242,16 @@
       "name": "Zinc",
       "description": "Zinc là sản phẩm bổ sung khoáng chất Kẽm thiết yếu với sức khỏe. Kẽm là dưỡng chất cần thiết cho rất nhiều chức năng cơ thể, bao gồm các phản ứng enzyme, tổng hợp DNA và quá trình truyền tín hiệu,...",
       "price": 421578,
-      "images": ["/src/drugs/assets/products/product-6/product-2.png"],
+      "images": [
+        "/src/drugs/assets/products/product-6/product-2.png"
+      ],
       "brands": 1,
-      "features": [2, 3, 10, 16],
+      "features": [
+        2,
+        3,
+        10,
+        16
+      ],
       "amount": 250,
       "activeIngredients": [
         {
@@ -232,9 +268,13 @@
       "name": "Anti-hair loss complex for women",
       "description": "Thực Phẩm Bảo Vệ Sức Khỏe Forcapil Anti Chute Hỗ Trợ Giảm Rụng Tóc & Giúp Mọc Tóc 30 Viên",
       "price": 454000,
-      "images": ["/src/drugs/assets/products/product-7/product-2.png"],
+      "images": [
+        "/src/drugs/assets/products/product-7/product-2.png"
+      ],
       "brands": 5,
-      "features": [2],
+      "features": [
+        2
+      ],
       "amount": 30,
       "activeIngredients": [
         {
@@ -294,9 +334,14 @@
       "name": "Biotin",
       "description": "Biotin - Vitamin B7 (Vitamin H) là một loại vitamin tan trong nước, đóng vai trò thiết yếu trong việc duy trì sức khỏe của da, tóc và móng.",
       "price": 566000,
-      "images": ["/src/drugs/assets/products/product-8/product-2.png"],
+      "images": [
+        "/src/drugs/assets/products/product-8/product-2.png"
+      ],
       "brands": 3,
-      "features": [2, 3],
+      "features": [
+        2,
+        3
+      ],
       "amount": 50,
       "activeIngredients": [
         {
@@ -322,7 +367,10 @@
       "price": 772978,
       "images": [],
       "brands": 6,
-      "features": [2, 3],
+      "features": [
+        2,
+        3
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -384,7 +432,10 @@
       "price": 708284,
       "images": [],
       "brands": 7,
-      "features": [2, 3],
+      "features": [
+        2,
+        3
+      ],
       "amount": 30,
       "activeIngredients": [
         {
@@ -403,7 +454,9 @@
       "price": 588602,
       "images": [],
       "brands": 8,
-      "features": [2],
+      "features": [
+        2
+      ],
       "amount": 120,
       "activeIngredients": [
         {
@@ -434,7 +487,9 @@
       "price": 1332099,
       "images": [],
       "brands": 8,
-      "features": [2],
+      "features": [
+        2
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -453,7 +508,10 @@
       "price": 883634,
       "images": [],
       "brands": 9,
-      "features": [2, 3],
+      "features": [
+        2,
+        3
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -519,7 +577,9 @@
       "price": 812410,
       "images": [],
       "brands": 1,
-      "features": [2],
+      "features": [
+        2
+      ],
       "amount": 120,
       "activeIngredients": [
         {
@@ -537,7 +597,9 @@
       "price": 616144,
       "images": [],
       "brands": 10,
-      "features": [2],
+      "features": [
+        2
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -571,7 +633,9 @@
       "price": 580206,
       "images": [],
       "brands": 1,
-      "features": [2],
+      "features": [
+        2
+      ],
       "amount": 100,
       "activeIngredients": [
         {
@@ -610,7 +674,9 @@
       "price": 527436,
       "images": [],
       "brands": 1,
-      "features": [2],
+      "features": [
+        2
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -629,7 +695,9 @@
       "price": 454000,
       "images": [],
       "brands": 5,
-      "features": [3],
+      "features": [
+        3
+      ],
       "amount": 30,
       "activeIngredients": [
         {
@@ -691,7 +759,12 @@
       "price": 500281,
       "images": [],
       "brands": 3,
-      "features": [3, 8, 16, 17],
+      "features": [
+        3,
+        8,
+        16,
+        17
+      ],
       "amount": 50,
       "activeIngredients": [
         {
@@ -749,7 +822,11 @@
       "price": 490993,
       "images": [],
       "brands": 11,
-      "features": [4, 6, 7],
+      "features": [
+        4,
+        6,
+        7
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -767,7 +844,12 @@
       "price": 790000,
       "images": [],
       "brands": 11,
-      "features": [4, 5, 8, 13],
+      "features": [
+        4,
+        5,
+        8,
+        13
+      ],
       "amount": 80,
       "activeIngredients": [
         {
@@ -797,7 +879,12 @@
       "price": 791286,
       "images": [],
       "brands": 11,
-      "features": [4, 5, 8, 13],
+      "features": [
+        4,
+        5,
+        8,
+        13
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -828,7 +915,10 @@
       "price": 501032,
       "images": [],
       "brands": 1,
-      "features": [4, 7],
+      "features": [
+        4,
+        7
+      ],
       "amount": 250,
       "activeIngredients": [
         {
@@ -846,7 +936,12 @@
       "price": 432000,
       "images": [],
       "brands": 12,
-      "features": [4, 6, 15, 16],
+      "features": [
+        4,
+        6,
+        15,
+        16
+      ],
       "amount": 180,
       "activeIngredients": [
         {
@@ -864,7 +959,11 @@
       "price": 1137890,
       "images": [],
       "brands": 3,
-      "features": [4, 10, 11],
+      "features": [
+        4,
+        10,
+        11
+      ],
       "amount": 50,
       "activeIngredients": [
         {
@@ -883,7 +982,9 @@
       "price": 434319,
       "images": [],
       "brands": 11,
-      "features": [4],
+      "features": [
+        4
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -902,7 +1003,9 @@
       "price": 527036,
       "images": [],
       "brands": 13,
-      "features": [4],
+      "features": [
+        4
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -921,7 +1024,12 @@
       "price": 342481,
       "images": [],
       "brands": 1,
-      "features": [5, 8, 16, 17],
+      "features": [
+        5,
+        8,
+        16,
+        17
+      ],
       "amount": 120,
       "activeIngredients": [
         {
@@ -940,7 +1048,10 @@
       "price": 567000,
       "images": [],
       "brands": 14,
-      "features": [5, 9],
+      "features": [
+        5,
+        9
+      ],
       "amount": "6x14 v",
       "activeIngredients": [
         {
@@ -1042,7 +1153,13 @@
       "price": 1129000,
       "images": [],
       "brands": 2,
-      "features": [5, 6, 10, 11, 17],
+      "features": [
+        5,
+        6,
+        10,
+        11,
+        17
+      ],
       "amount": 220,
       "activeIngredients": [
         {
@@ -1073,7 +1190,9 @@
       "price": 527436,
       "images": [],
       "brands": 1,
-      "features": [6],
+      "features": [
+        6
+      ],
       "amount": 200,
       "activeIngredients": [
         {
@@ -1092,7 +1211,9 @@
       "price": 527036,
       "images": [],
       "brands": 1,
-      "features": [6],
+      "features": [
+        6
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -1111,7 +1232,9 @@
       "price": 1107066,
       "images": [],
       "brands": 2,
-      "features": [6],
+      "features": [
+        6
+      ],
       "amount": 200,
       "activeIngredients": [
         {
@@ -1130,7 +1253,9 @@
       "price": 638749,
       "images": [],
       "brands": 3,
-      "features": [6],
+      "features": [
+        6
+      ],
       "amount": 50,
       "activeIngredients": [
         {
@@ -1168,7 +1293,9 @@
       "price": 712104,
       "images": [],
       "brands": 1,
-      "features": [6],
+      "features": [
+        6
+      ],
       "amount": 90,
       "activeIngredients": [
         {
@@ -1187,7 +1314,9 @@
       "price": 711996,
       "images": [],
       "brands": 15,
-      "features": [6],
+      "features": [
+        6
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -1210,7 +1339,9 @@
       "price": 522160,
       "images": [],
       "brands": 16,
-      "features": [7],
+      "features": [
+        7
+      ],
       "amount": 30,
       "activeIngredients": [
         {
@@ -1229,7 +1360,11 @@
       "price": 540000,
       "images": [],
       "brands": 3,
-      "features": [7, 12, 15],
+      "features": [
+        7,
+        12,
+        15
+      ],
       "amount": 30,
       "activeIngredients": [
         {
@@ -1263,7 +1398,11 @@
       "price": 202625,
       "images": [],
       "brands": 13,
-      "features": [7, 14, 17],
+      "features": [
+        7,
+        14,
+        17
+      ],
       "amount": 100,
       "activeIngredients": [
         {
@@ -1282,7 +1421,9 @@
       "price": 556229,
       "images": [],
       "brands": 7,
-      "features": [7],
+      "features": [
+        7
+      ],
       "amount": 120,
       "activeIngredients": [
         {
@@ -1305,7 +1446,9 @@
       "price": 790962,
       "images": [],
       "brands": 17,
-      "features": [7],
+      "features": [
+        7
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -1331,7 +1474,11 @@
       "price": 896146,
       "images": [],
       "brands": 1,
-      "features": [8, 15, 17],
+      "features": [
+        8,
+        15,
+        17
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -1350,7 +1497,11 @@
       "price": 218000,
       "images": [],
       "brands": 14,
-      "features": [8, 16, 17],
+      "features": [
+        8,
+        16,
+        17
+      ],
       "amount": 30,
       "activeIngredients": [
         {
@@ -1388,7 +1539,11 @@
       "price": 342514,
       "images": [],
       "brands": 2,
-      "features": [8, 16, 17],
+      "features": [
+        8,
+        16,
+        17
+      ],
       "amount": 75,
       "activeIngredients": [
         {
@@ -1423,7 +1578,11 @@
       "price": 1089000,
       "images": [],
       "brands": 3,
-      "features": [8, 15, 17],
+      "features": [
+        8,
+        15,
+        17
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -1442,7 +1601,10 @@
       "price": 896826,
       "images": [],
       "brands": 1,
-      "features": [8, 15],
+      "features": [
+        8,
+        15
+      ],
       "amount": 90,
       "activeIngredients": [
         {
@@ -1461,7 +1623,9 @@
       "price": 501435,
       "images": [],
       "brands": 2,
-      "features": [8],
+      "features": [
+        8
+      ],
       "amount": 200,
       "activeIngredients": [
         {
@@ -1480,7 +1644,11 @@
       "price": 709000,
       "images": [],
       "brands": 1,
-      "features": [9, 10, 17],
+      "features": [
+        9,
+        10,
+        17
+      ],
       "amount": 100,
       "activeIngredients": [
         {
@@ -1499,7 +1667,11 @@
       "price": 941622,
       "images": [],
       "brands": 6,
-      "features": [9, 10, 11],
+      "features": [
+        9,
+        10,
+        11
+      ],
       "amount": 30,
       "activeIngredients": [
         {
@@ -1530,7 +1702,9 @@
       "price": 580206,
       "images": [],
       "brands": 1,
-      "features": [9],
+      "features": [
+        9
+      ],
       "amount": 90,
       "activeIngredients": [
         {
@@ -1553,7 +1727,9 @@
       "price": 342689,
       "images": [],
       "brands": 1,
-      "features": [9],
+      "features": [
+        9
+      ],
       "amount": 200,
       "activeIngredients": [
         {
@@ -1572,7 +1748,9 @@
       "price": 448315,
       "images": [],
       "brands": 1,
-      "features": [10],
+      "features": [
+        10
+      ],
       "amount": 100,
       "activeIngredients": [
         {
@@ -1591,7 +1769,9 @@
       "price": 716864,
       "images": [],
       "brands": 1,
-      "features": [10],
+      "features": [
+        10
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -1610,7 +1790,9 @@
       "price": 527436,
       "images": [],
       "brands": 1,
-      "features": [10],
+      "features": [
+        10
+      ],
       "amount": 90,
       "activeIngredients": [
         {
@@ -1649,7 +1831,10 @@
       "price": 460342,
       "images": [],
       "brands": 3,
-      "features": [10, 11],
+      "features": [
+        10,
+        11
+      ],
       "amount": 100,
       "activeIngredients": [
         {
@@ -1668,7 +1853,11 @@
       "price": 529652,
       "images": [],
       "brands": 3,
-      "features": [10, 11, 16],
+      "features": [
+        10,
+        11,
+        16
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -1687,7 +1876,9 @@
       "price": 711591,
       "images": [],
       "brands": 1,
-      "features": [12],
+      "features": [
+        12
+      ],
       "amount": 90,
       "activeIngredients": [
         {
@@ -1718,7 +1909,9 @@
       "price": 190000,
       "images": [],
       "brands": 2,
-      "features": [12],
+      "features": [
+        12
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -1736,7 +1929,9 @@
       "price": 844040,
       "images": [],
       "brands": 1,
-      "features": [12],
+      "features": [
+        12
+      ],
       "amount": 120,
       "activeIngredients": [
         {
@@ -1755,7 +1950,9 @@
       "price": 256000,
       "images": [],
       "brands": 2,
-      "features": [13],
+      "features": [
+        13
+      ],
       "amount": 30,
       "activeIngredients": [
         {
@@ -1778,7 +1975,11 @@
       "price": 214000,
       "images": [],
       "brands": 14,
-      "features": [14, 15, 17],
+      "features": [
+        14,
+        15,
+        17
+      ],
       "amount": 60,
       "activeIngredients": [],
       "additiveIngredients": "Magie hydroxit, Chất tạo khối. Cellulose vi tinh thể, Canxi phosphat dibasic và tinh bột khoai tây, Lớp bao viên nén (Hydroxypropylmethylcellulose, Glycerin, Màu: Canxi cacbonat), Chất chống vón cục: Silicon Dioxide, Axit stearic, Talc tinh khiết và Magie stearat, Polyvinylpyrrolidone.",
@@ -1792,7 +1993,9 @@
       "price": 1012997,
       "images": [],
       "brands": 1,
-      "features": [15],
+      "features": [
+        15
+      ],
       "amount": 250,
       "activeIngredients": [
         {
@@ -1815,7 +2018,10 @@
       "price": 316120,
       "images": [],
       "brands": 1,
-      "features": [16, 17],
+      "features": [
+        16,
+        17
+      ],
       "amount": 100,
       "activeIngredients": [
         {
@@ -1842,7 +2048,9 @@
       "price": 616144,
       "images": [],
       "brands": 10,
-      "features": [16],
+      "features": [
+        16
+      ],
       "amount": 60,
       "activeIngredients": [
         {
@@ -1876,7 +2084,10 @@
       "price": 790716,
       "images": [],
       "brands": 1,
-      "features": [16, 17],
+      "features": [
+        16,
+        17
+      ],
       "amount": 120,
       "activeIngredients": [
         {
@@ -1895,7 +2106,9 @@
       "price": 564375,
       "images": [],
       "brands": 18,
-      "features": [16],
+      "features": [
+        16
+      ],
       "amount": 90,
       "activeIngredients": [
         {
@@ -2179,6 +2392,24 @@
       "userId": 8,
       "method": "qr",
       "info": "{\"merchant\":\"PERSOVITA\",\"amount\":129000,\"items\":1,\"shippingMethod\":\"home_priv\",\"shippingMethodCost\":10000,\"ts\":1760073785654}"
+    },
+    {
+      "id": 2,
+      "userId": 8,
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":841284.8,\"items\":1,\"shippingMethod\":\"home_priv\",\"shippingMethodCost\":10000,\"ts\":1760359368005}"
+    },
+    {
+      "id": 3,
+      "userId": 8,
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":387260.8,\"items\":1,\"shippingMethod\":\"home_colis\",\"shippingMethodCost\":20000,\"ts\":1760373199144}"
+    },
+    {
+      "id": 4,
+      "userId": 8,
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":1652569.6,\"items\":1,\"shippingMethod\":\"home_colis\",\"shippingMethodCost\":20000,\"ts\":1760375839802}"
     }
   ],
   "carts": [],
@@ -2204,6 +2435,72 @@
       "total": 129000,
       "status": "pending",
       "createdAt": "2025-10-10T05:23:05.694Z"
+    },
+    {
+      "id": 2,
+      "userId": 8,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Hyaluronic Acid",
+          "price": 1001606,
+          "quantity": 1,
+          "image": "/src/drugs/assets/products/product-1/product-1.png",
+          "subscription": false
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "home_priv",
+      "shippingMethodCost": 10000,
+      "shippingBase": 30000,
+      "paymentId": 2,
+      "total": 1041606,
+      "status": "pending",
+      "createdAt": "2025-10-13T12:42:48.059Z"
+    },
+    {
+      "id": 3,
+      "userId": 8,
+      "items": [
+        {
+          "productId": 2,
+          "name": "Turmeric Capsules",
+          "price": 421576,
+          "quantity": 1,
+          "image": "/src/drugs/assets/products/product-2/product-1.png",
+          "subscription": false
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "home_colis",
+      "shippingMethodCost": 20000,
+      "shippingBase": 30000,
+      "paymentId": 3,
+      "total": 471576,
+      "status": "pending",
+      "createdAt": "2025-10-13T16:33:19.202Z"
+    },
+    {
+      "id": 4,
+      "userId": 8,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Hyaluronic Acid",
+          "price": 1001606,
+          "quantity": 1,
+          "image": "/src/drugs/assets/products/product-1/product-1.png",
+          "subscription": false
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "home_colis",
+      "shippingMethodCost": 20000,
+      "shippingBase": 30000,
+      "paymentId": 4,
+      "total": 1051606,
+      "status": "pending",
+      "createdAt": "2025-10-13T17:17:19.854Z"
     }
   ],
   "productReviews": [
