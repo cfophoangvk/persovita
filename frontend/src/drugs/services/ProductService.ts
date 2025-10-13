@@ -14,4 +14,58 @@ export class ProductService {
     }
     return []
   }
+
+  private checkImage(url: string): Promise<boolean> {
+    return new Promise((resolve, _) => {
+      const img = new Image();
+
+      img.onload = () => {
+        resolve(true);
+      };
+
+      img.onerror = () => {
+        resolve(false);
+      };
+
+      img.src = url;
+    });
+  }
+
+  async getProductImages(productId: number): Promise<string[]> {
+    if (!productId) {
+      return [];
+    }
+    let imageFound = true;
+    let imageIndex = 1;
+    let imageUrls: string[] = [];
+
+    while (imageFound) {
+      const imageUrl = `/src/drugs/assets/product-${productId}/${imageIndex}.png`;
+      const isImageAvailable = await this.checkImage(imageUrl);
+
+      if (isImageAvailable) {
+        imageUrls.push(imageUrl);
+        imageIndex++;
+      } else {
+        imageFound = false;
+      }
+    }
+
+    return imageUrls;
+  }
+
+  async getMultipleProductFirstImages(productIds: number[]): Promise<string[]> {
+    let imageUrls: string[] = [];
+
+    for (let i = 0; i < productIds.length; i++) {
+      const imageUrl = `/src/drugs/assets/product-${productIds[i]}/1.png`;
+      const isImageAvailable = await this.checkImage(imageUrl);
+
+      if (isImageAvailable) {
+        imageUrls.push(imageUrl);
+      }
+    }
+
+    return imageUrls;
+  }
 }

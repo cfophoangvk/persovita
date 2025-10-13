@@ -158,7 +158,6 @@ const ShopPage: React.FC = () => {
               của bạn.
             </p>
           </div>
-          {/* right side is part of background image; keep empty spacer for layout */}
           <div className="hidden md:block flex-1" />
         </div>
       </div>

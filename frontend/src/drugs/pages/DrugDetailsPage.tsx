@@ -4,6 +4,7 @@ import type { Drug } from "../interfaces/drug";
 import { useDrugStore } from "../stores/useDrugStore";
 import DOMPurify from "dompurify";
 import ProductReviews from "../components/ProductReviews";
+import { ProductService } from "../services/ProductService";
 
 const ProductPlaceholder: Drug = {
   id: "1",
@@ -40,6 +41,8 @@ const DrugDetailsPage: React.FC = () => {
   const [openComp, setOpenComp] = useState(false);
   const [openDirections, setOpenDirections] = useState(false);
   const [openQuality, setOpenQuality] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
+  const productService = new ProductService();
 
   useEffect(() => {
     if (!id) return;
@@ -48,6 +51,9 @@ const DrugDetailsPage: React.FC = () => {
     // reset carousel index
     setIndex(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    productService.getProductImages(Number(id))
+      .then(data => setImages(data));
   }, [id]);
 
   const product = drug ?? (id ? { ...ProductPlaceholder, id } : null);
@@ -59,11 +65,6 @@ const DrugDetailsPage: React.FC = () => {
       : Array.isArray(relatedFromStore) && relatedFromStore.length
         ? relatedFromStore
         : [];
-
-  const images =
-    product?.images && product.images.length
-      ? product.images
-      : ["/images/product-placeholder.png"];
 
   const prev = () => setIndex((i) => (i - 1 + images.length) % images.length);
   const next = () => setIndex((i) => (i + 1) % images.length);
