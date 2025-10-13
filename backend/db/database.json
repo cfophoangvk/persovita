@@ -5,11 +5,6 @@
       "name": "Hyaluronic Acid",
       "description": "Hyaluronic Acid  là một hợp chất có trong mọi mô của cơ thể, với nồng độ cao nhất xuất hiện ở các mô liên kết như da và sụn. Axit hyaluronic là một thành phần quan trọng của dịch khớp, nơi nó hoạt động như một chất bôi trơn và có vai trò chống lại lực nén. MSM được thêm vào sản phẩm này dưới dạng hợp chất lưu huỳnh tự nhiên, cung cấp các liên kết hóa học cần thiết để hình thành và duy trì các mô liên kết trong cơ thể con người bao gồm cả sụn khớp.",
       "price": 1001606,
-      "images": [
-        "/src/drugs/assets/products/product-1/product-1.png",
-        "/src/drugs/assets/products/product-1/product-2.png",
-        "/src/drugs/assets/products/product-1/product-3.png"
-      ],
       "brands": 1,
       "features": [
         1,
@@ -39,9 +34,6 @@
       "name": "Turmeric Capsules",
       "description": "Nghệ là một thành phần thảo dược có lịch sử sử dụng lâu đời ở Ấn Độ. Các thành phần hoạt tính trong nghệ bao gồm các flavonoid có lợi gọi là Curcuminoid, một chất chống oxy hóa có nguồn gốc thực vật.* Viên nghệ Nature's Bounty® 1.000mg chứa chất chống oxy hóa, giúp chống lại các gốc tự do trong cơ thể.* Các gốc tự do góp phần gây ra stress oxy hóa, từ đó có thể dẫn đến lão hóa sớm của tế bào.*",
       "price": 421576,
-      "images": [
-        "/src/drugs/assets/products/product-2/product-1.png"
-      ],
       "brands": 2,
       "features": [
         1,
@@ -74,11 +66,6 @@
       "name": "Boswellia Extract",
       "description": "Chiết xuất Boswellia NOW® là chiết xuất chuẩn hóa từ cây Boswellia serrata , còn được gọi là nhũ hương, một loại thực vật dạng nhựa đã được các nhà thảo dược học Ayurvedic truyền thống sử dụng hàng thế kỷ. Các nghiên cứu khoa học đã chứng minh rằng axit boswellic, thành phần hoạt tính sinh học của cây boswellia, có tác dụng lên các enzyme quan trọng liên quan đến việc duy trì các mô khỏe mạnh.* Thông qua các cơ chế này, cây boswellia có thể giúp hỗ trợ hệ miễn dịch phản ứng cân bằng với những thay đổi thường gặp trong cuộc sống hàng ngày.",
       "price": 712104,
-      "images": [
-        "/src/drugs/assets/products/product-3/product-1.png",
-        "/src/drugs/assets/products/product-3/product-2.png",
-        "/src/drugs/assets/products/product-3/product-3.png"
-      ],
       "brands": 1,
       "features": [
         1,
@@ -100,9 +87,6 @@
       "name": "Glucosamine Chondroitin SMS",
       "description": "Glucosamine – Chondroitin – MSM cường độ cao góp phần vào sức khỏe của các khớp xương, vốn chịu áp lực hàng ngày do luyện tập cường độ cao, tình trạng viêm mãn tính, hoặc thậm chí do tư thế không đúng khi làm việc hoặc khi ngủ. Sản phẩm chứa glucosamine, một trong những thành phần chính của sụn khớp và chịu trách nhiệm sản xuất các chất cần thiết cho hoạt động bình thường của khớp. Thực phẩm bổ sung này được coi là hữu ích trong các trường hợp viêm xương khớp và nói chung là các tình trạng thoái hóa khớp, chấn thương thể thao, và giúp tái tạo các mô trong và xung quanh khớp.",
       "price": 869000,
-      "images": [
-        "/src/drugs/assets/products/product-4/product-1.png"
-      ],
       "brands": 3,
       "features": [
         1,
@@ -137,13 +121,6 @@
       "name": "Multivitamins",
       "description": "Complete Daily Multivitamin là viên uống bổ sung 19 loại vitamin và khoáng chất cho cơ thể, hỗ trợ chống oxy hóa, giúp nâng cao sức đề kháng.",
       "price": 490000,
-      "images": [
-        "/src/drugs/assets/products/product-5/product-1.png",
-        "/src/drugs/assets/products/product-5/product-2.png",
-        "/src/drugs/assets/products/product-5/product-3.png",
-        "/src/drugs/assets/products/product-5/product-4.png",
-        "/src/drugs/assets/products/product-5/product-5.png"
-      ],
       "brands": 4,
       "features": [
         2,
@@ -242,9 +219,6 @@
       "name": "Zinc",
       "description": "Zinc là sản phẩm bổ sung khoáng chất Kẽm thiết yếu với sức khỏe. Kẽm là dưỡng chất cần thiết cho rất nhiều chức năng cơ thể, bao gồm các phản ứng enzyme, tổng hợp DNA và quá trình truyền tín hiệu,...",
       "price": 421578,
-      "images": [
-        "/src/drugs/assets/products/product-6/product-2.png"
-      ],
       "brands": 1,
       "features": [
         2,
@@ -268,9 +242,6 @@
       "name": "Anti-hair loss complex for women",
       "description": "Thực Phẩm Bảo Vệ Sức Khỏe Forcapil Anti Chute Hỗ Trợ Giảm Rụng Tóc & Giúp Mọc Tóc 30 Viên",
       "price": 454000,
-      "images": [
-        "/src/drugs/assets/products/product-7/product-2.png"
-      ],
       "brands": 5,
       "features": [
         2
@@ -334,9 +305,6 @@
       "name": "Biotin",
       "description": "Biotin - Vitamin B7 (Vitamin H) là một loại vitamin tan trong nước, đóng vai trò thiết yếu trong việc duy trì sức khỏe của da, tóc và móng.",
       "price": 566000,
-      "images": [
-        "/src/drugs/assets/products/product-8/product-2.png"
-      ],
       "brands": 3,
       "features": [
         2,
@@ -365,7 +333,6 @@
       "name": "Ultimate Beauty Hair, Skin & Nails Complex",
       "description": "Công thức 10 thành phần dưỡng chất giúp nuôi dưỡng da, tóc và móng khỏe đẹp từ bên trong",
       "price": 772978,
-      "images": [],
       "brands": 6,
       "features": [
         2,
@@ -430,7 +397,6 @@
       "name": "Cynatine® HNS Keratin",
       "description": "Thủy phân độc quyền, hấp thu gấp 3 lần, giàu cysteine và oligopeptide hấp thu cao giúp nuôi dưỡng da, tóc và móng từ bên trong",
       "price": 708284,
-      "images": [],
       "brands": 7,
       "features": [
         2,
@@ -452,7 +418,6 @@
       "name": "Borage & Evening Primrose",
       "description": "Kết hợp dầu hoa anh thảo và dầu hoa lưu ly giàu GLA, giúp nuôi dưỡng làn da ẩm mượt, tươi trẻ và hỗ trợ cân bằng nội tiết nữ giới.",
       "price": 588602,
-      "images": [],
       "brands": 8,
       "features": [
         2
@@ -485,7 +450,6 @@
       "name": "Tan-Aid",
       "description": "Công thức độc quyền chứa Melaline® từ keratin len cừu đen giàu melanin, giúp tăng sắc tố tự nhiên và mang lại làn da rám nắng khỏe mạnh từ bên trong.",
       "price": 1332099,
-      "images": [],
       "brands": 8,
       "features": [
         2
@@ -506,7 +470,6 @@
       "name": "Hair Nutrition For Men",
       "description": "Hãy đón nhận hành trình đến với mái tóc dày dặn hơn với Swisse Ultiboost Hair Nutrition for Men. Thực phẩm bổ sung này được bào chế với biotin giúp hỗ trợ mọc tóc và sức khỏe da đầu. Mỗi viên nang chứa chiết xuất cọ lùn, chứa axit béo tự nhiên, kẽm giúp hỗ trợ nồng độ testosterone khỏe mạnh, và biotin giúp nang tóc khỏe mạnh và mọc tóc. Swisse Ultiboost Hair Nutrition for Men là người bạn đồng hành hàng ngày của bạn trong việc hỗ trợ mọc tóc.",
       "price": 883634,
-      "images": [],
       "brands": 9,
       "features": [
         2,
@@ -575,7 +538,6 @@
       "name": "Lycopene",
       "description": "NOW® Lycopene features LYC-O-MATO®, a patented tomato complex with a full complement of tomato phytonutrients, including lycopene. Lycopene is known for its powerful free radical scavenging properties. Clinical studies indicate that lycopene helps to support cardiovascular health and normal immune system function. In addition, lycopene may aid in the maintenance of a healthy prostate.",
       "price": 812410,
-      "images": [],
       "brands": 1,
       "features": [
         2
@@ -595,7 +557,6 @@
       "name": "Probiotics Peau",
       "description": "Probiotics Peau là một sản phẩm bổ sung tiên tiến được thiết kế để giảm mụn và làm dịu mẩn đỏ, đồng thời thúc đẩy sự cân bằng của da. Công thức đã được kiểm nghiệm lâm sàng này kết hợp phức hợp men vi sinh độc quyền với các thành phần hoạt tính bổ sung như kẽm và cây tầm ma để hỗ trợ sức khỏe làn da từ trong ra ngoài.",
       "price": 616144,
-      "images": [],
       "brands": 10,
       "features": [
         2
@@ -631,7 +592,6 @@
       "name": "Cranberry Caps",
       "description": "Nam việt quất ( Vaccinium macrocarpon ) là một loại cây bụi được tìm thấy trong các đầm lầy axit trên khắp các vùng khí hậu mát mẻ của Bắc bán cầu. Nam việt quất có lịch sử lâu đời trong ẩm thực ở Châu Âu và Bắc Mỹ, và đã được các nhà thảo dược học cổ truyền sử dụng trong nhiều thế kỷ. Nam việt quất chứa nhiều polyphenol, tannin và các dưỡng chất thực vật khác đã được nghiên cứu về vai trò của chúng đối với sức khỏe đường tiết niệu. Viên nang nam việt quất NOW cũng rất giàu vitamin C.",
       "price": 580206,
-      "images": [],
       "brands": 1,
       "features": [
         2
@@ -672,7 +632,6 @@
       "name": "Astaxanthin",
       "description": "Astaxanthin là một carotenoid tự nhiên có cấu trúc độc đáo, được biết đến là chất chống oxy hóa mạnh. Vì astaxanthin dễ dàng đi qua hàng rào máu não và máu võng mạc nên nó có thể trung hòa các gốc tự do trong mắt và hệ thần kinh trung ương. Các nghiên cứu khoa học cũng chứng minh rằng astaxanthin có thể hỗ trợ phản ứng của hệ thống miễn dịch khỏe mạnh và cân bằng của cơ thể. Sản phẩm NOW này có chứa Zanthin , có thể giúp hỗ trợ sức khỏe tổng thể của mắt và thúc đẩy hệ thần kinh khỏe mạnh.",
       "price": 527436,
-      "images": [],
       "brands": 1,
       "features": [
         2
@@ -693,7 +652,6 @@
       "name": "FORCAPIL ANTI CHUTE",
       "description": "Thực Phẩm Bảo Vệ Sức Khỏe Forcapil Anti Chute Hỗ Trợ Giảm Rụng Tóc & Giúp Mọc Tóc 30 Viên",
       "price": 454000,
-      "images": [],
       "brands": 5,
       "features": [
         3
@@ -757,7 +715,6 @@
       "name": "B Complex",
       "description": "Vitamin B rất cần thiết cho hoạt động bình thường của hệ thần kinh (B1, B2, B3, B6, B8 và B12) và hệ miễn dịch (B6, B9 và B12), cũng như giúp giảm mệt mỏi (B2, B3, B5, B6, B9, B12), đặc biệt quan trọng đối với chế độ ăn kiêng loại trừ một số loại thực phẩm hoặc trong trường hợp uống quá nhiều rượu bia. Vitamin\n B Complex của chúng tôi chứa tất cả 8 loại vitamin B ở dạng hiệu quả nhất , bao gồm B9 và B12 dưới dạng methylfolate và methylcobalamin, mang lại khả dụng sinh học tối ưu để đạt được lợi ích tối đa.",
       "price": 500281,
-      "images": [],
       "brands": 3,
       "features": [
         3,
@@ -820,7 +777,6 @@
       "name": "Berberine",
       "description": "Berberine là một alkaloid tự nhiên có nguồn gốc từ rễ của một số loại cây như hoàng liên gai, hoàng liên gai vàng và nho Oregon. Nó có lịch sử sử dụng lâu đời trong các phương pháp thảo dược truyền thống Ayurvedic và Trung Quốc. Chúng tôi sử dụng berberine có nguồn gốc bền vững từ rễ cây hoàng liên gai để cung cấp liều lượng đã được nghiên cứu lâm sàng chỉ với hai viên nang 500 mg mỗi ngày.",
       "price": 490993,
-      "images": [],
       "brands": 11,
       "features": [
         4,
@@ -842,7 +798,6 @@
       "name": "Omega 3",
       "description": "Hỗ trợ sức khỏe tim mạch và chức năng não, giảm triglyceride huyết thanh và tình trạng viêm, đồng thời thúc đẩy sự cân bằng tâm trạng lành mạnh với Triple Strength Omega-3. Omega-3 từ Webber Naturals được làm từ dầu cá tự nhiên.",
       "price": 790000,
-      "images": [],
       "brands": 11,
       "features": [
         4,
@@ -877,7 +832,6 @@
       "name": "Plant-Based Omega-3",
       "description": "Omega-3 EPA & DHA hoàn toàn từ tảo, không cá, thân thiện môi trường và dễ hấp thu cho trí não, tim mạch và thị lực.",
       "price": 791286,
-      "images": [],
       "brands": 11,
       "features": [
         4,
@@ -913,7 +867,6 @@
       "name": "Chromium Picolinate",
       "description": "Crom là một khoáng chất vi lượng thiết yếu, được biết đến nhiều nhất với vai trò là đồng yếu tố insulin. Do đó, crom rất quan trọng cho việc duy trì quá trình chuyển hóa glucose và carbohydrate lành mạnh; tuy nhiên, nó cũng quan trọng cho việc sử dụng chất béo và protein. Các nghiên cứu khoa học cũng chỉ ra rằng nó có thể đóng một vai trò trong sức khỏe tim mạch. Là một phần của chế độ ăn uống lành mạnh và chương trình tập thể dục, crom picolinate có thể giúp duy trì lượng đường trong máu ở mức bình thường và cũng có thể giúp hỗ trợ thành phần cơ thể khỏe mạnh.",
       "price": 501032,
-      "images": [],
       "brands": 1,
       "features": [
         4,
@@ -934,7 +887,6 @@
       "name": "Black garlic",
       "description": "Tỏi đen (chiết xuất) là thực phẩm bổ sung có nguồn gốc hữu cơ 100%.\nSản phẩm được làm từ tỏi lên men, chiết xuất được thực hiện bằng công nghệ mới được cấp bằng sáng chế, đảm bảo giữ nguyên tất cả các đặc tính trị liệu đặc trưng của cây. Sản phẩm được khuyến nghị để phòng ngừa các bệnh về tim mạch, tiêu hóa và xương. Sản phẩm có đặc tính chống oxy hóa và chống viêm. Sản phẩm không chứa bất kỳ hóa chất và chất tăng cường tổng hợp nào. Sản phẩm phù hợp cho người ăn chay và người ăn chay trường.",
       "price": 432000,
-      "images": [],
       "brands": 12,
       "features": [
         4,
@@ -957,7 +909,6 @@
       "name": "Vitamin K2",
       "description": "Viên nang Vitamin K2 tự nhiên (MK-7) 100 mcg chiết xuất từ ​​thực vật sử dụng Menaquinone-7, dạng vitamin K tự nhiên có khả năng sinh học cao. Từ lâu, vitamin K đã được biết đến với vai trò quan trọng trong việc hình thành xương và đông máu. Loại vitamin K độc đáo này có nguồn gốc từ natto, một loại thực phẩm lên men truyền thống của Nhật Bản, nổi tiếng là giàu vitamin K và có lịch sử lâu đời như một siêu thực phẩm.",
       "price": 1137890,
-      "images": [],
       "brands": 3,
       "features": [
         4,
@@ -980,7 +931,6 @@
       "name": "Quercetin Complex",
       "description": "Viên nang Quercetin 500 mg của Webber Naturals chứa nguồn bioflavonoid quercetin cô đặc, được bào chế dưới dạng viên nang chay dễ nuốt. Quercetin được sử dụng trong y học thảo dược để bảo vệ mạch máu, bao gồm cả mao mạch. Quercetin cũng là nguồn cung cấp chất chống oxy hóa giúp cơ thể trung hòa các gốc tự do gây tổn thương oxy hóa.",
       "price": 434319,
-      "images": [],
       "brands": 11,
       "features": [
         4
@@ -1001,7 +951,6 @@
       "name": "L - Gasseri",
       "description": "Sản phẩm Swanson này được bào chế theo công thức khoa học và chế tác cẩn thận. Với Lactobacillus gasseri, một chủng men vi sinh đáng tin cậy, mỗi khẩu phần cung cấp 3 tỷ CFU để hỗ trợ môi trường đường ruột khỏe mạnh.* Viên nang thuần chay của chúng tôi kết hợp công thức kháng axit, đảm bảo rằng các men vi sinh có lợi đến được đường tiêu hóa dưới một cách nguyên vẹn.* Là một loại thực phẩm bổ sung sức khỏe đáng tin cậy, Swanson Lactobacillus Gasseri hỗ trợ duy trì sức khỏe đường ruột.* Bằng cách hỗ trợ tiêu hóa khỏe mạnh, nó hỗ trợ hấp thụ chất dinh dưỡng và duy trì môi trường đường ruột khỏe mạnh.* Ngoài ra, Lactobacillus Gasseri hỗ trợ leptin, đóng vai trò quan trọng trong quá trình chuyển hóa năng lượng lành mạnh.* Cho dù bạn muốn hỗ trợ môi trường đường ruột cân bằng hay quá trình chuyển hóa năng lượng, thực phẩm bổ sung sức khỏe đường ruột của Swanson đều tích hợp liền mạch vào thói quen chăm sóc sức khỏe của bạn.",
       "price": 527036,
-      "images": [],
       "brands": 13,
       "features": [
         4
@@ -1022,7 +971,6 @@
       "name": "Iron",
       "description": "Sắt là một khoáng chất thiết yếu đóng vai trò trung tâm trong quá trình sản xuất năng lượng, chức năng hệ miễn dịch và sức khỏe thần kinh. Sắt là thành phần thiết yếu của hemoglobin, một phân tử vận ​​chuyển oxy đến các tế bào trong cơ thể, và myoglobin, giúp liên kết oxy được sử dụng trong các mô cơ. NOW sử dụng Ferrochel™ Iron Bisglycinate, đã được chứng minh lâm sàng là có khả năng hấp thụ vượt trội và được dung nạp tốt vì nhẹ nhàng và không gây táo bón.",
       "price": 342481,
-      "images": [],
       "brands": 1,
       "features": [
         5,
@@ -1046,7 +994,6 @@
       "name": "Maternity Complex",
       "description": "Viên uống Pregnacare Breast Feeding Vitabiotics bổ sung vitamin và khoáng chất cho phụ nữ cho con bú",
       "price": 567000,
-      "images": [],
       "brands": 14,
       "features": [
         5,
@@ -1151,7 +1098,6 @@
       "name": "Calcium Plus",
       "description": "Canxi là khoáng chất chính giúp xương chắc khỏe. Những viên nang mềm này được bổ sung Vitamin D, giúp hấp thụ Canxi và hỗ trợ miễn dịch. Có thể làm giảm nguy cơ loãng xương",
       "price": 1129000,
-      "images": [],
       "brands": 2,
       "features": [
         5,
@@ -1188,7 +1134,6 @@
       "name": "Activated Carbon",
       "description": "Bột than hoạt tính được làm từ vỏ dừa và theo truyền thống được sử dụng để hỗ trợ chức năng tiêu hóa khỏe mạnh.* Kết cấu xốp của nó giúp than hoạt tính có khả năng thu hút và giữ lại các độc tố thường có trong đường tiêu hóa và đưa chúng ra khỏi cơ thể.* Than hoạt tính cũng có thể giúp làm giảm tình trạng đầy hơi và chướng bụng khó chịu do thực phẩm sinh khí gây ra.*",
       "price": 527436,
-      "images": [],
       "brands": 1,
       "features": [
         6
@@ -1209,7 +1154,6 @@
       "name": "Probiotic-10™",
       "description": "Probiotic-10™ cung cấp một phổ cân bằng các vi sinh vật sống bao gồm các chủng vi khuẩn probiotic kháng axit được biết đến là có khả năng định cư tự nhiên trong đường tiêu hóa của con người.* Vi khuẩn probiotic rất quan trọng cho hệ tiêu hóa khỏe mạnh.* Chúng giúp duy trì tính toàn vẹn của niêm mạc ruột, hỗ trợ nhu động ruột hoạt động bình thường và tham gia vào quá trình giải độc.* Probiotic-10™ sử dụng các chủng vi khuẩn đã được chứng minh lâm sàng về khả năng hỗ trợ chức năng hệ miễn dịch khỏe mạnh.*",
       "price": 527036,
-      "images": [],
       "brands": 1,
       "features": [
         6
@@ -1230,7 +1174,6 @@
       "name": "Milk Thistle",
       "description": "Cây kế sữa chứa silymarin, giúp hỗ trợ chức năng gan khỏe mạnh. Ngoài ra, cây kế sữa còn có đặc tính chống oxy hóa có thể giúp chống lại các gốc tự do trong cơ thể.Các gốc tự do có thể góp phần gây ra stress oxy hóa, từ đó có thể góp phần làm lão hóa sớm các tế bào.",
       "price": 1107066,
-      "images": [],
       "brands": 2,
       "features": [
         6
@@ -1251,7 +1194,6 @@
       "name": "Digestive Enzymes",
       "description": "Enzyme tiêu hóa Solgar là hỗn hợp đặc biệt được tạo ra để hỗ trợ tiêu hóa và đảm bảo cơ thể hấp thụ tối đa lượng thức ăn nạp vào. Sản phẩm hoàn hảo cho những người gặp vấn đề về tiêu hóa, dị ứng với một số loại thực phẩm, tình trạng thiếu axit dạ dày hoặc căng thẳng kéo dài. Sản phẩm giúp xử lý protein, carbohydrate, thực phẩm giàu tinh bột và chất béo.",
       "price": 638749,
-      "images": [],
       "brands": 3,
       "features": [
         6
@@ -1291,7 +1233,6 @@
       "name": "Black garlic",
       "description": "Chiết xuất Boswellia NOW® là chiết xuất chuẩn hóa từ cây Boswellia serrata , còn được gọi là nhũ hương, một loại thực vật dạng nhựa đã được các nhà thảo dược học Ayurvedic truyền thống sử dụng hàng thế kỷ. Các nghiên cứu khoa học đã chứng minh rằng axit boswellic, thành phần hoạt tính sinh học của cây boswellia, có tác dụng lên các enzyme quan trọng liên quan đến việc duy trì các mô khỏe mạnh.* Thông qua các cơ chế này, cây boswellia có thể giúp hỗ trợ hệ miễn dịch phản ứng cân bằng với những thay đổi thường gặp trong cuộc sống hàng ngày.",
       "price": 712104,
-      "images": [],
       "brands": 1,
       "features": [
         6
@@ -1312,7 +1253,6 @@
       "name": "Sodium Butyrate",
       "description": "Postbiotic đặc biệt từ axit butyric và khoáng chất, giúp nuôi dưỡng hệ vi sinh và tăng cường hàng rào bảo vệ ruột.",
       "price": 711996,
-      "images": [],
       "brands": 15,
       "features": [
         6
@@ -1337,7 +1277,6 @@
       "name": "Morosil",
       "description": "Hướng đến vóc dáng và vòng eo khỏe mạnh với thực phẩm bổ sung Morosil. Được chiết xuất từ ​​cam đỏ Moro Sicilia đã được cấp bằng sáng chế, thành phần đã được nghiên cứu lâm sàng này giàu hàm lượng anthocyanin C3G, flavonoid và vitamin C đã được kiểm chứng, giúp giảm tích tụ mỡ, hỗ trợ quá trình trao đổi chất tổng thể và tăng cường khả năng chống oxy hóa. Đây là một cách đơn giản, chỉ cần một viên mỗi ngày để giúp bạn trông và cảm thấy tốt nhất cả bên trong lẫn bên ngoài.",
       "price": 522160,
-      "images": [],
       "brands": 16,
       "features": [
         7
@@ -1358,7 +1297,6 @@
       "name": "Griffonia",
       "description": "Phức hợp 5-HTP Griffonia",
       "price": 540000,
-      "images": [],
       "brands": 3,
       "features": [
         7,
@@ -1396,7 +1334,6 @@
       "name": "Guarana",
       "description": "Guarana, một loại thảo mộc Brazil, đã được người dân bản địa vùng Amazon sử dụng hàng thế kỷ để chống mệt mỏi và tăng cường năng lượng. Ngày nay, Swanson Guarana vẫn được sử dụng để tăng cường năng lượng, đồng thời là nguồn cung cấp hiệu quả và tiết kiệm giúp bạn đạt được mục tiêu kiểm soát cân nặng. Mỗi viên nang tiện lợi cung cấp 500 mg bột hạt guarana.",
       "price": 202625,
-      "images": [],
       "brands": 13,
       "features": [
         7,
@@ -1419,7 +1356,6 @@
       "name": "Drain Complex",
       "description": "Công thức toàn diện với 21 vitamin, khoáng chất, nấm dược liệu và thảo mộc, hỗ trợ tuần hoàn tĩnh mạch – bạch huyết và cân bằng điện giải.",
       "price": 556229,
-      "images": [],
       "brands": 7,
       "features": [
         7
@@ -1444,7 +1380,6 @@
       "name": "GLUCOTROJAN",
       "description": "Dâu tằm trắng đã được sử dụng hàng thế kỷ trong y học cổ truyền Trung Quốc và Ấn Độ để giúp duy trì quá trình chuyển hóa carbohydrate . Nó chứa một iminosugar (tức là một chất tương tự carbohydrate) gọi là deoxynojirimycin (DNJ) , được cho là chịu trách nhiệm cho các đặc tính khoa học của nó.",
       "price": 790962,
-      "images": [],
       "brands": 17,
       "features": [
         7
@@ -1472,7 +1407,6 @@
       "name": "Rhodiola",
       "description": "Rhodiola ( Rhodiola rosea ) có nguồn gốc từ vùng Bắc Cực và dãy Alps của châu Âu, châu Á và châu Mỹ, từ lâu đã được nhiều nền văn hóa sử dụng làm thuốc bổ, bao gồm cả người Hy Lạp cổ đại. Rhodiola thường được gọi là \"chất thích nghi\", một thuật ngữ dùng để chỉ bất kỳ tác nhân nào có khả năng hỗ trợ khả năng tự nhiên của cơ thể thích nghi với những điều kiện thay đổi của cuộc sống.",
       "price": 896146,
-      "images": [],
       "brands": 1,
       "features": [
         8,
@@ -1495,7 +1429,6 @@
       "name": "Vitamin B12",
       "description": "Viên uống Feroglobin B12 Vitabiotics hỗ trợ tăng khả năng tạo máu, tăng cường sức khỏe",
       "price": 218000,
-      "images": [],
       "brands": 14,
       "features": [
         8,
@@ -1537,7 +1470,6 @@
       "name": "Ginseng Complex",
       "description": "Nhân sâm chứa ginsenosides và flavonoid tự nhiên. Hỗn hợp nhân sâm Panax, nhân sâm Mỹ và nhân sâm Trung Quốc của Nature's Bounty tạo nên một loại thực phẩm bổ sung độc đáo được thiết kế để hỗ trợ sức sống và chức năng miễn dịch, cùng với vitamin B-12 giúp chuyển hóa thức ăn thành năng lượng.",
       "price": 342514,
-      "images": [],
       "brands": 2,
       "features": [
         8,
@@ -1576,7 +1508,6 @@
       "name": "L-Theanine",
       "description": "Sử dụng dạng L-Theanine tinh khiết, độc quyền Suntheanine®, hấp thu tối ưu, giúp thư giãn và cân bằng tâm trạng tự nhiên.",
       "price": 1089000,
-      "images": [],
       "brands": 3,
       "features": [
         8,
@@ -1599,7 +1530,6 @@
       "name": "Bacopa Extract",
       "description": "Chiết xuất thảo dược truyền thống Ayurveda, chuẩn hóa 40% bacosides, giúp tăng cường trí nhớ, sự tập trung và bảo vệ tế bào thần kinh.",
       "price": 896826,
-      "images": [],
       "brands": 1,
       "features": [
         8,
@@ -1621,7 +1551,6 @@
       "name": "Ginkgo Biloba",
       "description": "Ginkgo Biloba giúp hỗ trợ chức năng não và có thể giúp hỗ trợ trí nhớ, đặc biệt là các vấn đề về trí nhớ nhẹ thỉnh thoảng liên quan đến tuổi tác.* Viên nang dễ nuốt của chúng tôi giúp duy trì lưu thông máu khỏe mạnh đến các chi và hỗ trợ sự tỉnh táo về tinh thần",
       "price": 501435,
-      "images": [],
       "brands": 2,
       "features": [
         8
@@ -1642,7 +1571,6 @@
       "name": "Maca",
       "description": "Maca ( Lepidium meyenii ) được trồng ở vùng cao nguyên Andes thuộc miền Trung Peru. Từ lâu, nó đã được sử dụng như một nguồn thực phẩm và thuốc bổ năng lượng. Nghiên cứu khoa học hiện đại cho thấy maca có thể hỗ trợ đời sống sinh sản khỏe mạnh cho cả nam và nữ. Dữ liệu lâm sàng cho thấy maca không ảnh hưởng trực tiếp đến chức năng nội tiết.",
       "price": 709000,
-      "images": [],
       "brands": 1,
       "features": [
         9,
@@ -1665,7 +1593,6 @@
       "name": "Menopause Complex",
       "description": "Công thức thảo dược 100% hoạt chất từ cúc bia, chanh tây, nghệ tây và xô thơm, giúp cân bằng cảm xúc và giảm khó chịu trong giai đoạn tiền mãn kinh và mãn kinh.",
       "price": 941622,
-      "images": [],
       "brands": 6,
       "features": [
         9,
@@ -1700,7 +1627,6 @@
       "name": "Chaste Berry Vitex Extract",
       "description": "Chaste berry has been traditionally used by herbalists for centuries; it is derived from the fruit of Vitex agnus-castus. More recently, scientific studies have indicated that chaste berry can support healthy endocrine function. The chaste berry extract in this formula is standardized to agnusides, the active components of chaste berry. Dong quai has been included to complete this women's health support formula.",
       "price": 580206,
-      "images": [],
       "brands": 1,
       "features": [
         9
@@ -1725,7 +1651,6 @@
       "name": "Kelp",
       "description": "Kelp is a large, leafy seaweed belonging to the brown algae family that grows in \"forests\" in the colder waters of the world's oceans. Kelp has been used for centuries as an important nutritious staple ingredient in Chinese, Japanese, and Korean cuisines. It is also an excellent source of iodine, which has been shown to be essential for healthy thyroid function.",
       "price": 342689,
-      "images": [],
       "brands": 1,
       "features": [
         9
@@ -1746,7 +1671,6 @@
       "name": "Tribulus",
       "description": "Tribulus terrestris has been used for centuries in ancient Greece, India and Africa to enhance vitality and virility. Recent research indicates that tribulus can support the body's free radical defense systems and preliminary studies suggest that tribulus may help to promote healthy endocrine function and male reproductive health.",
       "price": 448315,
-      "images": [],
       "brands": 1,
       "features": [
         10
@@ -1767,7 +1691,6 @@
       "name": "Saffron",
       "description": "Nghệ tây là một loại thảo mộc ẩm thực nổi tiếng đã được sử dụng hàng thế kỷ nhưng chỉ mới được nghiên cứu khoa học gần đây. Nghiên cứu gần đây cho thấy nghệ tây có thể giúp hỗ trợ tâm trạng tích cực, thái độ thư thái và cũng có thể thúc đẩy giấc ngủ ngon. Các nghiên cứu khác cho thấy nghệ tây có thể giúp hỗ trợ phản ứng miễn dịch cân bằng và là một chất trung hòa gốc tự do mạnh mẽ. NOW chỉ sử dụng bột nhụy nghệ tây nguyên chất, không phải chiết xuất.",
       "price": 716864,
-      "images": [],
       "brands": 1,
       "features": [
         10
@@ -1788,7 +1711,6 @@
       "name": "Saw Palmetto",
       "description": "Saw Palmetto là thực phẩm bổ sung dinh dưỡng hỗ trợ chức năng tuyến tiền liệt khỏe mạnh.Các nghiên cứu chỉ ra rằng chiết xuất cọ lùn có thể giúp hỗ trợ lưu thông nước tiểu và chức năng tuyến tiền liệt khỏe mạnh. Kẽm được bổ sung vào công thức vì đây là một khoáng chất thiết yếu, đặc biệt quan trọng đối với chức năng nội tiết và sức khỏe sinh sản nói chung.* Dầu hạt bí ngô được sử dụng làm thành phần cơ bản cho sản phẩm này, cung cấp các axit béo thiết yếu và phytosterol quan trọng cho sức khỏe nam giới. Do đó, cọ lùn, dầu hạt bí ngô và kẽm đặc biệt hữu ích cho việc duy trì chức năng sinh sản khỏe mạnh ở nam giới.",
       "price": 527436,
-      "images": [],
       "brands": 1,
       "features": [
         10
@@ -1829,7 +1751,6 @@
       "name": "Vitamin D3",
       "description": "Vitamin D3 của Solgar là một loại vitamin tan trong dầu. Nó còn được gọi là vitamin ánh nắng, vì cơ thể con người có thể tự sản xuất vitamin này khi tiếp xúc với ánh nắng mặt trời. Nổi tiếng với vai trò điều hòa nồng độ canxi, vitamin D hiện đang thu hút sự chú ý nhờ vai trò và lợi ích của nó đối với cơ thể, bao gồm duy trì xương, răng, chức năng cơ và hệ miễn dịch hoạt động bình thường.",
       "price": 460342,
-      "images": [],
       "brands": 3,
       "features": [
         10,
@@ -1851,7 +1772,6 @@
       "name": "Vegan Vitamin D3",
       "description": "Solgar Vegan Vitamin D3 là sản phẩm bổ sung 100% từ thực vật, có nguồn gốc bền vững và tốt cho cơ thể vào dòng sản phẩm bổ sung vitamin D3 của chúng tôi\nCho đến gần đây, hầu hết các loại thực phẩm bổ sung vitamin D dành cho người ăn chay trường và ăn chay trường đều chỉ giới hạn ở dạng vitamin D2 ít hiệu quả hơn.3 Tuy nhiên, vitamin D có nguồn gốc từ địa y thì khác. Địa y chứa vitamin D thân thiện với người ăn chay trường ở dạng D3 hoặc cholecalciferol dễ hấp thụ vào cơ thể. Tin tốt là người ăn chay trường và ăn chay trường đặc biệt có nguy cơ thiếu hụt vitamin D do họ không tiêu thụ thực phẩm có nguồn gốc động vật, vốn giàu vitamin D tự nhiên.4 Với liều dùng mỗi ngày một lần, Solgar Vegan D3 lý tưởng cho những người theo chế độ ăn thực vật hoặc đang tìm kiếm các lựa chọn thay thế cho thực phẩm bổ sung có nguồn gốc động vật.",
       "price": 529652,
-      "images": [],
       "brands": 3,
       "features": [
         10,
@@ -1874,7 +1794,6 @@
       "name": "Sleep",
       "description": "Sleep là sự kết hợp các thành phần được bào chế để giúp bạn thư giãn tinh thần và cơ thể để bạn có thể tự nhiên chìm vào giấc ngủ ngon. NOW Sleep sử dụng cây nữ lang và hoa bia, hai loại thảo mộc được sử dụng theo truyền thống để thúc đẩy trạng thái thư giãn bình tĩnh và hỗ trợ giấc ngủ trẻ hóa.* GABA là một chất dẫn truyền thần kinh thường được sản xuất trong não, có chức năng làm giảm căng thẳng thần kinh.NOW Sleep do đó làm thư giãn hệ thần kinh để giúp bạn tận hưởng một đêm yên tĩnh và thức dậy sảng khoái và tràn đầy năng lượng vào buổi sáng.",
       "price": 711591,
-      "images": [],
       "brands": 1,
       "features": [
         12
@@ -1907,7 +1826,6 @@
       "name": "Melatonin",
       "description": "Viên uống Melatonin Nature's Bounty giúp điều hòa giấc ngủ, giúp ngủ sâu giấc",
       "price": 190000,
-      "images": [],
       "brands": 2,
       "features": [
         12
@@ -1927,7 +1845,6 @@
       "name": "L-Tryptophan",
       "description": "L-Tryptophan là một axit amin thiết yếu; do đó, cơ thể không tự tổng hợp được mà phải bổ sung từ chế độ ăn uống. L-Tryptophan rất quan trọng cho quá trình sản xuất serotonin và melatonin, giúp hỗ trợ tâm trạng tích cực, giấc ngủ lành mạnh và hệ thống miễn dịch hoạt động tốt. Mỗi lô L-Tryptophan của NOW ® đều được kiểm tra để đảm bảo không chứa Peak E và vi khuẩn gây ô nhiễm.",
       "price": 844040,
-      "images": [],
       "brands": 1,
       "features": [
         12
@@ -1948,7 +1865,6 @@
       "name": "Lutein",
       "description": "Lutein hỗ trợ sức khỏe mắt cho người lớn. Đây là một trong những carotenoid dồi dào nhất được tìm thấy trong trái cây, rau củ và thậm chí cả thực vật như cúc vạn thọ. Lutein cũng có đặc tính chống oxy hóa cho người lớn.",
       "price": 256000,
-      "images": [],
       "brands": 2,
       "features": [
         13
@@ -1973,7 +1889,6 @@
       "name": "Magnesium",
       "description": "Viên nén Ultra Magnesium 200mg là thực phẩm bổ sung dinh dưỡng kết hợp các thành phần Magie và Dinh dưỡng. Mỗi viên nén cung cấp 200mg magie, một khoáng chất thiết yếu đóng vai trò quan trọng trong việc hỗ trợ các chức năng khác nhau của cơ thể.\nMagiê được biết đến với khả năng hỗ trợ chức năng cơ bắp khỏe mạnh, thúc đẩy sức khỏe xương và điều hòa nồng độ canxi trong cơ thể. Nó cũng giúp sản xuất năng lượng, chức năng thần kinh và duy trì nhịp tim khỏe mạnh. Ngoài ra, magiê còn có thể giúp giảm căng thẳng và thúc đẩy thư giãn.\nViên nén Ultra Magnesium 200mg có lợi cho những người bị thiếu hụt magiê, những người bị chuột rút cơ bắp và những người muốn hỗ trợ sức khỏe tổng thể. Khuyến cáo nên tham khảo ý kiến ​​chuyên gia chăm sóc sức khỏe trước khi bắt đầu sử dụng bất kỳ thực phẩm bổ sung nào, đặc biệt nếu bạn đang mang thai, cho con bú hoặc có bất kỳ bệnh lý nền nào.",
       "price": 214000,
-      "images": [],
       "brands": 14,
       "features": [
         14,
@@ -1991,7 +1906,6 @@
       "name": "NAC",
       "description": "N-acetyl cysteine (NAC) is a stable form of the non-essential amino acid cysteine. It is a sulfur-containing amino acid that acts as a stabilizer for the formation of protein structures, and is also necessary for the formation of glutathione. Selenium is an essential trace mineral that facilitates the production of several important enzymes.",
       "price": 1012997,
-      "images": [],
       "brands": 1,
       "features": [
         15
@@ -2016,7 +1930,6 @@
       "name": "Vitamin C",
       "description": "Vitamin C là một chất dinh dưỡng tan trong nước được biết đến rộng rãi vì vai trò quan trọng của nó đối với hệ thống miễn dịch.* Vitamin C cũng cần thiết cho việc sản xuất collagen (một loại protein cấu trúc trong mô liên kết) và do đó rất quan trọng đối với sức khỏe của da, xương và khớp.* Vitamin C cần thiết cho quá trình chuyển hóa axit amin, tổng hợp chất dẫn truyền thần kinh và sử dụng nhiều chất dinh dưỡng, chẳng hạn như axit folic và sắt.* Đây cũng là một chất chống oxy hóa hiệu quả cao có thể giúp duy trì các mô khỏe mạnh bằng cách trung hòa các gốc tự do được tạo ra trong quá trình chuyển hóa bình thường và tiếp xúc với các tác nhân gây căng thẳng từ môi trường.\n* Sản phẩm này cung cấp canxi ascorbat, một dạng vitamin C đệm có khả dụng sinh học và không có tính axit; sản phẩm được tăng cường với bioflavonoid, có tác dụng hiệp đồng với vitamin C.*",
       "price": 316120,
-      "images": [],
       "brands": 1,
       "features": [
         16,
@@ -2046,7 +1959,6 @@
       "name": "Prebiotics Peau",
       "description": "Probiotics Peau là một sản phẩm bổ sung tiên tiến được thiết kế để giảm mụn và làm dịu mẩn đỏ, đồng thời thúc đẩy sự cân bằng của da. Công thức đã được kiểm nghiệm lâm sàng này kết hợp phức hợp men vi sinh độc quyền với các thành phần hoạt tính bổ sung như kẽm và cây tầm ma để hỗ trợ sức khỏe làn da từ trong ra ngoài.",
       "price": 616144,
-      "images": [],
       "brands": 10,
       "features": [
         16
@@ -2082,7 +1994,6 @@
       "name": "Liposomal Vitamin C",
       "description": "Liposomal Vitamin C có Liposomal PureWay-C ™ , vitamin C trong hệ thống phân phối tan trong chất béo đã được chứng minh là có khả năng hấp thụ, hấp thụ vào tế bào và duy trì trong cơ thể tốt hơn trong các nghiên cứu lâm sàng so với các dạng vitamin C khác.* Vitamin C là một chất chống oxy hóa mạnh, cũng cần thiết cho quá trình tổng hợp collagen, duy trì tính toàn vẹn của mao mạch và mạch máu, sức khỏe của sụn và xương, chức năng miễn dịch bình thường và truyền xung thần kinh.",
       "price": 790716,
-      "images": [],
       "brands": 1,
       "features": [
         16,
@@ -2104,7 +2015,6 @@
       "name": "Acerola",
       "description": "Acerola là một loại trái cây cung cấp Vitamin C tự nhiên. Sản phẩm nhai Acerola Complex của Country Life chứa chiết xuất quả acerola cô đặc và cũng bao gồm hỗn hợp phức hợp bioflavonoid cam quýt acerola đa phổ, cùng với Vitamin C để hỗ trợ chống oxy hóa, tất cả đều có trong một viên nhai có hương vị quả mọng thơm ngon.",
       "price": 564375,
-      "images": [],
       "brands": 18,
       "features": [
         16
@@ -2374,6 +2284,16 @@
       "phone": "",
       "address": "",
       "createdAt": "2025-10-12T10:53:04.597Z"
+    },
+    {
+      "id": 10,
+      "fullName": "Hiếu Thiên",
+      "email": "hieuthien20042004@gmail.com",
+      "role": "user",
+      "picture": "https://lh3.googleusercontent.com/a/ACg8ocJwXiUv1TcESz09-Yl5QBf304LSWr2n8qhcJb6xMgR9UGG6_Q=s96-c",
+      "phone": "",
+      "address": "",
+      "createdAt": "2025-10-13T17:26:46.889Z"
     }
   ],
   "shipping": [

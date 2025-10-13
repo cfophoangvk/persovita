@@ -45,7 +45,7 @@ const Modal = ({
 const SubscriptionOfferModal = ({ onClose }: { onClose: () => void }) => (
   <div className="fixed inset-0 z-50 flex flex-col justify-end">
     <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-    <div className="bg-orange-400 text-white w-full rounded-t-2xl p-10 text-center">
+    <div className="bg-emerald-400 text-white w-full rounded-t-2xl p-10 text-center">
       <div className="flex justify-end">
         <button onClick={onClose} className="text-white">
           <XMarkIcon className="w-6 h-6" />
@@ -92,7 +92,7 @@ const ShippingInfoModal = ({ onClose }: { onClose: () => void }) => (
       <div className="mt-6 flex justify-center">
         <button
           onClick={onClose}
-          className="px-8 py-3 bg-orange-500 text-white rounded-full font-semibold"
+          className="px-8 py-3 bg-emerald-500 text-white rounded-full font-semibold"
         >
           Đồng ý, tôi đã hiểu
         </button>
@@ -281,9 +281,7 @@ const Cart = () => {
 
           <div className="max-w-6xl mx-auto px-6 py-10">
             <header className="flex items-center justify-center mb-8">
-              <h1 className="text-2xl tracking-widest font-semibold">
-                PERSOVITA
-              </h1>
+              <h1 className="text-2xl tracking-widest font-semibold">NOURI</h1>
             </header>
 
             <div className="flex gap-8">
@@ -328,7 +326,7 @@ const Cart = () => {
                               : ""
                           } ${
                             flashIds.includes(item.id)
-                              ? "ring-2 ring-orange-200"
+                              ? "ring-2 ring-emerald-200"
                               : ""
                           }`}
                         >
@@ -357,7 +355,7 @@ const Cart = () => {
                                   {item.description ?? "Dùng trong 30 ngày"}
                                 </p>
                                 {item.subscription && (
-                                  <div className="inline-block mt-2 px-2 py-1 text-xs bg-orange-100 text-orange-700 rounded">
+                                  <div className="inline-block mt-2 px-2 py-1 text-xs bg-emerald-100 text-emerald-700 rounded">
                                     Đăng ký hàng tháng
                                   </div>
                                 )}
@@ -412,7 +410,7 @@ const Cart = () => {
                                   onChange={() =>
                                     handleToggleSubscription(item.id)
                                   }
-                                  className="w-4 h-4 text-orange-600 bg-white border-gray-300 rounded"
+                                  className="w-4 h-4 text-emerald-600 bg-white border-gray-300 rounded"
                                 />
                                 Đăng ký
                               </label>
@@ -426,7 +424,7 @@ const Cart = () => {
                       <div className="mt-6 flex justify-center">
                         <button
                           onClick={() => navigate("/")}
-                          className="px-6 py-3 w-3/4 border-2 border-orange-300 text-orange-600 rounded-full font-semibold hover:bg-orange-50"
+                          className="px-6 py-3 w-3/4 border-2 border-emerald-300 text-emerald-600 rounded-full font-semibold hover:bg-emerald-50"
                         >
                           + Thêm sản phẩm
                         </button>
@@ -440,7 +438,7 @@ const Cart = () => {
                 className="w-96 rounded-xl p-6"
                 style={{ backgroundColor: "#f7efe6" }}
               >
-                <h3 className="text-sm font-bold uppercase tracking-wider text-orange-600">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-emerald-600">
                   TỔNG KẾT ĐƠN HÀNG
                 </h3>
 
@@ -462,7 +460,7 @@ const Cart = () => {
                           <div className="text-sm text-gray-800">
                             {it.name}
                             {it.subscription && (
-                              <div className="inline-block ml-2 px-2 py-0.5 text-xs bg-orange-100 text-orange-700 rounded">
+                              <div className="inline-block ml-2 px-2 py-0.5 text-xs bg-emerald-100 text-emerald-700 rounded">
                                 Đăng ký hàng tháng
                               </div>
                             )}
@@ -526,14 +524,14 @@ const Cart = () => {
                         placeholder="Mã giảm giá"
                         className="flex-1 p-3 border border-gray-200 rounded-full text-sm"
                       />
-                      <button className="px-4 py-2 rounded-full bg-white border border-orange-300 text-orange-600">
+                      <button className="px-4 py-2 rounded-full bg-white border border-emerald-300 text-emerald-600">
                         Thêm
                       </button>
                     </div>
                     <button
                       onClick={() => setShowShippingPage(true)}
                       className="w-full mt-6 py-4 text-white font-bold rounded-full shadow-lg"
-                      style={{ backgroundColor: "#f28d3d" }}
+                      style={{ backgroundColor: "#3ABF49" }}
                     >
                       Tiến hành thanh toán
                     </button>

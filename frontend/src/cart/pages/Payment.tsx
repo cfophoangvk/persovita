@@ -20,7 +20,7 @@ const Payment: React.FC<PaymentProps> = ({
         : 0;
     const totalWithShipping = Number(totalVND) + methodCost;
     const data = JSON.stringify({
-      merchant: "PERSOVITA",
+      merchant: "NOURI",
       amount: Number(totalWithShipping.toFixed(2)),
       items: productCount,
       shippingMethod: (shippingSummary as any)?.method || null,
@@ -77,7 +77,7 @@ const Payment: React.FC<PaymentProps> = ({
 
       <div className="max-w-3xl mx-auto">
         <header className="flex items-center justify-center mb-6 relative">
-          <h1 className="text-2xl tracking-widest font-semibold">PERSOVITA</h1>
+          <h1 className="text-2xl tracking-widest font-semibold">NOURI</h1>
         </header>
 
         <div className="mb-6 border-b pb-6">
@@ -146,7 +146,7 @@ const Payment: React.FC<PaymentProps> = ({
             <button
               onClick={handleGenerateQr}
               className="w-full py-4 text-white font-bold rounded-full shadow-lg"
-              style={{ backgroundColor: "#f28d3d" }}
+              style={{ backgroundColor: "#10B981" }}
             >
               Tạo QR thanh toán
             </button>
@@ -173,7 +173,7 @@ const Payment: React.FC<PaymentProps> = ({
                   {/* Thêm 'flex justify-center' để căn giữa Link */}
                   <Link
                     to="/"
-                    className="block w-1/2 text-center py-2 bg-amber-500 text-white rounded-full font-semibold hover:bg-amber-600 transition duration-150"
+                    className="block w-1/2 text-center py-2 bg-emerald-500 text-white rounded-full font-semibold hover:bg-emerald-600 transition duration-150"
                   >
                     Thanh toán thành công, quay về trang chủ
                   </Link>

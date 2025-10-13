@@ -55,7 +55,7 @@ const FeaturedReviews: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 bg-white">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-extrabold text-orange-800">
+        <h2 className="text-3xl font-extrabold text-emerald-800">
           Khách hàng nói gì về chúng tôi
         </h2>
       </div>

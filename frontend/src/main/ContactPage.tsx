@@ -5,7 +5,9 @@ const ContactPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16">
       <FadeInSection>
-        <h1 className="text-3xl font-extrabold text-[#f28d3d] mb-6">Liên hệ</h1>
+        <h1 className="text-3xl font-extrabold text-emerald-600 mb-6">
+          Liên hệ
+        </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-4">
@@ -20,7 +22,7 @@ const ContactPage: React.FC = () => {
               <h3 className="font-semibold text-lg mb-3">Thông tin cửa hàng</h3>
               <ul className="text-gray-800 space-y-2 text-sm">
                 <li>
-                  <strong>Tên:</strong> Nhà Thuốc PERSOVITA
+                  <strong>Tên:</strong> Nhà Thuốc NOURI
                 </li>
                 <li>
                   <strong>Địa chỉ:</strong> 123 Đường Sức Khỏe, Quận Thảo Điền,
@@ -28,17 +30,17 @@ const ContactPage: React.FC = () => {
                 </li>
                 <li>
                   <strong>Điện thoại:</strong>{" "}
-                  <a href="tel:+84123456789" className="text-amber-600">
+                  <a href="tel:+84123456789" className="text-emerald-600">
                     +84 123 456 789
                   </a>
                 </li>
                 <li>
                   <strong>Email:</strong>{" "}
                   <a
-                    href="mailto:info@persovita.example"
-                    className="text-amber-600"
+                    href="mailto:info@nouri.example"
+                    className="text-emerald-600"
                   >
-                    info@persovita.example
+                    info@nouri.example
                   </a>
                 </li>
                 <li>
@@ -47,7 +49,7 @@ const ContactPage: React.FC = () => {
               </ul>
             </div>
 
-            <div className="bg-amber-50 p-4 rounded text-sm text-gray-700">
+            <div className="bg-emerald-50 p-4 rounded text-sm text-gray-700">
               <p className="font-medium">Lưu ý về tư vấn y tế</p>
               <p>
                 Thông tin trên trang chỉ nhằm mục đích tham khảo. Đối với tư vấn
@@ -104,7 +106,7 @@ const ContactPage: React.FC = () => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <button className="px-5 py-3 bg-[#f28d3d] text-white rounded-full font-semibold">
+                  <button className="px-5 py-3 bg-emerald-600 text-white rounded-full font-semibold">
                     Gửi liên hệ
                   </button>
                   <div className="text-xs text-gray-500">
@@ -122,7 +124,7 @@ const ContactPage: React.FC = () => {
                     href="https://m.me/yourpage"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-amber-600"
+                    className="text-emerald-600"
                   >
                     Messenger
                   </a>
@@ -132,13 +134,13 @@ const ContactPage: React.FC = () => {
                     href="https://wa.me/84123456789"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-amber-600"
+                    className="text-emerald-600"
                   >
                     WhatsApp
                   </a>
                 </li>
                 <li>
-                  <a href="/faq" className="text-amber-600">
+                  <a href="/faq" className="text-emerald-600">
                     Câu hỏi thường gặp
                   </a>
                 </li>

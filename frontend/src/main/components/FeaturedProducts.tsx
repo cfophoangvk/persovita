@@ -12,8 +12,8 @@ const FeaturedProducts: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   // Hằng số cho kiểu dáng chuyên nghiệp
-  const BRAND_COLOR = "text-orange-700"; // Màu chính mới
-  const BUTTON_BG = "bg-orange-600 hover:bg-orange-700"; // Màu nút mới
+  const BRAND_COLOR = "text-emerald-700"; // Màu chính mới
+  const BUTTON_BG = "bg-emerald-600 hover:bg-emerald-700"; // Màu nút mới
 
   useEffect(() => {
     setLoading(true);

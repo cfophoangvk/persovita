@@ -158,7 +158,6 @@ const ShopPage: React.FC = () => {
               của bạn.
             </p>
           </div>
-          {/* right side is part of background image; keep empty spacer for layout */}
           <div className="hidden md:block flex-1" />
         </div>
       </div>
@@ -258,7 +257,7 @@ const ShopPage: React.FC = () => {
                     setPage(1);
                     setSortBy("name-asc");
                   }}
-                  className="flex-1 py-2 rounded-full border border-gray-300 bg-amber-300 text-sm hover:bg-amber-400 transition"
+                  className="flex-1 py-2 rounded-full border border-gray-300 bg-emerald-300 text-sm hover:bg-emerald-400 transition"
                 >
                   Reset
                 </button>
@@ -321,7 +320,7 @@ const ShopPage: React.FC = () => {
                           {p.brands.map((c: any) => (
                             <span
                               key={c.id}
-                              className="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded"
+                              className="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded"
                             >
                               {c.name}
                             </span>
@@ -333,7 +332,7 @@ const ShopPage: React.FC = () => {
                     <h3 className="font-semibold mb-1">
                       <Link
                         to={`/products/${p.id}`}
-                        className="hover:text-amber-600 transition"
+                        className="hover:text-emerald-600 transition"
                       >
                         {p.name}
                       </Link>
@@ -378,7 +377,7 @@ const ShopPage: React.FC = () => {
                             })
                             .catch(() => alert("Failed to add to cart"));
                         }}
-                        className="w-9 h-9 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center hover:bg-amber-200 transition"
+                        className="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center hover:bg-emerald-200 transition"
                       >
                         +
                       </button>
@@ -455,7 +454,7 @@ const ShopPage: React.FC = () => {
                           onClick={() => setPage(pNum)}
                           className={`px-3 py-2 rounded text-sm border ${
                             page === pNum
-                              ? "bg-amber-200 border-amber-300 font-medium"
+                              ? "bg-emerald-200 border-emerald-300 font-medium"
                               : "bg-white border-gray-200 hover:bg-gray-50"
                           }`}
                         >
