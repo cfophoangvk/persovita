@@ -134,40 +134,7 @@ const Cart = () => {
                 p.image ?? "https://via.placeholder.com/120x120?text=Product",
             }))
           );
-        } else {
-          // dự phòng dữ liệu từ file
-          fetch("http://localhost:6789/file")
-            .then((r) => r.json())
-            .then((data) => {
-              const items: Product[] = (data.products || []).map((p: any) => ({
-                ...p,
-                price: p.price ?? 35000,
-                quantity: p.quantity ?? 1,
-                subscription: p.subscription ?? false,
-                image:
-                  p.image ?? "https://via.placeholder.com/120x120?text=Product",
-              }));
-              setCartItems(items);
-            })
-            .catch(() => {});
         }
-      })
-      .catch(() => {
-        // lỗi mạng -> dự phòng
-        fetch("http://localhost:6789/file")
-          .then((r) => r.json())
-          .then((data) => {
-            const items: Product[] = (data.products || []).map((p: any) => ({
-              ...p,
-              price: p.price ?? 35000,
-              quantity: p.quantity ?? 1,
-              subscription: p.subscription ?? false,
-              image:
-                p.image ?? "https://via.placeholder.com/120x120?text=Product",
-            }));
-            setCartItems(items);
-          })
-          .catch(() => {});
       })
       .finally(() => setLoading(false));
   }, []);

@@ -4,6 +4,7 @@ import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { LogIn } from "lucide-react";
 import useScrollHeaderEffect from "../hooks/useScrollHeaderEffect";
 import { motion } from "framer-motion";
+import { ProductService } from "../../drugs/services/ProductService";
 
 // Định dạng sang VNĐ (dùng cho hiển thị trong header và preview)
 const formatVND = (value: number) => {
@@ -11,6 +12,15 @@ const formatVND = (value: number) => {
 };
 
 const AppHeader: React.FC = () => {
+  // search state
+  const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [suggestLoading, setSuggestLoading] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [showSearchBox, setShowSearchBox] = useState(false);
+  const debounceRef = useRef<any>(null);
   const [count, setCount] = useState<number>(0);
   const [showPreview, setShowPreview] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -81,6 +91,77 @@ const AppHeader: React.FC = () => {
 
   const { show } = useScrollHeaderEffect();
 
+  // handle outside click to close suggestions
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      const t = e.target as Node;
+      if (searchRef.current && !searchRef.current.contains(t)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("click", onDocClick);
+    return () => document.removeEventListener("click", onDocClick);
+  }, []);
+
+  // cleanup debounce timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
+
+  const fetchSuggestions = (q: string) => {
+    if (!q || q.trim().length < 2) {
+      setSuggestions([]);
+      setSuggestLoading(false);
+      return;
+    }
+    setSuggestLoading(true);
+    fetch(
+      `http://localhost:6789/api/products/filter?q=${encodeURIComponent(
+        q
+      )}&limit=5`
+    )
+      .then((r) => r.json())
+      .then(async (d) => {
+        const list = (d.products || []).slice(0, 5);
+        try {
+          await setProductImages(list);
+        } catch (e) {
+          // ignore image load errors
+        }
+        setSuggestions(list);
+      })
+      .catch(() => setSuggestions([]))
+      .finally(() => setSuggestLoading(false));
+  };
+
+  const setProductImages = async (productList: any[]) => {
+    const productService = new ProductService();
+    for (let i = 0; i < productList.length; i++) {
+      // ensure numeric id if necessary
+      const id = Number((productList[i].id as any) || productList[i]._id);
+      try {
+        productList[i].images = await productService.getProductImages(id);
+      } catch (e) {
+        productList[i].images = [];
+      }
+    }
+  };
+  const onQueryChange = (v: string) => {
+    setQuery(v);
+    setShowSuggestions(true);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchSuggestions(v), 250);
+  };
+
+  const onSubmitSearch = (q?: string) => {
+    const value = (q ?? query).trim();
+    if (!value) return;
+    setShowSuggestions(false);
+    navigate(`/shop?q=${encodeURIComponent(value)}`);
+  };
+
   return (
     <motion.header
       className="bg-white border-b fixed top-0 left-0 right-0 z-1"
@@ -137,25 +218,114 @@ const AppHeader: React.FC = () => {
                 Về chúng tôi
               </Link>
             </nav>
+
+            {/* (search moved to right area) */}
           </div>
 
           <div className="flex items-center gap-4">
-            <button
-              aria-label="Tìm kiếm"
-              className="p-2 rounded-full hover:bg-gray-100 transition duration-150"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-600"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
+            {/* search icon toggles the compact search box */}
+            <div className="relative" ref={searchRef}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowSearchBox((s) => {
+                    const next = !s;
+                    if (!next) setShowSuggestions(false);
+                    return next;
+                  });
+                  // focus next tick
+                  setTimeout(() => inputRef.current?.focus(), 50);
+                }}
+                aria-label="Tìm kiếm"
+                className="p-2 rounded-full hover:bg-gray-100 transition duration-150"
               >
-                <circle cx="11" cy="11" r="7" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-600"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </button>
+
+              {showSearchBox && (
+                <div className="absolute right-0 top-10 w-80 bg-white border rounded-md shadow-lg z-50 p-2">
+                  <div className="flex items-center gap-2">
+                    <input
+                      ref={inputRef}
+                      value={query}
+                      onChange={(e) => onQueryChange(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") onSubmitSearch();
+                        if (e.key === "Escape") {
+                          setShowSuggestions(false);
+                          setShowSearchBox(false);
+                        }
+                      }}
+                      placeholder="Tìm sản phẩm..."
+                      className="flex-1 px-3 py-2 border rounded focus:outline-none"
+                    />
+                    <button
+                      onClick={() => {
+                        setShowSearchBox(false);
+                        setShowSuggestions(false);
+                      }}
+                      className="px-2 text-gray-600"
+                      aria-label="Đóng"
+                    >
+                      ✖
+                    </button>
+                  </div>
+
+                  {showSuggestions &&
+                    (suggestions.length > 0 || suggestLoading) && (
+                      <div className="mt-2 max-h-56 overflow-auto">
+                        {suggestLoading && (
+                          <div className="px-3 py-2 text-sm text-gray-500">
+                            Đang tải...
+                          </div>
+                        )}
+                        {suggestions.map((p) => (
+                          <div
+                            key={p._id || p.id || p.slug || p.title}
+                            onClick={() => {
+                              setShowSearchBox(false);
+                              setShowSuggestions(false);
+                              const pid = p.id || p._id;
+                              if (pid) navigate(`/products/${pid}`);
+                              else onSubmitSearch(p.title || p.name || p.slug);
+                            }}
+                            className="px-3 py-2 hover:bg-emerald-50 cursor-pointer flex items-center gap-3"
+                          >
+                            <img
+                              src={p.images?.[0]}
+                              alt={p.title || p.name}
+                              className="w-10 h-10 object-cover rounded"
+                            />
+                            <div>
+                              <div className="text-sm font-medium text-gray-800">
+                                {p.title || p.name}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {formatVND(Number(p.price) || 0)}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        {!suggestLoading && suggestions.length === 0 && (
+                          <div className="px-3 py-2 text-sm text-gray-500">
+                            Không có kết quả
+                          </div>
+                        )}
+                      </div>
+                    )}
+                </div>
+              )}
+            </div>
 
             <button
               onClick={(e) => {
