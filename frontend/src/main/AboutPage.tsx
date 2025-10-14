@@ -40,6 +40,12 @@ const AboutPage: React.FC = () => {
               >
                 Xem Sản Phẩm
               </Link>
+              <Link
+                to="/contact"
+                className="px-6 py-3 border border-emerald-600 text-emerald-600 rounded-full font-semibold transition duration-200 hover:bg-emerald-50"
+              >
+                Liên Hệ
+              </Link>
             </div>
           </div>
 

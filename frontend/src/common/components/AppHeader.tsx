@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
-import { LogIn, LogOut } from "lucide-react";
+import { LogIn } from "lucide-react";
 import useScrollHeaderEffect from "../hooks/useScrollHeaderEffect";
 import { motion } from "framer-motion";
 

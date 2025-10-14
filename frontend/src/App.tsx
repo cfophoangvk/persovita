@@ -14,6 +14,7 @@ import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./auth/stores/useAuthStore";
 import { useEffect } from "react";
 import ProfilePage from "./auth/pages/ProfilePage";
+import ContactPage from "./main/ContactPage";
 
 const App = () => {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -41,6 +42,7 @@ const App = () => {
           <Route index element={<HomePage />} />
           <Route path="shop" element={<ShopPage />} />
           <Route path="about" element={<AboutPage />} />
+          <Route path="contact" element={<ContactPage />} />
           <Route path="products/:id" element={<DrugDetailsPage />} />
           <Route
             path="profile"

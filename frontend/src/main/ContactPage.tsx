@@ -3,7 +3,7 @@ import FadeInSection from "../layouts/FadeInSection";
 
 const ContactPage: React.FC = () => {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-16">
+    <div className="max-w-4xl mx-auto mt-10 px-6 py-16">
       <FadeInSection>
         <h1 className="text-3xl font-extrabold text-emerald-600 mb-6">
           Liên hệ
@@ -25,13 +25,13 @@ const ContactPage: React.FC = () => {
                   <strong>Tên:</strong> Nhà Thuốc NOURI
                 </li>
                 <li>
-                  <strong>Địa chỉ:</strong> 123 Đường Sức Khỏe, Quận Thảo Điền,
-                  Hà Nội
+                  <strong>Địa chỉ:</strong> 197 Trần Phú, Hà Đông, Hanoi,
+                  Vietnam
                 </li>
                 <li>
                   <strong>Điện thoại:</strong>{" "}
                   <a href="tel:+84123456789" className="text-emerald-600">
-                    +84 123 456 789
+                    039 491 4881
                   </a>
                 </li>
                 <li>
@@ -40,7 +40,7 @@ const ContactPage: React.FC = () => {
                     href="mailto:info@nouri.example"
                     className="text-emerald-600"
                   >
-                    info@nouri.example
+                    nourivitamin@gmail.com
                   </a>
                 </li>
                 <li>
@@ -60,88 +60,27 @@ const ContactPage: React.FC = () => {
           </div>
 
           <div>
-            <div className="bg-white rounded-lg p-6 shadow">
-              <h3 className="font-semibold text-lg mb-4">
-                Gửi tin nhắn cho chúng tôi
-              </h3>
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Họ và tên
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full border border-gray-200 rounded px-3 py-2"
-                    placeholder="Nguyễn Văn A"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="mt-1 block w-full border border-gray-200 rounded px-3 py-2"
-                    placeholder="you@example.com"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Số điện thoại (tuỳ chọn)
-                  </label>
-                  <input
-                    type="tel"
-                    className="mt-1 block w-full border border-gray-200 rounded px-3 py-2"
-                    placeholder="+84 9xx xxx xxx"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Nội dung
-                  </label>
-                  <textarea
-                    className="mt-1 block w-full border border-gray-200 rounded px-3 py-2 h-28"
-                    placeholder="Mô tả yêu cầu của bạn"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <button className="px-5 py-3 bg-emerald-600 text-white rounded-full font-semibold">
-                    Gửi liên hệ
-                  </button>
-                  <div className="text-xs text-gray-500">
-                    Chúng tôi sẽ phản hồi trong vòng 24 giờ
-                  </div>
-                </div>
-              </form>
-            </div>
-
             <div className="mt-4 text-sm text-gray-600">
               <p className="font-semibold">Kênh hỗ trợ khác</p>
               <ul className="mt-2 space-y-2">
                 <li>
                   <a
-                    href="https://m.me/yourpage"
+                    href="https://www.facebook.com/nourivitamin?mibextid=wwXIfr&rdid=m52VXaWSXFqD3Yfp&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DCgNiC9HG%2F%3Fmibextid%3DwwXIfr#"
                     target="_blank"
                     rel="noreferrer"
                     className="text-emerald-600"
                   >
-                    Messenger
+                    Fanpage
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://wa.me/84123456789"
+                    href="https://www.tiktok.com/@nourivitamin"
                     target="_blank"
                     rel="noreferrer"
                     className="text-emerald-600"
                   >
-                    WhatsApp
-                  </a>
-                </li>
-                <li>
-                  <a href="/faq" className="text-emerald-600">
-                    Câu hỏi thường gặp
+                    Tiktok
                   </a>
                 </li>
               </ul>
