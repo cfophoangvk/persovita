@@ -12,7 +12,7 @@ const AppFooter: React.FC = () => {
                 P
               </div>
               <div>
-                <div className="font-semibold mb-4">VỀ PERSOVITA</div>
+                <div className="font-semibold mb-4">VỀ NOURI</div>
                 <ul className="text-sm text-gray-700 space-y-2">
                   <li>
                     <a href="/about" className="hover:underline">
@@ -75,7 +75,7 @@ const AppFooter: React.FC = () => {
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Ứng dụng Persovita (Persovita App)
+                  Ứng dụng Nouri (Nouri App)
                 </a>
               </li>
               <li>
@@ -174,7 +174,7 @@ const AppFooter: React.FC = () => {
 
         {/* Thông tin bản quyền và in nhỏ */}
         <div className="mt-6 text-xs text-gray-500 text-center w-full gap-4">
-          © {new Date().getFullYear()} PERSOVITA. Mọi quyền được bảo lưu.
+          © {new Date().getFullYear()} NOURI. Mọi quyền được bảo lưu.
         </div>
       </div>
     </footer>

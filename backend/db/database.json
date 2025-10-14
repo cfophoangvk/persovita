@@ -2312,6 +2312,24 @@
       "userId": 8,
       "method": "qr",
       "info": "{\"merchant\":\"PERSOVITA\",\"amount\":129000,\"items\":1,\"shippingMethod\":\"home_priv\",\"shippingMethodCost\":10000,\"ts\":1760073785654}"
+    },
+    {
+      "id": 2,
+      "userId": 8,
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":841284.8,\"items\":1,\"shippingMethod\":\"home_priv\",\"shippingMethodCost\":10000,\"ts\":1760359368005}"
+    },
+    {
+      "id": 3,
+      "userId": 8,
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":387260.8,\"items\":1,\"shippingMethod\":\"home_colis\",\"shippingMethodCost\":20000,\"ts\":1760373199144}"
+    },
+    {
+      "id": 4,
+      "userId": 8,
+      "method": "qr",
+      "info": "{\"merchant\":\"PERSOVITA\",\"amount\":1652569.6,\"items\":1,\"shippingMethod\":\"home_colis\",\"shippingMethodCost\":20000,\"ts\":1760375839802}"
     }
   ],
   "carts": [],
@@ -2337,6 +2355,72 @@
       "total": 129000,
       "status": "pending",
       "createdAt": "2025-10-10T05:23:05.694Z"
+    },
+    {
+      "id": 2,
+      "userId": 8,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Hyaluronic Acid",
+          "price": 1001606,
+          "quantity": 1,
+          "image": "/src/drugs/assets/products/product-1/product-1.png",
+          "subscription": false
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "home_priv",
+      "shippingMethodCost": 10000,
+      "shippingBase": 30000,
+      "paymentId": 2,
+      "total": 1041606,
+      "status": "pending",
+      "createdAt": "2025-10-13T12:42:48.059Z"
+    },
+    {
+      "id": 3,
+      "userId": 8,
+      "items": [
+        {
+          "productId": 2,
+          "name": "Turmeric Capsules",
+          "price": 421576,
+          "quantity": 1,
+          "image": "/src/drugs/assets/products/product-2/product-1.png",
+          "subscription": false
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "home_colis",
+      "shippingMethodCost": 20000,
+      "shippingBase": 30000,
+      "paymentId": 3,
+      "total": 471576,
+      "status": "pending",
+      "createdAt": "2025-10-13T16:33:19.202Z"
+    },
+    {
+      "id": 4,
+      "userId": 8,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Hyaluronic Acid",
+          "price": 1001606,
+          "quantity": 1,
+          "image": "/src/drugs/assets/products/product-1/product-1.png",
+          "subscription": false
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "home_colis",
+      "shippingMethodCost": 20000,
+      "shippingBase": 30000,
+      "paymentId": 4,
+      "total": 1051606,
+      "status": "pending",
+      "createdAt": "2025-10-13T17:17:19.854Z"
     }
   ],
   "productReviews": [

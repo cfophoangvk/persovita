@@ -52,8 +52,7 @@ const DrugDetailsPage: React.FC = () => {
     setIndex(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    productService.getProductImages(Number(id))
-      .then(data => setImages(data));
+    productService.getProductImages(Number(id)).then((data) => setImages(data));
   }, [id]);
 
   const product = drug ?? (id ? { ...ProductPlaceholder, id } : null);
@@ -63,8 +62,8 @@ const DrugDetailsPage: React.FC = () => {
     product && Array.isArray(product.related) && product.related.length
       ? product.related
       : Array.isArray(relatedFromStore) && relatedFromStore.length
-        ? relatedFromStore
-        : [];
+      ? relatedFromStore
+      : [];
 
   const prev = () => setIndex((i) => (i - 1 + images.length) % images.length);
   const next = () => setIndex((i) => (i + 1) % images.length);
@@ -110,7 +109,7 @@ const DrugDetailsPage: React.FC = () => {
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto py-10">
         <nav className="text-sm text-gray-500 mb-4">
-          <span className="hover:text-amber-600 transition">
+          <span className="hover:text-emerald-600 transition">
             <Link to="/">Home</Link>
           </span>{" "}
           <span>&gt; {product.name}</span>
@@ -149,8 +148,9 @@ const DrugDetailsPage: React.FC = () => {
                 <button
                   key={i}
                   onClick={() => setIndex(i)}
-                  className={`w-20 h-20 rounded-md overflow-hidden border ${i === index ? "border-amber-300" : "border-gray-200"
-                    }`}
+                  className={`w-20 h-20 rounded-md overflow-hidden border ${
+                    i === index ? "border-emerald-300" : "border-gray-200"
+                  }`}
                 >
                   <img
                     src={src}
@@ -176,7 +176,7 @@ const DrugDetailsPage: React.FC = () => {
                 </h1>
                 <div className="flex items-center gap-3 text-sm text-gray-500">
                   <div className="flex items-center gap-1">
-                    <span className="text-amber-500 font-semibold">
+                    <span className="text-emerald-500 font-semibold">
                       {(product as any).rating ?? 4.5}
                     </span>
                     <span className="text-gray-400">★</span>
@@ -227,7 +227,7 @@ const DrugDetailsPage: React.FC = () => {
                     </thead>
                     <tbody>
                       {Array.isArray(product.activeIngredients) &&
-                        product.activeIngredients.length ? (
+                      product.activeIngredients.length ? (
                         product.activeIngredients.map((ing, i) => (
                           <tr key={i}>
                             <td className="p-2">{ing.name}</td>
@@ -316,7 +316,7 @@ const DrugDetailsPage: React.FC = () => {
         <section className="mt-12">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-semibold">Products with same topic</h3>
-            <Link to="/shop" className="text-sm text-amber-600">
+            <Link to="/shop" className="text-sm text-emerald-600">
               See all
             </Link>
           </div>
@@ -337,9 +337,7 @@ const DrugDetailsPage: React.FC = () => {
                 </div>
                 <div className="text-sm font-medium">{r.name}</div>
                 <div className="text-sm text-gray-500 mt-1">
-                  {r.price
-                    ? `${r.price.toLocaleString()} VND`
-                    : "Contact"}
+                  {r.price ? `${r.price.toLocaleString()} VND` : "Contact"}
                 </div>
               </Link>
             ))}

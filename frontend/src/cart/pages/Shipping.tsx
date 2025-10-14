@@ -97,7 +97,7 @@ const Shipping: React.FC<{
       </button>
       <div className="max-w-3xl mx-auto">
         <header className="flex items-center justify-center mb-6 relative">
-          <h1 className="text-2xl tracking-widest font-semibold">PERSOVITA</h1>
+          <h1 className="text-2xl tracking-widest font-semibold">NOURI</h1>
         </header>
 
         {/* Tổng quan giỏ hàng */}
@@ -119,7 +119,7 @@ const Shipping: React.FC<{
 
           {/* Thông tin liên hệ */}
           <div className="mb-6">
-            <h3 className="text-sm font-bold text-orange-600 mb-3">
+            <h3 className="text-sm font-bold text-emerald-600 mb-3">
               THÔNG TIN LIÊN HỆ
             </h3>
             <input
@@ -134,7 +134,7 @@ const Shipping: React.FC<{
 
           {/* Địa chỉ giao hàng */}
           <div className="mb-6">
-            <h3 className="text-sm font-bold text-orange-600 mb-3">
+            <h3 className="text-sm font-bold text-emerald-600 mb-3">
               ĐỊA CHỈ GIAO HÀNG
             </h3>
             <div className="grid grid-cols-2 gap-3 mb-3">
@@ -208,7 +208,7 @@ const Shipping: React.FC<{
 
           {/* Phương thức vận chuyển */}
           <div className="mb-6">
-            <h3 className="text-sm font-bold text-orange-600 mb-3">
+            <h3 className="text-sm font-bold text-emerald-600 mb-3">
               PHƯƠNG THỨC VẬN CHUYỂN
             </h3>
             <div className="space-y-3">
@@ -223,8 +223,8 @@ const Shipping: React.FC<{
                     key={m.id}
                     className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition ${
                       method === m.id
-                        ? "border-orange-500 ring-1 ring-orange-500 bg-orange-50"
-                        : "border-gray-200 hover:border-orange-300"
+                        ? "border-emerald-500 ring-1 ring-emerald-500 bg-emerald-50"
+                        : "border-gray-200 hover:border-emerald-300"
                     }`}
                   >
                     <div>
@@ -246,7 +246,7 @@ const Shipping: React.FC<{
                         name="shipping"
                         checked={method === m.id}
                         onChange={() => setMethod(m.id)}
-                        className="h-4 w-4 text-orange-600 border-gray-300 focus:ring-orange-500"
+                        className="h-4 w-4 text-emerald-600 border-gray-300 focus:ring-emerald-500"
                       />
                     </div>
                   </label>
@@ -259,8 +259,8 @@ const Shipping: React.FC<{
           <div className="mt-6">
             <button
               onClick={handleProceed}
-              className="w-full py-4 text-white font-bold rounded-full shadow-lg transition-colors duration-200 hover:bg-orange-600"
-              style={{ backgroundColor: "#f28d3d" }}
+              className="w-full py-4 text-white font-bold rounded-full shadow-lg transition-colors duration-200 hover:bg-emerald-600"
+              style={{ backgroundColor: "#3ABF49" }}
             >
               Tiến hành thanh toán bảo mật
             </button>

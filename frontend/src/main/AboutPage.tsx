@@ -9,7 +9,7 @@ const AboutPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Nội dung chính */}
           <div>
-            <h1 className="text-4xl font-extrabold text-[#f28d3d] mb-4">
+            <h1 className="text-4xl font-extrabold text-emerald-600 mb-4">
               Về Nhà Thuốc Của Chúng Tôi
             </h1>
             <p className="text-gray-700 mb-4 text-lg">
@@ -36,7 +36,7 @@ const AboutPage: React.FC = () => {
             <div className="flex gap-3">
               <Link
                 to="/shop"
-                className="px-5 py-3 bg-[#f28d3d] text-white rounded-full font-semibold transition duration-150 hover:bg-orange-600"
+                className="px-5 py-3 bg-emerald-500 text-white rounded-full font-semibold transition duration-150 hover:bg-emerald-600"
               >
                 Xem Sản Phẩm
               </Link>
@@ -45,7 +45,7 @@ const AboutPage: React.FC = () => {
 
           {/* Cam kết */}
           <div className="bg-[#f7efe6] rounded-xl p-8 shadow-md">
-            <h3 className="font-bold text-xl text-orange-700 mb-4">
+            <h3 className="font-bold text-xl text-emerald-700 mb-4">
               Cam Kết Của Chúng Tôi
             </h3>
             <ul className="list-disc pl-5 text-gray-800 space-y-3">

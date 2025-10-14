@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import type { PaymentProps } from "../interfaces";
 import { Link } from "react-router-dom";
+import qrImg from "../assets/qr.jpg";
 
 const Payment: React.FC<PaymentProps> = ({
   productCount = 0,
@@ -19,7 +20,7 @@ const Payment: React.FC<PaymentProps> = ({
         : 0;
     const totalWithShipping = Number(totalVND) + methodCost;
     const data = JSON.stringify({
-      merchant: "PERSOVITA",
+      merchant: "NOURI",
       amount: Number(totalWithShipping.toFixed(2)),
       items: productCount,
       shippingMethod: (shippingSummary as any)?.method || null,
@@ -27,10 +28,8 @@ const Payment: React.FC<PaymentProps> = ({
       ts: Date.now(),
     });
     setPayload(data);
-    const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
-      data
-    )}`;
-    setQrUrl(url);
+    // use local placeholder QR image from assets
+    setQrUrl(qrImg);
     // create order on backend (order creation will persist shipping/payment)
     Promise.all([
       import("../services/orderService"),
@@ -78,7 +77,7 @@ const Payment: React.FC<PaymentProps> = ({
 
       <div className="max-w-3xl mx-auto">
         <header className="flex items-center justify-center mb-6 relative">
-          <h1 className="text-2xl tracking-widest font-semibold">PERSOVITA</h1>
+          <h1 className="text-2xl tracking-widest font-semibold">NOURI</h1>
         </header>
 
         <div className="mb-6 border-b pb-6">
@@ -147,7 +146,7 @@ const Payment: React.FC<PaymentProps> = ({
             <button
               onClick={handleGenerateQr}
               className="w-full py-4 text-white font-bold rounded-full shadow-lg"
-              style={{ backgroundColor: "#f28d3d" }}
+              style={{ backgroundColor: "#10B981" }}
             >
               Tạo QR thanh toán
             </button>
@@ -169,15 +168,12 @@ const Payment: React.FC<PaymentProps> = ({
                     Đóng
                   </button>
                 </div>
-                <div className="mt-3 text-xs text-gray-500 break-words">
-                  {payload}
-                </div>
                 <div className="mt-4 flex justify-center">
                   {" "}
                   {/* Thêm 'flex justify-center' để căn giữa Link */}
                   <Link
                     to="/"
-                    className="block w-1/2 text-center py-2 bg-amber-500 text-white rounded-full font-semibold hover:bg-amber-600 transition duration-150"
+                    className="block w-1/2 text-center py-2 bg-emerald-500 text-white rounded-full font-semibold hover:bg-emerald-600 transition duration-150"
                   >
                     Thanh toán thành công, quay về trang chủ
                   </Link>

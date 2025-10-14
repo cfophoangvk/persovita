@@ -14,14 +14,13 @@ const Banner: React.FC = () => {
   useEffect(() => {
     const t = setInterval(() => setIdx((i) => (i + 1) % images.length), 4000);
     return () => clearInterval(t);
-  }, [idx]);
+  }, [images.length]); // Đã sửa dependency array cho chính xác hơn
 
   return (
     <div
       className="relative w-full bg-center bg-no-repeat bg-cover"
       style={{
-        // Thiết lập ảnh nền cho banner
-        backgroundImage: `linear-gradient(90deg, rgba(242,141,61,0.12), rgba(242,141,61,0.02)), url('${images[idx]}')`,
+        backgroundImage: `linear-gradient(90deg, rgba(52,211,163,0.12), rgba(52,211,163,0.02)), url('${images[idx]}')`,
       }}
     >
       {/* Lớp phủ (overlay) gradient màu trắng để tăng độ tương phản của chữ */}
@@ -29,8 +28,9 @@ const Banner: React.FC = () => {
 
       {/* Nội dung chính của banner */}
       <div className="relative max-w-7xl mx-auto px-6 py-32 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-[#f28d3d]">
-          PERSOVITA
+        {/* ĐÃ THAY MÀU TEXT sang EMERALD-600 */}
+        <h1 className="text-4xl md:text-5xl font-extrabold text-emerald-600">
+          NOURI
         </h1>
         <p className="mt-4 text-gray-700 max-w-2xl mx-auto">
           Thực phẩm bổ sung được hỗ trợ bởi khoa học, giao tận nhà bạn — tự
@@ -39,13 +39,15 @@ const Banner: React.FC = () => {
         <div className="mt-8 flex justify-center gap-4">
           <a
             href="/shop"
-            className="px-6 py-3 bg-[#f28d3d] text-white rounded-full font-semibold shadow-md hover:shadow-lg transition duration-200 hover:bg-orange-600"
+            // Nút Mua ngay: Giữ nguyên bg-emerald-500
+            className="px-6 py-3 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition duration-200 hover:bg-emerald-600"
           >
             Mua ngay
           </a>
           <a
             href="/test"
-            className="px-6 py-3 border border-[#f28d3d] text-[#f28d3d] rounded-full font-semibold transition duration-200 hover:bg-orange-50"
+            // ĐÃ THAY BORDER và TEXT sang EMERALD-600
+            className="px-6 py-3 border border-emerald-600 text-emerald-600 rounded-full font-semibold transition duration-200 hover:bg-emerald-50"
           >
             Làm bài kiểm tra
           </a>
@@ -60,7 +62,8 @@ const Banner: React.FC = () => {
             onClick={() => setIdx(i)}
             aria-label={`Chuyển đến Banner ${i + 1}`}
             className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
-              i === idx ? "bg-[#f28d3d]" : "bg-white/60 hover:bg-white"
+              // ĐÃ THAY MÀU ACTIVE DOT sang EMERALD-600
+              i === idx ? "bg-emerald-600" : "bg-white/60 hover:bg-white"
             }`}
           />
         ))}

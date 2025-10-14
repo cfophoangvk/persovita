@@ -50,12 +50,10 @@ const SignUpPage: React.FC = () => {
       </a>
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center">
-          <div className="text-4xl font-extrabold tracking-widest text-amber-400 mb-4">
-            <Link to="/">PERSOVITA</Link>
+          <div className="text-4xl font-extrabold tracking-widest text-emerald-400 mb-4">
+            <Link to="/">NOURI</Link>
           </div>
-          <p className="text-sm text-gray-600 mb-8">
-            Tạo tài khoản Persovita mới
-          </p>
+          <p className="text-sm text-gray-600 mb-8">Tạo tài khoản Nouri mới</p>
 
           <form
             onSubmit={onSubmit}
@@ -69,7 +67,7 @@ const SignUpPage: React.FC = () => {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Nguyễn Văn A"
-              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-amber-200"
+              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-200"
             />
 
             <label className="block text-xs font-medium text-gray-700 mb-1">
@@ -81,7 +79,7 @@ const SignUpPage: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="abc@gmail.com"
               required
-              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-amber-200"
+              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-200"
             />
 
             <label className="block text-xs font-medium text-gray-700 mb-1">
@@ -93,7 +91,7 @@ const SignUpPage: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-amber-200"
+              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-200"
             />
 
             <label className="block text-xs font-medium text-gray-700 mb-1">
@@ -105,7 +103,7 @@ const SignUpPage: React.FC = () => {
               onChange={(e) => setConfirm(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-amber-200"
+              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-200"
             />
 
             <div className="flex items-center gap-3 mb-6">
@@ -122,7 +120,7 @@ const SignUpPage: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-2 rounded-full bg-amber-600 text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors"
+              className="w-full py-2 rounded-full bg-emerald-600 text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors"
             >
               {isLoading ? (
                 <Loader2 className="w-6 h-6 mx-auto animate-spin" />
@@ -139,7 +137,7 @@ const SignUpPage: React.FC = () => {
 
             <button
               type="button"
-              className="w-full py-2 rounded-full border border-gray-300 bg-white flex items-center justify-center gap-3 text-sm text-black font-medium hover:bg-amber-50 active:bg-amber-100 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-amber-200"
+              className="w-full py-2 rounded-full border border-gray-300 bg-white flex items-center justify-center gap-3 text-sm text-black font-medium hover:bg-emerald-50 active:bg-emerald-100 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-emerald-200"
             >
               <img src={googleBase64} alt="google" className="w-5 h-5" />
               <span>Đăng ký với Google</span>
@@ -148,11 +146,11 @@ const SignUpPage: React.FC = () => {
             <div className="flex justify-between mt-6 text-sm">
               <Link
                 to="/forgot-password"
-                className="text-amber-400 hover:underline"
+                className="text-emerald-400 hover:underline"
               >
                 Quên mật khẩu?
               </Link>
-              <Link to="/login" className="text-amber-400 hover:underline">
+              <Link to="/login" className="text-emerald-400 hover:underline">
                 Đăng nhập
               </Link>
             </div>
