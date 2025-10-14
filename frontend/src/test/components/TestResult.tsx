@@ -7,7 +7,7 @@ const TestResult = () => {
       <h1 className="text-3xl mt-6">Đề xuất thuốc của bạn đã sẵn sàng</h1>
       <button
         className="mt-6 rounded-full bg-emerald-400 text-white px-8 py-2 font-bold"
-        onClick={() => alert("Coming soon....")}
+        onClick={() => window.location.href = '/test/recommendation'}
       >
         Xem đề xuất
       </button>

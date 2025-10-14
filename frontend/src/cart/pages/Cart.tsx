@@ -124,14 +124,13 @@ const Cart = () => {
         if (res && res.success) {
           setCartItems(
             (res.cart || []).map((p: any) => ({
-              id: p.id,
+              id: p.productId,
               name: p.name,
               description: p.description,
               price: p.price ?? 35000,
               quantity: p.quantity ?? 1,
               subscription: p.subscription ?? false,
-              image:
-                p.image ?? "https://via.placeholder.com/120x120?text=Product",
+              images: [p.image],
             }))
           );
         }
@@ -390,7 +389,7 @@ const Cart = () => {
                     <li>
                       <div className="mt-6 flex justify-center">
                         <button
-                          onClick={() => navigate("/")}
+                          onClick={() => navigate("/shop")}
                           className="px-6 py-3 w-3/4 border-2 border-emerald-300 text-emerald-600 rounded-full font-semibold hover:bg-emerald-50"
                         >
                           + Thêm sản phẩm

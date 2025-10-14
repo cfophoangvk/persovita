@@ -15,20 +15,27 @@ import { CHOICE_ITEMS } from "../constants/choiceItem";
 import { TestUtils } from "../utils/TestUtils";
 import TestResult from "../components/TestResult";
 import Header from "../components/Header";
-// import useLocalStorage from "../hooks/useLocalStorage";
-// import type { ITestStorage } from "../interfaces/ITestStorage";
+import useLocalStorage from "../hooks/useLocalStorage";
+import type { ITestStorage } from "../interfaces/ITestStorage";
+import Recommendation from "./Recommendation";
+import type { Product } from "../interfaces/Product";
+import axiosInstance from "../../utils/axios";
+import { ProductService } from "../../drugs/services/ProductService";
 
 const TestPage = () => {
-  // const defaultTestData: ITestStorage = {
-  //   name: ''
-  // }
-  // const [testData, setTestData] = useLocalStorage<ITestStorage>();
+  const defaultTestData: ITestStorage = {
+    name: '',
+    email: '',
+    selectedProducts: []
+  }
+  const [_, setTestData] = useLocalStorage<ITestStorage>('testData', defaultTestData);
   const [hasError, setHasError] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [supplementText, setSupplementText] = useState<string>("");
   const [age, setAge] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [selectedObjectives, setSelectedObjectives] = useState<number[]>([]);
+  const [saveObjectives, setSaveObjectives] = useState<number[]>([]);
   const [selectedMockItem, setSelectedMockItem] = useState<number[]>([]);
   const [currentProgress, setCurrentProgress] = useState<number>(0);
 
@@ -36,9 +43,9 @@ const TestPage = () => {
   const navigate = useNavigate();
   const nodeRef = useRef(null);
   const testUtils = new TestUtils();
+  const productService = new ProductService();
 
   const handleNext = (response?: number) => {
-    console.log("next");
     const pathName = location.pathname;
     const match = pathName.match(/(\d+)/);
     if (!match) return;
@@ -49,8 +56,136 @@ const TestPage = () => {
   };
 
   const finishTest = () => {
-    window.location.href = "/test/result";
+    handleAddCartProducts(saveObjectives)
+      .then(products => {
+        setTestData({
+          name: name,
+          email: email,
+          selectedProducts: products
+        })
+
+        window.location.href = "/test/result";
+      })
   };
+
+  const objectiveMapping = [
+    {
+      objective: 2,
+      feature: 17,
+      text: SECTION.ENERGY
+    },
+    {
+      objective: 3,
+      feature: 4,
+      text: SECTION.HEART
+    },
+    {
+      objective: 4,
+      feature: 16,
+      text: SECTION.IMMUNITY
+    },
+    {
+      objective: 5,
+      feature: 2,
+      text: SECTION.SKIN
+    },
+    {
+      objective: 6,
+      feature: 3,
+      text: SECTION.HAIR
+    },
+    {
+      objective: 7,
+      feature: 6,
+      text: SECTION.DIGESTION
+    },
+    {
+      objective: 8,
+      feature: 15,
+      text: SECTION.STRESS
+    },
+    {
+      objective: 9,
+      feature: 11,
+      text: SECTION.BONES
+    },
+    {
+      objective: 10,
+      feature: 12,
+      text: SECTION.SLEEP
+    },
+    {
+      objective: 12,
+      feature: 9,
+      text: SECTION.WOMEN_HEALTH
+    },
+    {
+      objective: 13,
+      feature: 10,
+      text: SECTION.MEN_HEALTH
+    },
+    {
+      objective: 14,
+      feature: 14,
+      text: SECTION.SPORT
+    },
+    {
+      objective: 15,
+      feature: 5,
+      text: SECTION.CONCEPTION_MATERNITY
+    },
+    {
+      objective: 16,
+      feature: 17,
+      text: SECTION.LONGEVITY
+    }
+  ]
+
+
+
+  const handleAddCartProducts = async (objectiveIds: number[]) => {
+    let features = objectiveIds.map(objective => {
+      const objectivePair = objectiveMapping.find(obj => obj.objective === objective);
+      if (objectivePair) {
+        return objectivePair.feature;
+      } else {
+        return 0;
+      }
+    });
+
+    features = features.filter(feature => feature !== 0);
+
+    let products: Product[] = [];
+
+    await axiosInstance.get("/products/filter?featureIds=" + features.join(","))
+      .then(res => {
+        const productFeatures = res.data.products.map((product: any) => {
+          for (let i = 0; i < product.features.length; i++) {
+            if (features.includes(product.features[i].id)) {
+              return product.features[i].title;
+            }
+          }
+        });
+
+        products = res.data.products.map((product: any, index: number) => {
+          return {
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            subscription: false,
+            feature: productFeatures[index]
+          }
+        })
+      })
+
+    for (let i = 0; i < products.length; i++) {
+      const image = await productService.getProductImages(products[i].id);
+      products[i].image = image[0];
+    }
+
+    return products;
+  }
 
   const handleNameInput = () => {
     if (!name) {
@@ -63,7 +198,7 @@ const TestPage = () => {
 
   const getCurrentProgress = () => {
     const pathName = location.pathname;
-    if (pathName === "/test/result") {
+    if ((pathName === "/test/result") || (pathName === '/test/recommendation')) {
       return 100;
     }
     const match = pathName.match(/(\d+)/);
@@ -78,7 +213,7 @@ const TestPage = () => {
 
   useEffect(() => {
     setCurrentProgress(getCurrentProgress());
-  });
+  }, [handleNext]);
 
   const handleSelectSupplements = (item: number) => {
     switch (item) {
@@ -139,7 +274,8 @@ const TestPage = () => {
       setHasError(true);
     } else {
       setHasError(false);
-      setSelectedObjectives(selectedObjectives.sort());
+      setSelectedObjectives([...selectedObjectives.sort()]);
+      setSaveObjectives([...selectedObjectives.sort()]);
       handleNext();
     }
   };
@@ -592,6 +728,7 @@ const TestPage = () => {
       </SwitchTransition>
       <Routes>
         <Route path="result" element={<TestResult />} />
+        <Route path="recommendation" element={<Recommendation />} />
       </Routes>
     </div>
   );

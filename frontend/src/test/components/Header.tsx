@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 
 const Header = (props: { currentProgress: number }) => {
   return (
-    <div className="fixed top-0 left-0 right-0 py-3 text-center bg-white border-b border-black h-[64.8px]">
+    <div className="fixed top-0 left-0 right-0 py-3 text-center bg-white border-b border-black h-[64.8px] z-1">
       <Link
         to="/"
-        className="text-2xl font-extrabold tracking-widest text-emerald-400 hover:text-emerald-600 transition duration-150"
+        className="text-2xl w-full font-extrabold tracking-widest text-emerald-400 hover:text-emerald-600 transition duration-150 flex justify-center"
       >
-        NOURI
+        <img src="/src/common/assets/logo.png" className="h-8" />
       </Link>
 
       <div className="w-[95%] mx-auto mt-1 bg-gray-200 rounded-full h-4 dark:bg-gray-700 text-center relative text-xs">

@@ -53,19 +53,4 @@ export class ProductService {
 
     return imageUrls;
   }
-
-  async getMultipleProductFirstImages(productIds: number[]): Promise<string[]> {
-    let imageUrls: string[] = [];
-
-    for (let i = 0; i < productIds.length; i++) {
-      const imageUrl = `/src/drugs/assets/product-${productIds[i]}/1.png`;
-      const isImageAvailable = await this.checkImage(imageUrl);
-
-      if (isImageAvailable) {
-        imageUrls.push(imageUrl);
-      }
-    }
-
-    return imageUrls;
-  }
 }

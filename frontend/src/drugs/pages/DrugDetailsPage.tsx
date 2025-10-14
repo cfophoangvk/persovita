@@ -106,11 +106,11 @@ const DrugDetailsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white mt-10">
       <div className="max-w-7xl mx-auto py-10">
         <nav className="text-sm text-gray-500 mb-4">
           <span className="hover:text-emerald-600 transition">
-            <Link to="/">Home</Link>
+            <Link to="/">Trang chủ</Link>
           </span>{" "}
           <span>&gt; {product.name}</span>
         </nav>

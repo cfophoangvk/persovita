@@ -2332,7 +2332,17 @@
       "info": "{\"merchant\":\"PERSOVITA\",\"amount\":1652569.6,\"items\":1,\"shippingMethod\":\"home_colis\",\"shippingMethodCost\":20000,\"ts\":1760375839802}"
     }
   ],
-  "carts": [],
+  "carts": [
+    {
+      "userId": 10,
+      "productId": 2,
+      "name": "Turmeric Capsules",
+      "price": 421576,
+      "quantity": 1,
+      "subscription": false,
+      "image": "/src/drugs/assets/product-2/1.png"
+    }
+  ],
   "orders": [
     {
       "id": 1,
