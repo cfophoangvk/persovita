@@ -19,7 +19,7 @@ const FeaturedReviews: React.FC = () => {
       .then((d) => {
         const list = (d.productReviews || []).slice(3, 6).map((r: any) => ({
           productId: r.productId,
-          reviewBy: r.reviewBy || "Khách hàng",
+          reviewBy: r.reviewBy,
           reviewDate: r.reviewDate,
           stars: r.stars,
           description: r.description,
