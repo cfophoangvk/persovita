@@ -23,36 +23,6 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true })); //for fucking frontend app
 app.use(cookieParser()); //for cookie
-app.get("/", (req, res) => {
-  res.send("<h2>Hello Express Web API</h2>");
-});
-
-app.get("/user", (req, res) => {
-  res.send("Get user");
-});
-
-app.post("/user", (req, res) => {
-  res.send("Get user");
-});
-
-app.put("/user", (req, res) => {
-  res.send("Get user");
-});
-
-app.delete("/user", (req, res) => {
-  res.send("Get user");
-});
-
-//Dùng database.json để lưu CSDL
-app.get("/file", (req, res) => {
-  fs.readFile("db/database.json", "utf8", (err, data) => {
-    if (err) {
-      res.send("Cannot read database.json");
-      return;
-    }
-    res.send(JSON.parse(data));
-  });
-});
 
 app.use("/api/auth", authRoutes); //mk là password123
 app.use("/api/products", productRoutes);

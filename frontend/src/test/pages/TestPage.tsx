@@ -15,22 +15,22 @@ import { CHOICE_ITEMS } from "../constants/choiceItem";
 import { TestUtils } from "../utils/TestUtils";
 import TestResult from "../components/TestResult";
 import Header from "../components/Header";
+// import useLocalStorage from "../hooks/useLocalStorage";
+// import type { ITestStorage } from "../interfaces/ITestStorage";
 
 const TestPage = () => {
+  // const defaultTestData: ITestStorage = {
+  //   name: ''
+  // }
+  // const [testData, setTestData] = useLocalStorage<ITestStorage>();
   const [hasError, setHasError] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [supplementText, setSupplementText] = useState<string>("");
-  const [acceptedPersonalData, setAcceptedPersonalData] =
-    useState<boolean>(false);
   const [age, setAge] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [selectedObjectives, setSelectedObjectives] = useState<number[]>([]);
   const [selectedMockItem, setSelectedMockItem] = useState<number[]>([]);
   const [currentProgress, setCurrentProgress] = useState<number>(0);
-  // const [selectedHeartCondition, setSelectedHeartCondition] = useState<number[]>([]);
-  // const [selectedSkinProblem, setSelectedSkinProblem] = useState<number[]>([]);
-  // const [selectedHairProblem, setSelectedHairProblem] = useState<number[]>([]);
-  // const [selectedDigestionProblem, setSelectedDigestionProblem] = useState<number[]>([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -126,10 +126,6 @@ const TestPage = () => {
     }
   };
 
-  const handleAcceptPersonalData = () => {
-    setAcceptedPersonalData(!acceptedPersonalData);
-  };
-
   const handleToggleObjective = (id: number) => {
     if (selectedObjectives.find((objId) => objId === id)) {
       setSelectedObjectives(selectedObjectives.filter((objId) => objId !== id));
@@ -163,8 +159,6 @@ const TestPage = () => {
     <Page2
       title={SECTION.GENERAL}
       name={name}
-      acceptedPersonalData={acceptedPersonalData}
-      onAcceptPersonalData={handleAcceptPersonalData}
       onNext={handleNext}
     />,
     <Choice

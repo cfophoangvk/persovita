@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Badge from "../components/Badge";
 import Button from "../components/Button";
 import Title from "../components/Title";
@@ -5,10 +6,15 @@ import Title from "../components/Title";
 const Page2 = (props: {
   title: string;
   name: string;
-  acceptedPersonalData: boolean;
-  onAcceptPersonalData: () => void;
   onNext: () => void;
 }) => {
+
+  const [acceptedPersonalData, setAcceptedPersonalData] = useState<boolean>(false);
+
+  const handleAcceptPersonalData = () => {
+    setAcceptedPersonalData(!acceptedPersonalData);
+  };
+
   return (
     <div className="flex flex-col items-center max-w-[600px]">
       <Badge text={props.title} />
@@ -32,8 +38,8 @@ const Page2 = (props: {
           type="checkbox"
           id="personalData"
           className="scale-150"
-          checked={props.acceptedPersonalData}
-          onChange={props.onAcceptPersonalData}
+          checked={acceptedPersonalData}
+          onChange={handleAcceptPersonalData}
         />
         <label htmlFor="personalData">
           Bằng cách đánh dấu vào ô này, tôi chấp nhận rằng dữ liệu cá nhân tôi
@@ -44,7 +50,7 @@ const Page2 = (props: {
 
       <Button
         onClick={props.onNext}
-        disabled={!props.acceptedPersonalData}
+        disabled={!acceptedPersonalData}
         text="Tiếp tục"
       />
     </div>

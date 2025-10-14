@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import type { Product } from "../../cart/interfaces";
+import { ProductService } from "../../drugs/services/ProductService";
 
 // Hàm định dạng giá VNĐ
 const formatVND = (v: number) => {
   // Giả định giá đã là VNĐ và sử dụng logic định dạng của bạn
   return v.toLocaleString("vi-VN") + " VNĐ";
 };
+
+const setProductImages = async (productList: Product[]) => {
+  const productService = new ProductService();
+  for (let i = 0; i < productList.length; i++) {
+    productList[i].images = await productService.getProductImages(productList[i].id);
+  }
+}
 
 const FeaturedProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -18,7 +26,7 @@ const FeaturedProducts: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     // Giữ nguyên logic fetch gốc của bạn
-    fetch("http://localhost:6789/file")
+    fetch("http://localhost:6789/api/products")
       .then((r) => r.json())
       .then((d) => {
         const list = (d.products || []).slice(0, 8).map((p: any) => ({
@@ -26,9 +34,11 @@ const FeaturedProducts: React.FC = () => {
           name: p.name,
           description: p.description,
           price: p.price,
-          images: p.images,
         }));
-        setProducts(list);
+
+        setProductImages(list).then(() => {
+          setProducts(list);
+        })
       })
       .catch(() => setProducts([]))
       .finally(() => setLoading(false));
