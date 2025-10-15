@@ -52,6 +52,7 @@ const TestPage = () => {
     const page = Number(match[0]);
     setSelectedMockItem([]); //nuh uh deo co data ma xu ly
     const nextPage = testUtils.getNextPage(page, selectedObjectives, response);
+    console.log(selectedObjectives, saveObjectives);
     navigate(`/test/page${nextPage}`);
   };
 
@@ -274,7 +275,7 @@ const TestPage = () => {
       setHasError(true);
     } else {
       setHasError(false);
-      setSelectedObjectives([...selectedObjectives.sort()]);
+      setSelectedObjectives(selectedObjectives.sort());
       setSaveObjectives([...selectedObjectives.sort()]);
       handleNext();
     }
