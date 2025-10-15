@@ -45,7 +45,7 @@ const Banner: React.FC = () => {
             Mua ngay
           </a>
           <a
-            href="/test"
+            href="/test/page1"
             // ĐÃ THAY BORDER và TEXT sang EMERALD-600
             className="px-6 py-3 border border-emerald-600 text-emerald-600 rounded-full font-semibold transition duration-200 hover:bg-emerald-50"
           >

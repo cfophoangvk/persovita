@@ -2,7 +2,7 @@ import React from "react";
 import Banner from "./components/Banner";
 import Benefits from "./components/Benefits";
 import FadeInSection from "../layouts/FadeInSection";
-import FeaturedProducts from "./components/FeaturedProducts";
+import HowItWorksAndResults from "./components/HowItWorksAndResults";
 import FeaturedReviews from "./components/FeaturedReviews";
 import CandleGuide from "./components/MedicineGuide";
 import SectionSpacer from "./components/SectionSpacer";
@@ -24,7 +24,7 @@ const HomePage: React.FC = () => (
     <SectionSpacer />
 
     <FadeInSection>
-      <FeaturedProducts />
+      <HowItWorksAndResults />
     </FadeInSection>
 
     <SectionSpacer />
