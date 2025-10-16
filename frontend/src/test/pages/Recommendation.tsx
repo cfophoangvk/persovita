@@ -3,7 +3,8 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import type { ITestStorage } from "../interfaces/ITestStorage";
 import type { Product } from "../interfaces/Product";
 import Badge from "../components/Badge";
-import { Check } from "lucide-react";
+import { ScanSearch } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Recommendation = () => {
   const defaultTestData: ITestStorage = {
@@ -14,7 +15,7 @@ const Recommendation = () => {
 
   const [recommendProducts, setRecommendProducts] = useState<Product[]>([]);
   const [recommendObjectives, setRecommendObjectives] = useState<string>();
-  const [testData, setTestData] = useLocalStorage<ITestStorage>('testData', defaultTestData);
+  const [testData] = useLocalStorage<ITestStorage>('testData', defaultTestData);
 
   useEffect(() => {
     setRecommendProducts(testData.selectedProducts);
@@ -22,11 +23,6 @@ const Recommendation = () => {
     const set = new Set([...recommendProducts.map(product => product.feature)]);
     setRecommendObjectives([...set].join(", "))
   })
-
-  const handleRemoveCartProducts = async (productId: number) => {
-    const remainingProducts = recommendProducts.filter(product => product.id !== productId);
-    setTestData({ ...testData, selectedProducts: remainingProducts })
-  }
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
@@ -67,10 +63,9 @@ const Recommendation = () => {
 
               <div className="flex justify-between items-center w-full mt-auto pt-4 border-t border-gray-100">
                 <p className="text-gray-800 text-base font-semibold">{product.price.toLocaleString("vi-VN")} VND</p>
-                <button className="bg-emerald-500 text-white py-2 px-4 rounded-md text-sm font-semibold flex items-center gap-3" onClick={() => handleRemoveCartProducts(product.id)}
-                >
-                  <Check /><span>Added</span>
-                </button>
+                <Link to={`/products/${product.id}`} className="bg-emerald-500 text-white py-2 px-4 rounded-md text-sm font-semibold flex items-center gap-3" onClick={() => window.scrollTo(0, 0)}>
+                  <ScanSearch /><span>Xem chi tiết...</span>
+                </Link>
               </div>
             </div>
           ))}
