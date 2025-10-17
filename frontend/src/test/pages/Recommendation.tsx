@@ -26,7 +26,7 @@ const Recommendation = () => {
         (category) => category[0] + category.substring(1).toLowerCase()
       )
     );
-  });
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">

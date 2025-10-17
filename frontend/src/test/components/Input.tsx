@@ -18,7 +18,7 @@ const Input = (props: InputProps) => {
       <input
         type="text"
         placeholder="Nhập vào đây..."
-        className={`p-4 rounded-md ${props.hasError ? 'border-2 border-red-500' : 'border border-gray-300'}`}
+        className={`p-4 w-64 rounded-md ${props.hasError ? 'border-2 border-red-500' : 'border border-gray-300'}`}
         value={props.value}
         onChange={e => props.setValue(e.target.value)}
         onKeyDown={e => handleKeyDown(e)}
