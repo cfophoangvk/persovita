@@ -200,20 +200,20 @@ const AppHeader: React.FC = () => {
           <div className="flex items-center gap-6">
             <Link
               to="/test/page1"
-              className="inline-flex items-center px-4 py-2 bg-emerald-500 text-white rounded-full text-sm font-medium hover:bg-emerald-600 transition duration-150"
+              className="inline-flex items-center px-4 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition duration-150"
             >
               Làm bài kiểm tra
             </Link>
             <nav className="hidden sm:flex items-center gap-4">
               <Link
                 to="/shop"
-                className="text-sm text-gray-700 hover:text-emerald-600 transition duration-150"
+                className="text-sm text-gray-700 hover:text-teal-600 transition duration-150"
               >
                 Sản phẩm của chúng tôi
               </Link>
               <Link
                 to="/about"
-                className="text-sm text-gray-700 hover:text-emerald-600 transition duration-150"
+                className="text-sm text-gray-700 hover:text-teal-600 transition duration-150"
               >
                 Về chúng tôi
               </Link>
@@ -299,7 +299,7 @@ const AppHeader: React.FC = () => {
                               if (pid) navigate(`/products/${pid}`);
                               else onSubmitSearch(p.title || p.name || p.slug);
                             }}
-                            className="px-3 py-2 hover:bg-emerald-50 cursor-pointer flex items-center gap-3"
+                            className="px-3 py-2 hover:bg-teal-50 cursor-pointer flex items-center gap-3"
                           >
                             <img
                               src={p.images?.[0]}
@@ -349,7 +349,7 @@ const AppHeader: React.FC = () => {
                 <circle cx="9" cy="20" r="1" />
                 <circle cx="19" cy="20" r="1" />
               </svg>
-              <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-medium leading-none text-white bg-emerald-600 rounded-full">
+              <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-medium leading-none text-white bg-teal-600 rounded-full">
                 {count}
               </span>
             </button>
@@ -381,7 +381,7 @@ const AppHeader: React.FC = () => {
                       <Link
                         to="/shop"
                         onClick={() => setShowPreview(false)}
-                        className="inline-block px-4 py-2 border border-gray-300 rounded-full text-sm text-gray-700 hover:border-emerald-500 hover:text-emerald-600 transition duration-150"
+                        className="inline-block px-4 py-2 border border-gray-300 rounded-full text-sm text-gray-700 hover:border-teal-500 hover:text-teal-600 transition duration-150"
                       >
                         xem danh mục
                       </Link>
@@ -457,7 +457,7 @@ const AppHeader: React.FC = () => {
                       );
                     })()}
                   </div>
-                  <div className="mt-3 text-xs text-gray-500 bg-emerald-50 p-3 rounded">
+                  <div className="mt-3 text-xs text-gray-500 bg-teal-50 p-3 rounded">
                     Việc áp dụng mã khuyến mãi và quản lý tùy chọn mua hàng được
                     thực hiện ở bước tiếp theo
                   </div>
@@ -466,7 +466,7 @@ const AppHeader: React.FC = () => {
                     <Link
                       to="/cart"
                       onClick={() => setShowPreview(false)}
-                      className="block w-full text-center py-3 bg-emerald-500 text-white rounded-full font-semibold hover:bg-emerald-600 transition duration-150"
+                      className="block w-full text-center py-3 bg-teal-500 text-white rounded-full font-semibold hover:bg-teal-600 transition duration-150"
                     >
                       Đi đến giỏ hàng
                     </Link>
@@ -495,7 +495,7 @@ const AppHeader: React.FC = () => {
                         className="w-9 h-9 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-9 h-9 rounded-full bg-emerald-400 text-white font-semibold flex items-center justify-center">
+                      <div className="w-9 h-9 rounded-full bg-teal-400 text-white font-semibold flex items-center justify-center">
                         {(user.fullName || user.email || "U")
                           .split(" ")
                           .map((s: string) => s[0])

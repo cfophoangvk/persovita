@@ -109,7 +109,7 @@ const DrugDetailsPage: React.FC = () => {
     <div className="min-h-screen bg-white mt-10">
       <div className="max-w-7xl mx-auto py-10">
         <nav className="text-sm text-gray-500 mb-4">
-          <span className="hover:text-emerald-600 transition">
+          <span className="hover:text-teal-600 transition">
             <Link to="/">Trang chủ</Link>
           </span>{" "}
           <span>&gt; {product.name}</span>
@@ -149,7 +149,7 @@ const DrugDetailsPage: React.FC = () => {
                   key={i}
                   onClick={() => setIndex(i)}
                   className={`w-20 h-20 rounded-md overflow-hidden border ${
-                    i === index ? "border-emerald-300" : "border-gray-200"
+                    i === index ? "border-teal-300" : "border-gray-200"
                   }`}
                 >
                   <img
@@ -176,7 +176,7 @@ const DrugDetailsPage: React.FC = () => {
                 </h1>
                 <div className="flex items-center gap-3 text-sm text-gray-500">
                   <div className="flex items-center gap-1">
-                    <span className="text-emerald-500 font-semibold">
+                    <span className="text-teal-500 font-semibold">
                       {(product as any).rating ?? 4.5}
                     </span>
                     <span className="text-gray-400">★</span>
@@ -316,7 +316,7 @@ const DrugDetailsPage: React.FC = () => {
         <section className="mt-12">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-semibold">Products with same topic</h3>
-            <Link to="/shop" className="text-sm text-emerald-600">
+            <Link to="/shop" className="text-sm text-teal-600">
               See all
             </Link>
           </div>

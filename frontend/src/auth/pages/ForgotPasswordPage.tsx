@@ -15,7 +15,7 @@ const ForgotPasswordPage: React.FC = () => {
     <div className="min-h-screen bg-[#fbf9f6] flex items-start justify-center py-20">
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center">
-          <div className="text-4xl font-extrabold tracking-widest text-emerald-400 mb-4">
+          <div className="text-4xl font-extrabold tracking-widest text-teal-400 mb-4">
             <Link to="/">NOURI</Link>
           </div>
           <p className="text-sm text-gray-600 mb-8">
@@ -46,22 +46,22 @@ const ForgotPasswordPage: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email@gmail.com"
               required
-              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+              className="w-full px-3 py-2 rounded-md border border-gray-200 shadow-sm mb-4 focus:outline-none focus:ring-2 focus:ring-teal-200"
             />
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2 rounded-full bg-emerald-600 text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors disabled:opacity-60"
+              className="w-full py-2 rounded-full bg-teal-600 text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors disabled:opacity-60"
             >
               {isLoading ? "Đang gửi..." : "Gửi hướng dẫn"}
             </button>
 
             <div className="flex justify-between mt-4 text-sm">
-              <Link to="/login" className="text-emerald-400 hover:underline">
+              <Link to="/login" className="text-teal-400 hover:underline">
                 Quay lại đăng nhập
               </Link>
-              <Link to="/signup" className="text-emerald-400 hover:underline">
+              <Link to="/signup" className="text-teal-400 hover:underline">
                 Tạo tài khoản
               </Link>
             </div>

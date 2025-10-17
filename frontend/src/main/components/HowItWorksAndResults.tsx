@@ -87,7 +87,7 @@ const HowItWorksAndResults: React.FC = () => {
         <div className="mt-12 text-center">
           <a
             href="/test/page1"
-            className="inline-block rounded-lg bg-emerald-500 px-10 py-3 text-lg font-bold text-white shadow-xl transition duration-300 hover:bg-emerald-600 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-emerald-300"
+            className="inline-block rounded-lg bg-teal-500 px-10 py-3 text-lg font-bold text-white shadow-xl transition duration-300 hover:bg-teal-600 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-teal-300"
           >
             Làm bài kiểm tra
           </a>
@@ -105,7 +105,7 @@ const HowItWorksAndResults: React.FC = () => {
         <div className="divide-y divide-gray-200 rounded-xl bg-white p-8 shadow-2xl sm:p-10">
           {/* Kết quả 1 */}
           <div className="flex items-center justify-between py-6">
-            <strong className="text-6xl font-extrabold text-emerald-500">
+            <strong className="text-6xl font-extrabold text-teal-500">
               91%
             </strong>
             <div className="ml-6 text-right">
@@ -121,7 +121,7 @@ const HowItWorksAndResults: React.FC = () => {
 
           {/* Kết quả 2 */}
           <div className="flex items-center justify-between py-6">
-            <strong className="text-6xl font-extrabold text-emerald-500">
+            <strong className="text-6xl font-extrabold text-teal-500">
               94%
             </strong>
             <div className="ml-6 text-right">
@@ -137,7 +137,7 @@ const HowItWorksAndResults: React.FC = () => {
 
           {/* Kết quả 3 */}
           <div className="flex items-center justify-between py-6">
-            <strong className="text-6xl font-extrabold text-emerald-500">
+            <strong className="text-6xl font-extrabold text-teal-500">
               76
             </strong>
             <div className="ml-6 text-right">
@@ -145,8 +145,8 @@ const HowItWorksAndResults: React.FC = () => {
                 THỬ NGHIỆM LÂM SÀNG VÀ TIỀN LÂM SÀNG
               </p>
               <p className="text-lg text-gray-700">
-                Được thực hiện trên các thành phần của chúng tôi, bao gồm các{" "}
-                <strong>thử nghiệm đối chứng giả dược</strong>.
+                Thành phần đạt chuẩn khoa học, đã được{" "}
+                <strong>thử nghiệm lâm sàng và chứng minh hiệu quả.</strong>
               </p>
             </div>
           </div>

@@ -11,17 +11,19 @@ const formatVND = (v: number) => {
 const setProductImages = async (productList: Product[]) => {
   const productService = new ProductService();
   for (let i = 0; i < productList.length; i++) {
-    productList[i].images = await productService.getProductImages(productList[i].id);
+    productList[i].images = await productService.getProductImages(
+      productList[i].id
+    );
   }
-}
+};
 
 const FeaturedProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
 
   // Hằng số cho kiểu dáng chuyên nghiệp
-  const BRAND_COLOR = "text-emerald-700"; // Màu chính mới
-  const BUTTON_BG = "bg-emerald-600 hover:bg-emerald-700"; // Màu nút mới
+  const BRAND_COLOR = "text-teal-700"; // Màu chính mới
+  const BUTTON_BG = "bg-teal-600 hover:bg-teal-700"; // Màu nút mới
 
   useEffect(() => {
     setLoading(true);
@@ -38,7 +40,7 @@ const FeaturedProducts: React.FC = () => {
 
         setProductImages(list).then(() => {
           setProducts(list);
-        })
+        });
       })
       .catch(() => setProducts([]))
       .finally(() => setLoading(false));

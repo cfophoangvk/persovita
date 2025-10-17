@@ -42,7 +42,7 @@ const ProfilePage: React.FC = () => {
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
         <div className="flex p-6 items-center gap-6">
-          <div className="w-28 h-28 rounded-full bg-emerald-400 flex items-center justify-center text-white text-3xl font-bold">
+          <div className="w-28 h-28 rounded-full bg-teal-400 flex items-center justify-center text-white text-3xl font-bold">
             {initials}
           </div>
           <div className="flex-1">
@@ -56,7 +56,7 @@ const ProfilePage: React.FC = () => {
             <div className="mt-4 flex gap-3">
               <button
                 onClick={() => setEditing((s) => !s)}
-                className="px-4 py-2 bg-emerald-500 text-white rounded-full font-semibold"
+                className="px-4 py-2 bg-teal-500 text-white rounded-full font-semibold"
               >
                 {editing ? "Hủy" : "Chỉnh sửa hồ sơ"}
               </button>
