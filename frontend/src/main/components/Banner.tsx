@@ -28,26 +28,22 @@ const Banner: React.FC = () => {
 
       {/* Nội dung chính của banner */}
       <div className="relative max-w-7xl mx-auto px-6 py-32 text-center">
-        {/* ĐÃ THAY MÀU TEXT sang EMERALD-600 */}
-        <h1 className="text-4xl md:text-5xl font-extrabold text-emerald-600">
+        {/* ĐÃ THAY MÀU TEXT sang teal-600 */}
+        <h1 className="text-4xl md:text-5xl font-extrabold text-teal-600">
           NOURI
         </h1>
-        <p className="mt-4 text-gray-700 max-w-2xl mx-auto">
-          Thực phẩm bổ sung được hỗ trợ bởi khoa học, giao tận nhà bạn — tự
-          nhiên, hiệu quả và được đóng gói đẹp mắt.
+        <strong className="mt-6 text-gray-700 max-w-2xl font-bold mx-auto">
+          Sống khỏe hơn, dễ dàng hơn.
+        </strong>
+        <p className="mt-4 text-gray-700 max-w-3xl mx-auto">
+          Bắt đầu bằng một khảo sát ngắn để chúng tôi hiểu rõ hơn về cơ thể của
+          bạn, từ đó mang đến giải pháp vitamin cá nhân hóa giúp việc chăm sóc
+          sức khỏe trở nên đơn giản và chủ động mỗi ngày.
         </p>
         <div className="mt-8 flex justify-center gap-4">
           <a
-            href="/shop"
-            // Nút Mua ngay: Giữ nguyên bg-emerald-500
-            className="px-6 py-3 bg-emerald-500 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition duration-200 hover:bg-emerald-600"
-          >
-            Mua ngay
-          </a>
-          <a
             href="/test/page1"
-            // ĐÃ THAY BORDER và TEXT sang EMERALD-600
-            className="px-6 py-3 border border-emerald-600 text-emerald-600 rounded-full font-semibold transition duration-200 hover:bg-emerald-50"
+            className="px-6 py-3 border border-teal-600 text-teal-600 rounded-full font-semibold transition duration-200 hover:bg-teal-50"
           >
             Làm bài kiểm tra
           </a>
@@ -62,8 +58,8 @@ const Banner: React.FC = () => {
             onClick={() => setIdx(i)}
             aria-label={`Chuyển đến Banner ${i + 1}`}
             className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
-              // ĐÃ THAY MÀU ACTIVE DOT sang EMERALD-600
-              i === idx ? "bg-emerald-600" : "bg-white/60 hover:bg-white"
+              // ĐÃ THAY MÀU ACTIVE DOT sang teal-600
+              i === idx ? "bg-teal-600" : "bg-white/60 hover:bg-white"
             }`}
           />
         ))}

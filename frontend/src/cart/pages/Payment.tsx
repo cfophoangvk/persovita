@@ -146,7 +146,7 @@ const Payment: React.FC<PaymentProps> = ({
             <button
               onClick={handleGenerateQr}
               className="w-full py-4 text-white font-bold rounded-full shadow-lg"
-              style={{ backgroundColor: "#10B981" }}
+              style={{ backgroundColor: "#449286" }}
             >
               Tạo QR thanh toán
             </button>
@@ -173,7 +173,7 @@ const Payment: React.FC<PaymentProps> = ({
                   {/* Thêm 'flex justify-center' để căn giữa Link */}
                   <Link
                     to="/"
-                    className="block w-1/2 text-center py-2 bg-emerald-500 text-white rounded-full font-semibold hover:bg-emerald-600 transition duration-150"
+                    className="block w-1/2 text-center py-2 bg-teal-500 text-white rounded-full font-semibold hover:bg-teal-600 transition duration-150"
                   >
                     Thanh toán thành công, quay về trang chủ
                   </Link>

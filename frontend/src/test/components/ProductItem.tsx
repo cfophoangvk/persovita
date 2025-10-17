@@ -3,11 +3,8 @@ import type { Product } from "../interfaces/Product";
 import Badge from "./Badge";
 
 const ProductItem = (props: { product: Product }) => {
-
   return (
-    <div
-      className="bg-white border border-gray-100 rounded-lg p-4 shadow-sm hover:shadow-md transition"
-    >
+    <div className="bg-white border border-gray-100 rounded-lg p-4 shadow-sm hover:shadow-md transition">
       <div className="relative h-44 mb-4 bg-gray-50 rounded overflow-hidden flex items-center justify-center">
         <img
           src={props.product.images?.[0]}
@@ -22,7 +19,7 @@ const ProductItem = (props: { product: Product }) => {
       <h3 className="font-semibold mb-1">
         <Link
           to={`/products/${props.product.id}`}
-          className="hover:text-emerald-600 transition"
+          className="hover:text-teal-600 transition"
         >
           {props.product.name}
         </Link>
@@ -39,13 +36,13 @@ const ProductItem = (props: { product: Product }) => {
         </div>
         <button
           onClick={onRemoveCartProduct}
-          className="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center hover:bg-emerald-200 transition"
+          className="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center hover:bg-teal-200 transition"
         >
           +
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductItem
+export default ProductItem;

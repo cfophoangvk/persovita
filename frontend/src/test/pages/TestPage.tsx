@@ -10,7 +10,7 @@ import type { ChoiceItem } from "../interfaces/ChoiceItem";
 import LabelAuto from "../components/LabelAuto";
 import { ICON } from "../constants/icon";
 import ChoiceCheckbox from "../components/ChoiceCheckbox";
-import { SECTION } from "../constants/section";
+import { OBJECTIVE_ITEMS, SECTION } from "../constants/section";
 import { CHOICE_ITEMS } from "../constants/choiceItem";
 import { TestUtils } from "../utils/TestUtils";
 import TestResult from "../components/TestResult";
@@ -26,6 +26,7 @@ const TestPage = () => {
   const defaultTestData: ITestStorage = {
     name: '',
     email: '',
+    selectedCategories: [],
     selectedProducts: []
   }
   const [_, setTestData] = useLocalStorage<ITestStorage>('testData', defaultTestData);
@@ -62,7 +63,8 @@ const TestPage = () => {
         setTestData({
           name: name,
           email: email,
-          selectedProducts: products
+          selectedCategories: saveObjectives.map(objective => OBJECTIVE_ITEMS.find(obj => obj.id == objective)?.text ?? ""),
+          selectedProducts: products.slice(0, 4)
         })
 
         window.location.href = "/test/result";

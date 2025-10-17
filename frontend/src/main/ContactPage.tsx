@@ -5,9 +5,7 @@ const ContactPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto mt-10 px-6 py-16">
       <FadeInSection>
-        <h1 className="text-3xl font-extrabold text-emerald-600 mb-6">
-          Liên hệ
-        </h1>
+        <h1 className="text-3xl font-extrabold text-teal-600 mb-6">Liên hệ</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-4">
@@ -30,16 +28,13 @@ const ContactPage: React.FC = () => {
                 </li>
                 <li>
                   <strong>Điện thoại:</strong>{" "}
-                  <a href="tel:+84123456789" className="text-emerald-600">
+                  <a href="tel:+84123456789" className="text-teal-600">
                     039 491 4881
                   </a>
                 </li>
                 <li>
                   <strong>Email:</strong>{" "}
-                  <a
-                    href="mailto:info@nouri.example"
-                    className="text-emerald-600"
-                  >
+                  <a href="mailto:info@nouri.example" className="text-teal-600">
                     nourivitamin@gmail.com
                   </a>
                 </li>
@@ -49,7 +44,7 @@ const ContactPage: React.FC = () => {
               </ul>
             </div>
 
-            <div className="bg-emerald-50 p-4 rounded text-sm text-gray-700">
+            <div className="bg-teal-50 p-4 rounded text-sm text-gray-700">
               <p className="font-medium">Lưu ý về tư vấn y tế</p>
               <p>
                 Thông tin trên trang chỉ nhằm mục đích tham khảo. Đối với tư vấn
@@ -68,7 +63,7 @@ const ContactPage: React.FC = () => {
                     href="https://www.facebook.com/nourivitamin?mibextid=wwXIfr&rdid=m52VXaWSXFqD3Yfp&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DCgNiC9HG%2F%3Fmibextid%3DwwXIfr#"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-emerald-600"
+                    className="text-teal-600"
                   >
                     Fanpage
                   </a>
@@ -78,7 +73,7 @@ const ContactPage: React.FC = () => {
                     href="https://www.tiktok.com/@nourivitamin"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-emerald-600"
+                    className="text-teal-600"
                   >
                     Tiktok
                   </a>
