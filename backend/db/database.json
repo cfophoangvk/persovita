@@ -2330,6 +2330,12 @@
       "userId": 8,
       "method": "qr",
       "info": "{\"merchant\":\"PERSOVITA\",\"amount\":1652569.6,\"items\":1,\"shippingMethod\":\"home_colis\",\"shippingMethodCost\":20000,\"ts\":1760375839802}"
+    },
+    {
+      "id": 5,
+      "userId": 8,
+      "method": "qr",
+      "info": "{\"merchant\":\"NOURI\",\"amount\":2453854.4,\"items\":1,\"shippingMethod\":\"home_colis\",\"shippingMethodCost\":20000,\"ts\":1760661340010}"
     }
   ],
   "carts": [
@@ -2431,6 +2437,28 @@
       "total": 1051606,
       "status": "pending",
       "createdAt": "2025-10-13T17:17:19.854Z"
+    },
+    {
+      "id": 5,
+      "userId": 8,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Hyaluronic Acid",
+          "price": 1001606,
+          "quantity": 3,
+          "image": "/src/drugs/assets/product-1/1.png",
+          "subscription": true
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "home_colis",
+      "shippingMethodCost": 20000,
+      "shippingBase": 30000,
+      "paymentId": 5,
+      "total": 3054818,
+      "status": "pending",
+      "createdAt": "2025-10-17T00:35:40.071Z"
     }
   ],
   "productReviews": [
