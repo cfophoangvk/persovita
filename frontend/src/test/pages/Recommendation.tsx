@@ -10,18 +10,18 @@ const Recommendation = () => {
   const defaultTestData: ITestStorage = {
     name: '',
     email: '',
+    selectedCategories: [],
     selectedProducts: []
   }
 
   const [recommendProducts, setRecommendProducts] = useState<Product[]>([]);
-  const [recommendObjectives, setRecommendObjectives] = useState<string>();
+  const [recommendObjectives, setRecommendObjectives] = useState<string[]>();
   const [testData] = useLocalStorage<ITestStorage>('testData', defaultTestData);
 
   useEffect(() => {
     setRecommendProducts(testData.selectedProducts);
 
-    const set = new Set([...recommendProducts.map(product => product.feature)]);
-    setRecommendObjectives([...set].join(", "))
+    setRecommendObjectives(testData.selectedCategories.map(category => category[0] + category.substring(1).toLowerCase()));
   })
 
   return (
@@ -31,7 +31,7 @@ const Recommendation = () => {
         <div className="text-left md:w-1/2 p-4">
           <h1 className="text-5xl font-semibold mb-4">Đề xuất thuốc dành cho <br /><span className="font-bold">{testData.name}</span></h1>
           <p className="text-gray-700 text-lg leading-relaxed">
-            Dựa trên nhu cầu của bạn: <span className="font-semibold">{recommendObjectives}</span>
+            Dựa trên nhu cầu của bạn: <span className="font-semibold">{recommendObjectives?.join(", ")}</span>
           </p>
         </div>
         <div className="md:w-1/2 flex justify-center items-center relative z-0 mt-8 md:mt-0">
