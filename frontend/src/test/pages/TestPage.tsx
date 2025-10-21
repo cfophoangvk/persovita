@@ -47,13 +47,13 @@ const TestPage = () => {
   const productService = new ProductService();
 
   const handleNext = (response?: number) => {
+    console.log("next");
     const pathName = location.pathname;
     const match = pathName.match(/(\d+)/);
     if (!match) return;
     const page = Number(match[0]);
     setSelectedMockItem([]); //nuh uh deo co data ma xu ly
     const nextPage = testUtils.getNextPage(page, selectedObjectives, response);
-    console.log(selectedObjectives, saveObjectives);
     navigate(`/test/page${nextPage}`);
   };
 
@@ -712,11 +712,11 @@ const TestPage = () => {
         <CSSTransition
           key={location.key}
           classNames="fade"
-          timeout={2000}
+          timeout={1500}
           unmountOnExit
           nodeRef={nodeRef}
         >
-          <div ref={nodeRef} className="mt-[70px]">
+          <div ref={nodeRef} className="mt-[70px] select-none">
             <Routes location={location}>
               {testElements.map((element, index) => (
                 <Route

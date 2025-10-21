@@ -3,64 +3,57 @@ import React from "react";
 const AppFooter: React.FC = () => {
   return (
     <footer className="bg-[#f7f5f0] text-[#1f2937] mt-12">
-      <div className="max-w-full mx-auto px-6 pt-12 pb-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div className="w-full mx-auto px-20 pt-12 pb-6">
+        <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-6">
           {/* Trái: Giới thiệu (cột rộng) */}
-          <div className="md:col-span-4">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 border rounded-sm flex items-center justify-center text-lg font-bold">
-                P
-              </div>
-              <div>
-                <div className="font-semibold mb-4">VỀ NOURI</div>
-                <ul className="text-sm text-gray-700 space-y-2">
-                  <li>
-                    <a href="/about" className="hover:underline">
-                      Giới thiệu
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:underline">
-                      Sứ mệnh của chúng tôi
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:underline">
-                      Nghiên cứu & Phát triển
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:underline">
-                      Khoa học & Công nghệ
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:underline">
-                      Các cam kết của chúng tôi
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:underline">
-                      Sức khỏe Toàn diện (Integrative Health)
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:underline">
-                      Tại sao cần bổ sung
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:underline">
-                      Vận động viên của chúng tôi
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+          <div className="md:text-left sm:text-center">
+            <div className="font-semibold mb-4">VỀ NOURI</div>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li>
+                <a href="/about" className="hover:underline">
+                  Giới thiệu
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Sứ mệnh của chúng tôi
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Nghiên cứu & Phát triển
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Khoa học & Công nghệ
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Các cam kết của chúng tôi
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Sức khỏe Toàn diện (Integrative Health)
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Tại sao cần bổ sung
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Vận động viên của chúng tôi
+                </a>
+              </li>
+            </ul>
           </div>
 
           {/* Cột giữa: Sản phẩm + Hỗ trợ */}
-          <div className="md:col-span-2">
+          <div className="md:text-left sm:text-center">
             <div className="font-semibold mb-4">SẢN PHẨM CỦA CHÚNG TÔI</div>
             <ul className="text-sm text-gray-700 space-y-2">
               <li>
@@ -86,7 +79,7 @@ const AppFooter: React.FC = () => {
             </ul>
           </div>
 
-          <div className="md:col-span-3">
+          <div className="md:text-left sm:text-center">
             <div className="font-semibold mb-4">CẦN HỖ TRỢ</div>
             <ul className="text-sm text-gray-700 space-y-2">
               <li>
@@ -123,7 +116,7 @@ const AppFooter: React.FC = () => {
           </div>
 
           {/* Phải: Điều khoản + Thanh toán */}
-          <div className="md:col-span-3">
+          <div className="md:text-left sm:text-center">
             <div className="font-semibold mb-4">ĐIỀU KHOẢN</div>
             <ul className="text-sm text-gray-700 space-y-2 mb-4">
               <li>
@@ -144,7 +137,7 @@ const AppFooter: React.FC = () => {
             </ul>
 
             <div className="font-semibold text-sm mb-3">THANH TOÁN AN TOÀN</div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center md:justify-start gap-3">
               <div className="w-10 h-6 bg-white flex items-center justify-center text-xs rounded shadow">
                 VISA
               </div>
