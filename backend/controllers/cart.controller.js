@@ -25,7 +25,7 @@ const getCart = async (req, res) => {
   }
 };
 
-// POST /api/cart/add -> body: { productId, name, price, quantity, image, subscription }
+// POST /api/cart/add -> body: { productId, name, price, quantity, image, subscription, subscriptionMonths }
 // If item exists by productId for the user -> increment quantity, otherwise push
 const addToCart = async (req, res) => {
   const {
@@ -36,6 +36,7 @@ const addToCart = async (req, res) => {
     quantity = 1,
     image,
     subscription = false,
+    subscriptionMonths = 0,
   } = req.body;
   const pid = productId || id;
   if (!pid)
@@ -52,6 +53,9 @@ const addToCart = async (req, res) => {
     );
     if (existing) {
       existing.quantity = (Number(existing.quantity) || 0) + Number(quantity);
+      if (subscription !== undefined) existing.subscription = !!subscription;
+      if (subscriptionMonths !== undefined)
+        existing.subscriptionMonths = Number(subscriptionMonths) || 0;
     } else {
       db.carts.push({
         userId,
@@ -60,6 +64,7 @@ const addToCart = async (req, res) => {
         price,
         quantity: Number(quantity),
         subscription,
+        subscriptionMonths: Number(subscriptionMonths) || 0,
         image,
       });
     }
@@ -71,9 +76,10 @@ const addToCart = async (req, res) => {
   }
 };
 
-// POST /api/cart/update -> body: { id, quantity, subscription }
+// POST /api/cart/update -> body: { id, quantity, subscription, subscriptionMonths }
 const updateCartItem = async (req, res) => {
-  const { productId, id, quantity, subscription } = req.body;
+  const { productId, id, quantity, subscription, subscriptionMonths } =
+    req.body;
   const pid = productId || id;
   if (!pid)
     return res
@@ -92,6 +98,8 @@ const updateCartItem = async (req, res) => {
         .json({ success: false, message: "item not found" });
     if (quantity !== undefined) item.quantity = Number(quantity);
     if (subscription !== undefined) item.subscription = !!subscription;
+    if (subscriptionMonths !== undefined)
+      item.subscriptionMonths = Number(subscriptionMonths) || 0;
     await writeDb(db);
     const cart = db.carts.filter((c) => c.userId === userId);
     return res.status(200).json({ success: true, cart });

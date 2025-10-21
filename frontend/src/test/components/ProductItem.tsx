@@ -7,7 +7,7 @@ const ProductItem = (props: { product: Product }) => {
     <div className="bg-white border border-gray-100 rounded-lg p-4 shadow-sm hover:shadow-md transition">
       <div className="relative h-44 mb-4 bg-gray-50 rounded overflow-hidden flex items-center justify-center">
         <img
-          src={props.product.images?.[0]}
+          src={props.product.images?.[0] || props.product.image}
           alt={props.product.name}
           className="object-contain h-full w-full"
         />
@@ -35,7 +35,7 @@ const ProductItem = (props: { product: Product }) => {
             : "Contact"}
         </div>
         <button
-          onClick={onRemoveCartProduct}
+          onClick={() => {}}
           className="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center hover:bg-teal-200 transition"
         >
           +
