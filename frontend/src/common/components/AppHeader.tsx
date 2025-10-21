@@ -538,6 +538,17 @@ const AppHeader: React.FC = () => {
                   >
                     Xem hồ sơ
                   </button>
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      if (user) navigate("/orders");
+                      else navigate("/login");
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                    role="menuitem"
+                  >
+                    Xem lịch sử mua hàng
+                  </button>
 
                   <button
                     onClick={() => {

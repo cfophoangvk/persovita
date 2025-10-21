@@ -6,4 +6,8 @@ export interface Product {
   subscription: boolean;
   feature: string;
   image: string;
+  // optional array of images used elsewhere in UI
+  images?: string[];
+  // months for subscription
+  subscriptionMonths?: number;
 }

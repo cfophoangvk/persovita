@@ -1,0 +1,1 @@
+async function r(e){return(await fetch("http://localhost:6789/api/orders/create",{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify(e)})).json()}async function n(){return(await fetch("http://localhost:6789/api/orders/",{credentials:"include"})).json()}export{r as createOrder,n as getOrders};

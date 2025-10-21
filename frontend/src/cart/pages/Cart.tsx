@@ -130,6 +130,9 @@ const Cart = () => {
               price: p.price ?? 35000,
               quantity: p.quantity ?? 1,
               subscription: p.subscription ?? false,
+              // support subscriptionMonths stored on server; fall back to 1 when subscription true
+              subscriptionMonths:
+                p.subscriptionMonths ?? (p.subscription ? 1 : 0),
               images: [p.image],
             }))
           );
@@ -162,18 +165,21 @@ const Cart = () => {
     updateCart({ id, quantity: qty }).catch(() => {});
   };
 
-  const handleToggleSubscription = (id: number) => {
+  const handleSetSubscriptionMonths = (id: number, months: number) => {
+    const isSub = months > 0;
     setCartItems((prev) =>
       prev.map((p) =>
-        p.id === id ? { ...p, subscription: !p.subscription } : p
+        p.id === id
+          ? { ...p, subscription: isSub, subscriptionMonths: months }
+          : p
       )
     );
     setFlashIds((s) => [...s, id]);
     setTimeout(() => setFlashIds((s) => s.filter((x) => x !== id)), 300);
-    // đồng bộ thay đổi đăng ký với server (tìm giá trị mới)
-    const item = cartItems.find((c) => c.id === id);
-    const newVal = item ? !item.subscription : true;
-    updateCart({ id, subscription: newVal }).catch(() => {});
+    // đồng bộ thay đổi đăng ký với server (send months)
+    updateCart({ id, subscription: isSub, subscriptionMonths: months }).catch(
+      () => {}
+    );
   };
 
   const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";
@@ -369,16 +375,23 @@ const Cart = () => {
                               </div>
 
                               <label className="flex items-center text-sm text-gray-600 gap-2">
-                                <input
-                                  id={`sub-${item.id}`}
-                                  type="checkbox"
-                                  checked={!!item.subscription}
-                                  onChange={() =>
-                                    handleToggleSubscription(item.id)
+                                <select
+                                  value={item.subscriptionMonths ?? 0}
+                                  onChange={(e) =>
+                                    handleSetSubscriptionMonths(
+                                      item.id,
+                                      Number(e.target.value)
+                                    )
                                   }
-                                  className="w-4 h-4 text-teal-600 bg-white border-gray-300 rounded"
-                                />
-                                Đăng ký
+                                  className="px-3 py-1 border border-gray-200 rounded-full text-sm w-36"
+                                >
+                                  <option value={0}>Không đăng ký</option>
+                                  <option value={1}>1 tháng</option>
+                                  <option value={3}>3 tháng</option>
+                                  <option value={6}>6 tháng</option>
+                                  <option value={9}>9 tháng</option>
+                                  <option value={12}>1 năm</option>
+                                </select>
                               </label>
                             </div>
                           </div>

@@ -85,24 +85,38 @@ const createOrder = async (req, res) => {
       }
     }
 
-    const order = {
-      id: newId,
-      userId,
-      items: items.map((it) => ({
+    const orderItems = items.map((it) => {
+      const item = {
         productId: it.productId,
         name: it.name,
         price: it.price,
         quantity: it.quantity,
         image: it.image,
         subscription: it.subscription,
-      })),
+        subscriptionMonths: it.subscriptionMonths || 0,
+      };
+      // compute subscription end date if subscriptionMonths > 0
+      if (item.subscription && (item.subscriptionMonths || 0) > 0) {
+        const start = new Date().toISOString();
+        const end = new Date(start);
+        end.setMonth(end.getMonth() + Number(item.subscriptionMonths));
+        item.subscriptionStart = start;
+        item.subscriptionEnd = end.toISOString();
+      }
+      return item;
+    });
+
+    const order = {
+      id: newId,
+      userId,
+      items: orderItems,
       shippingId,
       shippingMethod: (shipping && shipping.method) || null,
       shippingMethodCost: methodCost,
       shippingBase: baseShipping,
       paymentId,
       total,
-      status: "pending",
+      status: "success",
       createdAt: new Date().toISOString(),
     };
 

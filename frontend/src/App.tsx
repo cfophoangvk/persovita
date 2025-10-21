@@ -8,6 +8,7 @@ import ShopPage from "./drugs/pages/ShopPage";
 import DrugDetailsPage from "./drugs/pages/DrugDetailsPage";
 import TestPage from "./test/pages/TestPage";
 import Cart from "./cart/pages/Cart";
+import OrderHistory from "./cart/pages/OrderHistory";
 import HomePage from "./main/HomePage";
 import AboutPage from "./main/AboutPage";
 import { Toaster } from "react-hot-toast";
@@ -43,6 +44,7 @@ const App = () => {
           <Route path="shop" element={<ShopPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />
+          <Route path="orders" element={<OrderHistory />} />
           <Route path="products/:id" element={<DrugDetailsPage />} />
           <Route
             path="profile"
