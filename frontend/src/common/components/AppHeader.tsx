@@ -43,8 +43,8 @@ const AppHeader: React.FC = () => {
   };
 
   useEffect(() => {
+    // fetch once on mount and listen for cart:updated events. Removing aggressive polling to avoid repeated calls.
     fetchCount();
-    const t = setInterval(fetchCount, 5000);
     const onUpdate = () => fetchCount();
     window.addEventListener("cart:updated", onUpdate as EventListener);
 
@@ -72,7 +72,6 @@ const AppHeader: React.FC = () => {
     document.addEventListener("keydown", onKey);
 
     return () => {
-      clearInterval(t);
       window.removeEventListener("cart:updated", onUpdate as EventListener);
       document.removeEventListener("click", onDocClick);
       document.removeEventListener("keydown", onKey);
