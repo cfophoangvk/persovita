@@ -357,7 +357,7 @@ const ShopPage: React.FC = () => {
                             image: p.images?.[0] ?? "",
                             subscription: false,
                           };
-                          fetch("http://localhost:6789/api/cart/add", {
+                          fetch("https://api.nourivitamin.com/api/cart/add", {
                             method: "POST",
                             credentials: "include",
                             headers: { "Content-Type": "application/json" },

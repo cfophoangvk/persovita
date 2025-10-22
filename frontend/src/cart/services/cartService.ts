@@ -7,14 +7,14 @@ async function handleResponse(res: Response) {
 }
 
 export async function fetchCart() {
-  const res = await fetch("http://localhost:6789/api/cart/", {
+  const res = await fetch("https://api.nourivitamin.com/api/cart/", {
     credentials: "include",
   });
   return handleResponse(res);
 }
 
 export async function addToCart(payload: any) {
-  const res = await fetch("http://localhost:6789/api/cart/add", {
+  const res = await fetch("https://api.nourivitamin.com/api/cart/add", {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -24,7 +24,7 @@ export async function addToCart(payload: any) {
 }
 
 export async function updateCart(payload: any) {
-  const res = await fetch("http://localhost:6789/api/cart/update", {
+  const res = await fetch("https://api.nourivitamin.com/api/cart/update", {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -34,7 +34,7 @@ export async function updateCart(payload: any) {
 }
 
 export async function removeFromCart(id: number) {
-  const res = await fetch("http://localhost:6789/api/cart/remove", {
+  const res = await fetch("https://api.nourivitamin.com/api/cart/remove", {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -44,7 +44,7 @@ export async function removeFromCart(id: number) {
 }
 
 export async function clearCart() {
-  const res = await fetch("http://localhost:6789/api/cart/clear", {
+  const res = await fetch("https://api.nourivitamin.com/api/cart/clear", {
     method: "POST",
     credentials: "include",
   });

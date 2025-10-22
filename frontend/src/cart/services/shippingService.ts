@@ -7,7 +7,7 @@ async function handleResponse(res: Response) {
 }
 
 export async function addShipping(payload: any) {
-  const res = await fetch("http://localhost:6789/api/shipping/add", {
+  const res = await fetch("https://api.nourivitamin.com/api/shipping/add", {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -17,7 +17,7 @@ export async function addShipping(payload: any) {
 }
 
 export async function getShipping() {
-  const res = await fetch("http://localhost:6789/api/shipping/", {
+  const res = await fetch("https://api.nourivitamin.com/api/shipping/", {
     credentials: "include",
   });
   return handleResponse(res);
