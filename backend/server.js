@@ -21,8 +21,7 @@ dotenv.config(); //load biến môi trường từ file .env
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: process.env.FRONTEND_URL1, credentials: true }));
-app.use(cors({ origin: process.env.FRONTEND_URL2, credentials: true })); //for fucking frontend app
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(cookieParser()); //for cookie
 
 app.use("/api/auth", authRoutes); //mk là password123
