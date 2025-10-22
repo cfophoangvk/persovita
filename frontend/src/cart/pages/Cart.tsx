@@ -10,7 +10,7 @@ import Shipping from "./Shipping.tsx";
 import type { Product } from "../interfaces";
 import Payment from "./Payment.tsx";
 import {
-  fetchCart,
+  fetchCartSmart,
   updateCart,
   removeFromCart as svcRemoveFromCart,
 } from "../services/cartService";
@@ -118,8 +118,8 @@ const Cart = () => {
   } | null>(null);
 
   useEffect(() => {
-    // ưu tiên giỏ hàng từ máy chủ nếu có
-    fetchCart()
+    // ưu tiên giỏ hàng từ máy chủ nếu có; nếu chưa đăng nhập -> dùng persistCart
+    fetchCartSmart()
       .then((res) => {
         if (res && res.success) {
           setCartItems(
@@ -130,7 +130,6 @@ const Cart = () => {
               price: p.price ?? 35000,
               quantity: p.quantity ?? 1,
               subscription: p.subscription ?? false,
-              // support subscriptionMonths stored on server; fall back to 1 when subscription true
               subscriptionMonths:
                 p.subscriptionMonths ?? (p.subscription ? 1 : 0),
               images: [p.image],
@@ -169,19 +168,19 @@ const Cart = () => {
 
   const handleRemove = (id: number) => {
     setRemovingIds((s) => [...s, id]);
-    setTimeout(() => {
-      // lạc quan xóa trên UI và gọi server
-      setCartItems((prev) => prev.filter((p) => p.id !== id));
-      svcRemoveFromCart(id).catch(() => {});
-      setRemovingIds((s) => s.filter((x) => x !== id));
-    }, 260);
+    // optimistic UI remove
+    setCartItems((prev) => prev.filter((p) => p.id !== id));
+    // call server to remove; if fails, ignore (could re-fetch on failure)
+    svcRemoveFromCart(id).catch(() => {});
+    setTimeout(() => setRemovingIds((s) => s.filter((x) => x !== id)), 300);
+    // notify header to refresh
+    window.dispatchEvent(new CustomEvent("cart:updated"));
   };
 
   const handleSetQuantity = (id: number, qty: number) => {
     setCartItems((prev) =>
       prev.map((p) => (p.id === id ? { ...p, quantity: qty } : p))
     );
-    // đồng bộ với server
     updateCart({ id, quantity: qty }).catch(() => {});
   };
 
@@ -196,10 +195,10 @@ const Cart = () => {
     );
     setFlashIds((s) => [...s, id]);
     setTimeout(() => setFlashIds((s) => s.filter((x) => x !== id)), 300);
-    // đồng bộ thay đổi đăng ký với server (send months)
     updateCart({ id, subscription: isSub, subscriptionMonths: months }).catch(
       () => {}
     );
+    window.dispatchEvent(new CustomEvent("cart:updated"));
   };
 
   const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";

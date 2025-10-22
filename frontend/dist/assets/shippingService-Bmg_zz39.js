@@ -1,0 +1,1 @@
+async function e(n){return n.status===401?(window.location.href="/login",{success:!1,message:"Unauthorized"}):n.json()}async function t(n){const i=await fetch("https://api.nourivitamin.com/api/shipping/add",{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify(n)});return e(i)}export{t as addShipping};

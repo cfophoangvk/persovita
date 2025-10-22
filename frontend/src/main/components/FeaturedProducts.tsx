@@ -46,30 +46,29 @@ const FeaturedProducts: React.FC = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleAdd = (p: Product) => {
+  const handleAdd = async (p: Product) => {
     const payload = {
       productId: p.id,
       name: p.name,
       price: p.price,
       quantity: 1,
-      images: p.images?.[0],
+      image: p.images?.[0] ?? "",
+      subscription: false,
+      subscriptionMonths: 0,
     };
-    // Giữ nguyên logic giỏ hàng gốc của bạn
-    fetch("https://api.nourivitamin.com/api/cart/add", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then((res) => {
-        if (res.status === 401) return (window.location.href = "/login");
-        return res.json();
-      })
-      .then(() => {
-        window.dispatchEvent(new CustomEvent("cart:updated"));
-        alert(`Đã thêm "${p.name}" vào giỏ hàng!`);
-      })
-      .catch(() => alert("Thêm vào giỏ hàng thất bại. Vui lòng thử lại."));
+    try {
+      const add = await import("../../cart/services/cartService").then((m) =>
+        m.addToCart(payload)
+      );
+      if (add && add.status === 401) {
+        window.location.href = "/login";
+        return;
+      }
+      window.dispatchEvent(new CustomEvent("cart:updated"));
+      alert(`Đã thêm "${p.name}" vào giỏ hàng!`);
+    } catch (e) {
+      alert("Thêm vào giỏ hàng thất bại. Vui lòng thử lại.");
+    }
   };
 
   return (

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { toast } from "react-hot-toast";
 import type { AuthState } from "../interfaces/stores";
 import axiosInstance from "../../utils/axios";
+import { syncLocalCartToServer } from "../../cart/services/cartService";
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
@@ -41,6 +42,12 @@ export const useAuthStore = create<AuthState>((set) => ({
 
       set({ success: true, user: res.data.user, message: res.data.message });
       toast.success(res.data.message);
+      // after login, migrate local cart to server
+      try {
+        await syncLocalCartToServer();
+      } catch (e) {
+        console.warn("Cart sync after login failed", e);
+      }
     } catch (error: any) {
       toast.error(
         error.response?.data?.message || "An error occurred during login"

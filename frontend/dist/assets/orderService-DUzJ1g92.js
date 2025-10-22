@@ -1,0 +1,1 @@
+async function n(e){return(await fetch("https://api.nourivitamin.com/api/orders/create",{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify(e)})).json()}async function r(){return(await fetch("https://api.nourivitamin.com/api/orders/",{credentials:"include"})).json()}export{n as createOrder,r as getOrders};
