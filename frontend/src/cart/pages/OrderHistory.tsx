@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
 
 type Order = {
   id: number;
@@ -16,7 +15,29 @@ type Order = {
   total: number;
 };
 
+// 🔹 Định dạng tiền tệ VNĐ
 const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";
+
+// 🔹 Định dạng ngày (ví dụ: "22/10/2025 14:30")
+const formatDateTime = (date: Date) => {
+  return new Intl.DateTimeFormat("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(date);
+};
+
+// 🔹 Định dạng chỉ ngày (ví dụ: "22/10/2025")
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(date);
+};
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -33,6 +54,7 @@ const OrderHistory = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  // 🔹 Tính danh sách gói đăng ký còn hoạt động
   const activeSubscriptions = orders
     .flatMap((o) =>
       (o.items || []).map((it) => ({
@@ -84,7 +106,7 @@ const OrderHistory = () => {
                           Đơn #{o.id}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {format(new Date(o.createdAt), "PPpp")}
+                          {formatDateTime(new Date(o.createdAt))}
                         </div>
                       </div>
                       <div className="text-right">
@@ -145,13 +167,13 @@ const OrderHistory = () => {
                       <div className="text-sm text-gray-500">
                         Bắt đầu:{" "}
                         <span className="text-teal-700">
-                          {format(new Date(a.createdAt), "PP")}
+                          {formatDate(new Date(a.createdAt))}
                         </span>
                       </div>
                       <div className="text-sm text-gray-500">
                         Kết thúc:{" "}
                         <span className="text-teal-700">
-                          {format(new Date(a.endDate), "PP")}
+                          {formatDate(new Date(a.endDate))}
                         </span>
                       </div>
                     </div>
