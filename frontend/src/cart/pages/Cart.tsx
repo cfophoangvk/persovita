@@ -141,9 +141,29 @@ const Cart = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const computeItemTotals = (it: Product) => {
+    const price = it.price ?? 0;
+    const qty = it.quantity ?? 1;
+    const months =
+      it.subscriptionMonths && it.subscriptionMonths > 0
+        ? it.subscriptionMonths
+        : 0;
+    if (months === 0) {
+      return {
+        gross: price * qty,
+        net: price * qty,
+        multiplier: 1,
+        months: 0,
+      };
+    }
+    const gross = price * qty * months;
+    const multiplier = months === 1 ? 0.9 : 0.8; // 1 month => 0.9, 3/6/9/12 => 0.8
+    const net = gross * multiplier;
+    return { gross, net, multiplier, months };
+  };
+
   const totalVND = cartItems.reduce(
-    (s, it) =>
-      s + (it.price ?? 0) * (it.quantity ?? 1) * (it.subscription ? 0.8 : 1),
+    (s, it) => s + computeItemTotals(it).net,
     0
   );
 
@@ -193,7 +213,7 @@ const Cart = () => {
 
   // tính toán giá trị gộp (chưa giảm giá đăng ký) và chiết khấu (bằng VNĐ)
   const grossVND = cartItems.reduce(
-    (s, it) => s + (it.price ?? 0) * (it.quantity ?? 1),
+    (s, it) => s + computeItemTotals(it).gross,
     0
   );
   const discountsVND = grossVND - totalVND; // dương khi có chiết khấu
@@ -335,16 +355,23 @@ const Cart = () => {
 
                               {/* HIỂN THỊ GIÁ BẰNG VNĐ */}
                               <div className="absolute right-4 top-12 flex items-center gap-4">
-                                <div className="text-sm text-gray-400 line-through">
-                                  {formatVND(item.price ?? 0)}
-                                </div>
-                                <div className="font-semibold text-gray-900">
-                                  {formatVND(
-                                    (item.price ?? 0) *
-                                      (item.quantity ?? 1) *
-                                      (item.subscription ? 0.8 : 1)
-                                  )}
-                                </div>
+                                {(() => {
+                                  const t = computeItemTotals(item);
+                                  return (
+                                    <>
+                                      <div className="text-sm text-gray-400 line-through">
+                                        {formatVND(
+                                          (item.price ?? 0) *
+                                            (item.quantity ?? 1) *
+                                            (t.months || 1)
+                                        )}
+                                      </div>
+                                      <div className="font-semibold text-gray-900">
+                                        {formatVND(t.net)}
+                                      </div>
+                                    </>
+                                  );
+                                })()}
                               </div>
                             </div>
 
@@ -429,8 +456,7 @@ const Cart = () => {
 
                   <div className="py-3">
                     {cartItems.map((it) => {
-                      const itemGross = (it.price ?? 0) * (it.quantity ?? 1);
-                      const itemSub = itemGross * (it.subscription ? 0.8 : 1);
+                      const t = computeItemTotals(it);
                       return (
                         <div
                           key={it.id}
@@ -440,16 +466,16 @@ const Cart = () => {
                             {it.name}
                             {it.subscription && (
                               <div className="inline-block ml-2 px-2 py-0.5 text-xs bg-teal-100 text-teal-700 rounded">
-                                Đăng ký hàng tháng
+                                Đăng ký {t.months} tháng
                               </div>
                             )}
                           </div>
                           <div className="text-right text-sm">
                             <div className="text-gray-400 text-sm line-through">
-                              {formatVND(itemGross)}
+                              {formatVND(t.gross)}
                             </div>
                             <div className="font-semibold text-gray-900">
-                              {itemSub === 0 ? "Miễn phí" : formatVND(itemSub)}
+                              {t.net === 0 ? "Miễn phí" : formatVND(t.net)}
                             </div>
                           </div>
                         </div>

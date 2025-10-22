@@ -33,10 +33,17 @@ const createOrder = async (req, res) => {
     const newId = db.orders.length
       ? Math.max(...db.orders.map((o) => o.id)) + 1
       : 1;
-    const itemsTotal = items.reduce(
-      (s, it) => s + (it.price || 0) * (it.quantity || 1),
-      0
-    );
+    // compute items total respecting subscriptionMonths and discounts
+    const itemsTotal = items.reduce((s, it) => {
+      const price = Number(it.price || 0);
+      const qty = Number(it.quantity || 1);
+      const months = Number(it.subscriptionMonths || 0);
+      if (months <= 0) return s + price * qty;
+      const gross = price * qty * months;
+      const multiplier = months === 1 ? 0.9 : 0.8; // 1 month -> 0.9, >=3 -> 0.8
+      const net = gross * multiplier;
+      return s + net;
+    }, 0);
 
     // determine shipping costs: method cost (if provided) plus a base shipping fee
     const methodCost = shipping && shipping.price ? Number(shipping.price) : 0;
