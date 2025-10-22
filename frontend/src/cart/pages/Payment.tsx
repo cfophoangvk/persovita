@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import type { PaymentProps } from "../interfaces";
 import { Link } from "react-router-dom";
-import qrImg from "/assets/qr.jpg";
 
 const Payment: React.FC<PaymentProps> = ({
   productCount = 0,
@@ -29,7 +28,7 @@ const Payment: React.FC<PaymentProps> = ({
     });
     setPayload(data);
     // use local placeholder QR image from assets
-    setQrUrl(qrImg);
+    setQrUrl("/assets/qr.jpg");
     // create order on backend (order creation will persist shipping/payment)
     Promise.all([
       import("../services/orderService"),
