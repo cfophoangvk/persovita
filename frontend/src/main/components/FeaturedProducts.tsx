@@ -28,7 +28,7 @@ const FeaturedProducts: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     // Giữ nguyên logic fetch gốc của bạn
-    fetch("http://localhost:6789/api/products")
+    fetch("https://api.nourivitamin.com/api/products")
       .then((r) => r.json())
       .then((d) => {
         const list = (d.products || []).slice(0, 8).map((p: any) => ({
@@ -55,7 +55,7 @@ const FeaturedProducts: React.FC = () => {
       images: p.images?.[0],
     };
     // Giữ nguyên logic giỏ hàng gốc của bạn
-    fetch("http://localhost:6789/api/cart/add", {
+    fetch("https://api.nourivitamin.com/api/cart/add", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

@@ -93,7 +93,7 @@ const LoginPage: React.FC = () => {
             <button
               type="button"
               onClick={() =>
-                (window.location.href = "http://localhost:6789/api/auth/google")
+                (window.location.href = "https://api.nourivitamin.com/api/auth/google")
               }
               className="w-full py-2 rounded-full border border-gray-300 bg-white flex items-center justify-center gap-3 text-sm text-black font-medium
                          hover:bg-teal-50 active:bg-teal-100 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-200"

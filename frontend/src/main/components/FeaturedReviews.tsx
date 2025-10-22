@@ -14,7 +14,7 @@ const FeaturedReviews: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:6789/file")
+    fetch("https://api.nourivitamin.com/file")
       .then((r) => r.json())
       .then((d) => {
         const list = (d.productReviews || []).slice(3, 6).map((r: any) => ({

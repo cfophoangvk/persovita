@@ -32,7 +32,7 @@ const AppHeader: React.FC = () => {
 
   const fetchCount = async () => {
     try {
-      const res = await fetch("http://localhost:6789/api/cart/", {
+      const res = await fetch("https://api.nourivitamin.com/api/cart/", {
         credentials: "include",
       });
       const data = await res.json();
@@ -82,7 +82,9 @@ const AppHeader: React.FC = () => {
   // Lấy chi tiết giỏ hàng khi mở xem trước
   useEffect(() => {
     if (showPreview) {
-      fetch("http://localhost:6789/api/cart/", { credentials: "include" })
+      fetch("https://api.nourivitamin.com/api/cart/", {
+        credentials: "include",
+      })
         .then((r) => r.json())
         .then((d) => setCartItems(d.cart || []))
         .catch(() => setCartItems([]));
@@ -118,7 +120,7 @@ const AppHeader: React.FC = () => {
     }
     setSuggestLoading(true);
     fetch(
-      `http://localhost:6789/api/products/filter?q=${encodeURIComponent(
+      `https://api.nourivitamin.com/api/products/filter?q=${encodeURIComponent(
         q
       )}&limit=5`
     )

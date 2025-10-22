@@ -1,5 +1,5 @@
 export async function createOrder(payload: any) {
-  const res = await fetch("http://localhost:6789/api/orders/create", {
+  const res = await fetch("https://api.nourivitamin.com/api/orders/create", {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -9,7 +9,7 @@ export async function createOrder(payload: any) {
 }
 
 export async function getOrders() {
-  const res = await fetch("http://localhost:6789/api/orders/", {
+  const res = await fetch("https://api.nourivitamin.com/api/orders/", {
     credentials: "include",
   });
   return res.json();

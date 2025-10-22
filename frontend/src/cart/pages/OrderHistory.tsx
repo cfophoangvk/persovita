@@ -23,7 +23,9 @@ const OrderHistory = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:6789/api/orders/", { credentials: "include" })
+    fetch("https://api.nourivitamin.com/api/orders/", {
+      credentials: "include",
+    })
       .then((r) => r.json() as Promise<{ success: boolean; orders: Order[] }>)
       .then((res) => {
         if (res && res.success) setOrders(res.orders || []);
