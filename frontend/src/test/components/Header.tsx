@@ -7,7 +7,7 @@ const Header = (props: { currentProgress: number }) => {
         to="/"
         className="text-2xl w-full font-extrabold tracking-widest text-teal-400 hover:text-teal-600 transition duration-150 flex justify-center"
       >
-        <img src="/src/common/assets/logo.png" className="h-8" />
+        <img src="/assets/logo.png" className="h-8" />
       </Link>
 
       <div className="w-[95%] mx-auto mt-1 bg-gray-200 rounded-full h-4 dark:bg-gray-700 text-center relative text-xs">
