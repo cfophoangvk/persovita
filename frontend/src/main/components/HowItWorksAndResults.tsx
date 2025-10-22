@@ -42,7 +42,7 @@ const HowItWorksAndResults: React.FC = () => {
               1/ Làm bài kiểm tra trực tuyến
             </h4>
             <ImagePlaceholder
-              src="/src/cart/assets/1.png"
+              src="/assets/1.png"
               alt="Người dùng đang làm bài kiểm tra trực tuyến trên điện thoại"
             />
             <p className="text-base text-gray-600">
@@ -57,7 +57,7 @@ const HowItWorksAndResults: React.FC = () => {
               2/ Nhận gợi ý cá nhân hóa
             </h4>
             <ImagePlaceholder
-              src="/src/cart/assets/2.png"
+              src="/assets/2.png"
               alt="Hộp bổ sung cá nhân và ly nước"
             />
             <p className="text-base text-gray-600">
@@ -73,7 +73,7 @@ const HowItWorksAndResults: React.FC = () => {
               3/ Bắt đầu và theo dõi tiến trình
             </h4>
             <ImagePlaceholder
-              src="/src/cart/assets/3.png"
+              src="/assets/3.png"
               alt="Người dùng đang uống nước"
             />
             <p className="text-base text-gray-600">

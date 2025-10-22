@@ -42,7 +42,7 @@ export class ProductService {
     let imageUrls: string[] = [];
 
     while (imageFound) {
-      const imageUrl = `/src/drugs/assets/product-${productId}/${imageIndex}.png`;
+      const imageUrl = `/assets/product-${productId}/${imageIndex}.png`;
       const isImageAvailable = await this.checkImage(imageUrl);
 
       if (isImageAvailable) {

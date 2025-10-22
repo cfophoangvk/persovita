@@ -24,12 +24,15 @@ import { ProductService } from "../../drugs/services/ProductService";
 
 const TestPage = () => {
   const defaultTestData: ITestStorage = {
-    name: '',
-    email: '',
+    name: "",
+    email: "",
     selectedCategories: [],
-    selectedProducts: []
-  }
-  const [_, setTestData] = useLocalStorage<ITestStorage>('testData', defaultTestData);
+    selectedProducts: [],
+  };
+  const [_, setTestData] = useLocalStorage<ITestStorage>(
+    "testData",
+    defaultTestData
+  );
   const [hasError, setHasError] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [supplementText, setSupplementText] = useState<string>("");
@@ -58,97 +61,99 @@ const TestPage = () => {
   };
 
   const finishTest = () => {
-    handleAddCartProducts(saveObjectives)
-      .then(products => {
-        setTestData({
-          name: name,
-          email: email,
-          selectedCategories: saveObjectives.map(objective => OBJECTIVE_ITEMS.find(obj => obj.id == objective)?.text ?? ""),
-          selectedProducts: products.slice(0, 4)
-        })
+    handleAddCartProducts(saveObjectives).then((products) => {
+      setTestData({
+        name: name,
+        email: email,
+        selectedCategories: saveObjectives.map(
+          (objective) =>
+            OBJECTIVE_ITEMS.find((obj) => obj.id == objective)?.text ?? ""
+        ),
+        selectedProducts: products.slice(0, 4),
+      });
 
-        window.location.href = "/test/result";
-      })
+      window.location.href = "/test/result";
+    });
   };
 
   const objectiveMapping = [
     {
       objective: 2,
       feature: 17,
-      text: SECTION.ENERGY
+      text: SECTION.ENERGY,
     },
     {
       objective: 3,
       feature: 4,
-      text: SECTION.HEART
+      text: SECTION.HEART,
     },
     {
       objective: 4,
       feature: 16,
-      text: SECTION.IMMUNITY
+      text: SECTION.IMMUNITY,
     },
     {
       objective: 5,
       feature: 2,
-      text: SECTION.SKIN
+      text: SECTION.SKIN,
     },
     {
       objective: 6,
       feature: 3,
-      text: SECTION.HAIR
+      text: SECTION.HAIR,
     },
     {
       objective: 7,
       feature: 6,
-      text: SECTION.DIGESTION
+      text: SECTION.DIGESTION,
     },
     {
       objective: 8,
       feature: 15,
-      text: SECTION.STRESS
+      text: SECTION.STRESS,
     },
     {
       objective: 9,
       feature: 11,
-      text: SECTION.BONES
+      text: SECTION.BONES,
     },
     {
       objective: 10,
       feature: 12,
-      text: SECTION.SLEEP
+      text: SECTION.SLEEP,
     },
     {
       objective: 12,
       feature: 9,
-      text: SECTION.WOMEN_HEALTH
+      text: SECTION.WOMEN_HEALTH,
     },
     {
       objective: 13,
       feature: 10,
-      text: SECTION.MEN_HEALTH
+      text: SECTION.MEN_HEALTH,
     },
     {
       objective: 14,
       feature: 14,
-      text: SECTION.SPORT
+      text: SECTION.SPORT,
     },
     {
       objective: 15,
       feature: 5,
-      text: SECTION.CONCEPTION_MATERNITY
+      text: SECTION.CONCEPTION_MATERNITY,
     },
     {
       objective: 16,
       feature: 17,
-      text: SECTION.LONGEVITY
-    }
-  ]
-
-
+      text: SECTION.LONGEVITY,
+    },
+  ];
 
   const handleAddCartProducts = async (objectiveIds: number[]) => {
-    let features = objectiveIds.map(objective => {
-      const objectivePair = objectiveMapping.find(obj => obj.objective === objective);
+    let features = objectiveIds.map((objective) => {
+      const objectivePair = objectiveMapping.find(
+        (obj) => obj.objective === objective
+      );
       if (objectivePair) {
         return objectivePair.feature;
       } else {
@@ -156,12 +161,13 @@ const TestPage = () => {
       }
     });
 
-    features = features.filter(feature => feature !== 0);
+    features = features.filter((feature) => feature !== 0);
 
     let products: Product[] = [];
 
-    await axiosInstance.get("/products/filter?featureIds=" + features.join(","))
-      .then(res => {
+    await axiosInstance
+      .get("/products/filter?featureIds=" + features.join(","))
+      .then((res) => {
         const productFeatures = res.data.products.map((product: any) => {
           for (let i = 0; i < product.features.length; i++) {
             if (features.includes(product.features[i].id)) {
@@ -177,10 +183,10 @@ const TestPage = () => {
             description: product.description,
             price: product.price,
             subscription: false,
-            feature: productFeatures[index]
-          }
-        })
-      })
+            feature: productFeatures[index],
+          };
+        });
+      });
 
     for (let i = 0; i < products.length; i++) {
       const image = await productService.getProductImages(products[i].id);
@@ -188,7 +194,7 @@ const TestPage = () => {
     }
 
     return products;
-  }
+  };
 
   const handleNameInput = () => {
     if (!name) {
@@ -201,7 +207,7 @@ const TestPage = () => {
 
   const getCurrentProgress = () => {
     const pathName = location.pathname;
-    if ((pathName === "/test/result") || (pathName === '/test/recommendation')) {
+    if (pathName === "/test/result" || pathName === "/test/recommendation") {
       return 100;
     }
     const match = pathName.match(/(\d+)/);
@@ -295,11 +301,7 @@ const TestPage = () => {
       errorMsg="Vui lòng nhập tên!"
       handleInput={handleNameInput}
     />,
-    <Page2
-      title={SECTION.GENERAL}
-      name={name}
-      onNext={handleNext}
-    />,
+    <Page2 title={SECTION.GENERAL} name={name} onNext={handleNext} />,
     <Choice
       title={SECTION.GENERAL}
       header="Khi nói đến thực phẩm bổ sung, bạn:"

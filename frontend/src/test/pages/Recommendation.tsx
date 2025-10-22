@@ -46,7 +46,7 @@ const Recommendation = () => {
         </div>
         <div className="md:w-1/2 flex justify-center items-center relative z-0 mt-8 md:mt-0">
           <img
-            src="/src/test/assets/recommendation.png"
+            src="/assets/recommendation.png"
             className="w-full max-w-lg object-contain"
           />
         </div>

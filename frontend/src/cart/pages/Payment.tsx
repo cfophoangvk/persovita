@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import type { PaymentProps } from "../interfaces";
 import { Link } from "react-router-dom";
-import qrImg from "../assets/qr.jpg";
+import qrImg from "/assets/qr.jpg";
 
 const Payment: React.FC<PaymentProps> = ({
   productCount = 0,

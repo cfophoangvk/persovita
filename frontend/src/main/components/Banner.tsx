@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 const DEFAULT_IMAGES = [
-  "/src/cart/assets/banner1.jpg",
-  "/src/cart/assets/banner2.jpg",
-  "/src/cart/assets/banner3.png",
+  "/assets/banner1.jpg",
+  "/assets/banner2.jpg",
+  "/assets/banner3.png",
 ];
 
 const Banner: React.FC = () => {
