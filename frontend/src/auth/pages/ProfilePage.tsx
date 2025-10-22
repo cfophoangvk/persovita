@@ -125,15 +125,6 @@ const ProfilePage: React.FC = () => {
             </div>
           </div>
         </div>
-
-        <div className="border-t p-6 bg-gray-50">
-          <h3 className="text-lg font-semibold text-gray-800">
-            Đơn hàng gần đây
-          </h3>
-          <p className="text-sm text-gray-600 mt-2">
-            Không có đơn hàng nào. Mọi đơn hàng sẽ xuất hiện ở đây.
-          </p>
-        </div>
       </div>
     </div>
   );
