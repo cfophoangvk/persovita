@@ -339,9 +339,8 @@ const updateProfile = async (req, res) => {
 // Google OAuth: redirect to Google's consent screen
 const googleAuthRedirect = (req, res) => {
   const redirectUri = encodeURIComponent(
-    `${req.protocol}://${req.get("host")}/api/auth/google/callback`
+    `${req.protocol}s://${req.get("host")}/api/auth/google/callback`
   );
-  console.log("Google OAuth redirect URI:", redirectUri);
   const scope = encodeURIComponent("openid email profile");
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(
