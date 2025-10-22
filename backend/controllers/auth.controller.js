@@ -415,35 +415,6 @@ const googleAuthCallback = async (req, res) => {
       user.role,
       rememberFlag
     );
-
-    const key = "persistCart";
-    const raw1 = localStorage.getItem(key) || "[]";
-    const list = JSON.parse(raw1 || "[]");
-    if (!list || list.length === 0) {
-      for (const item of list) {
-        try {
-          // map fields to payload expected by server
-          const payload = {
-            productId: item.productId,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity || 1,
-            image: item.image || "",
-            subscription: item.subscription || false,
-            subscriptionMonths: item.subscriptionMonths || 0,
-          };
-
-          addToCart(
-            { body: payload, id: user.id },
-            { status: () => ({ json: () => {} }) }
-          );
-          localStorage.removeItem(key);
-          window.dispatchEvent(new CustomEvent("cart:updated"));
-        } catch (e) {
-          // ignore individual failures
-        }
-      }
-    }
     // redirect to frontend
     res.redirect(FRONTEND_URL || "/");
   } catch (err) {
