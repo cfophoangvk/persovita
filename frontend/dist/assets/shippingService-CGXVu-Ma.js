@@ -1,1 +1,0 @@
-async function t(n){return n.status===401?(window.location.href="/login",{success:!1,message:"Unauthorized"}):n.json()}async function s(n){const e=await fetch("http://localhost:6789/api/shipping/add",{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify(n)});return t(e)}export{s as addShipping};
