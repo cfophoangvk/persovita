@@ -309,7 +309,7 @@ const ShopPage: React.FC = () => {
                     key={p.id}
                     className="bg-white border border-gray-100 rounded-lg p-4 shadow-sm hover:shadow-md transition"
                   >
-                    <div className="relative h-44 mb-4 bg-gray-50 rounded overflow-hidden flex items-center justify-center">
+                    <div className="relative h-44 mb-4 rounded overflow-hidden flex items-center justify-center">
                       <img
                         src={p.images?.[0] ?? "/images/product-placeholder.png"}
                         alt={p.name}
@@ -348,7 +348,7 @@ const ShopPage: React.FC = () => {
                           : "Contact"}
                       </div>
                       <button
-                        onClick={() => {
+                        onClick={async () => {
                           const payload = {
                             productId: p.id,
                             name: p.name,
@@ -357,25 +357,22 @@ const ShopPage: React.FC = () => {
                             image: p.images?.[0] ?? "",
                             subscription: false,
                           };
-                          fetch("https://api.nourivitamin.com/api/cart/add", {
-                            method: "POST",
-                            credentials: "include",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify(payload),
-                          })
-                            .then((res) => {
-                              if (res.status === 401)
-                                return (window.location.href = "/login");
-                              return res.json();
-                            })
-                            .then(() => {
-                              // dispatch event so header can refresh count
-                              window.dispatchEvent(
-                                new CustomEvent("cart:updated")
-                              );
-                              alert("Added to cart");
-                            })
-                            .catch(() => alert("Failed to add to cart"));
+                          try {
+                            const res: any = await import(
+                              "../../cart/services/cartService"
+                            ).then((m) => m.addToCart(payload));
+                            if (res && res.status === 401) {
+                              window.location.href = "/login";
+                              return;
+                            }
+                            // dispatch event so header can refresh count
+                            window.dispatchEvent(
+                              new CustomEvent("cart:updated")
+                            );
+                            alert("Added to cart");
+                          } catch (e) {
+                            alert("Failed to add to cart");
+                          }
                         }}
                         className="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center hover:bg-teal-200 transition"
                       >

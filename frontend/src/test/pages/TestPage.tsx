@@ -50,7 +50,6 @@ const TestPage = () => {
   const productService = new ProductService();
 
   const handleNext = (response?: number) => {
-    console.log("next");
     const pathName = location.pathname;
     const match = pathName.match(/(\d+)/);
     if (!match) return;
