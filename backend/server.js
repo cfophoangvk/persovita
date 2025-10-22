@@ -22,6 +22,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+console.log("CORS allowed origin:", process.env.FRONTEND_URL);
 app.use(cookieParser()); //for cookie
 
 app.use("/api/auth", authRoutes); //mk là password123
