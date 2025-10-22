@@ -363,7 +363,7 @@ const googleAuthCallback = async (req, res) => {
         code,
         client_id: process.env.GOOGLE_CLIENT_ID,
         client_secret: process.env.GOOGLE_CLIENT_SECRET,
-        redirect_uri: `${req.protocol}://${req.get(
+        redirect_uri: `${req.protocol}s://${req.get(
           "host"
         )}/api/auth/google/callback`,
         grant_type: "authorization_code",
