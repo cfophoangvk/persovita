@@ -437,13 +437,12 @@ const googleAuthCallback = async (req, res) => {
             { body: payload, id: user.id },
             { status: () => ({ json: () => {} }) }
           );
+          localStorage.removeItem(key);
+          window.dispatchEvent(new CustomEvent("cart:updated"));
         } catch (e) {
           // ignore individual failures
         }
       }
-
-      localStorage.removeItem(key);
-      window.dispatchEvent(new CustomEvent("cart:updated"));
     }
     // redirect to frontend
     res.redirect(FRONTEND_URL || "/");
