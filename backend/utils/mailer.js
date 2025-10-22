@@ -1,48 +1,32 @@
 const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
-dotenv.config();
 
-async function createTransporter() {
-  if (
-    !process.env.SMTP_HOST ||
-    !process.env.SMTP_USER ||
-    !process.env.SMTP_PASS
-  )
-    throw new Error("Missing SMTP configuration");
-
-  return nodemailer.createTransport({
+async function sendMail({ to, subject, html, text }) {
+  const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: 587,
+    port: process.env.SMTP_PORT || 587,
     secure: false,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
-    requireTLS: true,
-    tls: {
-      rejectUnauthorized: false,
-    },
   });
-}
-
-async function sendMail({ to, subject, html, text }) {
-  const transporter = await createTransporter();
-
-  const fromName = process.env.EMAIL_FROM_NAME || "PERSOVITA";
-  const fromAddress =
-    process.env.EMAIL_FROM_ADDRESS || "no-reply@persovita.local";
 
   const msg = {
-    from: `${fromName} <${fromAddress}>`,
+    from: `"PERSOVITA" <${process.env.SMTP_USER}>`,
     to,
     subject,
     text,
     html,
   };
 
-  const info = await transporter.sendMail(msg);
-  console.log("✅ Email sent:", info.messageId);
-  return info;
+  try {
+    const info = await transporter.sendMail(msg);
+    console.log(" Email sent successfully:", info.messageId);
+    return info;
+  } catch (err) {
+    console.error(" Error sending email:", err);
+    throw err;
+  }
 }
 
 module.exports = { sendMail };
