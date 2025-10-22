@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import {
   XMarkIcon,
@@ -227,6 +228,7 @@ const Cart = () => {
   }, [cartItems]);
 
   const navigate = useNavigate();
+  const { user } = useAuthStore();
 
   return (
     <div className="min-h-screen bg-white relative">
@@ -533,7 +535,10 @@ const Cart = () => {
                       </button>
                     </div>
                     <button
-                      onClick={() => setShowShippingPage(true)}
+                      onClick={() => {
+                        if (user) setShowShippingPage(true);
+                        else navigate("/login");
+                      }}
                       className="w-full mt-6 py-4 text-white font-bold rounded-full shadow-lg"
                       style={{ backgroundColor: "#449286" }}
                     >

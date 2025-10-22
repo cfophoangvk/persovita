@@ -4,7 +4,7 @@ import type { ITestStorage } from "../interfaces/ITestStorage";
 import type { Product } from "../interfaces/Product";
 import Badge from "../components/Badge";
 import { ScanSearch } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useAuthStore } from "../../auth/stores/useAuthStore";
 
 const Recommendation = () => {
   const defaultTestData: ITestStorage = {
@@ -27,6 +27,80 @@ const Recommendation = () => {
       )
     );
   }, []);
+
+  // Inline AddToCartButton component (handles guest/local vs logged-in server behavior)
+  const AddToCartButton = ({ product }: { product: Product }) => {
+    const { user } = useAuthStore();
+
+    const onAdd = async () => {
+      const payload = {
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        image: product.image || "",
+        subscription: false,
+        subscriptionMonths: 0,
+      };
+
+      if (!user) {
+        // save to localStorage 'persistCart'
+        try {
+          const key = "persistCart";
+          const raw = localStorage.getItem(key) || "[]";
+          const list = JSON.parse(raw || "[]");
+          const existing = list.find(
+            (i: any) => i.productId === payload.productId
+          );
+          if (existing) {
+            existing.quantity = (Number(existing.quantity) || 0) + 1;
+          } else {
+            list.push({
+              userId: null,
+              productId: payload.productId,
+              name: payload.name,
+              price: payload.price,
+              quantity: 1,
+              subscription: false,
+              subscriptionMonths: 0,
+              image: payload.image,
+            });
+          }
+          localStorage.setItem(key, JSON.stringify(list));
+          window.dispatchEvent(new CustomEvent("cart:updated"));
+          alert(`Đã thêm "${product.name}" vào giỏ hàng (lưu tạm)`);
+        } catch (e) {
+          alert("Lưu giỏ hàng thất bại");
+        }
+        return;
+      }
+
+      // logged in -> push to server
+      try {
+        const add = await import("../../cart/services/cartService").then((m) =>
+          m.addToCart(payload)
+        );
+        if (add && add.status === 401) {
+          window.location.href = "/login";
+          return;
+        }
+        window.dispatchEvent(new CustomEvent("cart:updated"));
+        alert(`Đã thêm "${product.name}" vào giỏ hàng`);
+      } catch (e) {
+        alert("Thêm vào giỏ hàng thất bại");
+      }
+    };
+
+    return (
+      <button
+        onClick={onAdd}
+        className="bg-teal-500 text-white py-2 px-4 rounded-md text-sm font-semibold flex items-center gap-3"
+      >
+        <ScanSearch />
+        <span>Thêm vào giỏ</span>
+      </button>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
@@ -89,14 +163,7 @@ const Recommendation = () => {
                 <p className="text-gray-800 text-base font-semibold">
                   {product.price.toLocaleString("vi-VN")} VND
                 </p>
-                <Link
-                  to={`/products/${product.id}`}
-                  className="bg-teal-500 text-white py-2 px-4 rounded-md text-sm font-semibold flex items-center gap-3"
-                  onClick={() => window.scrollTo(0, 0)}
-                >
-                  <ScanSearch />
-                  <span>Xem chi tiết...</span>
-                </Link>
+                <AddToCartButton product={product} />
               </div>
             </div>
           ))}
