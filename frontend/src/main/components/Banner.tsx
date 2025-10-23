@@ -5,7 +5,6 @@ const Banner: React.FC = () => {
 
   return (
     <div className="relative w-full h-[90vh] overflow-hidden">
-      {/* === Video nền === */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
         src={video}
@@ -15,10 +14,8 @@ const Banner: React.FC = () => {
         playsInline
       />
 
-      {/* === Overlay làm mờ === */}
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* === Nội dung === */}
       <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center pl-8 md:pl-16 text-left">
         <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight drop-shadow-2xl">
           Sống khỏe hơn, <br className="hidden md:block" /> dễ dàng hơn.

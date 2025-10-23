@@ -46,9 +46,9 @@ const Modal = ({
 const SubscriptionOfferModal = ({ onClose }: { onClose: () => void }) => (
   <div className="fixed inset-0 z-50 flex flex-col justify-end">
     <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-    <div className="bg-teal-400 text-white w-full rounded-t-2xl p-10 text-center">
+    <div className="bg-teal-400 text-white w-full rounded-t-2xl p-10 text-center z-1">
       <div className="flex justify-end">
-        <button onClick={onClose} className="text-white">
+        <button onClick={onClose} className="text-white cursor-pointer">
           <XMarkIcon className="w-6 h-6" />
         </button>
       </div>
@@ -172,7 +172,7 @@ const Cart = () => {
     // optimistic UI remove
     setCartItems((prev) => prev.filter((p) => p.id !== id));
     // call server to remove; if fails, ignore (could re-fetch on failure)
-    svcRemoveFromCart(id).catch(() => {});
+    svcRemoveFromCart(id).catch(() => { });
     setTimeout(() => setRemovingIds((s) => s.filter((x) => x !== id)), 300);
     // notify header to refresh
     window.dispatchEvent(new CustomEvent("cart:updated"));
@@ -182,7 +182,7 @@ const Cart = () => {
     setCartItems((prev) =>
       prev.map((p) => (p.id === id ? { ...p, quantity: qty } : p))
     );
-    updateCart({ id, quantity: qty }).catch(() => {});
+    updateCart({ id, quantity: qty }).catch(() => { });
   };
 
   const handleSetSubscriptionMonths = (id: number, months: number) => {
@@ -197,7 +197,7 @@ const Cart = () => {
     setFlashIds((s) => [...s, id]);
     setTimeout(() => setFlashIds((s) => s.filter((x) => x !== id)), 300);
     updateCart({ id, subscription: isSub, subscriptionMonths: months }).catch(
-      () => {}
+      () => { }
     );
     window.dispatchEvent(new CustomEvent("cart:updated"));
   };
@@ -267,14 +267,14 @@ const Cart = () => {
           <button
             onClick={() => navigate(-1)}
             aria-label="Quay lại"
-            className="absolute left-4 top-4 p-2 text-gray-600 hover:text-gray-800 z-40"
+            className="absolute left-4 top-4 p-2 text-gray-600 hover:text-gray-800 z-40 cursor-pointer"
           >
             <ArrowLeftIcon className="w-6 h-6" />
           </button>
 
-          <div className="max-w-6xl mx-auto px-6 py-10">
+          <div className="max-w-6xl mx-auto px-6 py-5">
             <header className="flex items-center justify-center mb-8">
-              <h1 className="text-2xl tracking-widest font-semibold">NOURI</h1>
+              <img src="assets/logo.png" alt="Nouri" className="w-32 cursor-pointer" onClick={() => location.href = '/'} />
             </header>
 
             <div className="flex gap-8">
@@ -313,15 +313,13 @@ const Cart = () => {
                     {cartItems.map((item) => (
                       <li key={item.id}>
                         <div
-                          className={`bg-white rounded-xl p-6 shadow-sm flex items-center relative transition-transform duration-200 ${
-                            removingIds.includes(item.id)
-                              ? "opacity-0 scale-95"
-                              : ""
-                          } ${
-                            flashIds.includes(item.id)
+                          className={`bg-white rounded-xl p-6 shadow-sm flex items-center relative transition-transform duration-200 ${removingIds.includes(item.id)
+                            ? "opacity-0 scale-95"
+                            : ""
+                            } ${flashIds.includes(item.id)
                               ? "ring-2 ring-teal-200"
                               : ""
-                          }`}
+                            }`}
                         >
                           <button
                             onClick={() => handleRemove(item.id)}
@@ -363,8 +361,8 @@ const Cart = () => {
                                       <div className="text-sm text-gray-400 line-through">
                                         {formatVND(
                                           (item.price ?? 0) *
-                                            (item.quantity ?? 1) *
-                                            (t.months || 1)
+                                          (item.quantity ?? 1) *
+                                          (t.months || 1)
                                         )}
                                       </div>
                                       <div className="font-semibold text-gray-900">

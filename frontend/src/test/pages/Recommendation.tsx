@@ -5,6 +5,7 @@ import type { Product } from "../interfaces/Product";
 import Badge from "../components/Badge";
 import { Check, Plus } from "lucide-react";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
+import { Link } from "react-router-dom";
 
 const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>, setProduct: React.Dispatch<React.SetStateAction<Product | undefined>> }) => {
   const defaultTestData: ITestStorage = {
@@ -110,7 +111,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans">
+    <div className="min-h-screen bg-white text-gray-900 font-sans relative">
       <div className="bg-gray-50 p-8 pt-16 flex flex-col md:flex-row justify-between items-center relative overflow-hidden">
         <div className="text-left md:w-1/2 p-4">
           <h1 className="text-5xl font-semibold mb-4">
@@ -237,6 +238,15 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
             </div>
           </div>}
         </div>
+      </div>
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2">
+        <Link to={'/cart'}>
+          <button
+            className="bg-teal-500 text-white py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
+          >
+            <span>Đi đến thanh toán ({recommendProducts.length + (toCompleteCart ? 1 : 0)} sản phẩm)</span>
+          </button>
+        </Link>
       </div>
     </div>
   );
