@@ -122,7 +122,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       const res = await axiosInstance.get("/auth/check-auth");
       set({ success: true, user: res.data.user });
     } catch (error: any) {
-      console.log(error.message);
+      if (error.status && error.status === 401) {
+        console.log("Chưa đăng nhập vui lòng thử lại!");
+      }else{
+        console.log("Không phải 401 mà là lỗi", error.message);
+      }
       set({ success: false, user: null });
     } finally {
       set({ checkingAuth: false });

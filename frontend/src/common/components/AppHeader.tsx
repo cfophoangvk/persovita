@@ -5,6 +5,8 @@ import { LogIn } from "lucide-react";
 import useScrollHeaderEffect from "../hooks/useScrollHeaderEffect";
 import { motion } from "framer-motion";
 import { ProductService } from "../../drugs/services/ProductService";
+import axiosInstance from "../../utils/axios";
+import type { PersistCart } from "../../cart/interfaces/PersistCart";
 
 // Định dạng sang VNĐ (dùng cho hiển thị trong header và preview)
 const formatVND = (value: number) => {
@@ -24,7 +26,7 @@ const AppHeader: React.FC = () => {
   const [count, setCount] = useState<number>(0);
   const [showPreview, setShowPreview] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState<PersistCart[]>([]);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const profileRef = useRef<HTMLDivElement | null>(null);
   const { user, logout } = useAuthStore();
@@ -32,13 +34,17 @@ const AppHeader: React.FC = () => {
 
   const fetchCount = async () => {
     try {
-      const res = await fetch("https://api.nourivitamin.com/api/cart/", {
-        credentials: "include",
-      });
-      const data = await res.json();
+      const res = await axiosInstance.get("/cart/", { withCredentials: true });
+      const data = res.data;
       setCount((data.cart || []).length || 0);
-    } catch (e) {
-      // Bỏ qua lỗi
+    } catch (e: any) {
+      if (e.status && e.status === 401) {
+        console.log("[AppHeader] Chưa đăng nhập, lấy từ localStorage!");
+        const persistCart = localStorage.getItem("persistCart");
+        if (persistCart) {
+          setCount(JSON.parse(persistCart).length);
+        }
+      }
     }
   };
 
@@ -81,12 +87,18 @@ const AppHeader: React.FC = () => {
   // Lấy chi tiết giỏ hàng khi mở xem trước
   useEffect(() => {
     if (showPreview) {
-      fetch("https://api.nourivitamin.com/api/cart/", {
-        credentials: "include",
-      })
-        .then((r) => r.json())
-        .then((d) => setCartItems(d.cart || []))
-        .catch(() => setCartItems([]));
+      axiosInstance
+        .get("/cart/", { withCredentials: true })
+        .then((res) => {
+          const data = res.data;
+          setCartItems(data.cart || []);
+        })
+        .catch(() => {
+          const persistCart = localStorage.getItem("persistCart");
+          if (persistCart) {
+            setCartItems(JSON.parse(persistCart));
+          }
+        });
     }
   }, [showPreview]);
 
@@ -118,13 +130,10 @@ const AppHeader: React.FC = () => {
       return;
     }
     setSuggestLoading(true);
-    fetch(
-      `https://api.nourivitamin.com/api/products/filter?q=${encodeURIComponent(
-        q
-      )}&limit=5`
-    )
-      .then((r) => r.json())
-      .then(async (d) => {
+    axiosInstance
+      .get(`/products/filter?q=${encodeURIComponent(q)}&limit=5`)
+      .then(async (res) => {
+        const d = res.data;
         const list = (d.products || []).slice(0, 5);
         try {
           await setProductImages(list);
@@ -170,21 +179,21 @@ const AppHeader: React.FC = () => {
       animate={
         show
           ? {
-              y: 0,
-              opacity: 1,
-              transition: {
-                y: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.8 },
-              },
-            }
+            y: 0,
+            opacity: 1,
+            transition: {
+              y: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.8 },
+            },
+          }
           : {
-              y: "-110%",
-              opacity: 0,
-              transition: {
-                y: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 1.2 },
-              },
-            }
+            y: "-110%",
+            opacity: 0,
+            transition: {
+              y: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 1.2 },
+            },
+          }
       }
     >
       <div className="max-w-full mx-auto px-2 relative">
@@ -387,7 +396,7 @@ const AppHeader: React.FC = () => {
                     <>
                       <ul className="space-y-3">
                         {cartItems.map((it) => (
-                          <li key={it.id} className="flex items-center gap-3">
+                          <li key={it.productId} className="flex items-center gap-3">
                             <div className="w-12 h-12 bg-gray-50 rounded flex items-center justify-center overflow-hidden border border-gray-200">
                               <img
                                 src={

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import axiosInstance from "../../utils/axios";
+import type { AxiosResponse } from "axios";
 
 type Review = {
   productId?: number;
@@ -14,9 +16,9 @@ const FeaturedReviews: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch("https://api.nourivitamin.com/file")
-      .then((r) => r.json())
-      .then((d) => {
+    axiosInstance.get("/products/review")
+      .then((response: AxiosResponse) => {
+        const d = response.data;
         const list = (d.productReviews || []).slice(3, 6).map((r: any) => ({
           productId: r.productId,
           reviewBy: r.reviewBy,

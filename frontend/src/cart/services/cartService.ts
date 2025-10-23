@@ -1,22 +1,23 @@
-async function handleResponse(res: Response) {
+import type { AxiosResponse } from "axios";
+import axiosInstance from "../../utils/axios";
+
+async function handleResponse(res: AxiosResponse) {
   if (res.status === 401) {
     return { success: false, status: 401, message: "Unauthorized" } as any;
   }
-  return res.json();
+  return res.data;
 }
 
 export async function fetchCart() {
-  const res = await fetch("https://api.nourivitamin.com/api/cart/", {
-    credentials: "include",
-  });
+  const res = await axiosInstance.get("cart");
   return handleResponse(res);
 }
 
 // smart fetch: if server returns 401 (not logged), return cart from localStorage
 export async function fetchCartSmart() {
   try {
-    const res = await fetch("https://api.nourivitamin.com/api/cart/", {
-      credentials: "include",
+    const res = await axiosInstance.get("cart", {
+      withCredentials: true
     });
     if (res.status === 401) {
       const persist = localStorage.getItem("persistCart") || "[]";
@@ -26,6 +27,7 @@ export async function fetchCartSmart() {
     return handleResponse(res);
   } catch (e) {
     // fallback to local
+    console.log("Giỏ hàng chưa có vì sao? Vì bạn chưa đăng nhập! Đang lấy giỏ hàng từ localStorage");
     const persist = localStorage.getItem("persistCart") || "[]";
     const cart = JSON.parse(persist || "[]");
     return { success: true, cart } as any;
@@ -34,12 +36,10 @@ export async function fetchCartSmart() {
 
 export async function addToCart(payload: any) {
   try {
-    const res = await fetch("https://api.nourivitamin.com/api/cart/add", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const res = await axiosInstance.post("cart/add", payload, {
+      withCredentials: true,
+      headers: { "Content-Type": "application/json" }
+    })
     if (res.status === 401) {
       // not logged in -> save to localStorage
       try {
@@ -121,12 +121,10 @@ export async function syncLocalCartToServer() {
         subscription: item.subscription || false,
         subscriptionMonths: item.subscriptionMonths || 0,
       };
-      const res = await fetch("https://api.nourivitamin.com/api/cart/add", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const res = await axiosInstance.post("cart/add", payload, {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" }
+      })
       if (res.status === 200 || res.status === 201) {
         synced++;
       }
@@ -142,29 +140,24 @@ export async function syncLocalCartToServer() {
 }
 
 export async function updateCart(payload: any) {
-  const res = await fetch("https://api.nourivitamin.com/api/cart/update", {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+  const res = await axiosInstance.post("cart/update", payload, {
+    withCredentials: true,
+    headers: { "Content-Type": "application/json" }
   });
   return handleResponse(res);
 }
 
 export async function removeFromCart(id: number) {
-  const res = await fetch("https://api.nourivitamin.com/api/cart/remove", {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ productId: id }),
+  const res = await axiosInstance.post("cart/remove", { productId: id }, {
+    withCredentials: true,
+    headers: { "Content-Type": "application/json" }
   });
   return handleResponse(res);
 }
 
 export async function clearCart() {
-  const res = await fetch("https://api.nourivitamin.com/api/cart/clear", {
-    method: "POST",
-    credentials: "include",
+  const res = await axiosInstance.post("cart/clear", {}, {
+    withCredentials: true
   });
   return handleResponse(res);
 }

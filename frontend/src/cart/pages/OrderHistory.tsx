@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axiosInstance from "../../utils/axios";
 
 type Order = {
   id: number;
@@ -44,13 +45,12 @@ const OrderHistory = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://api.nourivitamin.com/api/orders/", {
-      credentials: "include",
+    axiosInstance.get("orders", {
+      withCredentials: true
+    }).then((response) => {
+      const res = response.data as { success: boolean; orders: Order[] };
+      if (res && res.success) setOrders(res.orders || []);
     })
-      .then((r) => r.json() as Promise<{ success: boolean; orders: Order[] }>)
-      .then((res) => {
-        if (res && res.success) setOrders(res.orders || []);
-      })
       .finally(() => setLoading(false));
   }, []);
 

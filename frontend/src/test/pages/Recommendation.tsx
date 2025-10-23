@@ -6,6 +6,7 @@ import Badge from "../components/Badge";
 import { Check, Plus } from "lucide-react";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { Link } from "react-router-dom";
+import type { PersistCart } from "../../cart/interfaces/PersistCart";
 
 const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>, setProduct: React.Dispatch<React.SetStateAction<Product | undefined>> }) => {
   const defaultTestData: ITestStorage = {
@@ -37,6 +38,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
     );
 
     //add product to cart
+    localStorage.removeItem("persistCart");
     productsRecommend.forEach(async product => addToPersistCart(product))
   }, []);
 
@@ -57,7 +59,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
         try {
           const key = "persistCart";
           const raw = localStorage.getItem(key) || "[]";
-          const list = JSON.parse(raw || "[]");
+          const list: PersistCart[] = JSON.parse(raw || "[]");
           const existing = list.find(
             (i: any) => i.productId === payload.productId
           );
@@ -66,7 +68,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
           } else {
             list.push({
               userId: null,
-              productId: payload.productId,
+              productId: payload.productId.toString(),
               name: payload.name,
               price: payload.price,
               quantity: 1,

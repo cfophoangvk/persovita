@@ -15,6 +15,7 @@ import {
   updateCart,
   removeFromCart as svcRemoveFromCart,
 } from "../services/cartService";
+import type { PersistCart } from "../interfaces/PersistCart.ts";
 
 // Component Modal chung
 const Modal = ({
@@ -221,7 +222,22 @@ const Cart = () => {
 
   useEffect(() => {
     try {
-      localStorage.setItem("persistCart", JSON.stringify(cartItems));
+      const persistCartItems: PersistCart[] = cartItems.map(item => {
+        return {
+          userId: null,
+          productId: item.id.toString(),
+          name: item.name,
+          price: item.price ?? 0,
+          quantity: item.quantity ?? 1,
+          subscription: item.subscription ?? false,
+          image: item.images?.[0] ?? '',
+          subscriptionMonths: item.subscriptionMonths ?? 0
+        }
+      });
+
+      if (cartItems.length > 0) {
+        localStorage.setItem("persistCart", JSON.stringify(persistCartItems));
+      }
     } catch (e) {
       console.warn("Lưu giỏ hàng thất bại", e);
     }

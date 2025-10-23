@@ -7,6 +7,7 @@ import { useFeatureStore } from "../stores/useFeatureStore";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { useBrandStore } from "../stores/useBrandStore";
 import { Loader2 } from "lucide-react";
+import type { PersistCart } from "../../cart/interfaces/PersistCart";
 
 const PAGE_SIZES = [9, 12, 24, 48];
 
@@ -365,7 +366,7 @@ const ShopPage: React.FC = () => {
                               // guest: save to localStorage persistCart (merge by productId)
                               const key = "persistCart";
                               const raw = localStorage.getItem(key) || "[]";
-                              const list = JSON.parse(raw || "[]");
+                              const list: PersistCart[] = JSON.parse(raw || "[]");
                               const existing = list.find(
                                 (i: any) => i.productId === payload.productId
                               );
@@ -388,7 +389,7 @@ const ShopPage: React.FC = () => {
                               window.dispatchEvent(
                                 new CustomEvent("cart:updated")
                               );
-                              alert("Added to cart");
+                              alert("Đã thêm vào giỏ hàng!");
                               return;
                             }
 
@@ -404,10 +405,10 @@ const ShopPage: React.FC = () => {
                             window.dispatchEvent(
                               new CustomEvent("cart:updated")
                             );
-                            alert("Added to cart");
+                            alert("Đã thêm vào giỏ hàng!");
                           } catch (e) {
                             console.error(e);
-                            alert("Failed to add to cart");
+                            alert("Thêm vào giỏ hàng thất bại!");
                           }
                         }}
                         className="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center hover:bg-teal-200 transition"
