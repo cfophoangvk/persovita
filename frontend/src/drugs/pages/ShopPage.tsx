@@ -4,6 +4,7 @@ import { useDrugStore } from "../stores/useDrugStore";
 import { useDebounce } from "../hooks/useDebounce";
 import type { Drug } from "../interfaces/drug";
 import { useFeatureStore } from "../stores/useFeatureStore";
+import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { useBrandStore } from "../stores/useBrandStore";
 import { Loader2 } from "lucide-react";
 
@@ -28,6 +29,7 @@ const ShopPage: React.FC = () => {
 
   // store
   const { drugs, filterDrugs, isLoading: isLoadingDrugs } = useDrugStore();
+  const { user } = useAuthStore();
   const {
     features,
     fetchFeatures,
@@ -356,21 +358,55 @@ const ShopPage: React.FC = () => {
                             quantity: 1,
                             image: p.images?.[0] ?? "",
                             subscription: false,
+                            subscriptionMonths: 0,
                           };
                           try {
-                            const res: any = await import(
+                            if (!user) {
+                              // guest: save to localStorage persistCart (merge by productId)
+                              const key = "persistCart";
+                              const raw = localStorage.getItem(key) || "[]";
+                              const list = JSON.parse(raw || "[]");
+                              const existing = list.find(
+                                (i: any) => i.productId === payload.productId
+                              );
+                              if (existing) {
+                                existing.quantity =
+                                  (Number(existing.quantity) || 0) + 1;
+                              } else {
+                                list.push({
+                                  userId: null,
+                                  productId: payload.productId,
+                                  name: payload.name,
+                                  price: payload.price,
+                                  quantity: 1,
+                                  subscription: false,
+                                  subscriptionMonths: 0,
+                                  image: payload.image || "",
+                                });
+                              }
+                              localStorage.setItem(key, JSON.stringify(list));
+                              window.dispatchEvent(
+                                new CustomEvent("cart:updated")
+                              );
+                              alert("Added to cart");
+                              return;
+                            }
+
+                            // logged-in: call server addToCart
+                            const { addToCart } = await import(
                               "../../cart/services/cartService"
-                            ).then((m) => m.addToCart(payload));
+                            );
+                            const res: any = await addToCart(payload);
                             if (res && res.status === 401) {
                               window.location.href = "/login";
                               return;
                             }
-                            // dispatch event so header can refresh count
                             window.dispatchEvent(
                               new CustomEvent("cart:updated")
                             );
                             alert("Added to cart");
                           } catch (e) {
+                            console.error(e);
                             alert("Failed to add to cart");
                           }
                         }}
