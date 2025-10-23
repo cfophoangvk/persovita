@@ -3,10 +3,10 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import type { ITestStorage } from "../interfaces/ITestStorage";
 import type { Product } from "../interfaces/Product";
 import Badge from "../components/Badge";
-import { ScanSearch } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
 
-const Recommendation = () => {
+const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>, setProduct: React.Dispatch<React.SetStateAction<Product | undefined>> }) => {
   const defaultTestData: ITestStorage = {
     name: "",
     email: "",
@@ -15,24 +15,32 @@ const Recommendation = () => {
   };
 
   const [recommendProducts, setRecommendProducts] = useState<Product[]>([]);
+  const [toCompleteProduct, setToCompleteProduct] = useState<Product>();
+  const [toCompleteCart, setToCompleteCart] = useState<boolean>(false);
   const [recommendObjectives, setRecommendObjectives] = useState<string[]>();
   const [testData] = useLocalStorage<ITestStorage>("testData", defaultTestData);
+  const { user } = useAuthStore();
 
   useEffect(() => {
-    setRecommendProducts(testData.selectedProducts);
+    let products = testData.selectedProducts;
+    let productsRecommend = products.slice(0, products.length - 1);
+    let productToComplete = products[products.length - 1];
+
+    setRecommendProducts(productsRecommend);
+    setToCompleteProduct(productToComplete);
 
     setRecommendObjectives(
       testData.selectedCategories.map(
         (category) => category[0] + category.substring(1).toLowerCase()
       )
     );
+
+    //add product to cart
+    productsRecommend.forEach(async product => addToPersistCart(product))
   }, []);
 
-  // Inline AddToCartButton component (handles guest/local vs logged-in server behavior)
-  const AddToCartButton = ({ product }: { product: Product }) => {
-    const { user } = useAuthStore();
-
-    const onAdd = async () => {
+  const addToPersistCart = async (product: Product) => {
+    {
       const payload = {
         productId: product.id,
         name: product.name,
@@ -68,7 +76,6 @@ const Recommendation = () => {
           }
           localStorage.setItem(key, JSON.stringify(list));
           window.dispatchEvent(new CustomEvent("cart:updated"));
-          alert(`Đã thêm "${product.name}" vào giỏ hàng (lưu tạm)`);
         } catch (e) {
           alert("Lưu giỏ hàng thất bại");
         }
@@ -85,26 +92,25 @@ const Recommendation = () => {
           return;
         }
         window.dispatchEvent(new CustomEvent("cart:updated"));
-        alert(`Đã thêm "${product.name}" vào giỏ hàng`);
       } catch (e) {
         alert("Thêm vào giỏ hàng thất bại");
       }
-    };
+    }
+  }
 
+  const AddToCartButton = () => {
     return (
       <button
-        onClick={onAdd}
-        className="bg-teal-500 text-white py-2 px-4 rounded-md text-sm font-semibold flex items-center gap-3"
+        className="bg-teal-500 text-white py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-not-allowed"
       >
-        <ScanSearch />
-        <span>Thêm vào giỏ</span>
+        <Check />
+        <span>Đã thêm vào giỏ</span>
       </button>
     );
   };
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
-      {/* Top Section */}
       <div className="bg-gray-50 p-8 pt-16 flex flex-col md:flex-row justify-between items-center relative overflow-hidden">
         <div className="text-left md:w-1/2 p-4">
           <h1 className="text-5xl font-semibold mb-4">
@@ -158,15 +164,78 @@ const Recommendation = () => {
               <p className="text-gray-500 text-sm leading-tight mb-4 line-clamp-2">
                 {product.description}
               </p>
+              <a className="text-sm text-gray-500 underline cursor-pointer" onClick={() => {
+                props.setIsPopupOpen(true);
+                props.setProduct(product);
+              }}>Tìm hiểu thêm</a>
 
               <div className="flex justify-between items-center w-full mt-auto pt-4 border-t border-gray-100">
                 <p className="text-gray-800 text-base font-semibold">
                   {product.price.toLocaleString("vi-VN")} VND
                 </p>
-                <AddToCartButton product={product} />
+                <AddToCartButton />
               </div>
             </div>
           ))}
+        </div>
+
+        <h2 className="text-4xl font-semibold mb-4 text-gray-800 mt-15">
+          Để hoàn thiện
+        </h2>
+        <p className="text-gray-600 text-lg mb-8">
+          đây là những gợi ý khác của chúng tôi để bổ sung cho thói quen của bạn. Chúng cũng được điều chỉnh theo nhu cầu cụ thể của bạn.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {toCompleteProduct && <div
+            className="bg-white rounded-lg shadow-sm p-4 flex flex-col items-start text-left border border-gray-100 relative"
+          >
+            <div className="absolute top-3 left-3">
+              <Badge text={toCompleteProduct.feature} />
+            </div>
+
+            <img
+              src={toCompleteProduct.image}
+              alt={toCompleteProduct.name}
+              className="h-48 object-cover mx-auto mb-4"
+            />
+
+            <h3 className="text-lg font-semibold text-gray-800 mb-1">
+              {toCompleteProduct.name}
+            </h3>
+            <p className="text-gray-500 text-sm leading-tight mb-4 line-clamp-2">
+              {toCompleteProduct.description}
+            </p>
+            <a className="text-sm text-gray-500 underline cursor-pointer" onClick={() => {
+              props.setIsPopupOpen(true);
+              props.setProduct(toCompleteProduct);
+            }}>Tìm hiểu thêm</a>
+
+            <div className="flex justify-between items-center w-full mt-auto pt-4 border-t border-gray-100">
+              <p className="text-gray-800 text-base font-semibold">
+                {toCompleteProduct.price.toLocaleString("vi-VN")} VND
+              </p>
+              {toCompleteCart ?
+                <button
+                  className="bg-teal-500 text-white py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-not-allowed"
+                >
+                  <Check />
+                  <span>Đã thêm vào giỏ</span>
+                </button>
+                :
+                <button
+                  className="border border-teal-500 text-teal-500 py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
+                  onClick={() => {
+                    addToPersistCart(toCompleteProduct);
+                    setToCompleteCart(true);
+                  }}
+                >
+                  <Plus />
+                  <span>Add</span>
+                </button>
+              }
+            </div>
+          </div>}
         </div>
       </div>
     </div>

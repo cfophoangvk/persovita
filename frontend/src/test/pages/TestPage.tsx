@@ -21,6 +21,7 @@ import Recommendation from "./Recommendation";
 import type { Product } from "../interfaces/Product";
 import axiosInstance from "../../utils/axios";
 import { ProductService } from "../../drugs/services/ProductService";
+import Popup from "../components/Popup";
 
 const TestPage = () => {
   const defaultTestData: ITestStorage = {
@@ -42,6 +43,8 @@ const TestPage = () => {
   const [saveObjectives, setSaveObjectives] = useState<number[]>([]);
   const [selectedMockItem, setSelectedMockItem] = useState<number[]>([]);
   const [currentProgress, setCurrentProgress] = useState<number>(0);
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [popupProduct, setPopupProduct] = useState<Product>();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -68,7 +71,7 @@ const TestPage = () => {
           (objective) =>
             OBJECTIVE_ITEMS.find((obj) => obj.id == objective)?.text ?? ""
         ),
-        selectedProducts: products.slice(0, 4),
+        selectedProducts: products.slice(0, 5),
       });
 
       window.location.href = "/test/result";
@@ -183,6 +186,11 @@ const TestPage = () => {
             price: product.price,
             subscription: false,
             feature: productFeatures[index],
+            amount: product.amount,
+            activeIngredients: product.activeIngredients,
+            additiveIngredients: product.additiveIngredients,
+            usage: product.usage,
+            contraindication: product.contraindication
           };
         });
       });
@@ -708,12 +716,13 @@ const TestPage = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center w-full overflow-hidden relative">
+      <Popup isOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} product={popupProduct}/>
       <Header currentProgress={currentProgress} />
       <SwitchTransition mode="out-in">
         <CSSTransition
           key={location.key}
           classNames="fade"
-          timeout={1500}
+          timeout={200}
           unmountOnExit
           nodeRef={nodeRef}
         >
@@ -732,7 +741,7 @@ const TestPage = () => {
       </SwitchTransition>
       <Routes>
         <Route path="result" element={<TestResult />} />
-        <Route path="recommendation" element={<Recommendation />} />
+        <Route path="recommendation" element={<Recommendation setIsPopupOpen={setIsPopupOpen} setProduct={setPopupProduct}/>} />
       </Routes>
     </div>
   );
