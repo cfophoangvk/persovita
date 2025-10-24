@@ -44,6 +44,7 @@ const ShopPage: React.FC = () => {
 
   // ensure brands/features loaded for sidebar
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (typeof fetchBrands === "function") fetchBrands();
     if (typeof fetchFeatures === "function") fetchFeatures();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import FadeInSection from "../layouts/FadeInSection";
 import {
@@ -53,6 +53,10 @@ const AboutPage: React.FC = () => {
       color: "text-purple-500",
     },
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-16 mt-10">

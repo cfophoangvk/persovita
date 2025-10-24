@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { ShippingMethod } from "../interfaces/shipping";
 import { Home } from "lucide-react";
 
@@ -48,6 +48,10 @@ const Shipping: React.FC<{
   const [country, setCountry] = useState("Việt Nam");
   const [phone, setPhone] = useState("+84 901234567");
   const [method, setMethod] = useState<string>("pickup");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
 
   const handleProceed = () => {
     if (!email || !firstName || !lastName || !address1 || !zipcode || !city) {
@@ -214,11 +218,10 @@ const Shipping: React.FC<{
                 return (
                   <label
                     key={m.id}
-                    className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition ${
-                      method === m.id
+                    className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition ${method === m.id
                         ? "border-teal-500 ring-1 ring-teal-500 bg-teal-50"
                         : "border-gray-200 hover:border-teal-300"
-                    }`}
+                      }`}
                   >
                     <div>
                       <div className="flex items-center gap-2 font-semibold">

@@ -10,6 +10,10 @@ const ProfilePage: React.FC = () => {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
+  useEffect(() => {
     if (!user) checkAuth();
   }, [user, checkAuth]);
 

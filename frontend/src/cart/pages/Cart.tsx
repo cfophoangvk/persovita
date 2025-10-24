@@ -114,7 +114,7 @@ const Cart = () => {
   } | null>(null);
 
   useEffect(() => {
-    // ưu tiên giỏ hàng từ máy chủ nếu có; nếu chưa đăng nhập -> dùng persistCart
+    window.scrollTo(0, 0);
     fetchCartSmart()
       .then((res) => {
         if (res && res.success) {

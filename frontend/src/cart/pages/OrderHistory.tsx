@@ -45,6 +45,7 @@ const OrderHistory = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     axiosInstance.get("orders", {
       withCredentials: true
     }).then((response) => {
@@ -112,7 +113,7 @@ const OrderHistory = () => {
                         <div className="font-bold text-teal-700">
                           {formatVND(o.total)}
                         </div>
-                        <div className="text-sm text-gray-500">{o.status}</div>
+                        <div className="text-sm text-gray-500">{o.status === 'success' ? 'Thành công' : 'Thất bại'}</div>
                       </div>
                     </div>
 

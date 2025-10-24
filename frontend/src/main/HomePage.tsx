@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "./components/Banner";
 import FadeInSection from "../layouts/FadeInSection";
 import HowItWorksAndResults from "./components/HowItWorksAndResults";
@@ -7,8 +7,12 @@ import FAQSection from "./components/FAQSection";
 import CandleGuide from "./components/MedicineGuide";
 import SectionSpacer from "./components/SectionSpacer";
 
-const HomePage: React.FC = () => (
-  <>
+const HomePage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
+  return <>
     <Banner />
 
     <FadeInSection>
@@ -33,6 +37,6 @@ const HomePage: React.FC = () => (
       <FAQSection />
     </FadeInSection>
   </>
-);
+}
 
 export default HomePage;

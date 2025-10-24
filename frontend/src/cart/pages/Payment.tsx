@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { PaymentProps } from "../interfaces";
 import { Link } from "react-router-dom";
 import { Home } from "lucide-react";
@@ -11,6 +11,10 @@ const Payment: React.FC<PaymentProps> = ({
 }) => {
   const [qrUrl, setQrUrl] = useState<string | null>(null);
   const [payload, setPayload] = useState<string>("");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
 
   const handleGenerateQr = () => {
     const methodCost =

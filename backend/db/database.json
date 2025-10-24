@@ -2210,7 +2210,38 @@
       "info": "{\"merchant\":\"NOURI\",\"amount\":1031606,\"items\":1,\"shippingMethod\":\"pickup\",\"shippingMethodCost\":0,\"ts\":1761294356037}"
     }
   ],
-  "carts": [],
+  "carts": [
+    {
+      "userId": 1,
+      "productId": 1,
+      "name": "Hyaluronic Acid",
+      "price": 1001606,
+      "quantity": 1,
+      "subscription": false,
+      "subscriptionMonths": 0,
+      "image": "/assets/product-1/1.png"
+    },
+    {
+      "userId": 1,
+      "productId": 2,
+      "name": "Turmeric Capsules",
+      "price": 421576,
+      "quantity": 1,
+      "subscription": false,
+      "subscriptionMonths": 0,
+      "image": "/assets/product-2/1.png"
+    },
+    {
+      "userId": 1,
+      "productId": 3,
+      "name": "Boswellia Extract",
+      "price": 712104,
+      "quantity": 1,
+      "subscription": false,
+      "subscriptionMonths": 0,
+      "image": "/assets/product-3/1.png"
+    }
+  ],
   "orders": [
     {
       "id": 1,

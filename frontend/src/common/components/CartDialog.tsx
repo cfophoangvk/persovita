@@ -36,7 +36,6 @@ const CartDialog = (props: IMenuDialogProps) => {
                 to="/shop"
                 onClick={() => {
                   props.setIsOpen(false);
-                  window.scrollTo(0, 0);
                 }}
                 className="inline-block px-4 py-2 border border-gray-300 rounded-full text-sm text-gray-700 hover:border-teal-500 hover:text-teal-600 transition duration-150"
               >
@@ -121,10 +120,6 @@ const CartDialog = (props: IMenuDialogProps) => {
           <div className="mt-4">
             <Link
               to="/cart"
-              onClick={() => {
-                props.setIsOpen(false);
-                window.scrollTo(0, 0);
-              }}
               className="block w-full text-center py-2 bg-teal-500 text-white rounded-full font-semibold hover:bg-teal-600 transition duration-150"
             >
               Đi đến giỏ hàng
