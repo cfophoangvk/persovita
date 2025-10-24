@@ -2180,6 +2180,17 @@
     }
   ],
   "users": [
+    {
+      "id": 1,
+      "fullName": "Thồn Lành",
+      "email": "hieuthien2004@gmail.com",
+      "password": "$2b$12$blU9HF7EQ9oE.KbhHu4p0.irs6qSaL4FhUBxM0CAxYbOT7jbM4RiG",
+      "role": "user",
+      "picture": "",
+      "phone": "0334789789",
+      "address": "120 Phố Yên Lãng",
+      "createdAt": "2025-10-24T02:46:03.286Z"
+    }
   ],
   "shipping": [],
   "payment": [],

@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axios";
-import type { AxiosResponse } from "axios";
-
+import React from "react";
 type Review = {
   productId?: number;
   reviewBy: string;
@@ -11,29 +8,7 @@ type Review = {
 };
 
 const FeaturedReviews: React.FC = () => {
-  const [reviews, setReviews] = useState<Review[] | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    axiosInstance.get("/products/review")
-      .then((response: AxiosResponse) => {
-        const d = response.data;
-        const list = (d.productReviews || []).slice(3, 6).map((r: any) => ({
-          productId: r.productId,
-          reviewBy: r.reviewBy,
-          reviewDate: r.reviewDate,
-          stars: r.stars,
-          description: r.description,
-        }));
-        setReviews(list);
-      })
-      .catch(() => setReviews(null))
-      .finally(() => setLoading(false));
-  }, []);
-
-  // Fallback static testimonials if fetch fails
-  const fallback: Review[] = [
+  const reviews: Review[] = [
     {
       reviewBy: "Nguyễn Thị Mai",
       stars: 5,
@@ -52,40 +27,30 @@ const FeaturedReviews: React.FC = () => {
     },
   ];
 
-  const toRender = reviews && reviews.length > 0 ? reviews : fallback;
-
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 bg-white">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-extrabold text-teal-800">
-          Khách hàng nói gì về chúng tôi
-        </h2>
-      </div>
+      <h2 className="md:text-3xl text-xl md:mb-8 mb-3 md:text-left text-center font-extrabold text-teal-700">
+        Khách hàng nói gì về chúng tôi
+      </h2>
 
-      {loading ? (
-        <div className="text-center text-gray-500 py-8">
-          Đang tải lời chứng thực...
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {toRender.map((rev, idx) => (
-            <div
-              key={idx}
-              className="bg-blue-50 p-7 rounded-lg shadow-md border border-blue-100 transform hover:scale-105 transition duration-300"
-            >
-              <div className="text-yellow-500 text-xl mb-3">
-                {Array(rev.stars || 5)
-                  .fill("★")
-                  .join("")}
-              </div>
-              <p className="text-gray-800 leading-relaxed">{rev.description}</p>
-              <div className="text-sm text-gray-600 font-semibold mt-4">
-                — {rev.reviewBy}
-              </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {reviews.map((review, index) => (
+          <div
+            key={index}
+            className="bg-blue-50 md:p-7 p-3 rounded-lg shadow-md border border-blue-100 transform hover:scale-105 transition duration-300"
+          >
+            <div className="text-yellow-500 text-xl mb-3">
+              {Array(review.stars || 5)
+                .fill("★")
+                .join("")}
             </div>
-          ))}
-        </div>
-      )}
+            <p className="text-gray-800 leading-relaxed">{review.description}</p>
+            <div className="text-sm text-gray-600 font-semibold mt-4">
+              — {review.reviewBy}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

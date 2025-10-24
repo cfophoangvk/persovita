@@ -40,7 +40,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white shadow-md mt-10 rounded-lg overflow-hidden">
         <div className="flex p-6 items-center gap-6">
           <div className="w-28 h-28 rounded-full bg-teal-400 flex items-center justify-center text-white text-3xl font-bold">
             {initials}
@@ -53,17 +53,17 @@ const ProfilePage: React.FC = () => {
               Thành viên từ{" "}
               {new Date(user?.createdAt || Date.now()).toLocaleDateString()}
             </p>
-            <div className="mt-4 flex gap-3">
+            <div className="mt-4 flex md:flex-row flex-col items-start gap-3">
               <button
                 onClick={() => setEditing((s) => !s)}
-                className="px-4 py-2 bg-teal-500 text-white rounded-full font-semibold"
+                className="md:px-4 md:py-3 px-3 py-2 bg-teal-500 text-white md:text-base text-sm rounded-full font-semibold"
               >
                 {editing ? "Hủy" : "Chỉnh sửa hồ sơ"}
               </button>
               <button
                 onClick={onSave}
                 disabled={!editing || saving}
-                className="px-4 py-2 bg-gray-100 text-gray-800 rounded-full font-semibold disabled:opacity-50"
+                className="md:px-4 md:py-3 px-3 py-2 bg-gray-100 text-gray-800 md:text-base text-sm rounded-full font-semibold disabled:opacity-50"
               >
                 {saving ? "Đang lưu..." : "Lưu thay đổi"}
               </button>

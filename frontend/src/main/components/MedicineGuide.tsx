@@ -2,20 +2,19 @@ import React from "react";
 
 const MedicineGuide: React.FC = () => (
   // Giữ nguyên gradient nền và bố cục
-  <div className="max-w-7xl mx-auto px-6 py-12 bg-gradient-to-r from-white to-white/90 rounded-lg shadow-xl">
+  <div className="max-w-[90vw] mx-auto px-6 py-12 bg-gradient-to-r from-white to-white/90 rounded-lg shadow-xl">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
       <div>
-        <h2 className="text-3xl font-extrabold text-teal-700">
+        <h2 className="md:text-3xl text-xl md:text-left text-center font-extrabold text-teal-700">
           Cẩm nang hướng dẫn sử dụng thuốc an toàn
         </h2>
-        <p className="text-gray-600 mt-4 text-lg">
+        <p className="text-gray-600 mt-4 md:text-lg text-base md:text-left text-center">
           Lời khuyên thiết yếu về liều lượng, thời điểm và cách bảo quản thuốc.
           Đảm bảo <b>hiệu quả điều trị tối ưu</b> và <b>giảm thiểu rủi ro</b>.
         </p>
-        <div className="mt-8">
+        <div className="mt-8 flex md:justify-start justify-center">
           <a
-            href="/consultation" // Giữ nguyên link
-            className="inline-block px-7 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-full font-semibold transition duration-300 shadow-md"
+            className="inline-block px-7 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-full font-semibold transition duration-300 shadow-md cursor-pointer"
           >
             Tìm hiểu thêm về sức khỏe
           </a>

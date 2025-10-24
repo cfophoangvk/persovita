@@ -145,7 +145,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
           bạn. Chúng nhắm đến những nhu cầu ưu tiên của bạn.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {recommendProducts.map((product, index) => (
             <div
               key={index}
@@ -189,7 +189,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
           đây là những gợi ý khác của chúng tôi để bổ sung cho thói quen của bạn. Chúng cũng được điều chỉnh theo nhu cầu cụ thể của bạn.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {toCompleteProduct && <div
             className="bg-white rounded-lg shadow-sm p-4 flex flex-col items-start text-left border border-gray-100 relative"
           >

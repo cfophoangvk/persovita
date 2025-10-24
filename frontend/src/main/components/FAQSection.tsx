@@ -50,7 +50,7 @@ const FAQSection: React.FC = () => {
   return (
     <section className="py-10 px-4 md:px-6 max-w-4xl mx-auto">
       <h2
-        className="text-4xl font-bold text-center mb-8 sm:mb-10 tracking-tight"
+        className="md:text-4xl text-xl font-bold text-center mb-8 sm:mb-10 tracking-tight"
         style={{ color: "#449286" }}
       >
         Câu hỏi thường gặp
@@ -61,7 +61,7 @@ const FAQSection: React.FC = () => {
           <div key={i}>
             <button
               onClick={() => toggle(i)}
-              className="w-full text-left p-5 flex justify-between items-center text-lg font-semibold text-gray-800 transition duration-300 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
+              className="w-full text-left p-5 flex justify-between items-center md:text-lg text-base font-semibold text-gray-800 transition duration-300 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
               style={{
                 color: openIndex === i ? "#387a6f" : "#1f2937",
                 borderColor: openIndex === i ? "#449286" : "transparent",

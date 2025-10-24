@@ -6,7 +6,7 @@ const AppFooter: React.FC = () => {
       <div className="w-full mx-auto px-20 pt-12 pb-6">
         <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-6">
           {/* Trái: Giới thiệu (cột rộng) */}
-          <div className="md:text-left sm:text-center">
+          <div className="md:text-left text-center">
             <div className="font-semibold mb-4">VỀ NOURI</div>
             <ul className="text-sm text-gray-700 space-y-2">
               <li>
@@ -53,7 +53,7 @@ const AppFooter: React.FC = () => {
           </div>
 
           {/* Cột giữa: Sản phẩm + Hỗ trợ */}
-          <div className="md:text-left sm:text-center">
+          <div className="md:text-left text-center">
             <div className="font-semibold mb-4">SẢN PHẨM CỦA CHÚNG TÔI</div>
             <ul className="text-sm text-gray-700 space-y-2">
               <li>
@@ -79,7 +79,7 @@ const AppFooter: React.FC = () => {
             </ul>
           </div>
 
-          <div className="md:text-left sm:text-center">
+          <div className="md:text-left text-center">
             <div className="font-semibold mb-4">CẦN HỖ TRỢ</div>
             <ul className="text-sm text-gray-700 space-y-2">
               <li>
@@ -116,7 +116,7 @@ const AppFooter: React.FC = () => {
           </div>
 
           {/* Phải: Điều khoản + Thanh toán */}
-          <div className="md:text-left sm:text-center">
+          <div className="md:text-left text-center">
             <div className="font-semibold mb-4">ĐIỀU KHOẢN</div>
             <ul className="text-sm text-gray-700 space-y-2 mb-4">
               <li>

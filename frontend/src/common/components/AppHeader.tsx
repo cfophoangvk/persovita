@@ -6,6 +6,7 @@ import { ProductService } from "../../drugs/services/ProductService";
 import axiosInstance from "../../utils/axios";
 import type { PersistCart } from "../../cart/interfaces/PersistCart";
 import { useIsMobile } from "../hooks/useIsMobile";
+import SearchDialog from "./SearchDialog";
 
 // Định dạng sang VNĐ (dùng cho hiển thị trong header và preview)
 const formatVND = (value: number) => {
@@ -26,6 +27,7 @@ const AppHeader: React.FC = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [cartItems, setCartItems] = useState<PersistCart[]>([]);
+  const [searchDialogOpen, setSearchDialogOpen] = useState<boolean>(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const profileRef = useRef<HTMLDivElement | null>(null);
   const { user, logout } = useAuthStore();
@@ -183,31 +185,29 @@ const AppHeader: React.FC = () => {
             (
               <div className="flex items-center gap-2">
                 <Menu size={20} />
-                <Search size={20} />
+                <Search size={20} onClick={() => setSearchDialogOpen(true)} />
               </div>
             )
             : (
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
                 <Link
                   to="/test/page1"
                   className="inline-flex items-center px-4 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition duration-150"
                 >
                   Làm bài kiểm tra
                 </Link>
-                <nav className="hidden sm:flex items-center gap-4">
-                  <Link
-                    to="/shop"
-                    className="text-sm text-gray-700 hover:text-teal-600 transition duration-150"
-                  >
-                    Sản phẩm của chúng tôi
-                  </Link>
-                  <Link
-                    to="/about"
-                    className="text-sm text-gray-700 hover:text-teal-600 transition duration-150"
-                  >
-                    Về chúng tôi
-                  </Link>
-                </nav>
+                <Link
+                  to="/shop"
+                  className="text-sm text-gray-700 px-2 py-2 hover:text-teal-600 rounded-full hover:bg-gray-200/50 transition duration-150"
+                >
+                  Sản phẩm
+                </Link>
+                <Link
+                  to="/about"
+                  className="text-sm text-gray-700 px-2 py-2 hover:text-teal-600 rounded-full hover:bg-gray-200/50 transition duration-150"
+                >
+                  Về chúng tôi
+                </Link>
               </div>
             )}
 
@@ -447,9 +447,20 @@ const AppHeader: React.FC = () => {
               </div>
             )}
 
-            {isMobile ? (<div className="flex gap-2">
-              <ShoppingCart size={18} />
-              <User size={18} />
+            {isMobile ? (<div className="flex gap-2 items-center">
+              <ShoppingCart className="cursor-pointer" size={18} />
+              {user ? <div className="w-7 h-7 rounded-full bg-teal-400 text-white font-semibold flex items-center justify-center cursor-pointer" onClick={() => navigate("/profile")}>
+                {(user.fullName || user.email || "U")
+                  .split(" ")
+                  .map((s: string) => s[0])
+                  .slice(0, 2)
+                  .join("")
+                  .toUpperCase()}
+              </div> : <User className="cursor-pointer" size={18} onClick={() => {
+                navigate("/login");
+              }} />
+              }
+
             </div>) : (
               <div className="relative" ref={profileRef}>
                 {user && (
@@ -553,7 +564,9 @@ const AppHeader: React.FC = () => {
           </div>
         </div>
       </div>
-    </div >
+
+      {isMobile && <SearchDialog isOpen={searchDialogOpen} setIsOpen={setSearchDialogOpen} />}
+    </div>
   );
 };
 
