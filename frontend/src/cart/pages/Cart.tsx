@@ -32,11 +32,10 @@ const Modal = ({
   </div>
 );
 
-// Modal ưu đãi đăng ký (Subscription)
-const SubscriptionOfferModal = ({ onClose }: { onClose: () => void }) => (
-  <div className="fixed inset-0 z-50 flex flex-col justify-end">
+const SubscriptionOfferModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => (
+  <div className={`fixed inset-0 z-50 flex flex-col justify-end transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
     <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-    <div className="bg-teal-400 text-white w-full rounded-t-2xl md:p-10 p-5 text-center z-1">
+    <div className={`bg-teal-400 text-white w-full rounded-t-2xl md:p-10 p-5 text-center z-1 transform transition-transform duration-300 ease-out ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}>
       <div className="flex justify-end">
         <button onClick={onClose} className="text-white cursor-pointer">
           <X size={24} />
@@ -164,12 +163,9 @@ const Cart = () => {
 
   const handleRemove = (id: number) => {
     setRemovingIds((s) => [...s, id]);
-    // optimistic UI remove
     setCartItems((prev) => prev.filter((p) => p.id !== id));
-    // call server to remove; if fails, ignore (could re-fetch on failure)
     svcRemoveFromCart(id).catch(() => { });
     setTimeout(() => setRemovingIds((s) => s.filter((x) => x !== id)), 300);
-    // notify header to refresh
     window.dispatchEvent(new CustomEvent("cart:updated"));
   };
 
@@ -265,11 +261,10 @@ const Cart = () => {
         />
       ) : (
         <>
-          {showSubscriptionModal && (
-            <SubscriptionOfferModal
-              onClose={() => setShowSubscriptionModal(false)}
-            />
-          )}
+          <SubscriptionOfferModal
+            isOpen={showSubscriptionModal}
+            onClose={() => setShowSubscriptionModal(false)}
+          />
           {showShippingModal && (
             <ShippingInfoModal onClose={() => setShowShippingModal(false)} />
           )}

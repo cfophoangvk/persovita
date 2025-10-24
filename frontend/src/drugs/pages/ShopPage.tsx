@@ -6,15 +6,16 @@ import type { Drug } from "../interfaces/drug";
 import { useFeatureStore } from "../stores/useFeatureStore";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { useBrandStore } from "../stores/useBrandStore";
-import { Loader2 } from "lucide-react";
+import { ArrowUpDown, Filter, Loader2 } from "lucide-react";
 import type { PersistCart } from "../../cart/interfaces/PersistCart";
+import { useIsMobile } from "../../common/hooks/useIsMobile";
+import { SortDialog } from "../components/SortDialog";
+import { FilterDialog } from "../components/FilterDialog";
 
 const PAGE_SIZES = [9, 12, 24, 48];
 
 const ShopPage: React.FC = () => {
-  // local UI state
   const [search, setSearch] = useState("");
-  // ids stored as strings for UI checkbox keys
   const [selectedBrandIds, setSelectedBrandIds] = useState<string[]>([]);
   const [selectedFeatureIds, setSelectedFeatureIds] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<
@@ -23,12 +24,10 @@ const ShopPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(PAGE_SIZES[0]);
 
-  // debounced inputs
   const debouncedSearch = useDebounce(search, 400);
   const debouncedBrandIds = useDebounce(selectedBrandIds, 300);
   const debouncedFeatureIds = useDebounce(selectedFeatureIds, 300);
 
-  // store
   const { drugs, filterDrugs, isLoading: isLoadingDrugs } = useDrugStore();
   const { user } = useAuthStore();
   const {
@@ -38,30 +37,28 @@ const ShopPage: React.FC = () => {
   } = useFeatureStore();
   const { brands, fetchBrands, isLoading: isLoadingBrands } = useBrandStore();
 
-  // meta from API
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+  const [sortDialogOpen, setSortDialogOpen] = useState(false);
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false);
+  const isMobile = useIsMobile();
 
-  // ensure brands/features loaded for sidebar
   useEffect(() => {
     window.scrollTo(0, 0);
     if (typeof fetchBrands === "function") fetchBrands();
     if (typeof fetchFeatures === "function") fetchFeatures();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // available lists for sidebar (ids as strings)
   const brandsAvailable = useMemo(() => {
     if (!Array.isArray(brands)) return [];
     return brands.map((b: any) => ({ id: String(b.id), name: b.name }));
   }, [brands]);
 
-  const topicsAvailable = useMemo(() => {
+  const featuresAvailable = useMemo(() => {
     if (!Array.isArray(features)) return [];
     return features.map((t: any) => ({ id: String(t.id), title: t.title }));
   }, [features]);
 
-  // helper toggles (string ids)
   const toggleBrand = (id: string) =>
     setSelectedBrandIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
@@ -71,11 +68,9 @@ const ShopPage: React.FC = () => {
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
 
-  // build query string for backend
   const buildQuery = () => {
     const params = new URLSearchParams();
     if (debouncedBrandIds && debouncedBrandIds.length) {
-      // backend accepts brandId or brandIds; use brandIds for multiples
       params.set("brandIds", debouncedBrandIds.join(","));
     }
     if (debouncedFeatureIds && debouncedFeatureIds.length) {
@@ -90,7 +85,6 @@ const ShopPage: React.FC = () => {
     return params.toString();
   };
 
-  // fetch when debounced inputs change or page/limit change
   useEffect(() => {
     const q = buildQuery();
     let mounted = true;
@@ -103,7 +97,6 @@ const ShopPage: React.FC = () => {
         const totalResp = data.meta?.total ?? data.products?.length ?? 0;
         const totalPagesResp = Math.max(1, data.meta?.totalPages ?? 1);
 
-        // If current page out of range, reset page to 1 and exit (next effect will fetch)
         if (page > totalPagesResp) {
           setTotal(totalResp);
           setTotalPages(totalPagesResp);
@@ -122,8 +115,6 @@ const ShopPage: React.FC = () => {
     return () => {
       mounted = false;
     };
-    // include debounced arrays and pagination/sort
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     debouncedSearch,
     debouncedBrandIds,
@@ -133,30 +124,28 @@ const ShopPage: React.FC = () => {
     sortBy,
   ]);
 
-  // derived values for UI
   const totalItems = total;
   const start = (page - 1) * limit;
 
+  const reset = () => {
+    setSelectedFeatureIds([]);
+    setSelectedBrandIds([]);
+    setSearch("");
+    setPage(1);
+    setSortBy("name-asc");
+  }
+
   return (
-    <div className="min-h-screen bg-white">
-      <div className="relative w-full bg-center bg-no-repeat bg-cover">
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
-        <div className="relative max-w-7xl py-8"></div>
-      </div>
-      {/* Hero */}
+    <div className="min-h-screen bg-white md:mt-16 mt-10">
       <div
-        className="relative w-full bg-center bg-no-repeat bg-cover"
-        style={{
-          backgroundImage:
-            "url('https://4deb4f30d3ceeb7ccf4ed7029328c64e.cdn.bubble.io/cdn-cgi/image/w=,h=,f=auto,dpr=1,fit=contain/d75/f1740073833085x562625109128317000/BANNER%2016%20%283%29.jpg')",
-        }}
+        className="relative w-full bg-center bg-no-repeat bg-[length:100%_100%]"
+        style={{ backgroundImage: "url('/assets/shop-banner.jpg')" }}
       >
-        {/* subtle overlay to ensure text readable */}
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 flex items-center">
           <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Sản phẩm</h1>
-            <p className="text-gray-600 max-w-xl">
+            <h1 className="md:text-5xl sm:text-4xl text-3xl font-bold mb-4">Sản phẩm</h1>
+            <p className="text-gray-600 max-w-xl sm:text-base text-sm">
               Khoa học. Hiệu quả. Đơn giản. Khám phá các dòng sản phẩm đa dạng
               của chúng tôi được các nhà khoa học sáng tạo, đáp ứng mọi nhu cầu
               của bạn.
@@ -166,115 +155,119 @@ const ShopPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-10">
-        <div className="grid grid-cols-12 gap-8">
-          {/* Sidebar */}
+        <div className="grid grid-cols-12 md:gap-8 gap-3">
           <aside className="col-span-12 md:col-span-3">
-            <div className="md:sticky md:top-20 space-y-6">
-              {/* Sort */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Sắp xếp theo
-                </label>
-                <select
-                  value={sortBy}
-                  onChange={(e) =>
-                    setSortBy(
-                      e.target.value as
-                        | "name-asc"
-                        | "name-desc"
-                        | "price-asc"
-                        | "price-desc"
-                    )
-                  }
-                  className="w-full rounded border border-gray-200 p-2 text-sm bg-white"
-                >
-                  <option value="name-asc">Từ A-Z</option>
-                  <option value="name-desc">Từ Z-A</option>
-                  <option value="price-asc">Giá thấp nhất</option>
-                  <option value="price-desc">Giá cao nhất</option>
-                </select>
-              </div>
-
-              {/* Formats (kept simple) */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Danh mục thương hiệu
-                </label>
-                <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
-                  {isLoadingBrands ? (
-                    <Loader2 />
-                  ) : brandsAvailable.length ? (
-                    brandsAvailable.map((c) => (
-                      <label key={c.id} className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          checked={selectedBrandIds.includes(c.id)}
-                          onChange={() => toggleBrand(c.id)}
-                          className="w-4 h-4"
-                        />
-                        <span>{c.name}</span>
-                      </label>
-                    ))
-                  ) : (
-                    <div className="text-xs text-gray-400">
-                      Không có danh mục
-                    </div>
-                  )}
+            {isMobile ?
+              (
+                <div className="grid grid-cols-2">
+                  <button className="flex justify-center items-center gap-3 p-3 border border-gray-200 cursor-pointer" onClick={() => setSortDialogOpen(true)}>
+                    <ArrowUpDown /> SẮP XẾP
+                  </button>
+                  <button className="flex justify-center items-center gap-3 p-3 border border-gray-200 cursor-pointer" onClick={() => setFilterDialogOpen(true)}>
+                    <Filter /> LỌC
+                  </button>
                 </div>
-              </div>
+              )
+              :
+              (
+                <div className="md:sticky md:top-20 space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Sắp xếp theo
+                    </label>
+                    <select
+                      value={sortBy}
+                      onChange={(e) =>
+                        setSortBy(
+                          e.target.value as
+                          "name-asc"
+                          | "name-desc"
+                          | "price-asc"
+                          | "price-desc"
+                        )
+                      }
+                      className="w-full rounded border border-gray-200 p-2 text-sm bg-white"
+                    >
+                      <option value="name-asc">Từ A-Z</option>
+                      <option value="name-desc">Từ Z-A</option>
+                      <option value="price-asc">Giá thấp nhất</option>
+                      <option value="price-desc">Giá cao nhất</option>
+                    </select>
+                  </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Danh mục chức năng
-                </label>
-                <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
-                  {isLoadingFeatures ? (
-                    <Loader2 />
-                  ) : topicsAvailable.length ? (
-                    topicsAvailable.map((t) => (
-                      <label key={t.id} className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          checked={selectedFeatureIds.includes(t.id)}
-                          onChange={() => toggleFeature(t.id)}
-                          className="w-4 h-4"
-                        />
-                        <span>{t.title}</span>
-                      </label>
-                    ))
-                  ) : (
-                    <div className="text-xs text-gray-400">
-                      Không có chức năng
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Danh mục thương hiệu
+                    </label>
+                    <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
+                      {isLoadingBrands ? (
+                        <Loader2 />
+                      ) : brandsAvailable.length ? (
+                        brandsAvailable.map((c) => (
+                          <label key={c.id} className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedBrandIds.includes(c.id)}
+                              onChange={() => toggleBrand(c.id)}
+                              className="w-4 h-4"
+                            />
+                            <span>{c.name}</span>
+                          </label>
+                        ))
+                      ) : (
+                        <div className="text-xs text-gray-400">
+                          Không có danh mục
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
+                  </div>
 
-              <div className="flex items-center gap-3 w-3/4 m-auto">
-                <button
-                  onClick={() => {
-                    setSelectedFeatureIds([]);
-                    setSelectedBrandIds([]);
-                    setSearch("");
-                    setPage(1);
-                    setSortBy("name-asc");
-                  }}
-                  className="flex-1 py-2 rounded-full border border-gray-300 bg-teal-300 text-sm hover:bg-teal-400 transition"
-                >
-                  Reset
-                </button>
-              </div>
-            </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Danh mục chức năng
+                    </label>
+                    <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
+                      {isLoadingFeatures ? (
+                        <Loader2 />
+                      ) : featuresAvailable.length ? (
+                        featuresAvailable.map((t) => (
+                          <label key={t.id} className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedFeatureIds.includes(t.id)}
+                              onChange={() => toggleFeature(t.id)}
+                              className="w-4 h-4"
+                            />
+                            <span>{t.title}</span>
+                          </label>
+                        ))
+                      ) : (
+                        <div className="text-xs text-gray-400">
+                          Không có chức năng
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 w-3/4 m-auto">
+                    <button
+                      onClick={reset}
+                      className="flex-1 py-2 rounded-full border border-gray-300 bg-teal-300 text-sm hover:bg-teal-400 transition"
+                    >
+                      Đặt lại
+                    </button>
+                  </div>
+                </div>
+              )}
           </aside>
 
-          {/* Products */}
+
           <main className="col-span-12 md:col-span-9">
             <div className="flex items-center justify-between mb-6">
-              <div className="text-sm text-gray-600">{totalItems} sản phẩm</div>
+              <div className="text-sm text-gray-600 hidden sm:block">{totalItems} sản phẩm</div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex justify-between items-center gap-3 sm:w-auto w-full">
                 <input
                   value={search}
                   onChange={(e) => {
@@ -282,7 +275,7 @@ const ShopPage: React.FC = () => {
                     setPage(1);
                   }}
                   placeholder="Tìm tên sản phẩm..."
-                  className="px-3 py-2 border border-gray-200 rounded text-sm"
+                  className="px-3 py-2 border border-gray-200 rounded text-sm flex-1"
                 />
                 <select
                   value={limit}
@@ -294,7 +287,7 @@ const ShopPage: React.FC = () => {
                 >
                   {PAGE_SIZES.map((s) => (
                     <option key={s} value={s}>
-                      {s} / trang
+                      {s} sp / trang
                     </option>
                   ))}
                 </select>
@@ -302,7 +295,7 @@ const ShopPage: React.FC = () => {
             </div>
 
             {/* Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
               {isLoadingDrugs ? (
                 <div className="col-span-full text-center py-10 text-gray-500">
                   Đang chờ...
@@ -319,18 +312,6 @@ const ShopPage: React.FC = () => {
                         alt={p.name}
                         className="object-contain h-full w-full"
                       />
-                      {/* {p.brands?.length ? (
-                        <div className="absolute top-3 right-3 space-y-1">
-                          {p.brands.map((c: any) => (
-                            <span
-                              key={c.id}
-                              className="text-xs bg-teal-100 text-teal-700 px-2 py-1 rounded"
-                            >
-                              {c.name}
-                            </span>
-                          ))}
-                        </div>
-                      ) : null} */}
                     </div>
 
                     <h3 className="font-semibold mb-1">
@@ -346,10 +327,8 @@ const ShopPage: React.FC = () => {
                     </p>
 
                     <div className="flex items-center justify-between">
-                      <div className="text-lg font-bold">
-                        {p.price
-                          ? `${p.price.toLocaleString()} VND`
-                          : "Contact"}
+                      <div className="md:text-lg text-base font-bold">
+                        {p.price.toLocaleString()} VND
                       </div>
                       <button
                         onClick={async () => {
@@ -364,7 +343,6 @@ const ShopPage: React.FC = () => {
                           };
                           try {
                             if (!user) {
-                              // guest: save to localStorage persistCart (merge by productId)
                               const key = "persistCart";
                               const raw = localStorage.getItem(key) || "[]";
                               const list: PersistCart[] = JSON.parse(raw || "[]");
@@ -394,7 +372,6 @@ const ShopPage: React.FC = () => {
                               return;
                             }
 
-                            // logged-in: call server addToCart
                             const { addToCart } = await import(
                               "../../cart/services/cartService"
                             );
@@ -426,7 +403,6 @@ const ShopPage: React.FC = () => {
               )}
             </div>
 
-            {/* Pagination */}
             <div className="mt-8 flex items-center justify-between">
               <div className="text-sm text-gray-600">
                 Hiển thị {start + 1}–
@@ -443,24 +419,19 @@ const ShopPage: React.FC = () => {
                   Trước
                 </button>
 
-                {/* paginated buttons with ellipsis */}
                 <div className="hidden md:flex items-center gap-1">
                   {(() => {
                     if (totalPages <= 1) return null;
-                    // build set of pages to show: first block, current block, last block
                     const pages = new Set<number>();
                     const blockSize = 3;
-                    // first block
                     for (let i = 1; i <= Math.min(blockSize, totalPages); i++)
                       pages.add(i);
-                    // current block (centered on current page, size 3)
                     for (
                       let i = Math.max(1, page - 1);
                       i <= Math.min(totalPages, page + 1);
                       i++
                     )
                       pages.add(i);
-                    // last block
                     for (
                       let i = Math.max(1, totalPages - (blockSize - 1));
                       i <= totalPages;
@@ -473,7 +444,6 @@ const ShopPage: React.FC = () => {
                     let last = 0;
                     sorted.forEach((pNum) => {
                       if (last && pNum - last > 1) {
-                        // gap -> ellipsis
                         nodes.push(
                           <span
                             key={`dots-${last}-${pNum}`}
@@ -487,11 +457,10 @@ const ShopPage: React.FC = () => {
                         <button
                           key={pNum}
                           onClick={() => setPage(pNum)}
-                          className={`px-3 py-2 rounded text-sm border ${
-                            page === pNum
-                              ? "bg-teal-200 border-teal-300 font-medium"
-                              : "bg-white border-gray-200 hover:bg-gray-50"
-                          }`}
+                          className={`px-3 py-2 rounded text-sm border ${page === pNum
+                            ? "bg-teal-200 border-teal-300 font-medium"
+                            : "bg-white border-gray-200 hover:bg-gray-50"
+                            }`}
                         >
                           {pNum}
                         </button>
@@ -514,6 +483,9 @@ const ShopPage: React.FC = () => {
           </main>
         </div>
       </div>
+
+      <SortDialog isOpen={sortDialogOpen} setIsOpen={setSortDialogOpen} sortBy={sortBy} setSortBy={setSortBy} />
+      <FilterDialog isOpen={filterDialogOpen} setIsOpen={setFilterDialogOpen} brandsAvailable={brandsAvailable} selectedBrandIds={selectedBrandIds} featuresAvailable={featuresAvailable} selectedFeatureIds={selectedFeatureIds} toggleBrand={toggleBrand} toggleFeature={toggleFeature} onReset={reset} />
     </div>
   );
 };

@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
 import { Loader2 } from "lucide-react";
+import { useIsMobile } from "../../common/hooks/useIsMobile";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const isMobile = useIsMobile();
 
   const { login, isLoading } = useAuthStore();
 
@@ -17,17 +19,19 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbf9f6] flex items-start justify-center py-20 relative">
+    <div className="h-screen bg-[#fbf9f6] flex items-start justify-center py-20 relative">
       <a
         className="absolute left-5 top-5 px-3 py-3 bg-stone-500 rounded-full hover:bg-stone-700 text-white"
-        href="/"
+        onClick={() => history.back()}
       >
         <ArrowLeft />
       </a>
       <div className="w-full max-w-md bg-transparent">
         <div className="flex flex-col items-center">
           <div className="text-4xl font-extrabold tracking-widest text-teal-400 mb-4">
-            <Link to="/">NOURI</Link>
+            <Link to="/" className="inline-flex items-center">
+              <img src="/assets/logo.png" alt="NOURI" className={isMobile ? 'w-20' : 'h-8'} />
+            </Link>
           </div>
           <p className="text-sm text-gray-600 mb-8">
             Đăng nhập tài khoản Nouri

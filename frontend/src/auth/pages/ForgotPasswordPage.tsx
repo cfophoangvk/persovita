@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
+import { ArrowLeft } from "lucide-react";
+import { useIsMobile } from "../../common/hooks/useIsMobile";
 
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const { message, success, isLoading, forgotPassword } = useAuthStore();
+  const isMobile = useIsMobile();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -12,13 +15,21 @@ const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbf9f6] flex items-start justify-center py-20">
+    <div className="h-screen bg-[#fbf9f6] flex items-start justify-center py-20">
+      <a
+        className="absolute left-5 top-5 px-3 py-3 bg-stone-500 rounded-full hover:bg-stone-700 text-white"
+        onClick={() => history.back()}
+      >
+        <ArrowLeft />
+      </a>
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center">
           <div className="text-4xl font-extrabold tracking-widest text-teal-400 mb-4">
-            <Link to="/">NOURI</Link>
+            <Link to="/" className="inline-flex items-center">
+              <img src="/assets/logo.png" alt="NOURI" className={isMobile ? 'w-20' : 'h-8'} />
+            </Link>
           </div>
-          <p className="text-sm text-gray-600 mb-8">
+          <p className="text-sm text-gray-600 mb-8 px-4 text-center">
             Nhập email để nhận hướng dẫn đặt lại mật khẩu
           </p>
 
@@ -26,7 +37,7 @@ const ForgotPasswordPage: React.FC = () => {
             onSubmit={onSubmit}
             className="w-full bg-white/60 backdrop-blur-sm p-6 rounded-xl shadow-sm"
           >
-            {!success && (
+            {message.length > 0 && (
               <div className="mb-4 text-sm text-red-600 bg-red-50 p-2 rounded">
                 {message}
               </div>
@@ -52,7 +63,7 @@ const ForgotPasswordPage: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2 rounded-full bg-teal-600 text-white font-medium shadow-md hover:brightness-95 mb-4 transition-colors disabled:opacity-60"
+              className="w-full py-2 rounded-full bg-teal-600 text-white font-medium shadow-md hover:brightness-95 mb-2 transition-colors disabled:opacity-60"
             >
               {isLoading ? "Đang gửi..." : "Gửi hướng dẫn"}
             </button>

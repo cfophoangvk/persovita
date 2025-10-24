@@ -2,7 +2,7 @@ import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { PersistCart } from "../../cart/interfaces/PersistCart";
 
-interface IMenuDialogProps {
+interface ICartDialogProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   cartItems: PersistCart[];
@@ -12,7 +12,7 @@ const formatVND = (value: number) => {
   return value.toLocaleString("vi-VN") + " VNĐ";
 };
 
-const CartDialog = (props: IMenuDialogProps) => {
+const CartDialog = (props: ICartDialogProps) => {
   return (
     <div className={`fixed inset-0 bg-gray-500/75 z-50 h-screen text-sm 
       transition-opacity duration-300 

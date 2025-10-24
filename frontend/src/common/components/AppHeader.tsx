@@ -557,9 +557,9 @@ const AppHeader: React.FC = () => {
         </div>
       </div>
 
-      {isMobile && <SearchDialog isOpen={searchDialogOpen} setIsOpen={setSearchDialogOpen} />}
-      {isMobile && <MenuDialog isOpen={menuDialogOpen} setIsOpen={setMenuDialogOpen} />}
-      {isMobile && <CartDialog isOpen={cartDialogOpen} setIsOpen={setCartDialogOpen} cartItems={cartItems} />}
+      <SearchDialog isOpen={searchDialogOpen} setIsOpen={setSearchDialogOpen} />
+      <MenuDialog isOpen={menuDialogOpen} setIsOpen={setMenuDialogOpen} />
+      <CartDialog isOpen={cartDialogOpen} setIsOpen={setCartDialogOpen} cartItems={cartItems} />
     </div>
   );
 };

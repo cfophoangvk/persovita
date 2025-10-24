@@ -6,7 +6,7 @@ const Banner: React.FC = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className={`relative w-full h-[90vh] overflow-hidden ${isMobile ? 'mt-10' : 'mt-15'}`}>
+    <div className={`relative w-full h-[90vh] overflow-hidden md:mt-16 mt-10`}>
       <video
         className="absolute inset-0 w-full h-full object-cover"
         src={video}
