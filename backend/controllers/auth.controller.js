@@ -137,7 +137,7 @@ const signup = async (req, res) => {
     //   // do not fail signup if email sending fails
     // }
 
-    // generateTokenAndSetCookie(res, newUser.id, newUser.email, newUser.role);
+    generateTokenAndSetCookie(res, newUser.id, newUser.email, newUser.role);
 
     const { password: _storedPassword, ...userSafe } = newUser;
     return res.status(201).json({
