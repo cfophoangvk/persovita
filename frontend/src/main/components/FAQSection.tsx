@@ -67,7 +67,6 @@ const FAQSection: React.FC = () => {
                 borderColor: openIndex === i ? "#449286" : "transparent",
                 boxShadow: openIndex === i ? `0 1px 0 0 #449286 inset` : "none",
               }}
-              aria-expanded={openIndex === i}
             >
               <span>{item.q}</span>
 

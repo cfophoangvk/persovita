@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import type { PaymentProps } from "../interfaces";
 import { Link } from "react-router-dom";
+import { Home } from "lucide-react";
 
 const Payment: React.FC<PaymentProps> = ({
   productCount = 0,
@@ -68,23 +68,22 @@ const Payment: React.FC<PaymentProps> = ({
     <div className="min-h-screen bg-white px-6 py-10">
       <button
         onClick={onBack}
-        aria-label="Back to shipping"
-        className="absolute left-0 top-0 mt-1 ml-0 p-2 text-gray-600 hover:text-gray-800"
+        className="absolute left-4 top-4 mt-1 ml-0 p-2 text-gray-600 hover:text-gray-800"
       >
-        <ArrowLeftIcon className="w-6 h-6" />
+        <Home className="w-6 h-6" />
       </button>
 
       <div className="max-w-3xl mx-auto">
         <header className="flex items-center justify-center mb-6 relative">
-          <h1 className="text-2xl tracking-widest font-semibold">NOURI</h1>
+          <img src="assets/logo.png" alt="Nouri" className="w-32 cursor-pointer" onClick={() => location.href = '/'} />
         </header>
 
         <div className="mb-6 border-b pb-6">
           <div className="flex justify-between items-center">
-            <div className="text-sm text-gray-700">
-              1. Your Cart{" "}
+            <div className="text-lg font-bold">
+              1. Giỏ hàng của bạn{" "}
               <span className="text-gray-400">
-                {productCount} Product{productCount !== 1 ? "s" : ""}
+                ({productCount} sản phẩm)
               </span>
             </div>
             <div className="text-base font-semibold">
@@ -118,8 +117,8 @@ const Payment: React.FC<PaymentProps> = ({
 
         <section>
           <div className="mb-6 border-b pb-6">
-            <div className="flex justify-between items-center text-sm text-gray-700">
-              <div>2. Shipping</div>
+            <div className="flex justify-between items-center">
+              <div className="text-lg font-bold">2. Vận chuyển</div>
               <div className="text-gray-600">
                 {shippingSummary
                   ? `${
@@ -135,7 +134,7 @@ const Payment: React.FC<PaymentProps> = ({
               </div>
             </div>
           </div>
-          <h2 className="text-lg font-bold mb-4">3. Payment method</h2>
+          <h2 className="text-lg font-bold mb-4">3. Phương thức thanh toán</h2>
 
           <div className="space-y-6">
             <div className="text-sm text-gray-700">

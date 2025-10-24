@@ -8,14 +8,13 @@ import type { PersistCart } from "../../cart/interfaces/PersistCart";
 import { useIsMobile } from "../hooks/useIsMobile";
 import SearchDialog from "./SearchDialog";
 import MenuDialog from "./MenuDialog";
+import CartDialog from "./CartDialog";
 
-// Định dạng sang VNĐ (dùng cho hiển thị trong header và preview)
 const formatVND = (value: number) => {
   return value.toLocaleString("vi-VN") + " VNĐ";
 };
 
 const AppHeader: React.FC = () => {
-  // search state
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [suggestLoading, setSuggestLoading] = useState(false);
@@ -30,6 +29,7 @@ const AppHeader: React.FC = () => {
   const [cartItems, setCartItems] = useState<PersistCart[]>([]);
   const [searchDialogOpen, setSearchDialogOpen] = useState<boolean>(false);
   const [menuDialogOpen, setMenuDialogOpen] = useState<boolean>(false);
+  const [cartDialogOpen, setCartDialogOpen] = useState<boolean>(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const profileRef = useRef<HTMLDivElement | null>(null);
   const { user, logout } = useAuthStore();
@@ -178,7 +178,7 @@ const AppHeader: React.FC = () => {
     <div className="bg-white border-b fixed top-0 left-0 right-0 z-1">
       <div className="max-w-full mx-auto px-2 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <Link to="/" className="inline-flex items-center" aria-label="NOURI">
+          <Link to="/" className="inline-flex items-center">
             <img src="/assets/logo.png" alt="NOURI" className={isMobile ? 'w-20' : 'h-8'} />
           </Link>
         </div>
@@ -227,7 +227,6 @@ const AppHeader: React.FC = () => {
                     // focus next tick
                     setTimeout(() => inputRef.current?.focus(), 50);
                   }}
-                  aria-label="Tìm kiếm"
                   className="p-2 rounded-full hover:bg-gray-100 transition duration-150"
                 >
                   <Search size={18} />
@@ -257,7 +256,6 @@ const AppHeader: React.FC = () => {
                         setShowSuggestions(false);
                       }}
                       className="px-2 text-gray-600"
-                      aria-label="Đóng"
                     >
                       ✖
                     </button>
@@ -317,9 +315,6 @@ const AppHeader: React.FC = () => {
                   setShowPreview((s) => !s);
                 }}
                 className="relative inline-flex items-center p-2 rounded-full hover:bg-gray-100 transition duration-150"
-                aria-haspopup="true"
-                aria-expanded={showPreview}
-                aria-label="Giỏ hàng"
               >
                 <ShoppingCart size={18} />
                 <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-medium leading-none text-white bg-teal-600 rounded-full">
@@ -340,7 +335,6 @@ const AppHeader: React.FC = () => {
                   <button
                     onClick={() => setShowPreview(false)}
                     className="p-2 text-gray-500 hover:text-gray-700 cursor-pointer"
-                    aria-label="Đóng xem trước giỏ hàng"
                   >
                     <X size={15} />
                   </button>
@@ -357,7 +351,7 @@ const AppHeader: React.FC = () => {
                         onClick={() => setShowPreview(false)}
                         className="inline-block px-4 py-2 border border-gray-300 rounded-full text-sm text-gray-700 hover:border-teal-500 hover:text-teal-600 transition duration-150"
                       >
-                        xem danh mục
+                        Xem danh mục
                       </Link>
                     </div>
                   ) : (
@@ -415,7 +409,6 @@ const AppHeader: React.FC = () => {
                             <span>{formatVND(0)}</span>
                           </div>
 
-                          {/* Hiển thị vận chuyển chỉ khi có sản phẩm trong giỏ */}
                           {cartItems && cartItems.length > 0 && (
                             <div className="flex justify-between">
                               <span>Vận chuyển</span>
@@ -450,7 +443,7 @@ const AppHeader: React.FC = () => {
             )}
 
             {isMobile ? (<div className="flex gap-2 items-center">
-              <ShoppingCart className="cursor-pointer" size={18} />
+              <ShoppingCart className="cursor-pointer" size={18} onClick={() => setCartDialogOpen(true)}/>
               {user ? <div className="w-7 h-7 rounded-full bg-teal-400 text-white font-semibold flex items-center justify-center cursor-pointer" onClick={() => navigate("/profile")}>
                 {(user.fullName || user.email || "U")
                   .split(" ")
@@ -472,8 +465,6 @@ const AppHeader: React.FC = () => {
                       setShowProfileMenu((s) => !s);
                     }}
                     className="inline-flex items-center gap-2 focus:outline-none"
-                    aria-haspopup="true"
-                    aria-expanded={showProfileMenu}
                     title={user?.fullName || user?.email || "Tài khoản"}
                   >
                     {user ? (
@@ -514,7 +505,6 @@ const AppHeader: React.FC = () => {
                   <div
                     className="absolute right-0 mt-2 w-44 bg-white border rounded-md shadow-lg z-50"
                     role="menu"
-                    aria-label="Profile menu"
                   >
                     <button
                       onClick={() => {
@@ -569,6 +559,7 @@ const AppHeader: React.FC = () => {
 
       {isMobile && <SearchDialog isOpen={searchDialogOpen} setIsOpen={setSearchDialogOpen} />}
       {isMobile && <MenuDialog isOpen={menuDialogOpen} setIsOpen={setMenuDialogOpen} />}
+      {isMobile && <CartDialog isOpen={cartDialogOpen} setIsOpen={setCartDialogOpen} cartItems={cartItems} />}
     </div>
   );
 };

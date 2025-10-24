@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import type { ShippingMethod } from "../interfaces/shipping";
+import { Home } from "lucide-react";
 
 // Hàm định dạng VNĐ
 const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";
@@ -90,34 +90,27 @@ const Shipping: React.FC<{
     <div className="min-h-screen bg-white px-6 py-10">
       <button
         onClick={onBack}
-        aria-label="Quay lại giỏ hàng"
-        className="absolute left-0 top-0 mt-1 mr-0 p-2 text-gray-600 hover:text-gray-800"
+        className="absolute left-4 top-4 mt-1 mr-0 p-2 text-gray-600 hover:text-gray-800"
       >
-        <ArrowLeftIcon className="w-6 h-6" />
+        <Home className="w-6 h-6" />
       </button>
       <div className="max-w-3xl mx-auto">
         <header className="flex items-center justify-center mb-6 relative">
-          <h1 className="text-2xl tracking-widest font-semibold">NOURI</h1>
+          <img src="assets/logo.png" alt="Nouri" className="w-32 cursor-pointer" onClick={() => location.href = '/'} />
         </header>
 
-        {/* Tổng quan giỏ hàng */}
         <div className="mb-6 border-b pb-6">
-          <div className="flex justify-between items-center">
-            <div className="text-sm text-gray-700">
-              1. Giỏ hàng của bạn{" "}
-              <span className="text-gray-400">
-                {productCount} Sản phẩm{productCount !== 1 ? "" : ""}
-              </span>
+          <div className="flex sm:flex-row flex-col justify-between">
+            <div className="text-lg font-bold">
+              1. Giỏ hàng của bạn <span className="text-gray-400">({productCount} sản phẩm)</span>
             </div>
-            <div className="text-base font-semibold">{formatVND(totalVND)}</div>
+            <div className="sm:text-base text-lg font-semibold">{formatVND(totalVND)}</div>
           </div>
         </div>
 
-        {/* Thông tin vận chuyển */}
         <section>
           <h2 className="text-lg font-bold mb-4">2. Vận chuyển</h2>
 
-          {/* Thông tin liên hệ */}
           <div className="mb-6">
             <h3 className="text-sm font-bold text-teal-600 mb-3">
               THÔNG TIN LIÊN HỆ

@@ -2192,21 +2192,50 @@
       "createdAt": "2025-10-24T02:46:03.286Z"
     }
   ],
-  "shipping": [],
-  "payment": [],
-  "carts": [
+  "shipping": [
     {
+      "id": 1,
       "userId": 1,
-      "productId": 21,
-      "name": "Omega 3",
-      "price": 790000,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-21/1.png"
+      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
+      "email": "vanan123@email.com",
+      "phone": "+84 901234567",
+      "method": "pickup"
     }
   ],
-  "orders": [],
+  "payment": [
+    {
+      "id": 1,
+      "userId": 1,
+      "method": "qr",
+      "info": "{\"merchant\":\"NOURI\",\"amount\":1031606,\"items\":1,\"shippingMethod\":\"pickup\",\"shippingMethodCost\":0,\"ts\":1761294356037}"
+    }
+  ],
+  "carts": [],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Hyaluronic Acid",
+          "price": 1001606,
+          "quantity": 1,
+          "image": "/assets/product-1/1.png",
+          "subscription": false,
+          "subscriptionMonths": 0
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "pickup",
+      "shippingMethodCost": 0,
+      "shippingBase": 30000,
+      "paymentId": 1,
+      "total": 1031606,
+      "status": "success",
+      "createdAt": "2025-10-24T08:25:56.074Z"
+    }
+  ],
   "productReviews": [
     {
       "productId": 1,
@@ -2349,5 +2378,4 @@
       "description": "Chúng tôi không nói gì với nhau. Tôi xiết chặt cái vai nhỏ nhắn và mềm mại của Nho dưới cánh tay mình. Nó đây, can đảm, dịu hiền, ở cùng thành phố với tôi và cùng đứng với tôi đêm nay, trên cao điểm đầy bom gần mặt trận."
     }
   ]
-}
 }

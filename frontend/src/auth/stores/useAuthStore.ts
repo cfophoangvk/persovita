@@ -126,6 +126,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         console.log("Chưa đăng nhập vui lòng thử lại!");
       }else{
         console.log("Không phải 401 mà là lỗi", error.message);
+        console.log("Lý do là", error);
       }
       set({ success: false, user: null });
     } finally {

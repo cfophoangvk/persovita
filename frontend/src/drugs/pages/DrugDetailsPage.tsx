@@ -128,14 +128,12 @@ const DrugDetailsPage: React.FC = () => {
               {/* prev / next arrows */}
               <button
                 onClick={prev}
-                aria-label="prev"
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 shadow hover:bg-white flex items-center justify-center"
               >
                 ‹
               </button>
               <button
                 onClick={next}
-                aria-label="next"
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 shadow hover:bg-white flex items-center justify-center"
               >
                 ›
