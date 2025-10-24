@@ -50,7 +50,7 @@ const AboutPage: React.FC = () => {
       title: "Innovative (Đổi mới)",
       description:
         "Đổi mới là yếu tố cốt lõi: ứng dụng công nghệ vào cá nhân hóa liệu trình, cách đóng gói và phương thức vận hành, mang lại giá trị thực tế hằng ngày.",
-      color: "text-purple-500", // Giữ màu tím cho Innovative
+      color: "text-purple-500",
     },
   ];
 
@@ -58,31 +58,30 @@ const AboutPage: React.FC = () => {
     <div className="max-w-7xl mx-auto px-6 py-16 mt-10">
       <FadeInSection>
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-extrabold text-teal-700 mb-4">
+          <h1 className="md:text-5xl text-2xl font-extrabold text-teal-700 mb-4">
             CÂU CHUYỆN VỀ NOURI
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="md:text-xl text-base text-gray-600 max-w-3xl mx-auto">
             Tiên phong trong giải pháp <strong>Dinh dưỡng Cá nhân hóa</strong>{" "}
             tại Việt Nam.
           </p>
         </div>
       </FadeInSection>
 
-      {/* Phần 1: Câu chuyện về Nouri (Đã cập nhật theo yêu cầu) */}
       <FadeInSection>
         <div className="grid grid-cols-1 gap-8 items-start bg-teal-50 p-8 rounded-2xl shadow-lg mb-16">
           <div className="col-span-1">
-            <h2 className="text-3xl font-bold text-teal-600 mb-4 border-b-2 border-teal-300 pb-2">
-              Bắt Nguồn Từ Thực Tế "Khó Duy Trì Thói Quen Sức Khỏe"
+            <h2 className="md:text-3xl text-xl font-bold text-teal-600 mb-4 border-b-2 border-teal-300 pb-2">
+              Bắt nguồn từ thực tế "khó duy trì thói quen sức khỏe"
             </h2>
-            <p className="text-gray-700 mb-4 leading-relaxed">
+            <p className="md:text-base text-sm text-gray-700 mb-4 leading-relaxed">
               Câu chuyện của Nouri bắt đầu từ một thực tế quen thuộc trong cuộc
               sống hiện đại: khi nhịp sống đô thị ngày càng gấp gáp, việc chăm
               sóc sức khỏe cá nhân lại dễ bị xem nhẹ. Đặc biệt, với nhóm người
               trong độ tuổi lao động, việc xây dựng một thói quen dinh dưỡng
               lành mạnh trở nên <strong>khó duy trì</strong>.
             </p>
-            <p className="text-gray-700 mb-6 leading-relaxed">
+            <p className="md:text-base text-sm text-gray-700 mb-6 leading-relaxed">
               Phần lớn người tiêu dùng hiện nay lựa chọn thực phẩm bổ sung theo
               cảm tính, nghe theo lời khuyên nhanh của dược sĩ, bạn bè hoặc
               quảng cáo trên mạng mà chưa hiểu rõ nhu cầu thực tế của bản thân.
@@ -90,10 +89,10 @@ const AboutPage: React.FC = () => {
               như dùng sản phẩm không phù hợp, quên liều, hoặc bỏ dở sau một
               thời gian ngắn.
             </p>
-            <h2 className="text-3xl font-bold text-teal-600 mb-4 border-l-4 border-teal-400 pl-4 pb-2">
-              Giải Pháp: Cá Nhân Hóa, Chính Xác và Bền Vững
+            <h2 className="md:text-3xl text-xl font-bold text-teal-600 mb-4 border-b-2 border-teal-400 pb-2">
+              Giải pháp: Cá nhân hóa, chính xác và bền vững
             </h2>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="md:text-base text-sm text-gray-700 leading-relaxed">
               Từ thực tế này, Nouri ra đời với mong muốn mang đến một cách tiếp
               cận mới cho việc chăm sóc sức khỏe{" "}
               <strong>đơn giản, chính xác và cá nhân hóa</strong>. Thay vì để
@@ -115,56 +114,43 @@ const AboutPage: React.FC = () => {
         </div>
       </FadeInSection>
 
-      {/* Phần 2: Tầm nhìn & Sứ mệnh (Đã cập nhật theo yêu cầu) */}
       <FadeInSection>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center mb-16">
-          {/* Tầm nhìn */}
           <div className="p-8 bg-white rounded-xl shadow-xl border-t-4 border-teal-500 hover:shadow-2xl transition duration-300">
-            <h3 className="text-2xl font-bold text-teal-700 mb-3 uppercase">
+            <h3 className="md:text-2xl text-xl font-bold text-teal-700 mb-3 uppercase">
               Tầm Nhìn
             </h3>
-            <p className="text-lg text-gray-600">
-              Đến năm <strong className="text-teal-700">2030</strong>, trở thành
-              công ty dẫn đầu về vitamin cá nhân hóa tại Việt Nam, mở rộng ra
-              khu vực Đông Nam Á, mang đến trải nghiệm chăm sóc sức khỏe{" "}
-              <strong className="text-teal-700">
-                khoa học, tiện lợi và bền vững
-              </strong>{" "}
-              cho hàng triệu người.
+            <p className="md:text-lg text-base text-gray-600">
+              Đến năm <strong className="text-teal-700">2030</strong>, trở thành công ty dẫn đầu về vitamin cá nhân hóa tại Việt Nam, mở rộng ra khu vực Đông Nam Á, mang đến trải nghiệm chăm sóc sức khỏe <strong className="text-teal-700">khoa học, tiện lợi và bền vững </strong>cho hàng triệu người.
             </p>
           </div>
 
           {/* Sứ mệnh */}
           <div className="p-8 bg-white rounded-xl shadow-xl border-t-4 border-teal-500 hover:shadow-2xl transition duration-300">
-            <h3 className="text-2xl font-bold text-teal-700 mb-3 uppercase">
+            <h3 className="md:text-2xl text-xl font-bold text-teal-700 mb-3 uppercase">
               Sứ Mệnh
             </h3>
-            <p className="text-lg text-gray-600">
-              Cung cấp các giải pháp vitamin{" "}
-              <strong className="text-teal-700">
-                cá nhân hóa, tiện lợi, an toàn và bền vững
-              </strong>
-              , giúp người tiêu dùng duy trì sức khỏe lâu dài và cải thiện chất
+            <p className="md:text-lg text-base text-gray-600">
+              Cung cấp các giải pháp vitamin <strong className="text-teal-700"> cá nhân hóa, tiện lợi, an toàn và bền vững
+              </strong>, giúp người tiêu dùng duy trì sức khỏe lâu dài và cải thiện chất
               lượng cuộc sống.
             </p>
           </div>
         </div>
       </FadeInSection>
 
-      {/* Phần 3: Giá trị Cốt lõi (Đã cập nhật và sắp xếp lại theo yêu cầu: N.O.U.R.I) */}
       <FadeInSection>
-        <div className="bg-teal-600 text-white p-12 rounded-2xl shadow-2xl">
-          <h2 className="text-4xl font-extrabold text-center mb-10 border-b-4 border-white pb-3">
+        <div className="bg-teal-600 text-white md:p-12 p-5 rounded-2xl shadow-2xl">
+          <h2 className="md:text-4xl text-xl font-extrabold text-center mb-10 border-b-4 border-white pb-6">
             <span className="bg-white text-teal-600 px-4 py-1 rounded-full mr-2">
               N.O.U.R.I
-            </span>{" "}
-            - GIÁ TRỊ CỐT LÕI
+            </span>- GIÁ TRỊ CỐT LÕI
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {coreValues.map((value, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-lg transform transition duration-300 hover:scale-[1.03]"
+                className="flex flex-col items-center text-center md:p-6 p-3 bg-white rounded-xl shadow-lg transform transition duration-300 hover:scale-[1.03]"
               >
                 <div
                   className={`p-3 rounded-full bg-teal-100 mb-4 ${value.color}`}
@@ -174,7 +160,7 @@ const AboutPage: React.FC = () => {
                 <h4 className="text-xl font-bold mb-2 text-teal-700 uppercase">
                   {value.title.split(" ")[0]}
                 </h4>
-                <p className="text-xs font-semibold text-gray-600 mb-3">
+                <p className="text-base font-semibold text-gray-600 mb-3">
                   {value.title.substring(
                     value.title.indexOf("(") + 1,
                     value.title.indexOf(")")
@@ -190,21 +176,19 @@ const AboutPage: React.FC = () => {
       {/* Call to Action */}
       <FadeInSection>
         <div className="mt-16 text-center">
-          <p className="text-2xl font-semibold text-gray-700 mb-6">
-            Bắt đầu hành trình chăm sóc sức khỏe{" "}
-            <strong className="text-teal-700">Tối Ưu và Tiện Lợi</strong> của
-            bạn ngay hôm nay.
+          <p className="md:text-2xl text-lg font-semibold text-gray-700 mb-6">
+            Bắt đầu hành trình chăm sóc sức khỏe <strong className="text-teal-700">Tối Ưu và Tiện Lợi</strong> của bạn ngay hôm nay.
           </p>
           <div className="flex justify-center gap-4">
             <Link
               to="/test/page1"
-              className="px-8 py-4 bg-teal-500 text-white text-lg rounded-full font-semibold transition duration-300 hover:bg-teal-600 shadow-xl transform hover:scale-105"
+              className="md:px-8 md:py-4 px-4 py-2 bg-teal-500 text-white md:text-lg text-md rounded-full font-semibold transition duration-300 hover:bg-teal-600 shadow-xl transform hover:scale-105"
             >
               Làm bài kiểm tra ngay 🚀
             </Link>
             <Link
               to="/contact"
-              className="px-8 py-4 border-2 border-teal-600 text-teal-700 text-lg rounded-full font-semibold transition duration-300 hover:bg-teal-50 transform hover:scale-105"
+              className="md:px-8 md:py-4 px-4 py-2 border-2 border-teal-600 text-teal-700 md:text-lg text-md rounded-full font-semibold transition duration-300 hover:bg-teal-50 transform hover:scale-105"
             >
               Liên Hệ
             </Link>

@@ -2194,7 +2194,18 @@
   ],
   "shipping": [],
   "payment": [],
-  "carts": [],
+  "carts": [
+    {
+      "userId": 1,
+      "productId": 21,
+      "name": "Omega 3",
+      "price": 790000,
+      "quantity": 1,
+      "subscription": false,
+      "subscriptionMonths": 0,
+      "image": "/assets/product-21/1.png"
+    }
+  ],
   "orders": [],
   "productReviews": [
     {
@@ -2338,4 +2349,5 @@
       "description": "Chúng tôi không nói gì với nhau. Tôi xiết chặt cái vai nhỏ nhắn và mềm mại của Nho dưới cánh tay mình. Nó đây, can đảm, dịu hiền, ở cùng thành phố với tôi và cùng đứng với tôi đêm nay, trên cao điểm đầy bom gần mặt trận."
     }
   ]
+}
 }

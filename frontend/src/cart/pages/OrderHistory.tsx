@@ -74,7 +74,7 @@ const OrderHistory = () => {
     .filter((it) => new Date(it.endDate) > new Date());
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-gray-50 min-h-screen">
+    <div className="max-w-5xl mx-auto p-6 bg-gray-50 min-h-screen mt-16">
       <h2 className="text-2xl font-bold text-teal-700 mb-6 text-center">
         🛍️ Lịch sử đơn hàng
       </h2>
@@ -83,7 +83,6 @@ const OrderHistory = () => {
         <div className="text-center text-gray-500">Đang tải dữ liệu...</div>
       ) : (
         <>
-          {/* Section: Order History */}
           <section className="mb-10">
             <h3 className="text-lg font-semibold text-teal-600 mb-3 border-b-2 border-teal-200 pb-1">
               Đơn hàng đã mua
@@ -143,7 +142,6 @@ const OrderHistory = () => {
             )}
           </section>
 
-          {/* Section: Active Subscriptions */}
           <section>
             <h3 className="text-lg font-semibold text-teal-600 mb-3 border-b-2 border-teal-200 pb-1">
               Gói đăng ký đang hoạt động

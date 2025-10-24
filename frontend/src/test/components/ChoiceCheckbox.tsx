@@ -20,7 +20,7 @@ const ChoiceCheckbox = (props: ChoiceCheckboxProps) => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center max-w-[90vw]">
       <Badge text={props.title} image={props.image} />
       <Title text={props.header} />
 

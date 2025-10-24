@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import type { ITestStorage } from "../interfaces/ITestStorage";
 import type { Product } from "../interfaces/Product";
-import Badge from "../components/Badge";
 import { Check, Plus } from "lucide-react";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { Link } from "react-router-dom";
 import type { PersistCart } from "../../cart/interfaces/PersistCart";
+import { useIsMobile } from "../../common/hooks/useIsMobile";
 
 const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>, setProduct: React.Dispatch<React.SetStateAction<Product | undefined>> }) => {
   const defaultTestData: ITestStorage = {
@@ -22,6 +22,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
   const [recommendObjectives, setRecommendObjectives] = useState<string[]>();
   const [testData] = useLocalStorage<ITestStorage>("testData", defaultTestData);
   const { user } = useAuthStore();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     let products = testData.selectedProducts;
@@ -104,9 +105,9 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
   const AddToCartButton = () => {
     return (
       <button
-        className="bg-teal-500 text-white py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-not-allowed"
+        className="bg-teal-500 text-white py-2 px-4 lg:text-sm md:text-xs text-sm font-semibold flex items-center gap-3 rounded-full cursor-not-allowed"
       >
-        <Check />
+        <Check size={isMobile ? 16 : 24}/>
         <span>Đã thêm vào giỏ</span>
       </button>
     );
@@ -116,31 +117,29 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
     <div className="min-h-screen bg-white text-gray-900 font-sans relative">
       <div className="bg-gray-50 p-8 pt-16 flex flex-col md:flex-row justify-between items-center relative overflow-hidden">
         <div className="text-left md:w-1/2 p-4">
-          <h1 className="text-5xl font-semibold mb-4">
-            Đề xuất thuốc dành cho <br />
-            <span className="font-bold">{testData.name}</span>
+          <h1 className="lg:text-5xl text-3xl md:text-left text-center font-semibold mb-4">
+            Đề xuất thuốc dành cho <span className="font-bold">{testData.name}</span>
           </h1>
-          <p className="text-gray-700 text-lg leading-relaxed">
+          <p className="text-gray-700 text-lg md:text-left text-center leading-relaxed">
             Dựa trên nhu cầu của bạn:{" "}
             <span className="font-semibold">
               {recommendObjectives?.join(", ")}
             </span>
           </p>
         </div>
-        <div className="md:w-1/2 flex justify-center items-center relative z-0 mt-8 md:mt-0">
+        <div className="md:w-1/2 flex justify-center items-center relative z-0 mt-0 md:mt-8">
           <img
             src="/assets/recommendation.png"
-            className="w-full max-w-lg object-contain"
+            className="md:w-full w-40 max-w-lg object-contain"
           />
         </div>
       </div>
 
-      {/* Main Recommendations Section */}
       <div className="p-8 md:p-16">
-        <h2 className="text-4xl font-semibold mb-4 text-gray-800">
+        <h2 className="md:text-4xl text-2xl font-semibold mb-4 text-gray-800">
           {recommendProducts.length} loại thuốc đã được đề xuất
         </h2>
-        <p className="text-gray-600 text-lg mb-8">
+        <p className="text-gray-600 md:text-lg text-md mb-8">
           Những yếu tố thiết yếu cho thói quen chăm sóc sức khỏe hàng ngày của
           bạn. Chúng nhắm đến những nhu cầu ưu tiên của bạn.
         </p>
@@ -151,8 +150,10 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
               key={index}
               className="bg-white rounded-lg shadow-sm p-4 flex flex-col items-start text-left border border-gray-100 relative"
             >
-              <div className="absolute top-3 left-3">
-                <Badge text={product.feature} />
+              <div className="absolute top-3 left-3 lg:right-auto md:right-3 right-auto">
+                <div className='px-2 py-1 border border-black bg-white lg:rounded-full rounded-md lg:text-base text-sm flex items-center justify-center gap-1'>
+                  <div>{product.feature}</div>
+                </div>
               </div>
 
               <img
@@ -172,8 +173,8 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
                 props.setProduct(product);
               }}>Tìm hiểu thêm</a>
 
-              <div className="flex justify-between items-center w-full mt-auto pt-4 border-t border-gray-100">
-                <p className="text-gray-800 text-base font-semibold">
+              <div className="flex lg:flex-row md:flex-col flex-row justify-between items-center gap-2 w-full mt-auto pt-4 border-t border-gray-100">
+                <p className="text-gray-800 font-semibold">
                   {product.price.toLocaleString("vi-VN")} VND
                 </p>
                 <AddToCartButton />
@@ -193,8 +194,10 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
           {toCompleteProduct && <div
             className="bg-white rounded-lg shadow-sm p-4 flex flex-col items-start text-left border border-gray-100 relative"
           >
-            <div className="absolute top-3 left-3">
-              <Badge text={toCompleteProduct.feature} />
+            <div className="absolute top-3 left-3 lg:right-auto md:right-3 right-auto">
+              <div className='px-2 py-1 border border-black bg-white lg:rounded-full rounded-md lg:text-base text-sm flex items-center justify-center gap-1'>
+                <div>{toCompleteProduct.feature}</div>
+              </div>
             </div>
 
             <img
@@ -214,7 +217,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
               props.setProduct(toCompleteProduct);
             }}>Tìm hiểu thêm</a>
 
-            <div className="flex justify-between items-center w-full mt-auto pt-4 border-t border-gray-100">
+            <div className="flex lg:flex-row md:flex-col flex-row justify-between items-center w-full mt-auto gap-3 pt-4 border-t border-gray-100">
               <p className="text-gray-800 text-base font-semibold">
                 {toCompleteProduct.price.toLocaleString("vi-VN")} VND
               </p>
@@ -244,7 +247,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2">
         <Link to={'/cart'}>
           <button
-            className="bg-teal-500 text-white py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
+            className="bg-teal-500 hover:bg-teal-700 text-white py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
           >
             <span>Đi đến thanh toán ({recommendProducts.length + (toCompleteCart ? 1 : 0)} sản phẩm)</span>
           </button>

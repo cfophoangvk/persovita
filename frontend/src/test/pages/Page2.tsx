@@ -16,24 +16,23 @@ const Page2 = (props: {
   };
 
   return (
-    <div className="flex flex-col items-center max-w-[600px]">
+    <div className="flex flex-col items-center max-w-[600px] p-6">
       <Badge text={props.title} />
       <Title text={`Xin chào ${props.name}!`} />
-      <p className="text-lg text-center leading-6">
+      <p className="md:text-lg text-base text-center leading-6">
         Chúng tôi sẽ hỏi bạn một vài câu hỏi để có thể{" "}
         <strong>cung cấp cho bạn một số loại thực phẩm bổ sung</strong> phù hợp
         với nhu cầu của bạn.
       </p>
-      <p className="text-lg text-center leading-6 mt-8">
+      <p className="md:text-lg text-base text-center leading-6 md:mt-8 mt-3">
         Mục đích của bài kiểm tra này không phải là đưa ra chẩn đoán mà là đưa
         ra cho bạn những khuyến nghị về cách giữ gìn sức khỏe tốt.
       </p>
-      <p className="text-lg text-center leading-6 mt-8">
-        Để thực hiện việc này, chúng tôi sẽ{" "}
-        <strong>thu thập dữ liệu cá nhân</strong> về bạn.
+      <p className="md:text-lg text-base text-center leading-6 md:mt-8 mt-3">
+        Để thực hiện việc này, chúng tôi sẽ <strong>thu thập dữ liệu cá nhân</strong> về bạn.
       </p>
 
-      <div className="mt-15 flex gap-5 items-center">
+      <div className="md:mt-15 mt-3 flex gap-5 items-center">
         <input
           type="checkbox"
           id="personalData"

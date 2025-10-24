@@ -40,9 +40,9 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto bg-white shadow-md mt-10 rounded-lg overflow-hidden">
+      <div className="max-w-[90vw] w-4xl mx-auto bg-white shadow-md mt-10 rounded-lg overflow-hidden">
         <div className="flex p-6 items-center gap-6">
-          <div className="w-28 h-28 rounded-full bg-teal-400 flex items-center justify-center text-white text-3xl font-bold">
+          <div className="md:w-28 md:h-28 w-16 h-16 aspect-square rounded-full bg-teal-400 flex items-center justify-center text-white text-3xl font-bold">
             {initials}
           </div>
           <div className="flex-1">
@@ -50,10 +50,9 @@ const ProfilePage: React.FC = () => {
               {user?.fullName || user?.email || "Khách"}
             </h2>
             <p className="text-sm text-gray-500">
-              Thành viên từ{" "}
-              {new Date(user?.createdAt || Date.now()).toLocaleDateString()}
+              Thành viên từ {new Date(user?.createdAt || Date.now()).toLocaleDateString()}
             </p>
-            <div className="mt-4 flex md:flex-row flex-col items-start gap-3">
+            <div className="mt-4 flex md:flex-row flex-col md:w-auto w-40 gap-3">
               <button
                 onClick={() => setEditing((s) => !s)}
                 className="md:px-4 md:py-3 px-3 py-2 bg-teal-500 text-white md:text-base text-sm rounded-full font-semibold"

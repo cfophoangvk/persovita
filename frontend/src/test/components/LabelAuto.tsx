@@ -11,9 +11,9 @@ const LabelAuto = (props: LabelAutoProps) => {
   }, [props.onNext]);
 
   return (
-    <div className="text-center">
-      <div className="text-2xl">{props.title}</div>
-      <div className="text-lg mt-4">{props.description}</div>
+    <div className="text-center max-w-[90vw]">
+      <div className="md:text-2xl text-lg">{props.title}</div>
+      <div className="md:text-lg text-md mt-4">{props.description}</div>
     </div>
   )
 }

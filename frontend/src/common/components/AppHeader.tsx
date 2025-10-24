@@ -7,6 +7,7 @@ import axiosInstance from "../../utils/axios";
 import type { PersistCart } from "../../cart/interfaces/PersistCart";
 import { useIsMobile } from "../hooks/useIsMobile";
 import SearchDialog from "./SearchDialog";
+import MenuDialog from "./MenuDialog";
 
 // Định dạng sang VNĐ (dùng cho hiển thị trong header và preview)
 const formatVND = (value: number) => {
@@ -28,6 +29,7 @@ const AppHeader: React.FC = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [cartItems, setCartItems] = useState<PersistCart[]>([]);
   const [searchDialogOpen, setSearchDialogOpen] = useState<boolean>(false);
+  const [menuDialogOpen, setMenuDialogOpen] = useState<boolean>(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const profileRef = useRef<HTMLDivElement | null>(null);
   const { user, logout } = useAuthStore();
@@ -184,8 +186,8 @@ const AppHeader: React.FC = () => {
           {isMobile ?
             (
               <div className="flex items-center gap-2">
-                <Menu size={20} />
-                <Search size={20} onClick={() => setSearchDialogOpen(true)} />
+                <Menu className="cursor-pointer" size={20} onClick={() => setMenuDialogOpen(true)}/>
+                <Search className="cursor-pointer" size={20} onClick={() => setSearchDialogOpen(true)} />
               </div>
             )
             : (
@@ -566,6 +568,7 @@ const AppHeader: React.FC = () => {
       </div>
 
       {isMobile && <SearchDialog isOpen={searchDialogOpen} setIsOpen={setSearchDialogOpen} />}
+      {isMobile && <MenuDialog isOpen={menuDialogOpen} setIsOpen={setMenuDialogOpen} />}
     </div>
   );
 };

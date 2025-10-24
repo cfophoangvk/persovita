@@ -4,7 +4,7 @@ import type { ChoiceCheckboxItemProps } from "../interfaces/ChoiceCheckboxItemPr
 const ChoiceCheckboxItem = (props: ChoiceCheckboxItemProps) => {
   return (
     <button
-      className={`flex text-lg px-3 py-6 items-center gap-3 w-[450px] border rounded-md transition-colors hover:border-black hover:border-2 duration-300 ${
+      className={`flex px-3 md:py-6 py-2 items-center gap-3 w-[450px] border rounded-md transition-colors hover:border-black hover:border-2 duration-300 md:text-lg text-base ${
         props.checked ? "border-black border-2" : "border-gray-300"
       }`}
       onClick={props.onClick}
