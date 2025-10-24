@@ -18,9 +18,9 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
 
   const [recommendProducts, setRecommendProducts] = useState<Product[]>([]);
   const [toCompleteProduct, setToCompleteProduct] = useState<Product>();
-  const [toCompleteCart, setToCompleteCart] = useState<boolean>(false);
   const [recommendObjectives, setRecommendObjectives] = useState<string[]>();
   const [testData] = useLocalStorage<ITestStorage>("testData", defaultTestData);
+  const [persistCart, setPersistCart] = useLocalStorage<PersistCart[]>("persistCart", []);
   const { user } = useAuthStore();
   const isMobile = useIsMobile();
 
@@ -38,79 +38,127 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
       )
     );
 
-    //add product to cart
-    localStorage.removeItem("persistCart");
-    productsRecommend.forEach(async product => addToPersistCart(product))
   }, []);
 
-  const addToPersistCart = async (product: Product) => {
-    {
-      const payload = {
-        productId: product.id,
-        name: product.name,
-        price: product.price,
-        quantity: 1,
-        image: product.image || "",
-        subscription: false,
-        subscriptionMonths: 0,
-      };
+  useEffect(() => {
+    if (recommendProducts.length > 0) {
+      recommendProducts.forEach(async product => {
+        const isInCart = persistCart.some(item => item.productId === product.id.toString());
+        if (!isInCart) {
+          await addToPersistCart(product);
+        }
+      });
+    }
+  }, [recommendProducts]);
 
-      if (!user) {
-        // save to localStorage 'persistCart'
-        try {
-          const key = "persistCart";
-          const raw = localStorage.getItem(key) || "[]";
-          const list: PersistCart[] = JSON.parse(raw || "[]");
-          const existing = list.find(
-            (i: any) => i.productId === payload.productId
+  const addToPersistCart = async (product: Product) => {
+    const payload = {
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      image: product.image || "",
+      subscription: false,
+      subscriptionMonths: 0,
+    };
+
+    if (!user) {
+      try {
+        setPersistCart(prevList => {
+          const existing = prevList.find(
+            (i: any) => i.productId === payload.productId.toString()
           );
           if (existing) {
-            existing.quantity = (Number(existing.quantity) || 0) + 1;
+            return prevList.map(item =>
+              item.productId === payload.productId.toString()
+                ? { ...item, quantity: (Number(item.quantity) || 0) + 1 }
+                : item
+            );
           } else {
-            list.push({
-              userId: null,
-              productId: payload.productId.toString(),
-              name: payload.name,
-              price: payload.price,
-              quantity: 1,
-              subscription: false,
-              subscriptionMonths: 0,
-              image: payload.image,
-            });
+            return [
+              ...prevList,
+              {
+                userId: null,
+                productId: payload.productId.toString(),
+                name: payload.name,
+                price: payload.price,
+                quantity: 1,
+                subscription: false,
+                subscriptionMonths: 0,
+                image: payload.image,
+              },
+            ];
           }
-          localStorage.setItem(key, JSON.stringify(list));
-          window.dispatchEvent(new CustomEvent("cart:updated"));
-        } catch (e) {
-          alert("Lưu giỏ hàng thất bại");
-        }
-        return;
-      }
-
-      // logged in -> push to server
-      try {
-        const add = await import("../../cart/services/cartService").then((m) =>
-          m.addToCart(payload)
-        );
-        if (add && add.status === 401) {
-          window.location.href = "/login";
-          return;
-        }
+        });
         window.dispatchEvent(new CustomEvent("cart:updated"));
       } catch (e) {
-        alert("Thêm vào giỏ hàng thất bại");
+        alert("Lưu giỏ hàng thất bại");
       }
+      return;
+    }
+
+    // logged in -> push to server
+    try {
+      const add = await import("../../cart/services/cartService").then((m) =>
+        m.addToCart(payload)
+      );
+      if (add && add.status === 401) {
+        window.location.href = "/login";
+        return;
+      }
+      window.dispatchEvent(new CustomEvent("cart:updated"));
+    } catch (e) {
+      alert("Thêm vào giỏ hàng thất bại");
     }
   }
 
-  const AddToCartButton = () => {
-    return (
-      <button
-        className="bg-teal-500 text-white py-2 px-4 lg:text-sm md:text-xs text-sm font-semibold flex items-center gap-3 rounded-full cursor-not-allowed"
-      >
-        <Check size={isMobile ? 16 : 24}/>
-        <span>Đã thêm vào giỏ</span>
-      </button>
-    );
+  const removeProductFromPersistCart = async (id: string) => {
+    if (!user) {
+      setPersistCart(prev => prev.filter(item => item.productId !== id));
+      window.dispatchEvent(new CustomEvent("cart:updated"));
+      return;
+    }
+
+    // logged in -> remove from server
+    try {
+      const remove = await import("../../cart/services/cartService").then((m) =>
+        m.removeFromCart(Number(id))
+      );
+      if (remove && remove.status === 401) {
+        window.location.href = "/login";
+        return;
+      }
+      setPersistCart(prev => prev.filter(item => item.productId !== id)); // Update local storage even for logged in users
+      window.dispatchEvent(new CustomEvent("cart:updated"));
+    } catch (e) {
+      alert("Xóa khỏi giỏ hàng thất bại");
+    }
+  }
+
+  const AddToCartButton = ({ product }: { product: Product }) => {
+    const isInCart = persistCart.some(item => item.productId === product.id.toString());
+
+    if (isInCart) {
+      return (
+        <button
+          className="bg-teal-500 text-white py-2 px-4 lg:text-sm md:text-xs text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
+          onClick={() => removeProductFromPersistCart(product.id.toString())}
+        >
+          <Check size={isMobile ? 16 : 24} />
+          <span>Đã thêm vào giỏ</span>
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="border border-teal-500 text-teal-500 py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
+          onClick={() => addToPersistCart(product)}
+        >
+          <Plus size={isMobile ? 16 : 24} />
+          <span>Thêm</span>
+        </button>
+      );
+    }
   };
 
   return (
@@ -177,7 +225,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
                 <p className="text-gray-800 font-semibold">
                   {product.price.toLocaleString("vi-VN")} VND
                 </p>
-                <AddToCartButton />
+                <AddToCartButton product={product} />
               </div>
             </div>
           ))}
@@ -221,25 +269,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
               <p className="text-gray-800 text-base font-semibold">
                 {toCompleteProduct.price.toLocaleString("vi-VN")} VND
               </p>
-              {toCompleteCart ?
-                <button
-                  className="bg-teal-500 text-white py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-not-allowed"
-                >
-                  <Check />
-                  <span>Đã thêm vào giỏ</span>
-                </button>
-                :
-                <button
-                  className="border border-teal-500 text-teal-500 py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
-                  onClick={() => {
-                    addToPersistCart(toCompleteProduct);
-                    setToCompleteCart(true);
-                  }}
-                >
-                  <Plus />
-                  <span>Add</span>
-                </button>
-              }
+              <AddToCartButton product={toCompleteProduct} />
             </div>
           </div>}
         </div>
@@ -249,7 +279,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
           <button
             className="bg-teal-500 hover:bg-teal-700 text-white py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
           >
-            <span>Đi đến thanh toán ({recommendProducts.length + (toCompleteCart ? 1 : 0)} sản phẩm)</span>
+            <span>Đi đến thanh toán ({persistCart.length} sản phẩm)</span>
           </button>
         </Link>
       </div>
