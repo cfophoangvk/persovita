@@ -1,12 +1,10 @@
-import axios from "axios";
 import type { IProductReview } from "../interfaces/IProductReview";
+import axiosInstance from "../../utils/axios";
 
 export class ProductService {
   async getProductReviewById(id: number): Promise<IProductReview[]> {
     try {
-      const response = await axios.get(
-        `https://api.nourivitamin.com/api/products/review/${id}`
-      );
+      const response = await axiosInstance.get(`products/review/${id}`);
       if (response.status === 200) {
         return response.data as IProductReview[];
       }

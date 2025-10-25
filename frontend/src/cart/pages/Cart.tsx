@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
 import { useNavigate } from "react-router-dom";
-import {
-  XMarkIcon,
-  QuestionMarkCircleIcon,
-  InformationCircleIcon,
-  ArrowLeftIcon,
-} from "@heroicons/react/24/outline";
 import Shipping from "./Shipping.tsx";
 import type { Product } from "../interfaces";
 import Payment from "./Payment.tsx";
@@ -15,6 +9,8 @@ import {
   updateCart,
   removeFromCart as svcRemoveFromCart,
 } from "../services/cartService";
+import type { PersistCart } from "../interfaces/PersistCart.ts";
+import { CircleQuestionMark, Home, Info, X } from "lucide-react";
 
 // Component Modal chung
 const Modal = ({
@@ -26,30 +22,23 @@ const Modal = ({
   onClose: () => void;
   customClasses?: string;
 }) => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
     <div
       className={`bg-white rounded-2xl shadow-2xl max-w-lg w-full ${customClasses}`}
+      onClick={e => e.stopPropagation()}
     >
-      <button
-        onClick={onClose}
-        aria-label="Đóng"
-        className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
-      >
-        <XMarkIcon className="w-5 h-5" />
-      </button>
       {children}
     </div>
   </div>
 );
 
-// Modal ưu đãi đăng ký (Subscription)
-const SubscriptionOfferModal = ({ onClose }: { onClose: () => void }) => (
-  <div className="fixed inset-0 z-50 flex flex-col justify-end">
+const SubscriptionOfferModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => (
+  <div className={`fixed inset-0 z-50 flex flex-col justify-end transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
     <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-    <div className="bg-teal-400 text-white w-full rounded-t-2xl p-10 text-center">
+    <div className={`bg-teal-400 text-white w-full rounded-t-2xl md:p-10 p-5 text-center z-1 transform transition-transform duration-300 ease-out ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}>
       <div className="flex justify-end">
-        <button onClick={onClose} className="text-white">
-          <XMarkIcon className="w-6 h-6" />
+        <button onClick={onClose} className="text-white cursor-pointer">
+          <X size={24} />
         </button>
       </div>
       <div className="max-w-3xl mx-auto">
@@ -58,8 +47,8 @@ const SubscriptionOfferModal = ({ onClose }: { onClose: () => void }) => (
         <p className="mt-3 font-semibold">
           Chương trình khách hàng thân thiết hấp dẫn
         </p>
-        <div className="mt-6">***</div>
-        <p className="mt-6 text-sm">
+        <div className="md:mt-6 mt-3">***</div>
+        <p className="md:mt-6 mt-3 text-sm">
           Gói đăng ký của chúng tôi linh hoạt 100% và không ràng buộc. Bạn có
           thể hoãn, sửa đổi hoặc tạm dừng bất cứ lúc nào từ tài khoản trực tuyến
           của bạn.
@@ -69,17 +58,22 @@ const SubscriptionOfferModal = ({ onClose }: { onClose: () => void }) => (
   </div>
 );
 
-// Modal thông tin vận chuyển
 const ShippingInfoModal = ({ onClose }: { onClose: () => void }) => (
-  <Modal onClose={onClose} customClasses="p-6">
+  <Modal onClose={onClose} customClasses="p-6 relative">
+    <button
+      onClick={onClose}
+      className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 cursor-pointer"
+    >
+      <X size={24} />
+    </button>
     <div className="p-4 text-center">
       <h3 className="text-xl font-bold mb-3">Vận chuyển</h3>
-      <p className="text-sm text-gray-700 mb-3">
+      <p className="md:text-lg text-sm text-gray-700 mb-3">
         Đơn hàng được chuẩn bị và vận chuyển trong vòng
         <strong> 2 ngày làm việc</strong>. Thời gian giao hàng phụ thuộc vào gói
         bạn chọn
       </p>
-      <div className="text-left space-y-4 text-sm text-gray-700">
+      <div className="text-center space-y-4 md:text-base text-sm text-gray-700">
         <p>
           <strong>Giao hàng miễn phí cho các đơn hàng trên 500.000 VNĐ</strong>
         </p>
@@ -87,13 +81,13 @@ const ShippingInfoModal = ({ onClose }: { onClose: () => void }) => (
           <strong>Phí vận chuyển trong 1 ngày là thêm 10.000 VNĐ</strong>
         </p>
         <p>
-          <strong>Phí vận chuyển trong 1 ngày là thêm 20.000 VNĐ</strong>
+          <strong>Phí vận chuyển trong 2 ngày là thêm 20.000 VNĐ</strong>
         </p>
       </div>
       <div className="mt-6 flex justify-center">
         <button
           onClick={onClose}
-          className="px-8 py-3 bg-teal-500 text-white rounded-full font-semibold"
+          className="md:px-8 md:py-3 px-4 py-2 bg-teal-500 hover:bg-teal-700 text-white rounded-full font-semibold cursor-pointer"
         >
           Đồng ý, tôi đã hiểu
         </button>
@@ -119,7 +113,7 @@ const Cart = () => {
   } | null>(null);
 
   useEffect(() => {
-    // ưu tiên giỏ hàng từ máy chủ nếu có; nếu chưa đăng nhập -> dùng persistCart
+    window.scrollTo(0, 0);
     fetchCartSmart()
       .then((res) => {
         if (res && res.success) {
@@ -169,12 +163,9 @@ const Cart = () => {
 
   const handleRemove = (id: number) => {
     setRemovingIds((s) => [...s, id]);
-    // optimistic UI remove
     setCartItems((prev) => prev.filter((p) => p.id !== id));
-    // call server to remove; if fails, ignore (could re-fetch on failure)
-    svcRemoveFromCart(id).catch(() => {});
+    svcRemoveFromCart(id).catch(() => { });
     setTimeout(() => setRemovingIds((s) => s.filter((x) => x !== id)), 300);
-    // notify header to refresh
     window.dispatchEvent(new CustomEvent("cart:updated"));
   };
 
@@ -182,7 +173,7 @@ const Cart = () => {
     setCartItems((prev) =>
       prev.map((p) => (p.id === id ? { ...p, quantity: qty } : p))
     );
-    updateCart({ id, quantity: qty }).catch(() => {});
+    updateCart({ id, quantity: qty }).catch(() => { });
   };
 
   const handleSetSubscriptionMonths = (id: number, months: number) => {
@@ -197,7 +188,7 @@ const Cart = () => {
     setFlashIds((s) => [...s, id]);
     setTimeout(() => setFlashIds((s) => s.filter((x) => x !== id)), 300);
     updateCart({ id, subscription: isSub, subscriptionMonths: months }).catch(
-      () => {}
+      () => { }
     );
     window.dispatchEvent(new CustomEvent("cart:updated"));
   };
@@ -221,7 +212,22 @@ const Cart = () => {
 
   useEffect(() => {
     try {
-      localStorage.setItem("persistCart", JSON.stringify(cartItems));
+      const persistCartItems: PersistCart[] = cartItems.map(item => {
+        return {
+          userId: null,
+          productId: item.id.toString(),
+          name: item.name,
+          price: item.price ?? 0,
+          quantity: item.quantity ?? 1,
+          subscription: item.subscription ?? false,
+          image: item.images?.[0] ?? '',
+          subscriptionMonths: item.subscriptionMonths ?? 0
+        }
+      });
+
+      if (cartItems.length > 0) {
+        localStorage.setItem("persistCart", JSON.stringify(persistCartItems));
+      }
     } catch (e) {
       console.warn("Lưu giỏ hàng thất bại", e);
     }
@@ -255,29 +261,27 @@ const Cart = () => {
         />
       ) : (
         <>
-          {showSubscriptionModal && (
-            <SubscriptionOfferModal
-              onClose={() => setShowSubscriptionModal(false)}
-            />
-          )}
+          <SubscriptionOfferModal
+            isOpen={showSubscriptionModal}
+            onClose={() => setShowSubscriptionModal(false)}
+          />
           {showShippingModal && (
             <ShippingInfoModal onClose={() => setShowShippingModal(false)} />
           )}
 
           <button
             onClick={() => navigate(-1)}
-            aria-label="Quay lại"
-            className="absolute left-4 top-4 p-2 text-gray-600 hover:text-gray-800 z-40"
+            className="absolute left-4 top-4 p-2 text-gray-600 hover:text-gray-800 z-40 cursor-pointer"
           >
-            <ArrowLeftIcon className="w-6 h-6" />
+            <Home />
           </button>
 
-          <div className="max-w-6xl mx-auto px-6 py-10">
+          <div className="max-w-[90vw] w-6xl mx-auto px-6 py-5">
             <header className="flex items-center justify-center mb-8">
-              <h1 className="text-2xl tracking-widest font-semibold">NOURI</h1>
+              <img src="assets/logo.png" alt="Nouri" className="w-32 cursor-pointer" onClick={() => location.href = '/'} />
             </header>
 
-            <div className="flex gap-8">
+            <div className="flex lg:flex-row flex-col gap-8">
               <main className="flex-1">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-bold uppercase tracking-wider">
@@ -291,9 +295,9 @@ const Cart = () => {
                   </div>
                   <button
                     onClick={() => setShowSubscriptionModal(true)}
-                    className="w-8 h-8 inline-flex items-center justify-center rounded-full bg-[#f6e6c7] text-[#7a5b2a]"
+                    className="w-8 h-8 inline-flex items-center justify-center rounded-full bg-amber-200 text-stone-600 cursor-pointer"
                   >
-                    <QuestionMarkCircleIcon className="w-5 h-5" />
+                    <CircleQuestionMark size={16} />
                   </button>
                 </div>
 
@@ -313,21 +317,19 @@ const Cart = () => {
                     {cartItems.map((item) => (
                       <li key={item.id}>
                         <div
-                          className={`bg-white rounded-xl p-6 shadow-sm flex items-center relative transition-transform duration-200 ${
-                            removingIds.includes(item.id)
-                              ? "opacity-0 scale-95"
-                              : ""
-                          } ${
-                            flashIds.includes(item.id)
+                          className={`bg-white rounded-xl p-6 shadow-sm flex items-center relative transition-transform duration-200 ${removingIds.includes(item.id)
+                            ? "opacity-0 scale-95"
+                            : ""
+                            } ${flashIds.includes(item.id)
                               ? "ring-2 ring-teal-200"
                               : ""
-                          }`}
+                            }`}
                         >
                           <button
                             onClick={() => handleRemove(item.id)}
                             className="absolute right-4 top-4 bg-white rounded-full w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 shadow"
                           >
-                            <XMarkIcon className="w-4 h-4" />
+                            <X size={16} />
                           </button>
 
                           <div className="w-24 h-24 bg-[#fbf7f5] rounded-md p-3 flex items-center justify-center mr-6">
@@ -339,7 +341,7 @@ const Cart = () => {
                           </div>
 
                           <div className="flex-1">
-                            <div className="flex items-start justify-between">
+                            <div className="flex sm:flex-row flex-col justify-between sm:items-end items-start">
                               <div>
                                 <p className="font-semibold text-gray-800 text-lg">
                                   {item.name}
@@ -354,32 +356,31 @@ const Cart = () => {
                                 )}
                               </div>
 
-                              {/* HIỂN THỊ GIÁ BẰNG VNĐ */}
-                              <div className="absolute right-4 top-12 flex items-center gap-4">
+                              <div className="flex sm:flex-row flex-col items-center md:gap-4">
                                 {(() => {
                                   const t = computeItemTotals(item);
                                   return (
-                                    <>
-                                      <div className="text-sm text-gray-400 line-through">
+                                    <div className="flex sm:flex-row flex-col space-x-2">
+                                      <div className="text-gray-400 line-through">
                                         {formatVND(
                                           (item.price ?? 0) *
-                                            (item.quantity ?? 1) *
-                                            (t.months || 1)
+                                          (item.quantity ?? 1) *
+                                          (t.months || 1)
                                         )}
                                       </div>
                                       <div className="font-semibold text-gray-900">
                                         {formatVND(t.net)}
                                       </div>
-                                    </>
+                                    </div>
                                   );
                                 })()}
                               </div>
                             </div>
 
-                            <div className="mt-4 flex items-center justify-between">
-                              <div>
-                                <label className="text-xs text-gray-500 block mb-1">
-                                  Số lượng
+                            <div className="mt-4 flex sm:flex-row flex-col sm:items-center items-start justify-between gap-2">
+                              <div className="flex items-center space-x-3">
+                                <label className="text-gray-500 block mb-1">
+                                  Số lượng:
                                 </label>
                                 <select
                                   value={item.quantity}
@@ -442,15 +443,15 @@ const Cart = () => {
               </main>
 
               <aside
-                className="w-96 rounded-xl p-6"
+                className="lg:w-1/3 rounded-xl lg:p-6 p-3"
                 style={{ backgroundColor: "#f7efe6" }}
               >
-                <h3 className="text-sm font-bold uppercase tracking-wider text-teal-600">
+                <h3 className="text-lg font-bold text-center tracking-wider text-teal-600">
                   TỔNG KẾT ĐƠN HÀNG
                 </h3>
 
-                <div className="mt-4 border-t border-gray-200 pt-4">
-                  <div className="flex justify-between items-center text-xs font-semibold uppercase text-gray-600 pb-3 border-b border-gray-200">
+                <div className="mt-4 border-t border-gray-300 pt-4">
+                  <div className="flex justify-between items-center lg:text-xs text-base font-semibold text-gray-600 pb-3 border-b border-gray-300">
                     <span>SẢN PHẨM</span>
                     <span>GIÁ</span>
                   </div>
@@ -461,9 +462,9 @@ const Cart = () => {
                       return (
                         <div
                           key={it.id}
-                          className="flex justify-between items-center py-2 border-b border-gray-100"
+                          className="flex justify-between items-center py-2 border-b border-gray-300"
                         >
-                          <div className="text-sm text-gray-800">
+                          <div className="lg:text-sm text-base text-gray-800">
                             {it.name}
                             {it.subscription && (
                               <div className="inline-block ml-2 px-2 py-0.5 text-xs bg-teal-100 text-teal-700 rounded">
@@ -495,7 +496,7 @@ const Cart = () => {
                         -{formatVND(discountsVND)}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center border-t border-gray-200 pt-3 mt-2">
+                    <div className="flex justify-between items-center border-t border-gray-300 pt-3 mt-2">
                       <span className="font-semibold">TỔNG PHỤ</span>
                       <span className="font-bold text-gray-900">
                         {formatVND(subtotalVND)}
@@ -508,7 +509,7 @@ const Cart = () => {
                     >
                       <span className="flex items-center gap-2">
                         Vận chuyển{" "}
-                        <InformationCircleIcon className="w-4 h-4 text-gray-500" />
+                        <Info size={16} />
                       </span>
                       <span className="font-bold text-gray-800">
                         {shippingVND === 0
@@ -517,20 +518,20 @@ const Cart = () => {
                       </span>
                     </div>
 
-                    <div className="flex justify-between items-center border-t border-gray-200 pt-4 mt-4">
+                    <div className="flex justify-between items-center border-t border-gray-300 pt-4 mt-4">
                       <span className="font-bold text-gray-800">TỔNG CỘNG</span>
                       <span className="text-xl font-extrabold">
                         {formatVND(totalVND_Final)}
                       </span>
                     </div>
 
-                    <div className="mt-6 flex gap-3">
+                    <div className="mt-6 flex justify-between gap-3">
                       <input
                         type="text"
                         placeholder="Mã giảm giá"
-                        className="flex-1 p-3 border border-gray-200 rounded-full text-sm"
+                        className="flex-1 p-2 border border-gray-300 rounded-full text-sm"
                       />
-                      <button className="px-4 py-2 rounded-full bg-white border border-teal-300 text-teal-600">
+                      <button className="px-4 lg:py-2 py-1 rounded-full bg-white border border-teal-300 text-teal-600">
                         Thêm
                       </button>
                     </div>

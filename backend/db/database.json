@@ -1976,11 +1976,94 @@
       "title": "Năng lượng & Sức sống"
     }
   ],
-  "users": [],
-  "shipping": [],
-  "payment": [],
-  "carts": [],
-  "orders": [],
+  "users": [
+    {
+      "id": 1,
+      "fullName": "Thồn Lành",
+      "email": "hieuthien2004@gmail.com",
+      "password": "$2b$12$blU9HF7EQ9oE.KbhHu4p0.irs6qSaL4FhUBxM0CAxYbOT7jbM4RiG",
+      "role": "user",
+      "picture": "",
+      "phone": "0334789789",
+      "address": "120 Phố Yên Lãng",
+      "createdAt": "2025-10-24T02:46:03.286Z"
+    }
+  ],
+  "shipping": [
+    {
+      "id": 1,
+      "userId": 1,
+      "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
+      "email": "vanan123@email.com",
+      "phone": "+84 901234567",
+      "method": "pickup"
+    }
+  ],
+  "payment": [
+    {
+      "id": 1,
+      "userId": 1,
+      "method": "qr",
+      "info": "{\"merchant\":\"NOURI\",\"amount\":1031606,\"items\":1,\"shippingMethod\":\"pickup\",\"shippingMethodCost\":0,\"ts\":1761294356037}"
+    }
+  ],
+  "carts": [
+    {
+      "userId": 1,
+      "productId": 1,
+      "name": "Hyaluronic Acid",
+      "price": 1001606,
+      "quantity": 1,
+      "subscription": false,
+      "subscriptionMonths": 0,
+      "image": "/assets/product-1/1.png"
+    },
+    {
+      "userId": 1,
+      "productId": 2,
+      "name": "Turmeric Capsules",
+      "price": 421576,
+      "quantity": 1,
+      "subscription": false,
+      "subscriptionMonths": 0,
+      "image": "/assets/product-2/1.png"
+    },
+    {
+      "userId": 1,
+      "productId": 3,
+      "name": "Boswellia Extract",
+      "price": 712104,
+      "quantity": 1,
+      "subscription": false,
+      "subscriptionMonths": 0,
+      "image": "/assets/product-3/1.png"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "items": [
+        {
+          "productId": 1,
+          "name": "Hyaluronic Acid",
+          "price": 1001606,
+          "quantity": 1,
+          "image": "/assets/product-1/1.png",
+          "subscription": false,
+          "subscriptionMonths": 0
+        }
+      ],
+      "shippingId": 1,
+      "shippingMethod": "pickup",
+      "shippingMethodCost": 0,
+      "shippingBase": 30000,
+      "paymentId": 1,
+      "total": 1031606,
+      "status": "success",
+      "createdAt": "2025-10-24T08:25:56.074Z"
+    }
+  ],
   "productReviews": [
     {
       "productId": 1,

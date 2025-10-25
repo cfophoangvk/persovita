@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FadeInSection from "../layouts/FadeInSection";
 
 const ContactPage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
   return (
     <div className="max-w-4xl mx-auto mt-10 px-6 py-16">
       <FadeInSection>

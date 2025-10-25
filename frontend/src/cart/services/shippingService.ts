@@ -1,24 +1,25 @@
-async function handleResponse(res: Response) {
+import type { AxiosResponse } from "axios";
+import axiosInstance from "../../utils/axios";
+
+async function handleResponse(res: AxiosResponse) {
   if (res.status === 401) {
     window.location.href = "/login";
     return { success: false, message: "Unauthorized" };
   }
-  return res.json();
+  return res.data;
 }
 
 export async function addShipping(payload: any) {
-  const res = await fetch("https://api.nourivitamin.com/api/shipping/add", {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+  const res = await axiosInstance.post("shipping/add", payload, {
+    withCredentials: true,
+    headers: { "Content-Type": "application/json" }
   });
   return handleResponse(res);
 }
 
 export async function getShipping() {
-  const res = await fetch("https://api.nourivitamin.com/api/shipping/", {
-    credentials: "include",
+  const res = await axiosInstance.get("shipping", {
+    withCredentials: true,
   });
   return handleResponse(res);
 }

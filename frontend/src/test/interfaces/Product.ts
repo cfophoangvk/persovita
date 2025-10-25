@@ -6,8 +6,13 @@ export interface Product {
   subscription: boolean;
   feature: string;
   image: string;
-  // optional array of images used elsewhere in UI
-  images?: string[];
-  // months for subscription
   subscriptionMonths?: number;
+  amount: number;
+  activeIngredients: {
+    name: string,
+    amount: string
+  }[],
+  additiveIngredients: string,
+  usage: string,
+  contraindication: string
 }

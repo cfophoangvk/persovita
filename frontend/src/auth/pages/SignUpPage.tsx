@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
+import { useIsMobile } from "../../common/hooks/useIsMobile";
 
 const SignUpPage: React.FC = () => {
   const [fullName, setFullName] = useState("");
@@ -11,6 +12,7 @@ const SignUpPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [agree, setAgree] = useState(false);
+  const isMobile = useIsMobile();
 
   const { signup, isLoading } = useAuthStore();
 
@@ -41,19 +43,21 @@ const SignUpPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbf9f6] flex items-start justify-center py-20 relative">
+    <div className="h-screen bg-[#fbf9f6] flex items-start justify-center py-8 relative">
       <a
         className="absolute left-5 top-5 px-3 py-3 bg-stone-500 rounded-full hover:bg-stone-700 text-white"
-        href="/"
+        onClick={() => history.back()}
       >
         <ArrowLeft />
       </a>
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center">
-          <div className="text-4xl font-extrabold tracking-widest text-teal-400 mb-4">
-            <Link to="/">NOURI</Link>
+          <div className="text-4xl font-extrabold tracking-widest text-teal-400 mb-2">
+            <Link to="/" className="inline-flex items-center">
+              <img src="/assets/logo.png" alt="NOURI" className={isMobile ? 'w-20' : 'h-8'} />
+            </Link>
           </div>
-          <p className="text-sm text-gray-600 mb-8">Tạo tài khoản Nouri mới</p>
+          <p className="text-sm text-gray-600 mb-2">Tạo tài khoản Nouri mới</p>
 
           <form
             onSubmit={onSubmit}
@@ -107,14 +111,14 @@ const SignUpPage: React.FC = () => {
             />
 
             <div className="flex items-center gap-3 mb-6">
-              <label className="flex items-center gap-3 text-sm text-gray-700">
+              <label className="flex items-center gap-3 text-gray-700">
                 <input
                   type="checkbox"
                   checked={agree}
                   onChange={(e) => setAgree(e.target.checked)}
                   className="w-4 h-4 rounded border-gray-300"
                 />
-                <span>Tôi đồng ý với Điều khoản và Điều kiện</span>
+                <span className="md:text-sm text-xs">Tôi đồng ý với Điều khoản và Điều kiện</span>
               </label>
             </div>
 
@@ -129,9 +133,9 @@ const SignUpPage: React.FC = () => {
               )}
             </button>
 
-            <div className="flex items-center gap-3 my-4">
+            <div className="flex items-center gap-3 my-2">
               <div className="flex-grow h-px bg-gray-200" />
-              <div className="text-xs text-gray-400">or</div>
+              <div className="text-xs text-gray-400">hoặc</div>
               <div className="flex-grow h-px bg-gray-200" />
             </div>
 

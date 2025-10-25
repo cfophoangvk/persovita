@@ -421,6 +421,18 @@ const getProductsBySearchAndFilters = async (req, res) => {
   }
 };
 
+const getProductReviews = async (req, res) => {
+  try {
+    const db = await fs.promises.readFile(dbPath, "utf-8");
+    const data = JSON.parse(db);
+    const productReviews = data.productReviews;
+    return res.status(200).json(productReviews);
+  } catch (error) {
+    console.log("GET PRODUCT REVIEWS ERROR: ", error);
+  }
+  return res.status(404).send("Không tìm thấy bài đánh giá!");
+}
+
 const getProductReviewById = async (req, res) => {
   const idQuery = req.params.id;
 
@@ -451,5 +463,6 @@ module.exports = {
   getProductsByCategory,
   getProductsByTopic,
   getProductsBySearchAndFilters,
+  getProductReviews,
   getProductReviewById
 };

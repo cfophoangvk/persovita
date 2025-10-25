@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import type { Product } from "../../cart/interfaces";
 import { ProductService } from "../../drugs/services/ProductService";
+import axiosInstance from "../../utils/axios";
+import type { AxiosResponse } from "axios";
 
 // Hàm định dạng giá VNĐ
 const formatVND = (v: number) => {
@@ -27,10 +29,9 @@ const FeaturedProducts: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    // Giữ nguyên logic fetch gốc của bạn
-    fetch("https://api.nourivitamin.com/api/products")
-      .then((r) => r.json())
-      .then((d) => {
+    axiosInstance.get("/products")
+      .then((response: AxiosResponse) => {
+        const d = response.data;
         const list = (d.products || []).slice(0, 8).map((p: any) => ({
           id: p.id,
           name: p.name,
