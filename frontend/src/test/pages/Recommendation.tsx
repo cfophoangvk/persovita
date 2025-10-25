@@ -38,75 +38,69 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
       )
     );
 
+    setPersistCart([]);
   }, []);
 
   useEffect(() => {
     if (recommendProducts.length > 0) {
-      recommendProducts.forEach(async product => {
-        const isInCart = persistCart.some(item => item.productId === product.id.toString());
-        if (!isInCart) {
-          await addToPersistCart(product);
-        }
-      });
+      const newItems = recommendProducts
+        .map(product => ({
+          userId: null,
+          productId: product.id.toString(),
+          name: product.name,
+          price: product.price,
+          quantity: 1,
+          subscription: false,
+          subscriptionMonths: 0,
+          image: product.image,
+        }));
+
+      if (newItems.length > 0) {
+        setPersistCart(prevList => [...prevList, ...newItems]);
+      }
+
+      recommendProducts.forEach(async product => await addToDatabaseCart(product));
     }
   }, [recommendProducts]);
 
-  const addToPersistCart = async (product: Product) => {
-    const payload = {
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-      image: product.image || "",
-      subscription: false,
-      subscriptionMonths: 0,
-    };
-
-    if (!user) {
-      try {
-        setPersistCart(prevList => {
-          const existing = prevList.find(
-            (i: any) => i.productId === payload.productId.toString()
-          );
-          if (existing) {
-            return prevList.map(item =>
-              item.productId === payload.productId.toString()
-                ? { ...item, quantity: (Number(item.quantity) || 0) + 1 }
-                : item
-            );
-          } else {
-            return [
-              ...prevList,
-              {
-                userId: null,
-                productId: payload.productId.toString(),
-                name: payload.name,
-                price: payload.price,
-                quantity: 1,
-                subscription: false,
-                subscriptionMonths: 0,
-                image: payload.image,
-              },
-            ];
-          }
-        });
-        window.dispatchEvent(new CustomEvent("cart:updated"));
-      } catch (e) {
-        alert("Lưu giỏ hàng thất bại");
-      }
-      return;
+  const addToPersistCart = (product: Product) => {
+    try {
+      setPersistCart(prevList => [
+        ...prevList,
+        {
+          userId: null,
+          productId: product.id.toString(),
+          name: product.name,
+          price: product.price,
+          quantity: 1,
+          subscription: false,
+          subscriptionMonths: 0,
+          image: product.image,
+        },
+      ]);
+    } catch (e) {
+      alert("Lưu giỏ hàng thất bại");
     }
+    return;
+  }
 
-    // logged in -> push to server
+  const addToDatabaseCart = async (product: Product) => {
     try {
       const add = await import("../../cart/services/cartService").then((m) =>
-        m.addToCart(payload)
+        m.addToCart({
+          productId: product.id,
+          name: product.name,
+          price: product.price,
+          quantity: 1,
+          image: product.image || "",
+          subscription: false,
+          subscriptionMonths: 0,
+        })
       );
       if (add && add.status === 401) {
         window.location.href = "/login";
         return;
       }
-      window.dispatchEvent(new CustomEvent("cart:updated"));
     } catch (e) {
       alert("Thêm vào giỏ hàng thất bại");
     }
@@ -115,7 +109,6 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
   const removeProductFromPersistCart = async (id: string) => {
     if (!user) {
       setPersistCart(prev => prev.filter(item => item.productId !== id));
-      window.dispatchEvent(new CustomEvent("cart:updated"));
       return;
     }
 
@@ -129,7 +122,6 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
         return;
       }
       setPersistCart(prev => prev.filter(item => item.productId !== id)); // Update local storage even for logged in users
-      window.dispatchEvent(new CustomEvent("cart:updated"));
     } catch (e) {
       alert("Xóa khỏi giỏ hàng thất bại");
     }

@@ -90,7 +90,7 @@ const AppHeader: React.FC = () => {
 
   // Lấy chi tiết giỏ hàng khi mở xem trước
   useEffect(() => {
-    if (showPreview) {
+    if (showPreview || cartDialogOpen) {
       axiosInstance
         .get("/cart/", { withCredentials: true })
         .then((res) => {
@@ -104,7 +104,7 @@ const AppHeader: React.FC = () => {
           }
         });
     }
-  }, [showPreview]);
+  }, [showPreview, cartDialogOpen]);
 
   // handle outside click to close suggestions
   useEffect(() => {
@@ -340,7 +340,7 @@ const AppHeader: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="p-4 max-h-[60vh] overflow-auto">
+                <div className="p-4 h-[30vh] overflow-auto">
                   {!cartItems || cartItems.length === 0 ? (
                     <div className="text-center text-sm text-gray-500 py-8">
                       <div className="mb-6">

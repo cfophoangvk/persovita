@@ -14,7 +14,7 @@ const formatVND = (value: number) => {
 
 const CartDialog = (props: ICartDialogProps) => {
   return (
-    <div className={`fixed inset-0 bg-gray-500/75 z-50 h-screen text-sm 
+    <div className={`fixed inset-0 bg-gray-500/75 z-50 h-full text-sm 
       transition-opacity duration-300 
       ${props.isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
       <div className={`bg-white rounded-lg w-screen h-screen py-2 
@@ -26,7 +26,7 @@ const CartDialog = (props: ICartDialogProps) => {
           </div>
           <ChevronRight className="text-gray-400 hover:text-gray-600 z-10 cursor-pointer" onClick={() => props.setIsOpen(false)} />
         </div>
-        <div className="p-6 flex-1">
+        <div className="p-6 flex-1 overflow-auto">
           {!props.cartItems || props.cartItems.length === 0 ? (
             <div className="text-center text-sm text-gray-500 py-8">
               <div className="mb-6">

@@ -40,64 +40,9 @@ export async function addToCart(payload: any) {
       withCredentials: true,
       headers: { "Content-Type": "application/json" }
     })
-    if (res.status === 401) {
-      // not logged in -> save to localStorage
-      try {
-        const key = "persistCart";
-        const raw = localStorage.getItem(key) || "[]";
-        const list = JSON.parse(raw || "[]");
-        // merge by productId
-        const existing = list.find(
-          (i: any) => i.productId === payload.productId
-        );
-        if (existing) {
-          existing.quantity =
-            (Number(existing.quantity) || 0) + (Number(payload.quantity) || 1);
-          existing.subscription = payload.subscription ?? existing.subscription;
-          existing.subscriptionMonths =
-            payload.subscriptionMonths ?? existing.subscriptionMonths ?? 0;
-        } else {
-          list.push({
-            userId: null,
-            productId: payload.productId,
-            name: payload.name,
-            price: payload.price,
-            quantity: Number(payload.quantity) || 1,
-            subscription: payload.subscription || false,
-            subscriptionMonths: payload.subscriptionMonths || 0,
-            image: payload.image || "",
-          });
-        }
-        localStorage.setItem(key, JSON.stringify(list));
-        return { success: true, local: true, cart: list } as any;
-      } catch (err) {
-        return { success: false, message: "Failed to save local cart" } as any;
-      }
-    }
     return handleResponse(res);
   } catch (err) {
-    // network error -> fallback to local storage
-    const key = "persistCart";
-    const raw = localStorage.getItem(key) || "[]";
-    const list = JSON.parse(raw || "[]");
-    const existing = list.find((i: any) => i.productId === payload.productId);
-    if (existing) {
-      existing.quantity =
-        (Number(existing.quantity) || 0) + (Number(payload.quantity) || 1);
-    } else {
-      list.push({
-        userId: null,
-        productId: payload.productId,
-        name: payload.name,
-        price: payload.price,
-        quantity: Number(payload.quantity) || 1,
-        subscription: payload.subscription || false,
-        subscriptionMonths: payload.subscriptionMonths || 0,
-        image: payload.image || "",
-      });
-    }
-    localStorage.setItem(key, JSON.stringify(list));
-    return { success: true, local: true, cart: list } as any;
+    return { success: false, message: err };
   }
 }
 
