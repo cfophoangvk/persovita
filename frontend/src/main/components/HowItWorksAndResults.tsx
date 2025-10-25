@@ -56,8 +56,7 @@ const HowItWorksAndResults: React.FC = () => {
             />
             <p className="text-base text-gray-600">
               Nhận đề xuất bổ sung cá nhân hóa từ{" "}
-              <strong>Hội đồng Khoa học</strong> (Scientific Committee) của
-              chúng tôi.
+              <strong>Hội đồng Khoa học</strong> của chúng tôi.
             </p>
           </div>
 
@@ -126,15 +125,16 @@ const HowItWorksAndResults: React.FC = () => {
           </div>
 
           <div className="flex items-center justify-between py-6">
-            <strong className="lg:text-5xl md:text-3xl text-2xl font-extrabold text-teal-500">
-              76
+            <strong className="text-6xl font-extrabold text-teal-500">
+              76%
             </strong>
             <div className="ml-6 text-right">
-              <p className="text-sm font-ebold uppercase text-gray-500">
+              <p className="text-sm font-bold uppercase text-gray-500">
                 THỬ NGHIỆM LÂM SÀNG VÀ TIỀN LÂM SÀNG
               </p>
               <p className="md:text-lg text-base text-gray-700">
-                Thành phần đạt chuẩn khoa học, đã được <strong>thử nghiệm lâm sàng và chứng minh hiệu quả.</strong>
+                Thành phần đạt chuẩn khoa học, đã được{" "}
+                <strong>thử nghiệm lâm sàng và chứng minh hiệu quả.</strong>
               </p>
             </div>
           </div>
