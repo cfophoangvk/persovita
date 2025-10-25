@@ -125,7 +125,7 @@ const HowItWorksAndResults: React.FC = () => {
           </div>
 
           <div className="flex items-center justify-between py-6">
-            <strong className="text-6xl font-extrabold text-teal-500">
+            <strong className="lg:text-5xl md:text-3xl text-2xl font-extrabold text-teal-500">
               76%
             </strong>
             <div className="ml-6 text-right">
