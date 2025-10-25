@@ -270,7 +270,7 @@ const Cart = () => {
           )}
 
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/')}
             className="absolute left-4 top-4 p-2 text-gray-600 hover:text-gray-800 z-40 cursor-pointer"
           >
             <Home />

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Banner from "./components/Banner";
-import FadeInSection from "../layouts/FadeInSection";
+import FadeInSection from "./components/FadeInSection";
 import HowItWorksAndResults from "./components/HowItWorksAndResults";
 import FeaturedReviews from "./components/FeaturedReviews";
 import FAQSection from "./components/FAQSection";

@@ -33,10 +33,8 @@ const DrugDetailsPage: React.FC = () => {
     isLoading,
   } = useDrugStore();
 
-  // carousel
   const [index, setIndex] = useState(0);
 
-  // accordions
   const [openDesc, setOpenDesc] = useState(true);
   const [openComp, setOpenComp] = useState(false);
   const [openDirections, setOpenDirections] = useState(false);
@@ -46,18 +44,13 @@ const DrugDetailsPage: React.FC = () => {
 
   useEffect(() => {
     if (!id) return;
-    // fetch product (store will set drug and related)
     getDrugById(id);
-    // reset carousel index
     setIndex(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
     productService.getProductImages(Number(id)).then((data) => setImages(data));
   }, [id]);
 
   const product = drug ?? (id ? { ...ProductPlaceholder, id } : null);
-  // backend returns related array; if store set drugs from related we can use that,
-  // otherwise read product.related if present
   const related =
     product && Array.isArray(product.related) && product.related.length
       ? product.related
@@ -106,8 +99,8 @@ const DrugDetailsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white mt-10">
-      <div className="max-w-7xl mx-auto py-10">
+    <div className="min-h-screen bg-white md:mt-18 mt-12 px-3">
+      <div className="max-w-7xl mx-auto">
         <nav className="text-sm text-gray-500 mb-4">
           <span className="hover:text-teal-600 transition">
             <Link to="/">Trang chủ</Link>
@@ -125,7 +118,6 @@ const DrugDetailsPage: React.FC = () => {
                 className="w-full h-[560px] object-contain bg-white"
               />
 
-              {/* prev / next arrows */}
               <button
                 onClick={prev}
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 shadow hover:bg-white flex items-center justify-center"
@@ -289,16 +281,15 @@ const DrugDetailsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Proven results section */}
         <section className="mt-16 bg-[#f5f1ec] rounded p-8">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-4 text-center">
-              <h2 className="text-4xl font-bold">Kết quả đã được chứng minh</h2>
+              <h2 className="md:text-4xl text-2xl font-bold">Kết quả đã được chứng minh</h2>
             </div>
             <div className="lg:col-span-8 space-y-6 border-l border-gray-200 pl-6">
               {provenStats.map((s, i) => (
                 <div key={i}>
-                  <div className="text-4xl font-extrabold">{s.value}</div>
+                  <div className="md:text-4xl text-2xl font-extrabold">{s.value}</div>
                   <div className="text-xs uppercase text-gray-500 mt-1">
                     {s.title}
                   </div>
@@ -313,7 +304,7 @@ const DrugDetailsPage: React.FC = () => {
         {/* Related products */}
         <section className="mt-12">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold">Products with same topic</h3>
+            <h3 className="text-xl font-semibold">Sản phẩm cùng loại</h3>
             <Link to="/shop" className="text-sm text-teal-600">
               See all
             </Link>
