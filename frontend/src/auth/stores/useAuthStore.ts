@@ -24,6 +24,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       });
       set({ success: true, user: res.data.user, message: res.data.message });
       toast.success(res.data.message);
+      try {
+        await syncLocalCartToServer();
+      } catch (e) {
+        console.warn("Cart sync after login failed", e);
+      }
     } catch (error: any) {
       toast.error(
         error.response?.data?.message || "An error occurred during signup"
@@ -124,7 +129,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error: any) {
       if (error.status && error.status === 401) {
         console.log("Chưa đăng nhập vui lòng thử lại!");
-      }else{
+      } else {
         console.log("Không phải 401 mà là lỗi", error.message);
         console.log("Lý do là", error);
       }

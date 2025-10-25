@@ -133,7 +133,7 @@ const ShopPage: React.FC = () => {
     setSearch("");
     setPage(1);
     setSortBy("name-asc");
-  }
+  };
 
   return (
     <div className="min-h-screen bg-white md:mt-16 mt-10">
@@ -144,7 +144,9 @@ const ShopPage: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 flex items-center">
           <div className="max-w-2xl">
-            <h1 className="md:text-5xl sm:text-4xl text-3xl font-bold mb-4">Sản phẩm</h1>
+            <h1 className="md:text-5xl sm:text-4xl text-3xl font-bold mb-4">
+              Sản phẩm
+            </h1>
             <p className="text-gray-600 max-w-xl sm:text-base text-sm">
               Khoa học. Hiệu quả. Đơn giản. Khám phá các dòng sản phẩm đa dạng
               của chúng tôi được các nhà khoa học sáng tạo, đáp ứng mọi nhu cầu
@@ -158,114 +160,118 @@ const ShopPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-10">
         <div className="grid grid-cols-12 md:gap-8 gap-3">
           <aside className="col-span-12 md:col-span-3">
-            {isMobile ?
-              (
-                <div className="grid grid-cols-2">
-                  <button className="flex justify-center items-center gap-3 p-3 border border-gray-200 cursor-pointer" onClick={() => setSortDialogOpen(true)}>
-                    <ArrowUpDown /> SẮP XẾP
-                  </button>
-                  <button className="flex justify-center items-center gap-3 p-3 border border-gray-200 cursor-pointer" onClick={() => setFilterDialogOpen(true)}>
-                    <Filter /> LỌC
-                  </button>
-                </div>
-              )
-              :
-              (
-                <div className="md:sticky md:top-20 space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Sắp xếp theo
-                    </label>
-                    <select
-                      value={sortBy}
-                      onChange={(e) =>
-                        setSortBy(
-                          e.target.value as
-                          "name-asc"
+            {isMobile ? (
+              <div className="grid grid-cols-2">
+                <button
+                  className="flex justify-center items-center gap-3 p-3 border border-gray-200 cursor-pointer"
+                  onClick={() => setSortDialogOpen(true)}
+                >
+                  <ArrowUpDown /> SẮP XẾP
+                </button>
+                <button
+                  className="flex justify-center items-center gap-3 p-3 border border-gray-200 cursor-pointer"
+                  onClick={() => setFilterDialogOpen(true)}
+                >
+                  <Filter /> LỌC
+                </button>
+              </div>
+            ) : (
+              <div className="md:sticky md:top-20 space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Sắp xếp theo
+                  </label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) =>
+                      setSortBy(
+                        e.target.value as
+                          | "name-asc"
                           | "name-desc"
                           | "price-asc"
                           | "price-desc"
-                        )
-                      }
-                      className="w-full rounded border border-gray-200 p-2 text-sm bg-white"
-                    >
-                      <option value="name-asc">Từ A-Z</option>
-                      <option value="name-desc">Từ Z-A</option>
-                      <option value="price-asc">Giá thấp nhất</option>
-                      <option value="price-desc">Giá cao nhất</option>
-                    </select>
-                  </div>
+                      )
+                    }
+                    className="w-full rounded border border-gray-200 p-2 text-sm bg-white"
+                  >
+                    <option value="name-asc">Từ A-Z</option>
+                    <option value="name-desc">Từ Z-A</option>
+                    <option value="price-asc">Giá thấp nhất</option>
+                    <option value="price-desc">Giá cao nhất</option>
+                  </select>
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                      Danh mục thương hiệu
-                    </label>
-                    <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
-                      {isLoadingBrands ? (
-                        <Loader2 />
-                      ) : brandsAvailable.length ? (
-                        brandsAvailable.map((c) => (
-                          <label key={c.id} className="flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              checked={selectedBrandIds.includes(c.id)}
-                              onChange={() => toggleBrand(c.id)}
-                              className="w-4 h-4"
-                            />
-                            <span>{c.name}</span>
-                          </label>
-                        ))
-                      ) : (
-                        <div className="text-xs text-gray-400">
-                          Không có danh mục
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                      Danh mục chức năng
-                    </label>
-                    <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
-                      {isLoadingFeatures ? (
-                        <Loader2 />
-                      ) : featuresAvailable.length ? (
-                        featuresAvailable.map((t) => (
-                          <label key={t.id} className="flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              checked={selectedFeatureIds.includes(t.id)}
-                              onChange={() => toggleFeature(t.id)}
-                              className="w-4 h-4"
-                            />
-                            <span>{t.title}</span>
-                          </label>
-                        ))
-                      ) : (
-                        <div className="text-xs text-gray-400">
-                          Không có chức năng
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 w-3/4 m-auto">
-                    <button
-                      onClick={reset}
-                      className="flex-1 py-2 rounded-full border border-gray-300 bg-teal-300 text-sm hover:bg-teal-400 transition"
-                    >
-                      Đặt lại
-                    </button>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Danh mục thương hiệu
+                  </label>
+                  <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
+                    {isLoadingBrands ? (
+                      <Loader2 />
+                    ) : brandsAvailable.length ? (
+                      brandsAvailable.map((c) => (
+                        <label key={c.id} className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={selectedBrandIds.includes(c.id)}
+                            onChange={() => toggleBrand(c.id)}
+                            className="w-4 h-4"
+                          />
+                          <span>{c.name}</span>
+                        </label>
+                      ))
+                    ) : (
+                      <div className="text-xs text-gray-400">
+                        Không có danh mục
+                      </div>
+                    )}
                   </div>
                 </div>
-              )}
-          </aside>
 
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Danh mục chức năng
+                  </label>
+                  <div className="space-y-2 text-sm text-gray-700 max-h-56 overflow-auto pr-2">
+                    {isLoadingFeatures ? (
+                      <Loader2 />
+                    ) : featuresAvailable.length ? (
+                      featuresAvailable.map((t) => (
+                        <label key={t.id} className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={selectedFeatureIds.includes(t.id)}
+                            onChange={() => toggleFeature(t.id)}
+                            className="w-4 h-4"
+                          />
+                          <span>{t.title}</span>
+                        </label>
+                      ))
+                    ) : (
+                      <div className="text-xs text-gray-400">
+                        Không có chức năng
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 w-3/4 m-auto">
+                  <button
+                    onClick={reset}
+                    className="flex-1 py-2 rounded-full border border-gray-300 bg-teal-300 text-sm hover:bg-teal-400 transition"
+                  >
+                    Đặt lại
+                  </button>
+                </div>
+              </div>
+            )}
+          </aside>
 
           <main className="col-span-12 md:col-span-9">
             <div className="flex items-center justify-between mb-6">
-              <div className="text-sm text-gray-600 hidden sm:block">{totalItems} sản phẩm</div>
+              <div className="text-sm text-gray-600 hidden sm:block">
+                {totalItems} sản phẩm
+              </div>
 
               <div className="flex justify-between items-center gap-3 sm:w-auto w-full">
                 <input
@@ -327,12 +333,15 @@ const ShopPage: React.FC = () => {
                     </p>
 
                     <div className="flex items-center justify-between">
-                      <div className="text-lg font-bold">
+                      <div className="text-lg font-bold flex items-center gap-2">
                         {p.price
                           ? `${p.price.toLocaleString()} VND`
-                          : "Contact"}{" "}
-                        30 Ngày
+                          : "Contact"}
+                        <span className="text-sm font-medium bg-gray-100 text-gray-700 px-2 py-0.5 rounded-md">
+                          30 Ngày
+                        </span>
                       </div>
+
                       <button
                         onClick={async () => {
                           const payload = {
@@ -348,7 +357,9 @@ const ShopPage: React.FC = () => {
                             if (!user) {
                               const key = "persistCart";
                               const raw = localStorage.getItem(key) || "[]";
-                              const list: PersistCart[] = JSON.parse(raw || "[]");
+                              const list: PersistCart[] = JSON.parse(
+                                raw || "[]"
+                              );
                               const existing = list.find(
                                 (i: any) => i.productId === payload.productId
                               );
@@ -460,10 +471,11 @@ const ShopPage: React.FC = () => {
                         <button
                           key={pNum}
                           onClick={() => setPage(pNum)}
-                          className={`px-3 py-2 rounded text-sm border ${page === pNum
-                            ? "bg-teal-200 border-teal-300 font-medium"
-                            : "bg-white border-gray-200 hover:bg-gray-50"
-                            }`}
+                          className={`px-3 py-2 rounded text-sm border ${
+                            page === pNum
+                              ? "bg-teal-200 border-teal-300 font-medium"
+                              : "bg-white border-gray-200 hover:bg-gray-50"
+                          }`}
                         >
                           {pNum}
                         </button>
@@ -487,8 +499,23 @@ const ShopPage: React.FC = () => {
         </div>
       </div>
 
-      <SortDialog isOpen={sortDialogOpen} setIsOpen={setSortDialogOpen} sortBy={sortBy} setSortBy={setSortBy} />
-      <FilterDialog isOpen={filterDialogOpen} setIsOpen={setFilterDialogOpen} brandsAvailable={brandsAvailable} selectedBrandIds={selectedBrandIds} featuresAvailable={featuresAvailable} selectedFeatureIds={selectedFeatureIds} toggleBrand={toggleBrand} toggleFeature={toggleFeature} onReset={reset} />
+      <SortDialog
+        isOpen={sortDialogOpen}
+        setIsOpen={setSortDialogOpen}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+      />
+      <FilterDialog
+        isOpen={filterDialogOpen}
+        setIsOpen={setFilterDialogOpen}
+        brandsAvailable={brandsAvailable}
+        selectedBrandIds={selectedBrandIds}
+        featuresAvailable={featuresAvailable}
+        selectedFeatureIds={selectedFeatureIds}
+        toggleBrand={toggleBrand}
+        toggleFeature={toggleFeature}
+        onReset={reset}
+      />
     </div>
   );
 };
