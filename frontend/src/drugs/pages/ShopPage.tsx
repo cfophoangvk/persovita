@@ -333,7 +333,7 @@ const ShopPage: React.FC = () => {
                     </p>
 
                     <div className="flex items-center justify-between">
-                      <div className="text-lg font-bold flex items-center gap-2">
+                      <div className="md:text-lg sm:text-base text-sm font-bold flex md:flex-row flex-col md:items-center items-start gap-2">
                         {p.price
                           ? `${p.price.toLocaleString()} VND`
                           : "Contact"}
