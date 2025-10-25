@@ -46,12 +46,12 @@ const ProductReviews = (props: { productId: number }) => {
     <div className="min-h-screen bg-stone-200/50 mt-10 p-8 text-gray-800">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
         <div className="w-full lg:w-1/3 pr-0 lg:pr-12 mb-8 lg:mb-0">
-          <h1 className="text-4xl mb-4 text-gray-900">Đánh giá về <b>sản phẩm này</b></h1>
+          <h1 className="md:text-4xl text-2xl mb-4 text-gray-900">Đánh giá về <b>sản phẩm này</b></h1>
           <div className="flex items-center mb-4">
             <span className="text-5xl font-bold mr-2 text-gray-900">4,4</span>
             <StarRating rating={4.4} />
           </div>
-          <p className="text-gray-600 mb-8 text-sm">
+          <p className="text-gray-600 mb-8 md:text-base text-sm">
             Số lượt đánh giá trung bình là 4.4/5 sao. <br />Chúng tôi đã thu thập được 2040 bài đánh giá.
           </p>
 
@@ -75,14 +75,14 @@ const ProductReviews = (props: { productId: number }) => {
 
         <div className="w-full lg:w-2/3">
           {pagingReviews.map((review, index) => (
-            <div key={index} className="py-8 border-b-2 border-gray-500 first:border-t-2 last:border-b-0 flex justify-between">
-              <div className='w-1/3'>
+            <div key={index} className="py-8 border-b-2 border-gray-500 first:border-t-2 last:border-b-0 flex lg:flex-row flex-col lg:justify-between ">
+              <div className='lg:w-1/3 w-auto'>
                 <p className="text-lg font-semibold text-gray-900">{review.reviewBy}</p>
                 <p className="text-sm text-gray-500 mb-4">{parseDateToVietnameseString(review.reviewDate)}</p>
               </div>
-              <div className='w-2/3'>
+              <div className='lg:w-2/3 w-auto'>
                 <StarRating rating={review.stars} />
-                <p className="text-gray-700 leading-relaxed mt-3">{review.description}</p>
+                <p className="text-gray-700 leading-relaxed mt-3 md:text-base text-sm">{review.description}</p>
               </div>
             </div>
           ))}

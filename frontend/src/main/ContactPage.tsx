@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import FadeInSection from "../layouts/FadeInSection";
+import FadeInSection from "./components/FadeInSection";
 
 const ContactPage: React.FC = () => {
   useEffect(() => {

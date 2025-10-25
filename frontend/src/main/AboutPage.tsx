@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import FadeInSection from "../layouts/FadeInSection";
+import FadeInSection from "./components/FadeInSection";
 import {
   Lightbulb,
   Users,
