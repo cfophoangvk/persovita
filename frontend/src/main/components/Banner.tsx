@@ -1,10 +1,7 @@
 import React from "react";
-import { useIsMobile } from "../../common/hooks/useIsMobile";
 
 const Banner: React.FC = () => {
   const video = "/assets/banner.mp4";
-  const isMobile = useIsMobile();
-  console.log("isMobile", isMobile);
 
   return (
     <div className={`relative w-full h-[90vh] overflow-hidden md:mt-16 mt-10`}>
