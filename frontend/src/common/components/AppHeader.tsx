@@ -179,44 +179,58 @@ const AppHeader: React.FC = () => {
       <div className="max-w-full mx-auto px-2 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <Link to="/" className="inline-flex items-center">
-            <img src="/assets/logo.png" alt="NOURI" className={isMobile ? 'w-20' : 'h-8'} />
+            <img
+              src="/assets/logo.png"
+              alt="NOURI"
+              className={isMobile ? "w-20" : "h-8"}
+            />
           </Link>
         </div>
-        <div className={`flex items-center justify-between ${isMobile ? 'h-10' : 'h-16'}`}>
-          {isMobile ?
-            (
-              <div className="flex items-center gap-2">
-                <Menu className="cursor-pointer" size={20} onClick={() => setMenuDialogOpen(true)}/>
-                <Search className="cursor-pointer" size={20} onClick={() => setSearchDialogOpen(true)} />
-              </div>
-            )
-            : (
-              <div className="flex items-center gap-2">
-                <Link
-                  to="/test/page1"
-                  className="inline-flex items-center px-4 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition duration-150"
-                >
-                  Làm bài kiểm tra
-                </Link>
-                <Link
-                  to="/shop"
-                  className="text-sm text-gray-700 px-2 py-2 hover:text-teal-600 rounded-full hover:bg-gray-200/50 transition duration-150"
-                >
-                  Sản phẩm
-                </Link>
-                <Link
-                  to="/about"
-                  className="text-sm text-gray-700 px-2 py-2 hover:text-teal-600 rounded-full hover:bg-gray-200/50 transition duration-150"
-                >
-                  Về chúng tôi
-                </Link>
-              </div>
-            )}
+        <div
+          className={`flex items-center justify-between ${
+            isMobile ? "h-10" : "h-16"
+          }`}
+        >
+          {isMobile ? (
+            <div className="flex items-center gap-2">
+              <Menu
+                className="cursor-pointer"
+                size={20}
+                onClick={() => setMenuDialogOpen(true)}
+              />
+              <Search
+                className="cursor-pointer"
+                size={20}
+                onClick={() => setSearchDialogOpen(true)}
+              />
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link
+                to="/test/page1"
+                className="inline-flex items-center px-4 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition duration-150"
+              >
+                Làm bài kiểm tra
+              </Link>
+              <Link
+                to="/shop"
+                className="text-sm text-gray-700 px-2 py-2 hover:text-teal-600 rounded-full hover:bg-gray-200/50 transition duration-150"
+              >
+                Sản phẩm
+              </Link>
+              <Link
+                to="/about"
+                className="text-sm text-gray-700 px-2 py-2 hover:text-teal-600 rounded-full hover:bg-gray-200/50 transition duration-150"
+              >
+                Về chúng tôi
+              </Link>
+            </div>
+          )}
 
           <div className="flex items-center gap-4">
             <div className="relative" ref={searchRef}>
-              {
-                !isMobile && <button
+              {!isMobile && (
+                <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowSearchBox((s) => {
@@ -229,9 +243,9 @@ const AppHeader: React.FC = () => {
                   }}
                   className="p-2 rounded-full hover:bg-gray-100 transition duration-150"
                 >
-                  <Search size={18} />
+                  <Search size={20} />
                 </button>
-              }
+              )}
 
               {showSearchBox && (
                 <div className="absolute right-0 top-10 w-80 bg-white border rounded-md shadow-lg z-50 p-2">
@@ -307,8 +321,7 @@ const AppHeader: React.FC = () => {
               )}
             </div>
 
-            {
-              !isMobile &&
+            {!isMobile && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -316,12 +329,12 @@ const AppHeader: React.FC = () => {
                 }}
                 className="relative inline-flex items-center p-2 rounded-full hover:bg-gray-100 transition duration-150"
               >
-                <ShoppingCart size={18} />
+                <ShoppingCart size={20} />
                 <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-medium leading-none text-white bg-teal-600 rounded-full">
                   {count}
                 </span>
               </button>
-            }
+            )}
             {showPreview && (
               <div
                 ref={panelRef}
@@ -358,7 +371,10 @@ const AppHeader: React.FC = () => {
                     <>
                       <ul className="space-y-3">
                         {cartItems.map((it) => (
-                          <li key={it.productId} className="flex items-center gap-3">
+                          <li
+                            key={it.productId}
+                            className="flex items-center gap-3"
+                          >
                             <div className="w-12 h-12 bg-gray-50 rounded flex items-center justify-center overflow-hidden border border-gray-200">
                               <img
                                 src={
@@ -442,21 +458,36 @@ const AppHeader: React.FC = () => {
               </div>
             )}
 
-            {isMobile ? (<div className="flex gap-2 items-center">
-              <ShoppingCart className="cursor-pointer" size={18} onClick={() => setCartDialogOpen(true)}/>
-              {user ? <div className="w-7 h-7 rounded-full bg-teal-400 text-white font-semibold flex items-center justify-center cursor-pointer" onClick={() => navigate("/profile")}>
-                {(user.fullName || user.email || "U")
-                  .split(" ")
-                  .map((s: string) => s[0])
-                  .slice(0, 2)
-                  .join("")
-                  .toUpperCase()}
-              </div> : <User className="cursor-pointer" size={18} onClick={() => {
-                navigate("/login");
-              }} />
-              }
-
-            </div>) : (
+            {isMobile ? (
+              <div className="flex gap-2 items-center">
+                <ShoppingCart
+                  className="cursor-pointer"
+                  size={20}
+                  onClick={() => setCartDialogOpen(true)}
+                />
+                {user ? (
+                  <div
+                    className="w-7 h-7 rounded-full bg-teal-400 text-white font-semibold flex items-center justify-center cursor-pointer"
+                    onClick={() => navigate("/profile")}
+                  >
+                    {(user.fullName || user.email || "U")
+                      .split(" ")
+                      .map((s: string) => s[0])
+                      .slice(0, 2)
+                      .join("")
+                      .toUpperCase()}
+                  </div>
+                ) : (
+                  <User
+                    className="cursor-pointer"
+                    size={20}
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                  />
+                )}
+              </div>
+            ) : (
               <div className="relative" ref={profileRef}>
                 {user && (
                   <button
@@ -559,7 +590,11 @@ const AppHeader: React.FC = () => {
 
       <SearchDialog isOpen={searchDialogOpen} setIsOpen={setSearchDialogOpen} />
       <MenuDialog isOpen={menuDialogOpen} setIsOpen={setMenuDialogOpen} />
-      <CartDialog isOpen={cartDialogOpen} setIsOpen={setCartDialogOpen} cartItems={cartItems} />
+      <CartDialog
+        isOpen={cartDialogOpen}
+        setIsOpen={setCartDialogOpen}
+        cartItems={cartItems}
+      />
     </div>
   );
 };
