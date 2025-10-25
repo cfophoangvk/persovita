@@ -269,7 +269,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2">
         <Link to={'/cart'}>
           <button
-            className="bg-teal-500 hover:bg-teal-700 text-white py-2 px-4 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
+            className="bg-teal-500 hover:bg-teal-700 text-white py-3 px-6 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
           >
             <span>Đi đến thanh toán ({persistCart.length} sản phẩm)</span>
           </button>
