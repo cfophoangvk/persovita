@@ -62,8 +62,7 @@ const HowItWorksAndResults: React.FC = () => {
             />
             <p className="text-base text-gray-600">
               Nhận đề xuất bổ sung cá nhân hóa từ{" "}
-              <strong>Hội đồng Khoa học</strong> (Scientific Committee) của
-              chúng tôi.
+              <strong>Hội đồng Khoa học</strong> của chúng tôi.
             </p>
           </div>
 
@@ -138,10 +137,10 @@ const HowItWorksAndResults: React.FC = () => {
           {/* Kết quả 3 */}
           <div className="flex items-center justify-between py-6">
             <strong className="text-6xl font-extrabold text-teal-500">
-              76
+              76%
             </strong>
             <div className="ml-6 text-right">
-              <p className="text-sm font-ebold uppercase text-gray-500">
+              <p className="text-sm font-bold uppercase text-gray-500">
                 THỬ NGHIỆM LÂM SÀNG VÀ TIỀN LÂM SÀNG
               </p>
               <p className="text-lg text-gray-700">

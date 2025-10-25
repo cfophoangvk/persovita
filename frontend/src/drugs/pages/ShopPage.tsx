@@ -347,7 +347,8 @@ const ShopPage: React.FC = () => {
                       <div className="text-lg font-bold">
                         {p.price
                           ? `${p.price.toLocaleString()} VND`
-                          : "Contact"}
+                          : "Contact"}{" "}
+                        30 Ngày
                       </div>
                       <button
                         onClick={async () => {
