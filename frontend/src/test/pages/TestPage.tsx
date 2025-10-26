@@ -732,7 +732,7 @@ const TestPage = () => {
         <CSSTransition
           key={location.key}
           classNames="fade"
-          timeout={100}
+          timeout={1500}
           unmountOnExit
           nodeRef={nodeRef}
         >
