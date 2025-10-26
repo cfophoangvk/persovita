@@ -97,7 +97,7 @@ const updateCartItem = async (req, res) => {
         .status(404)
         .json({ success: false, message: "item not found" });
     if (quantity !== undefined) item.quantity = Number(quantity);
-    if (subscription !== undefined) item.subscription = !!subscription;
+    if (subscription !== undefined) item.subscription = subscription;
     if (subscriptionMonths !== undefined)
       item.subscriptionMonths = Number(subscriptionMonths) || 0;
     await writeDb(db);
@@ -107,6 +107,29 @@ const updateCartItem = async (req, res) => {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
+
+const updateCartSubscriptionMonth = async (req, res) => {
+  try {
+    const userId = req.id;
+    const { subscription, subscriptionMonths } = req.body;
+    const db = await readDb();
+    db.carts = db.carts || [];
+
+    db.carts.filter((c) => c.userId === userId)
+      .map(item => {
+        return {
+          ...item,
+          subscription: subscription,
+          subscriptionMonths: Number(subscriptionMonths) || 0
+        }
+      })
+    await writeDb(db);
+    const cart = db.carts.filter((c) => c.userId === userId);
+    return res.status(200).json({ success: true, cart });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}
 
 // POST /api/cart/remove -> body: { id }
 const removeFromCart = async (req, res) => {

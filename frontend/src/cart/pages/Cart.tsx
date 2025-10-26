@@ -8,9 +8,11 @@ import {
   fetchCartSmart,
   updateCart,
   removeFromCart as svcRemoveFromCart,
+  updateSubscriptionMonths,
 } from "../services/cartService";
 import type { PersistCart } from "../interfaces/PersistCart.ts";
 import { CircleQuestionMark, Home, Info, X } from "lucide-react";
+import { useLoading } from "../../common/hooks/useLoading.tsx";
 
 // Component Modal chung
 const Modal = ({
@@ -99,11 +101,10 @@ const ShippingInfoModal = ({ onClose }: { onClose: () => void }) => (
 // Component Giỏ hàng chính (Cart)
 const Cart = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { setLoading } = useLoading();
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
   const [showShippingModal, setShowShippingModal] = useState(false);
   const [removingIds, setRemovingIds] = useState<number[]>([]);
-  const [flashIds, setFlashIds] = useState<number[]>([]);
   const [showShippingPage, setShowShippingPage] = useState(false);
   const [showPaymentPage, setShowPaymentPage] = useState(false);
   const [shippingSummary, setShippingSummary] = useState<{
@@ -111,9 +112,12 @@ const Cart = () => {
     city?: string;
     country?: string;
   } | null>(null);
+  const navigate = useNavigate();
+  const { user } = useAuthStore();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setLoading(true);
     fetchCartSmart()
       .then((res) => {
         if (res && res.success) {
@@ -164,7 +168,18 @@ const Cart = () => {
   const handleRemove = (id: number) => {
     setRemovingIds((s) => [...s, id]);
     setCartItems((prev) => prev.filter((p) => p.id !== id));
-    svcRemoveFromCart(id).catch(() => { });
+
+    if (user) {
+      svcRemoveFromCart(id);
+    } else {
+      const persistCart = localStorage.getItem("persistCart");
+      if (persistCart) {
+        let persistCartItems: PersistCart[] = JSON.parse(persistCart);
+        persistCartItems = persistCartItems.filter(item => item.productId !== id.toString());
+
+        localStorage.setItem("persistCart", JSON.stringify(persistCartItems));
+      }
+    }
     setTimeout(() => setRemovingIds((s) => s.filter((x) => x !== id)), 300);
     window.dispatchEvent(new CustomEvent("cart:updated"));
   };
@@ -173,23 +188,50 @@ const Cart = () => {
     setCartItems((prev) =>
       prev.map((p) => (p.id === id ? { ...p, quantity: qty } : p))
     );
-    updateCart({ id, quantity: qty }).catch(() => { });
+
+    if (user) {
+      updateCart({ id, quantity: qty });
+    } else {
+      const persistCart = localStorage.getItem("persistCart");
+      if (persistCart) {
+        let persistCartItems: PersistCart[] = JSON.parse(persistCart);
+        persistCartItems = persistCartItems.map(item => {
+          return {
+            ...item,
+            quantity: qty
+          }
+        })
+
+        localStorage.setItem("persistCart", JSON.stringify(persistCartItems));
+      }
+    }
   };
 
-  const handleSetSubscriptionMonths = (id: number, months: number) => {
+  const handleSetSubscriptionMonths = (months: number) => {
     const isSub = months > 0;
     setCartItems((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? { ...p, subscription: isSub, subscriptionMonths: months }
-          : p
-      )
+      prev.map((p) => {
+        return { ...p, subscription: isSub, subscriptionMonths: months }
+      })
     );
-    setFlashIds((s) => [...s, id]);
-    setTimeout(() => setFlashIds((s) => s.filter((x) => x !== id)), 300);
-    updateCart({ id, subscription: isSub, subscriptionMonths: months }).catch(
-      () => { }
-    );
+
+    if (user) {
+      updateSubscriptionMonths({ subscription: isSub, subscriptionMonths: months })
+    } else {
+      const persistCart = localStorage.getItem("persistCart");
+      if (persistCart) {
+        let persistCartItems: PersistCart[] = JSON.parse(persistCart);
+        persistCartItems = persistCartItems.map(item => {
+          return {
+            ...item,
+            subscription: isSub,
+            subscriptionMonths: months
+          }
+        })
+
+        localStorage.setItem("persistCart", JSON.stringify(persistCartItems));
+      }
+    }
     window.dispatchEvent(new CustomEvent("cart:updated"));
   };
 
@@ -233,9 +275,6 @@ const Cart = () => {
     }
   }, [cartItems]);
 
-  const navigate = useNavigate();
-  const { user } = useAuthStore();
-
   return (
     <div className="min-h-screen bg-white relative">
       {showPaymentPage ? (
@@ -276,7 +315,7 @@ const Cart = () => {
             <Home />
           </button>
 
-          <div className="max-w-[90vw] w-6xl mx-auto px-6 py-5">
+          <div className="md:w-[95vw] w-[85vw] mx-auto py-5">
             <header className="flex items-center justify-center mb-8">
               <img src="assets/logo.png" alt="Nouri" className="w-32 cursor-pointer" onClick={() => location.href = '/'} />
             </header>
@@ -301,11 +340,22 @@ const Cart = () => {
                   </button>
                 </div>
 
-                {loading ? (
-                  <div className="text-center py-12 text-gray-500">
-                    Đang tải sản phẩm...
-                  </div>
-                ) : cartItems.length === 0 ? (
+                <div className="flex gap-3 md:flex-row flex-col md:justify-center items-center">
+                  <label htmlFor="subscription" className="md:text-lg">Tần suất đăng ký:</label>
+                  <select id="subscription" className="px-3 py-1 border border-gray-200 rounded-full text-sm w-36 disabled:opacity-50"
+                    value={cartItems.length > 0 ? cartItems[0].subscriptionMonths : 0}
+                    disabled={cartItems.length === 0}
+                    onChange={e => handleSetSubscriptionMonths(Number(e.target.value))}>
+                    <option value={0}>Không đăng ký</option>
+                    <option value={1}>1 tháng</option>
+                    <option value={3}>3 tháng</option>
+                    <option value={6}>6 tháng</option>
+                    <option value={9}>9 tháng</option>
+                    <option value={12}>1 năm</option>
+                  </select>
+                </div>
+
+                {cartItems.length === 0 ? (
                   <div className="text-center py-20 text-gray-400">
                     <p className="text-lg">Giỏ hàng của bạn đang trống.</p>
                     <p className="mt-4 text-sm text-gray-500">
@@ -320,9 +370,6 @@ const Cart = () => {
                           className={`bg-white rounded-xl p-6 shadow-sm flex items-center relative transition-transform duration-200 ${removingIds.includes(item.id)
                             ? "opacity-0 scale-95"
                             : ""
-                            } ${flashIds.includes(item.id)
-                              ? "ring-2 ring-teal-200"
-                              : ""
                             }`}
                         >
                           <button
@@ -402,26 +449,6 @@ const Cart = () => {
                                   ))}
                                 </select>
                               </div>
-
-                              <label className="flex items-center text-sm text-gray-600 gap-2">
-                                <select
-                                  value={item.subscriptionMonths ?? 0}
-                                  onChange={(e) =>
-                                    handleSetSubscriptionMonths(
-                                      item.id,
-                                      Number(e.target.value)
-                                    )
-                                  }
-                                  className="px-3 py-1 border border-gray-200 rounded-full text-sm w-36"
-                                >
-                                  <option value={0}>Không đăng ký</option>
-                                  <option value={1}>1 tháng</option>
-                                  <option value={3}>3 tháng</option>
-                                  <option value={6}>6 tháng</option>
-                                  <option value={9}>9 tháng</option>
-                                  <option value={12}>1 năm</option>
-                                </select>
-                              </label>
                             </div>
                           </div>
                         </div>

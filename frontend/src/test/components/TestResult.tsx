@@ -9,7 +9,7 @@ const TestResult = () => {
         <CircleCheck className="stroke-teal-400" size={isMobile ? 40 : 60} />
         <h1 className="md:text-3xl text-xl mt-6 text-center">Đề xuất thuốc của bạn đã sẵn sàng</h1>
         <button
-          className="mt-6 rounded-full bg-teal-400 text-white md:px-8 px-4 py-2 font-bold"
+          className="mt-6 rounded-full bg-teal-400 text-white md:px-8 px-4 py-2 font-bold cursor-pointer"
           onClick={() => (window.location.href = "/test/recommendation")}
         >
           Xem đề xuất

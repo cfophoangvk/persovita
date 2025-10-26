@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
 import { Loader2 } from "lucide-react";
+import { useIsMobile } from "../../common/hooks/useIsMobile";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-
+  const isMobile = useIsMobile();
   const { login, isLoading } = useAuthStore();
 
   const onSubmit = (e: React.FormEvent) => {
@@ -27,7 +28,9 @@ const LoginPage: React.FC = () => {
       <div className="w-full max-w-md bg-transparent">
         <div className="flex flex-col items-center">
           <div className="text-4xl font-extrabold tracking-widest text-teal-400 mb-4">
-            <Link to="/">NOURI</Link>
+            <Link to="/" className="inline-flex items-center">
+              <img src="/assets/logo.png" alt="NOURI" className={isMobile ? 'w-20' : 'h-8'} />
+            </Link>
           </div>
           <p className="text-sm text-gray-600 mb-8">
             Đăng nhập tài khoản Nouri
@@ -93,8 +96,8 @@ const LoginPage: React.FC = () => {
             <button
               type="button"
               onClick={() =>
-                (window.location.href =
-                  "https://api.nourivitamin.com/api/auth/google")
+              (window.location.href =
+                "https://api.nourivitamin.com/api/auth/google")
               }
               className="w-full py-2 rounded-full border border-gray-300 bg-white flex items-center justify-center gap-3 text-sm text-black font-medium
                          hover:bg-teal-50 active:bg-teal-100 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-teal-200"

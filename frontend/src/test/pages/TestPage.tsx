@@ -22,6 +22,7 @@ import type { Product } from "../interfaces/Product";
 import axiosInstance from "../../utils/axios";
 import { ProductService } from "../../drugs/services/ProductService";
 import Popup from "../components/Popup";
+import { useLoading } from "../../common/hooks/useLoading";
 
 const TestPage = () => {
   const defaultTestData: ITestStorage = {
@@ -45,12 +46,19 @@ const TestPage = () => {
   const [currentProgress, setCurrentProgress] = useState<number>(0);
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const [popupProduct, setPopupProduct] = useState<Product>();
+  const { setLoading } = useLoading();
 
   const location = useLocation();
   const navigate = useNavigate();
   const nodeRef = useRef(null);
   const testUtils = new TestUtils();
   const productService = new ProductService();
+
+  useEffect(() => {
+    if (!name && location.pathname.startsWith("/test/page") && location.pathname !== "/test/page1") {
+      navigate("/test/page1");
+    }
+  }, []);
 
   const handleNext = (response?: number) => {
     const pathName = location.pathname;
@@ -152,6 +160,7 @@ const TestPage = () => {
   ];
 
   const handleAddCartProducts = async (objectiveIds: number[]) => {
+    setLoading(true);
     let features = objectiveIds.map((objective) => {
       const objectivePair = objectiveMapping.find(
         (obj) => obj.objective === objective
@@ -200,6 +209,7 @@ const TestPage = () => {
       products[i].image = image[0];
     }
 
+    setLoading(false);
     return products;
   };
 
@@ -716,13 +726,13 @@ const TestPage = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center w-full overflow-hidden relative">
-      <Popup isOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} product={popupProduct}/>
+      <Popup isOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} product={popupProduct} />
       <Header currentProgress={currentProgress} />
       <SwitchTransition mode="out-in">
         <CSSTransition
           key={location.key}
           classNames="fade"
-          timeout={1500}
+          timeout={100}
           unmountOnExit
           nodeRef={nodeRef}
         >
@@ -741,7 +751,7 @@ const TestPage = () => {
       </SwitchTransition>
       <Routes>
         <Route path="result" element={<TestResult />} />
-        <Route path="recommendation" element={<Recommendation setIsPopupOpen={setIsPopupOpen} setProduct={setPopupProduct}/>} />
+        <Route path="recommendation" element={<Recommendation setIsPopupOpen={setIsPopupOpen} setProduct={setPopupProduct} />} />
       </Routes>
     </div>
   );

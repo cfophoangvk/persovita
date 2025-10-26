@@ -5,7 +5,6 @@ const AppFooter: React.FC = () => {
     <footer className="bg-[#f7f5f0] text-[#1f2937] mt-12">
       <div className="w-full mx-auto px-20 pt-12 pb-6">
         <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-6">
-          {/* Trái: Giới thiệu (cột rộng) */}
           <div className="md:text-left text-center">
             <div className="font-semibold mb-4">VỀ NOURI</div>
             <ul className="text-sm text-gray-700 space-y-2">
@@ -52,7 +51,6 @@ const AppFooter: React.FC = () => {
             </ul>
           </div>
 
-          {/* Cột giữa: Sản phẩm + Hỗ trợ */}
           <div className="md:text-left text-center">
             <div className="font-semibold mb-4">SẢN PHẨM CỦA CHÚNG TÔI</div>
             <ul className="text-sm text-gray-700 space-y-2">
@@ -64,16 +62,6 @@ const AppFooter: React.FC = () => {
               <li>
                 <a href="#" className="hover:underline">
                   Các sản phẩm
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Ứng dụng Nouri (Nouri App)
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Blog
                 </a>
               </li>
             </ul>
@@ -115,7 +103,6 @@ const AppFooter: React.FC = () => {
             </ul>
           </div>
 
-          {/* Phải: Điều khoản + Thanh toán */}
           <div className="md:text-left text-center">
             <div className="font-semibold mb-4">ĐIỀU KHOẢN</div>
             <ul className="text-sm text-gray-700 space-y-2 mb-4">
@@ -154,7 +141,6 @@ const AppFooter: React.FC = () => {
           </div>
         </div>
 
-        {/* Khung cảnh báo (Disclaimer) */}
         <div className="mt-8 flex justify-center">
           <div className="w-full md:w-3/4 border rounded p-4 text-center text-sm text-gray-600 bg-white">
             Các sản phẩm của chúng tôi không nhằm mục đích chẩn đoán, điều trị,
@@ -165,7 +151,6 @@ const AppFooter: React.FC = () => {
           </div>
         </div>
 
-        {/* Thông tin bản quyền và in nhỏ */}
         <div className="mt-6 text-xs text-gray-500 text-center w-full gap-4">
           © {new Date().getFullYear()} NOURI. Mọi quyền được bảo lưu.
         </div>

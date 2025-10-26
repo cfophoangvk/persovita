@@ -11,6 +11,7 @@ import type { PersistCart } from "../../cart/interfaces/PersistCart";
 import { useIsMobile } from "../../common/hooks/useIsMobile";
 import { SortDialog } from "../components/SortDialog";
 import { FilterDialog } from "../components/FilterDialog";
+import { useLoading } from "../../common/hooks/useLoading";
 
 const PAGE_SIZES = [9, 12, 24, 48];
 
@@ -30,6 +31,7 @@ const ShopPage: React.FC = () => {
 
   const { drugs, filterDrugs, isLoading: isLoadingDrugs } = useDrugStore();
   const { user } = useAuthStore();
+  const { setLoading } = useLoading();
   const {
     features,
     fetchFeatures,
@@ -90,6 +92,7 @@ const ShopPage: React.FC = () => {
     let mounted = true;
 
     (async () => {
+      setLoading(true);
       const data = await filterDrugs(q);
       if (!mounted) return;
 
@@ -110,6 +113,7 @@ const ShopPage: React.FC = () => {
         setTotal(0);
         setTotalPages(1);
       }
+      setLoading(false);
     })();
 
     return () => {
@@ -186,10 +190,10 @@ const ShopPage: React.FC = () => {
                     onChange={(e) =>
                       setSortBy(
                         e.target.value as
-                          | "name-asc"
-                          | "name-desc"
-                          | "price-asc"
-                          | "price-desc"
+                        | "name-asc"
+                        | "name-desc"
+                        | "price-asc"
+                        | "price-desc"
                       )
                     }
                     className="w-full rounded border border-gray-200 p-2 text-sm bg-white"
@@ -471,11 +475,10 @@ const ShopPage: React.FC = () => {
                         <button
                           key={pNum}
                           onClick={() => setPage(pNum)}
-                          className={`px-3 py-2 rounded text-sm border ${
-                            page === pNum
+                          className={`px-3 py-2 rounded text-sm border ${page === pNum
                               ? "bg-teal-200 border-teal-300 font-medium"
                               : "bg-white border-gray-200 hover:bg-gray-50"
-                          }`}
+                            }`}
                         >
                           {pNum}
                         </button>

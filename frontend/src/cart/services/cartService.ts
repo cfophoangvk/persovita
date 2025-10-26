@@ -92,6 +92,14 @@ export async function updateCart(payload: any) {
   return handleResponse(res);
 }
 
+export async function updateSubscriptionMonths(payload: any) {
+  const res = await axiosInstance.put("cart/updateSubMonth", payload, {
+    withCredentials: true,
+    headers: { "Content-Type": "application/json" }
+  });
+  return handleResponse(res);
+}
+
 export async function removeFromCart(id: number) {
   const res = await axiosInstance.post("cart/remove", { productId: id }, {
     withCredentials: true,
