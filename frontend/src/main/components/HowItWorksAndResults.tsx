@@ -103,8 +103,7 @@ const HowItWorksAndResults: React.FC = () => {
                 KHÁCH HÀNG CỦA CHÚNG TÔI
               </p>
               <p className="md:text-lg text-base text-gray-700">
-                Ghi nhận cải thiện ở <strong>lĩnh vực trọng tâm</strong> của họ
-                sau 3 tháng.
+                Ghi nhận cải thiện ở <strong>lĩnh vực trọng tâm</strong> của họ.
               </p>
             </div>
           </div>
@@ -118,8 +117,7 @@ const HowItWorksAndResults: React.FC = () => {
                 KHÁCH HÀNG CỦA CHÚNG TÔI
               </p>
               <p className="md:text-lg text-base text-gray-700">
-                Ghi nhận cải thiện chung về <strong>sức khỏe</strong> sau 3
-                tháng.
+                Ghi nhận cải thiện chung về <strong>sức khỏe</strong>.
               </p>
             </div>
           </div>

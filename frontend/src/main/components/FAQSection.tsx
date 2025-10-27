@@ -20,11 +20,11 @@ const faqs: QA[] = [
   },
   {
     q: "Khi nào tôi có thể thấy kết quả?",
-    a: "Nhiều người dùng cảm nhận rõ năng lượng, giấc ngủ và sự tập trung cải thiện chỉ sau vài tuần sử dụng đều đặn. Tuy nhiên, để đạt hiệu quả bền vững, Nouri khuyến nghị bạn duy trì liệu trình tối thiểu 3 tháng – vì cơ thể cần thời gian để hấp thu và tái cân bằng vi chất.",
+    a: "Nhiều người dùng cảm nhận rõ năng lượng, giấc ngủ và sự tập trung cải thiện chỉ sau vài tuần sử dụng đều đặn. Tuy nhiên, để đạt hiệu quả bền vững, Nouri khuyến nghị bạn duy trì liệu trình tối thiểu 3 tháng - vì cơ thể cần thời gian để hấp thu và tái cân bằng vi chất.",
   },
   {
     q: "Tại sao tôi nên dùng thực phẩm bổ sung Nouri?",
-    a: "Cuộc sống hiện đại khiến chúng ta khó có thể bổ sung đầy đủ dưỡng chất chỉ qua bữa ăn hàng ngày. Nouri giúp lấp đầy những khoảng trống đó – cá nhân hóa lượng vitamin cần thiết cho cơ thể bạn để duy trì năng lượng, giấc ngủ, làn da và sức khỏe tổng thể một cách tự nhiên, lâu dài.",
+    a: "Cuộc sống hiện đại khiến chúng ta khó có thể bổ sung đầy đủ dưỡng chất chỉ qua bữa ăn hàng ngày. Nouri giúp lấp đầy những khoảng trống đó - cá nhân hóa lượng vitamin cần thiết cho cơ thể bạn để duy trì năng lượng, giấc ngủ, làn da và sức khỏe tổng thể một cách tự nhiên, lâu dài.",
   },
   {
     q: "Nguyên liệu của Nouri đến từ đâu?",
