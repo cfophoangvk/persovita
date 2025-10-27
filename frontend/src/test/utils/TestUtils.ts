@@ -74,6 +74,15 @@ export class TestUtils {
           default:
             return 40;
         }
+      case 50:
+        switch (response) {
+          case 1:
+            return 51;
+          case 2:
+            return 52;
+          default:
+            return this.getNextPage(52, selectedObjectives);
+        }
     }
 
     return currentPage + 1;
