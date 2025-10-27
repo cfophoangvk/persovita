@@ -6,6 +6,7 @@ import FeaturedReviews from "./components/FeaturedReviews";
 import FAQSection from "./components/FAQSection";
 import CandleGuide from "./components/MedicineGuide";
 import SectionSpacer from "./components/SectionSpacer";
+import { Partners } from "./components/Partners";
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -35,6 +36,12 @@ const HomePage: React.FC = () => {
 
     <FadeInSection>
       <FAQSection />
+    </FadeInSection>
+
+    <SectionSpacer />
+
+    <FadeInSection>
+      <Partners />
     </FadeInSection>
   </>
 }
