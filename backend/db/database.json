@@ -1694,7 +1694,150 @@
       "contraindication": "Nhìn chung, phụ nữ mang thai và cho con bú nên tham khảo ý kiến ​​chuyên gia chăm sóc sức khỏe trước khi dùng bất kỳ loại thực phẩm bổ sung nào."
     }
   ],
-
+  "brands": [
+    {
+      "id": 1,
+      "name": "Now Foods"
+    },
+    {
+      "id": 2,
+      "name": "Nature's bounty "
+    },
+    {
+      "id": 3,
+      "name": "SOLGAR"
+    },
+    {
+      "id": 4,
+      "name": "Nature's Way"
+    },
+    {
+      "id": 5,
+      "name": "ARKOPHARMA"
+    },
+    {
+      "id": 6,
+      "name": "Viridian"
+    },
+    {
+      "id": 7,
+      "name": "Sunday Natural"
+    },
+    {
+      "id": 8,
+      "name": "SuperSmart"
+    },
+    {
+      "id": 9,
+      "name": "Swisse"
+    },
+    {
+      "id": 10,
+      "name": "Nutri&Co Clear"
+    },
+    {
+      "id": 11,
+      "name": "Webber Naturals"
+    },
+    {
+      "id": 12,
+      "name": "Weightworld"
+    },
+    {
+      "id": 13,
+      "name": "Swanson"
+    },
+    {
+      "id": 14,
+      "name": "Vitabiotics"
+    },
+    {
+      "id": 15,
+      "name": "BodyBio"
+    },
+    {
+      "id": 16,
+      "name": "SOLNUVI"
+    },
+    {
+      "id": 17,
+      "name": "JBA"
+    },
+    {
+      "id": 18,
+      "name": "Country Life"
+    }
+  ],
+  "features": [
+    {
+      "id": 1,
+      "title": "Khớp"
+    },
+    {
+      "id": 2,
+      "title": "Làm đẹp & Chăm sóc da"
+    },
+    {
+      "id": 3,
+      "title": "Tóc"
+    },
+    {
+      "id": 4,
+      "title": "Tim mạch & Tuần hoàn"
+    },
+    {
+      "id": 5,
+      "title": "Thụ thai & Thai sản"
+    },
+    {
+      "id": 6,
+      "title": "Tiêu Hóa"
+    },
+    {
+      "id": 7,
+      "title": "Giảm cân"
+    },
+    {
+      "id": 8,
+      "title": "Trí nhớ & Sự tập trung"
+    },
+    {
+      "id": 9,
+      "title": "Sức khỏe phụ nữ"
+    },
+    {
+      "id": 10,
+      "title": "Sức khỏe nam giới"
+    },
+    {
+      "id": 11,
+      "title": "Sức khỏe xương"
+    },
+    {
+      "id": 12,
+      "title": "Giấc ngủ"
+    },
+    {
+      "id": 13,
+      "title": "Hỗ trợ tầm nhìn"
+    },
+    {
+      "id": 14,
+      "title": "Thể thao"
+    },
+    {
+      "id": 15,
+      "title": "Căng thẳng"
+    },
+    {
+      "id": 16,
+      "title": "Hệ miễn dịch"
+    },
+    {
+      "id": 17,
+      "title": "Năng lượng & Sức sống"
+    }
+  ],
   "users": [
     {
       "id": 1,
