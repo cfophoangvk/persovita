@@ -56,7 +56,7 @@ const AboutPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [])
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-16 mt-10">
@@ -125,7 +125,13 @@ const AboutPage: React.FC = () => {
               Tầm Nhìn
             </h3>
             <p className="md:text-lg text-base text-gray-600">
-              Đến năm <strong className="text-teal-700">2030</strong>, trở thành công ty dẫn đầu về vitamin cá nhân hóa tại Việt Nam, mở rộng ra khu vực Đông Nam Á, mang đến trải nghiệm chăm sóc sức khỏe <strong className="text-teal-700">khoa học, tiện lợi và bền vững </strong>cho hàng triệu người.
+              Đến năm <strong className="text-teal-700">2030</strong>, trở thành
+              công ty dẫn đầu về vitamin cá nhân hóa tại Việt Nam, mở rộng ra
+              khu vực Đông Nam Á, mang đến trải nghiệm chăm sóc sức khỏe{" "}
+              <strong className="text-teal-700">
+                khoa học, tiện lợi và bền vững{" "}
+              </strong>
+              cho hàng triệu người.
             </p>
           </div>
 
@@ -135,8 +141,12 @@ const AboutPage: React.FC = () => {
               Sứ Mệnh
             </h3>
             <p className="md:text-lg text-base text-gray-600">
-              Cung cấp các giải pháp vitamin <strong className="text-teal-700"> cá nhân hóa, tiện lợi, an toàn và bền vững
-              </strong>, giúp người tiêu dùng duy trì sức khỏe lâu dài và cải thiện chất
+              Cung cấp các giải pháp vitamin{" "}
+              <strong className="text-teal-700">
+                {" "}
+                cá nhân hóa, tiện lợi, an toàn và bền vững
+              </strong>
+              , giúp người tiêu dùng duy trì sức khỏe lâu dài và cải thiện chất
               lượng cuộc sống.
             </p>
           </div>
@@ -148,7 +158,8 @@ const AboutPage: React.FC = () => {
           <h2 className="md:text-4xl text-xl font-extrabold text-center mb-10 border-b-4 border-white pb-6">
             <span className="bg-white text-teal-600 px-4 py-1 rounded-full mr-2">
               N.O.U.R.I
-            </span>- GIÁ TRỊ CỐT LÕI
+            </span>
+            - GIÁ TRỊ CỐT LÕI
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {coreValues.map((value, index) => (
@@ -181,7 +192,9 @@ const AboutPage: React.FC = () => {
       <FadeInSection>
         <div className="mt-16 text-center">
           <p className="md:text-2xl text-lg font-semibold text-gray-700 mb-6">
-            Bắt đầu hành trình chăm sóc sức khỏe <strong className="text-teal-700">Tối Ưu và Tiện Lợi</strong> của bạn ngay hôm nay.
+            Bắt đầu hành trình chăm sóc sức khỏe{" "}
+            <strong className="text-teal-700">Tối Ưu và Tiện Lợi</strong> của
+            bạn ngay hôm nay.
           </p>
           <div className="flex justify-center gap-4">
             <Link

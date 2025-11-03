@@ -6,7 +6,6 @@ const ImagePlaceholder: React.FC<{ src: string; alt: string }> = ({
   alt,
 }) => (
   <div className="mb-4 aspect-video overflow-hidden rounded-md bg-gray-100">
-    {/* Trong ứng dụng thực tế, bạn sẽ thay thế bằng thẻ <img src={src} alt={alt} /> */}
     <img
       src={src}
       alt={alt}
@@ -71,7 +70,7 @@ const HowItWorksAndResults: React.FC = () => {
             />
             <p className="text-base text-gray-600">
               Nhận hộp 30 gói bổ sung hàng ngày được cá nhân hóa và theo dõi{" "}
-              <strong>tiến trình</strong> của bạn trong ứng dụng.
+              <strong>tiến trình</strong> của bạn.
             </p>
           </div>
         </div>
