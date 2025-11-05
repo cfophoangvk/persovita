@@ -1,0 +1,1 @@
+import{a as t}from"./index-B4nVYGpz.js";async function e(n){return n.status===401?(window.location.href="/login",{success:!1,message:"Unauthorized"}):n.data}async function i(n){const a=await t.post("shipping/add",n,{withCredentials:!0,headers:{"Content-Type":"application/json"}});return e(a)}export{i as addShipping};
