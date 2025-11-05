@@ -4,11 +4,15 @@ import type { ITestStorage } from "../interfaces/ITestStorage";
 import type { Product } from "../interfaces/Product";
 import { Check, Plus } from "lucide-react";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import type { PersistCart } from "../../cart/interfaces/PersistCart";
 import { useIsMobile } from "../../common/hooks/useIsMobile";
 
-const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>, setProduct: React.Dispatch<React.SetStateAction<Product | undefined>> }) => {
+const Recommendation = (props: {
+  setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setProduct: React.Dispatch<React.SetStateAction<Product | undefined>>;
+}) => {
   const defaultTestData: ITestStorage = {
     name: "",
     email: "",
@@ -20,7 +24,10 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
   const [toCompleteProduct, setToCompleteProduct] = useState<Product>();
   const [recommendObjectives, setRecommendObjectives] = useState<string[]>();
   const [testData] = useLocalStorage<ITestStorage>("testData", defaultTestData);
-  const [persistCart, setPersistCart] = useLocalStorage<PersistCart[]>("persistCart", []);
+  const [persistCart, setPersistCart] = useLocalStorage<PersistCart[]>(
+    "persistCart",
+    []
+  );
   const { user } = useAuthStore();
   const isMobile = useIsMobile();
 
@@ -43,29 +50,30 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
 
   useEffect(() => {
     if (recommendProducts.length > 0) {
-      const newItems = recommendProducts
-        .map(product => ({
-          userId: null,
-          productId: product.id.toString(),
-          name: product.name,
-          price: product.price,
-          quantity: 1,
-          subscription: false,
-          subscriptionMonths: 0,
-          image: product.image,
-        }));
+      const newItems = recommendProducts.map((product) => ({
+        userId: null,
+        productId: product.id.toString(),
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        subscription: false,
+        subscriptionMonths: 0,
+        image: product.image,
+      }));
 
       if (newItems.length > 0) {
-        setPersistCart(prevList => [...prevList, ...newItems]);
+        setPersistCart((prevList) => [...prevList, ...newItems]);
       }
 
-      recommendProducts.forEach(async product => await addToDatabaseCart(product));
+      recommendProducts.forEach(
+        async (product) => await addToDatabaseCart(product)
+      );
     }
   }, [recommendProducts]);
 
   const addToPersistCart = (product: Product) => {
     try {
-      setPersistCart(prevList => [
+      setPersistCart((prevList) => [
         ...prevList,
         {
           userId: null,
@@ -79,10 +87,10 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
         },
       ]);
     } catch (e) {
-      alert("Lưu giỏ hàng thất bại");
+      toast.error("Lưu giỏ hàng thất bại");
     }
     return;
-  }
+  };
 
   const addToDatabaseCart = async (product: Product) => {
     try {
@@ -102,13 +110,13 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
         return;
       }
     } catch (e) {
-      alert("Thêm vào giỏ hàng thất bại");
+      toast.error("Thêm vào giỏ hàng thất bại");
     }
-  }
+  };
 
   const removeProductFromPersistCart = async (id: string) => {
     if (!user) {
-      setPersistCart(prev => prev.filter(item => item.productId !== id));
+      setPersistCart((prev) => prev.filter((item) => item.productId !== id));
       return;
     }
 
@@ -121,14 +129,16 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
         window.location.href = "/login";
         return;
       }
-      setPersistCart(prev => prev.filter(item => item.productId !== id)); // Update local storage even for logged in users
+      setPersistCart((prev) => prev.filter((item) => item.productId !== id)); // Update local storage even for logged in users
     } catch (e) {
-      alert("Xóa khỏi giỏ hàng thất bại");
+      toast.error("Xóa khỏi giỏ hàng thất bại");
     }
-  }
+  };
 
   const AddToCartButton = ({ product }: { product: Product }) => {
-    const isInCart = persistCart.some(item => item.productId === product.id.toString());
+    const isInCart = persistCart.some(
+      (item) => item.productId === product.id.toString()
+    );
 
     if (isInCart) {
       return (
@@ -158,7 +168,8 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
       <div className="bg-gray-50 p-8 pt-16 flex flex-col md:flex-row justify-between items-center relative overflow-hidden">
         <div className="text-left md:w-1/2 p-4">
           <h1 className="lg:text-5xl text-3xl md:text-left text-center font-semibold mb-4">
-            Đề xuất thuốc dành cho <span className="font-bold">{testData.name}</span>
+            Đề xuất thuốc dành cho{" "}
+            <span className="font-bold">{testData.name}</span>
           </h1>
           <p className="text-gray-700 text-lg md:text-left text-center leading-relaxed">
             Dựa trên nhu cầu của bạn:{" "}
@@ -191,7 +202,7 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
               className="bg-white rounded-lg shadow-sm p-4 flex flex-col items-start text-left border border-gray-100 relative"
             >
               <div className="absolute top-3 left-3 lg:right-auto md:right-3 right-auto">
-                <div className='px-2 py-1 border border-black bg-white lg:rounded-full rounded-md lg:text-base text-sm flex items-center justify-center gap-1'>
+                <div className="px-2 py-1 border border-black bg-white lg:rounded-full rounded-md lg:text-base text-sm flex items-center justify-center gap-1">
                   <div>{product.feature}</div>
                 </div>
               </div>
@@ -208,10 +219,15 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
               <p className="text-gray-500 text-sm leading-tight mb-4 line-clamp-2">
                 {product.description}
               </p>
-              <a className="text-sm text-gray-500 underline cursor-pointer" onClick={() => {
-                props.setIsPopupOpen(true);
-                props.setProduct(product);
-              }}>Tìm hiểu thêm</a>
+              <a
+                className="text-sm text-gray-500 underline cursor-pointer"
+                onClick={() => {
+                  props.setIsPopupOpen(true);
+                  props.setProduct(product);
+                }}
+              >
+                Tìm hiểu thêm
+              </a>
 
               <div className="flex lg:flex-row md:flex-col flex-row justify-between items-center gap-2 w-full mt-auto pt-4 border-t border-gray-100">
                 <p className="text-gray-800 font-semibold">
@@ -227,50 +243,54 @@ const Recommendation = (props: { setIsPopupOpen: React.Dispatch<React.SetStateAc
           Để hoàn thiện
         </h2>
         <p className="text-gray-600 text-lg mb-8">
-          đây là những gợi ý khác của chúng tôi để bổ sung cho thói quen của bạn. Chúng cũng được điều chỉnh theo nhu cầu cụ thể của bạn.
+          đây là những gợi ý khác của chúng tôi để bổ sung cho thói quen của
+          bạn. Chúng cũng được điều chỉnh theo nhu cầu cụ thể của bạn.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {toCompleteProduct && <div
-            className="bg-white rounded-lg shadow-sm p-4 flex flex-col items-start text-left border border-gray-100 relative"
-          >
-            <div className="absolute top-3 left-3 lg:right-auto md:right-3 right-auto">
-              <div className='px-2 py-1 border border-black bg-white lg:rounded-full rounded-md lg:text-base text-sm flex items-center justify-center gap-1'>
-                <div>{toCompleteProduct.feature}</div>
+          {toCompleteProduct && (
+            <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col items-start text-left border border-gray-100 relative">
+              <div className="absolute top-3 left-3 lg:right-auto md:right-3 right-auto">
+                <div className="px-2 py-1 border border-black bg-white lg:rounded-full rounded-md lg:text-base text-sm flex items-center justify-center gap-1">
+                  <div>{toCompleteProduct.feature}</div>
+                </div>
+              </div>
+
+              <img
+                src={toCompleteProduct.image}
+                alt={toCompleteProduct.name}
+                className="h-48 object-cover mx-auto mb-4"
+              />
+
+              <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                {toCompleteProduct.name}
+              </h3>
+              <p className="text-gray-500 text-sm leading-tight mb-4 line-clamp-2">
+                {toCompleteProduct.description}
+              </p>
+              <a
+                className="text-sm text-gray-500 underline cursor-pointer"
+                onClick={() => {
+                  props.setIsPopupOpen(true);
+                  props.setProduct(toCompleteProduct);
+                }}
+              >
+                Tìm hiểu thêm
+              </a>
+
+              <div className="flex lg:flex-row md:flex-col flex-row justify-between items-center w-full mt-auto gap-3 pt-4 border-t border-gray-100">
+                <p className="text-gray-800 text-base font-semibold">
+                  {toCompleteProduct.price.toLocaleString("vi-VN")} VND
+                </p>
+                <AddToCartButton product={toCompleteProduct} />
               </div>
             </div>
-
-            <img
-              src={toCompleteProduct.image}
-              alt={toCompleteProduct.name}
-              className="h-48 object-cover mx-auto mb-4"
-            />
-
-            <h3 className="text-lg font-semibold text-gray-800 mb-1">
-              {toCompleteProduct.name}
-            </h3>
-            <p className="text-gray-500 text-sm leading-tight mb-4 line-clamp-2">
-              {toCompleteProduct.description}
-            </p>
-            <a className="text-sm text-gray-500 underline cursor-pointer" onClick={() => {
-              props.setIsPopupOpen(true);
-              props.setProduct(toCompleteProduct);
-            }}>Tìm hiểu thêm</a>
-
-            <div className="flex lg:flex-row md:flex-col flex-row justify-between items-center w-full mt-auto gap-3 pt-4 border-t border-gray-100">
-              <p className="text-gray-800 text-base font-semibold">
-                {toCompleteProduct.price.toLocaleString("vi-VN")} VND
-              </p>
-              <AddToCartButton product={toCompleteProduct} />
-            </div>
-          </div>}
+          )}
         </div>
       </div>
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2">
-        <Link to={'/cart'}>
-          <button
-            className="bg-teal-500 hover:bg-teal-700 text-white py-3 px-6 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer"
-          >
+        <Link to={"/cart"}>
+          <button className="bg-teal-500 hover:bg-teal-700 text-white py-3 px-6 text-sm font-semibold flex items-center gap-3 rounded-full cursor-pointer">
             <span>Đi đến thanh toán ({persistCart.length} sản phẩm)</span>
           </button>
         </Link>

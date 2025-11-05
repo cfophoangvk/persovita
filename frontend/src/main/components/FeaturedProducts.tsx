@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { Product } from "../../cart/interfaces";
 import { ProductService } from "../../drugs/services/ProductService";
 import axiosInstance from "../../utils/axios";
+import { toast } from "react-hot-toast";
 import type { AxiosResponse } from "axios";
 
 // Hàm định dạng giá VNĐ
@@ -29,7 +30,8 @@ const FeaturedProducts: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    axiosInstance.get("/products")
+    axiosInstance
+      .get("/products")
       .then((response: AxiosResponse) => {
         const d = response.data;
         const list = (d.products || []).slice(0, 8).map((p: any) => ({
@@ -66,9 +68,9 @@ const FeaturedProducts: React.FC = () => {
         return;
       }
       window.dispatchEvent(new CustomEvent("cart:updated"));
-      alert(`Đã thêm "${p.name}" vào giỏ hàng!`);
+      toast.success(`Đã thêm "${p.name}" vào giỏ hàng!`);
     } catch (e) {
-      alert("Thêm vào giỏ hàng thất bại. Vui lòng thử lại.");
+      toast.error("Thêm vào giỏ hàng thất bại. Vui lòng thử lại.");
     }
   };
 
