@@ -7,7 +7,8 @@ const getShipping = async (req, res) => {
   try {
     const raw = await fs.promises.readFile(dbPath, "utf-8");
     const db = JSON.parse(raw);
-    const userId = req.id;
+    // If the request is unauthenticated, treat userId as null for guest addresses
+    const userId = typeof req.id === "undefined" ? null : req.id;
     const shipping = (db.shipping || []).filter((s) => s.userId === userId);
     return res
       .status(200)
@@ -22,7 +23,7 @@ const addShipping = async (req, res) => {
   try {
     const raw = await fs.promises.readFile(dbPath, "utf-8");
     const db = JSON.parse(raw);
-    const userId = req.id;
+    const userId = typeof req.id === "undefined" ? null : req.id;
     db.shipping = db.shipping || [];
     // normalize for comparison
     const norm = (s) => (s || "").toString().trim().toLowerCase();
@@ -57,7 +58,7 @@ const removeShipping = async (req, res) => {
   try {
     const raw = await fs.promises.readFile(dbPath, "utf-8");
     const db = JSON.parse(raw);
-    const userId = req.id;
+    const userId = typeof req.id === "undefined" ? null : req.id;
     db.shipping = (db.shipping || []).filter(
       (item) => !(item.userId === userId && item.address === address)
     );
