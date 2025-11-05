@@ -23,7 +23,7 @@ const MedicineGuide: React.FC = () => (
 
       <div className="bg-blue-50 rounded-xl p-8 shadow-inner">
         <h3 className="text-xl font-bold text-teal-800 mb-4">
-          3 Quy tắc <b className="text-teal-400">VÀNG</b> khi dùng thuốc
+          3 Quy tắc <b className="text-teal-400">VÀNG</b> khi dùng
         </h3>
         <ul className="space-y-4 text-gray-700">
           <li className="flex items-start">

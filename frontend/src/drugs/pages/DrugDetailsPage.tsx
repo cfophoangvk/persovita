@@ -66,12 +66,12 @@ const DrugDetailsPage: React.FC = () => {
       {
         value: "91%",
         title: "TRONG SỐ KHÁCH HÀNG CỦA CHÚNG TÔI",
-        desc: "Nhận thấy sự cải thiện trong lĩnh vực chính của họ sau 3 tháng.",
+        desc: "Nhận thấy sự cải thiện trong lĩnh vực chính của họ.",
       },
       {
         value: "94%",
         title: "TRONG SỐ KHÁCH HÀNG CỦA CHÚNG TÔI",
-        desc: "Nhận thấy sự cải thiện trong sức khỏe tổng thể của họ sau 3 tháng.",
+        desc: "Nhận thấy sự cải thiện trong sức khỏe tổng thể của họ.",
       },
       {
         value: "76",
