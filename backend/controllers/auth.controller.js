@@ -415,8 +415,12 @@ const googleAuthCallback = async (req, res) => {
       user.role,
       rememberFlag
     );
-    // redirect to frontend
-    res.redirect(FRONTEND_URL || "/");
+
+    const redirectTo =
+      (FRONTEND_URL || "/") +
+      (FRONTEND_URL?.includes("?") ? "&" : "?") +
+      "syncCart=1";
+    res.redirect(redirectTo);
   } catch (err) {
     console.error("Google OAuth error:", err);
     res.status(500).send("Google auth failed");

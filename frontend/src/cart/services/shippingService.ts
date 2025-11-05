@@ -12,7 +12,7 @@ async function handleResponse(res: AxiosResponse) {
 export async function addShipping(payload: any) {
   const res = await axiosInstance.post("shipping/add", payload, {
     withCredentials: true,
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   });
   return handleResponse(res);
 }

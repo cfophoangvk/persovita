@@ -5,6 +5,7 @@ import { useDebounce } from "../hooks/useDebounce";
 import type { Drug } from "../interfaces/drug";
 import { useFeatureStore } from "../stores/useFeatureStore";
 import { useAuthStore } from "../../auth/stores/useAuthStore";
+import { toast } from "react-hot-toast";
 import { useBrandStore } from "../stores/useBrandStore";
 import { ArrowUpDown, Filter, Loader2 } from "lucide-react";
 import type { PersistCart } from "../../cart/interfaces/PersistCart";
@@ -190,10 +191,10 @@ const ShopPage: React.FC = () => {
                     onChange={(e) =>
                       setSortBy(
                         e.target.value as
-                        | "name-asc"
-                        | "name-desc"
-                        | "price-asc"
-                        | "price-desc"
+                          | "name-asc"
+                          | "name-desc"
+                          | "price-asc"
+                          | "price-desc"
                       )
                     }
                     className="w-full rounded border border-gray-200 p-2 text-sm bg-white"
@@ -386,7 +387,7 @@ const ShopPage: React.FC = () => {
                               window.dispatchEvent(
                                 new CustomEvent("cart:updated")
                               );
-                              alert("Đã thêm vào giỏ hàng!");
+                              toast.success("Đã thêm vào giỏ hàng!");
                               return;
                             }
 
@@ -401,10 +402,10 @@ const ShopPage: React.FC = () => {
                             window.dispatchEvent(
                               new CustomEvent("cart:updated")
                             );
-                            alert("Đã thêm vào giỏ hàng!");
+                            toast.success("Đã thêm vào giỏ hàng!");
                           } catch (e) {
                             console.error(e);
-                            alert("Thêm vào giỏ hàng thất bại!");
+                            toast.error("Thêm vào giỏ hàng thất bại!");
                           }
                         }}
                         className="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center hover:bg-teal-200 transition"
@@ -475,10 +476,11 @@ const ShopPage: React.FC = () => {
                         <button
                           key={pNum}
                           onClick={() => setPage(pNum)}
-                          className={`px-3 py-2 rounded text-sm border ${page === pNum
+                          className={`px-3 py-2 rounded text-sm border ${
+                            page === pNum
                               ? "bg-teal-200 border-teal-300 font-medium"
                               : "bg-white border-gray-200 hover:bg-gray-50"
-                            }`}
+                          }`}
                         >
                           {pNum}
                         </button>

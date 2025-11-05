@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { PaymentProps } from "../interfaces";
 import { Link } from "react-router-dom";
 import { Home } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 const Payment: React.FC<PaymentProps> = ({
   productCount = 0,
@@ -14,7 +15,7 @@ const Payment: React.FC<PaymentProps> = ({
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [])
+  }, []);
 
   const handleGenerateQr = () => {
     const methodCost =
@@ -51,7 +52,7 @@ const Payment: React.FC<PaymentProps> = ({
           })
           .catch((err) => {
             console.error("createOrder error", err);
-            alert("Order creation failed");
+            toast.error("Order creation failed");
           });
       })
       .catch((err) => {
@@ -62,9 +63,9 @@ const Payment: React.FC<PaymentProps> = ({
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(payload || "");
-      alert("Payload copied to clipboard");
+      toast.success("Payload copied to clipboard");
     } catch (e) {
-      alert("Copy failed");
+      toast.error("Copy failed");
     }
   };
 
@@ -79,16 +80,19 @@ const Payment: React.FC<PaymentProps> = ({
 
       <div className="max-w-3xl mx-auto">
         <header className="flex items-center justify-center mb-6 relative">
-          <img src="assets/logo.png" alt="Nouri" className="w-32 cursor-pointer" onClick={() => location.href = '/'} />
+          <img
+            src="assets/logo.png"
+            alt="Nouri"
+            className="w-32 cursor-pointer"
+            onClick={() => (location.href = "/")}
+          />
         </header>
 
         <div className="mb-6 border-b pb-6">
           <div className="flex justify-between items-center">
             <div className="text-lg font-bold">
               1. Giỏ hàng của bạn{" "}
-              <span className="text-gray-400">
-                ({productCount} sản phẩm)
-              </span>
+              <span className="text-gray-400">({productCount} sản phẩm)</span>
             </div>
             <div className="text-base font-semibold">
               {Number(totalVND).toLocaleString("vi-VN")} ₫

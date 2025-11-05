@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { ShippingMethod } from "../interfaces/shipping";
 import { Home } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 // Hàm định dạng VNĐ
 const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";
@@ -51,11 +52,11 @@ const Shipping: React.FC<{
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [])
+  }, []);
 
   const handleProceed = () => {
     if (!email || !firstName || !lastName || !address1 || !zipcode || !city) {
-      alert("Vui lòng điền đầy đủ các trường bắt buộc.");
+      toast.error("Vui lòng điền đầy đủ các trường bắt buộc.");
       return;
     }
     const summary: any = {
@@ -100,15 +101,23 @@ const Shipping: React.FC<{
       </button>
       <div className="max-w-3xl mx-auto">
         <header className="flex items-center justify-center mb-6 relative">
-          <img src="assets/logo.png" alt="Nouri" className="w-32 cursor-pointer" onClick={() => location.href = '/'} />
+          <img
+            src="assets/logo.png"
+            alt="Nouri"
+            className="w-32 cursor-pointer"
+            onClick={() => (location.href = "/")}
+          />
         </header>
 
         <div className="mb-6 border-b pb-6">
           <div className="flex sm:flex-row flex-col justify-between">
             <div className="text-lg font-bold">
-              1. Giỏ hàng của bạn <span className="text-gray-400">({productCount} sản phẩm)</span>
+              1. Giỏ hàng của bạn{" "}
+              <span className="text-gray-400">({productCount} sản phẩm)</span>
             </div>
-            <div className="sm:text-base text-lg font-semibold">{formatVND(totalVND)}</div>
+            <div className="sm:text-base text-lg font-semibold">
+              {formatVND(totalVND)}
+            </div>
           </div>
         </div>
 
@@ -218,10 +227,11 @@ const Shipping: React.FC<{
                 return (
                   <label
                     key={m.id}
-                    className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition ${method === m.id
+                    className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition ${
+                      method === m.id
                         ? "border-teal-500 ring-1 ring-teal-500 bg-teal-50"
                         : "border-gray-200 hover:border-teal-300"
-                      }`}
+                    }`}
                   >
                     <div>
                       <div className="flex items-center gap-2 font-semibold">
