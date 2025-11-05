@@ -1,1 +1,0 @@
-import{a as t}from"./index-B4nVYGpz.js";async function s(e){return(await t.post("/orders/create",e,{withCredentials:!0,headers:{"Content-Type":"application/json"}})).data}async function n(){return(await t.get("/orders/",{withCredentials:!0})).data}export{s as createOrder,n as getOrders};
