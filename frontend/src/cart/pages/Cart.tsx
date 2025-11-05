@@ -563,10 +563,7 @@ const Cart = () => {
                       </button>
                     </div>
                     <button
-                      onClick={() => {
-                        if (user) setShowShippingPage(true);
-                        else navigate("/login");
-                      }}
+                      onClick={() => setShowShippingPage(true)}
                       className="w-full mt-6 py-4 text-white font-bold rounded-full shadow-lg"
                       style={{ backgroundColor: "#449286" }}
                     >
