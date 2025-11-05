@@ -79,12 +79,23 @@ const TestPage = () => {
           (objective) =>
             OBJECTIVE_ITEMS.find((obj) => obj.id == objective)?.text ?? ""
         ),
-        selectedProducts: products.slice(0, 5),
+        selectedProducts: getRandomProducts(products),
       });
 
       window.location.href = "/test/result";
     });
   };
+
+  const getRandomProducts = (productList: Product[]): Product[] => {
+    const shuffledArray = [...productList];
+
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+
+    return shuffledArray.slice(0, 5);
+  }
 
   const objectiveMapping = [
     {
