@@ -5,10 +5,10 @@ const {
   removeShipping,
 } = require("../controllers/shipping.controller.js");
 
-const verifyToken = require("../middleware/verifyToken.js");
-
-router.get("/", verifyToken, getShipping);
-router.post("/add", verifyToken, addShipping);
-router.post("/remove", verifyToken, removeShipping);
+// Shipping endpoints no longer require authentication by design.
+// Guest users will have userId = null when not authenticated.
+router.get("/", getShipping);
+router.post("/add", addShipping);
+router.post("/remove", removeShipping);
 
 module.exports = router;
