@@ -17,7 +17,8 @@ const writeDb = async (db) => {
 const createOrder = async (req, res) => {
   try {
     const { shipping = null, payment = null } = req.body;
-    const userId = req.id;
+    // allow unauthenticated (guest) orders: normalize undefined id to null
+    const userId = typeof req.id === "undefined" ? null : req.id;
     const db = await readDb();
 
     const { createShipping } = require("./shipping.controller");
@@ -143,7 +144,8 @@ const createOrder = async (req, res) => {
 // GET /api/orders
 const getOrders = async (req, res) => {
   try {
-    const userId = req.id;
+    // allow unauthenticated (guest) orders: normalize undefined id to null
+    const userId = typeof req.id === "undefined" ? null : req.id;
     const db = await readDb();
     db.orders = db.orders || [];
     const orders = db.orders.filter((o) => o.userId === userId);
