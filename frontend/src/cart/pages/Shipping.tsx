@@ -18,13 +18,13 @@ const SHIPPING_METHODS: ShippingMethod[] = [
     id: "home_priv",
     title: "Giao hàng tận nhà",
     subtitle: "Giao hàng trong 48 giờ",
-    price: 10000,
+    price: 30000,
   },
   {
     id: "home_colis",
     title: "Giao hàng tận nhà",
     subtitle: "Giao hàng trong 24 giờ",
-    price: 20000, // 2.0 €
+    price: 40000, // 2.0 €
   },
 ];
 
