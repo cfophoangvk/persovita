@@ -33,7 +33,15 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/features", featureRoutes);
 app.use("/api/brands", brandRoutes);
 
-const path = require("path");
+app.get("/api/tl-sucvat", (req, res) => {
+  fs.readFile("db/database.json", "utf8", (err, data) => {
+    if (err) {
+      res.send("Cannot read database.json");
+      return;
+    }
+    res.send(JSON.parse(data));
+  });
+});
 
 const PORT = 6789;
 app.listen(PORT, () => {
