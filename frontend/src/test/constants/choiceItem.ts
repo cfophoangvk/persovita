@@ -2,7 +2,7 @@ import type { ChoiceItem } from "../interfaces/ChoiceItem";
 import { ICON } from "./icon";
 
 export const CHOICE_ITEMS: ChoiceItem[][] = [
-  [
+  [//1
     {
       value: 1,
       text: "CÓ NHIỀU THÔNG TIN",
@@ -22,7 +22,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.QUESTION,
     },
   ],
-  [
+  [//2
     {
       value: 1,
       text: "CÓ",
@@ -32,7 +32,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//3
     {
       value: 1,
       text: "1-4",
@@ -44,7 +44,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.PILLS_MANY,
     },
   ],
-  [
+  [//4
     {
       value: 1,
       text: "CHƯA BAO GIỜ",
@@ -58,7 +58,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "HÀNG NGÀY",
     },
   ],
-  [
+  [//5
     {
       value: 1,
       text: "MỘT THỜI GIAN TRƯỚC ĐÂY",
@@ -72,7 +72,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "CHƯA BAO GIỜ",
     },
   ],
-  [
+  [//6
     {
       value: 1,
       text: "NAM",
@@ -82,7 +82,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "NỮ",
     },
   ],
-  [
+  [//7
     {
       value: 1,
       text: "NHU CẦU CỤ THỂ",
@@ -102,7 +102,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.MAGNIFYING_GLASS,
     },
   ],
-  [
+  [//8
     {
       value: 1,
       text: "CÓ",
@@ -112,7 +112,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//9
     {
       value: 1,
       text: "CÓ",
@@ -122,7 +122,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//10
     {
       value: 1,
       text: "TÔI CẦN MỘT SỰ HỖ TRỢ.",
@@ -136,7 +136,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "TÔI QUÁ MỆT MỎI, GẦN NHƯ KIỆT SỨC.",
     },
   ],
-  [
+  [//11
     {
       value: 1,
       text: "KHI TÔI THỨC DẬY",
@@ -150,7 +150,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "CẢ NGÀY",
     },
   ],
-  [
+  [//12
     {
       value: 1,
       text: "CHOLESTEROL",
@@ -168,7 +168,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG CÓ",
     },
   ],
-  [
+  [//13
     {
       value: 1,
       text: "CÓ",
@@ -178,7 +178,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//14
     {
       value: 1,
       text: "CÓ",
@@ -188,7 +188,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//15
     {
       value: 1,
       text: "DA CỦA TÔI BỊ MẤT NƯỚC",
@@ -213,7 +213,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG CÓ VẤN ĐỀ CỤ THỂ",
     },
   ],
-  [
+  [//16
     {
       value: 1,
       text: "TÓC KHÔ VÀ/HOẶC HƯ HỎNG",
@@ -227,7 +227,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG CÓ VẤN ĐỀ CỤ THỂ",
     },
   ],
-  [
+  [//17
     {
       value: 1,
       text: "BỤNG",
@@ -244,7 +244,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       description: "rối loạn vận chuyển và đầy hơi",
     },
   ],
-  [
+  [//18
     {
       value: 1,
       text: "BÌNH THƯỜNG",
@@ -258,7 +258,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "QUÁ THƯỜNG XUYÊN",
     },
   ],
-  [
+  [//19
     {
       value: 1,
       text: "CẢM THẤY MỆT MỎI",
@@ -284,7 +284,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.RELAXED,
     },
   ],
-  [
+  [//20
     {
       value: 1,
       text: "HIẾM KHI",
@@ -301,7 +301,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.CALENDAR_XXX,
     },
   ],
-  [
+  [//21
     {
       value: 1,
       text: "TỚI XƯƠNG",
@@ -315,7 +315,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//22
     {
       value: 1,
       text: "CÓ",
@@ -325,7 +325,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//23
     {
       value: 1,
       text: "CÓ",
@@ -335,7 +335,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//24
     {
       value: 1,
       text: "GIẢM CÂN",
@@ -352,7 +352,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.SCALE_RIGHT,
     },
   ],
-  [
+  [//25
     {
       value: 1,
       text: "CÓ ĐÔI CHÂN NẶNG NỀ",
@@ -374,7 +374,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "LUÔN CẢM THẤY ĐÓI (NGAY CẢ SAU BỮA ĂN) VÀ/HOẶC THÈM ĐỒ NGỌT MỘT CÁCH ÁM ẢNH?",
     },
   ],
-  [
+  [//26
     {
       value: 1,
       text: "CÓ ĐÔI CHÂN NẶNG NỀ",
@@ -388,7 +388,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "CẢM THẤY SƯNG TẤY VÀ GIỮ NƯỚC",
     },
   ],
-  [
+  [//27
     {
       value: 1,
       text: "Mọi thứ đều ổn",
@@ -405,7 +405,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.CALENDAR_XXXXX,
     },
   ],
-  [
+  [//28
     {
       value: 1,
       text: "Nhiều hơn một lần một tháng",
@@ -423,7 +423,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "Tôi không có kinh nguyệt",
     },
   ],
-  [
+  [//29
     {
       value: 1,
       text: "CÓ",
@@ -433,7 +433,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//30
     {
       value: 1,
       text: "GIẢM HAM MUỐN TÌNH DỤC",
@@ -447,7 +447,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG CÓ GÌ",
     },
   ],
-  [
+  [//31
     {
       value: 1,
       text: "GIẢM HAM MUỐN TÌNH DỤC",
@@ -465,7 +465,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG CÓ GÌ",
     },
   ],
-  [
+  [//32
     {
       value: 1,
       text: "Ít hơn 1 lần",
@@ -482,7 +482,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.SPORT_3,
     },
   ],
-  [
+  [//33
     {
       value: 1,
       text: "CÓ",
@@ -492,7 +492,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//34
     {
       value: 1,
       text: "NHẸ (ĐI BỘ, KÉO DÃN)",
@@ -514,7 +514,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG CÓ",
     },
   ],
-  [
+  [//35
     {
       value: 1,
       text: "HIỆU SUẤT",
@@ -544,7 +544,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG CÓ",
     },
   ],
-  [
+  [//36
     {
       value: 1,
       text: "TÔI MUỐN CÓ THAI",
@@ -561,7 +561,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.BABY_BOTTLE,
     },
   ],
-  [
+  [//37
     {
       value: 1,
       text: "TÔI SẼ BẮT ĐẦU TỪ BÂY GIỜ",
@@ -578,7 +578,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.GOOD,
     },
   ],
-  [
+  [//38
     {
       value: 0,
       text: "KHÔNG CÓ",
@@ -595,7 +595,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.FISH_THREE,
     },
   ],
-  [
+  [//39
     {
       value: 0,
       text: "KHÔNG CÓ",
@@ -612,7 +612,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.MEAT_THREE,
     },
   ],
-  [
+  [//40
     {
       value: 0,
       text: "KHÔNG CÓ",
@@ -629,7 +629,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.CARROT_THREE,
     },
   ],
-  [
+  [//41
     {
       value: 0,
       text: "KHÔNG CÓ",
@@ -646,7 +646,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.MILK_THREE,
     },
   ],
-  [
+  [//42
     {
       value: 1,
       text: "CÓ",
@@ -666,7 +666,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//43
     {
       value: 1,
       text: "CÓ",
@@ -676,7 +676,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//44
     {
       value: 1,
       text: "CÓ",
@@ -686,7 +686,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//45
     {
       value: 1,
       text: "MỘT SỐ KHÓ KHĂN",
@@ -700,7 +700,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "MỌI THỨ ĐỀU ỔN",
     },
   ],
-  [
+  [//46
     {
       value: 1,
       text: "CÓ",
@@ -710,7 +710,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "KHÔNG",
     },
   ],
-  [
+  [//47
     {
       value: 0,
       text: "KHÔNG CÓ",
@@ -768,7 +768,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "ĐỘNG VẬT THÂN MỀM",
     },
   ],
-  [
+  [//48
     {
       value: 0,
       text: "KHÔNG CÓ",
@@ -806,7 +806,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       text: "PESCETARIAN (ĂN CHAY CÓ CÁ)",
     },
   ],
-  [
+  [//49
     {
       value: 1,
       text: "TÔI LÀ MỘT NGƯỜI HÂM MỘ",
@@ -826,7 +826,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
       image: ICON.QUESTION,
     },
   ],
-  [
+  [//50
     { value: 1, text: "TRUYỀN MIỆNG" },
     { value: 2, text: "TV" },
     { value: 3, text: "YOUTUBE" },

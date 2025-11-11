@@ -311,8 +311,8 @@ const TestPage = () => {
       setHasError(true);
     } else {
       setHasError(false);
-      setSelectedObjectives(selectedObjectives.sort());
-      setSaveObjectives([...selectedObjectives.sort()]);
+      setSelectedObjectives(selectedObjectives.sort((a, b) => a - b));
+      setSaveObjectives([...selectedObjectives.sort((a, b) => a - b)]);
       handleNext();
     }
   };

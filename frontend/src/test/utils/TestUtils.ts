@@ -1,6 +1,5 @@
 export class TestUtils {
   getNextPage(currentPage: number, selectedObjectives: number[], response?: number): number {
-
     //check for objectives
     const pagesToCheckObjective = [14, 16, 18, 20, 21, 22, 23, 25, 27, 28, 30, 33, 37, 38, 42];
     if (pagesToCheckObjective.includes(currentPage)) {

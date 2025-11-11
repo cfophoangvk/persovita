@@ -11,28 +11,8 @@ import {
   updateSubscriptionMonths,
 } from "../services/cartService";
 import type { PersistCart } from "../interfaces/PersistCart.ts";
-import { CircleQuestionMark, Home, Info, X } from "lucide-react";
+import { CircleQuestionMark, Home, X } from "lucide-react";
 import { useLoading } from "../../common/hooks/useLoading.tsx";
-
-// Component Modal chung
-const Modal = ({
-  children,
-  onClose,
-  customClasses = "",
-}: {
-  children: React.ReactNode;
-  onClose: () => void;
-  customClasses?: string;
-}) => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-    <div
-      className={`bg-white rounded-2xl shadow-2xl max-w-lg w-full ${customClasses}`}
-      onClick={e => e.stopPropagation()}
-    >
-      {children}
-    </div>
-  </div>
-);
 
 const SubscriptionOfferModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => (
   <div className={`fixed inset-0 z-50 flex flex-col justify-end transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -60,50 +40,11 @@ const SubscriptionOfferModal = ({ isOpen, onClose }: { isOpen: boolean, onClose:
   </div>
 );
 
-const ShippingInfoModal = ({ onClose }: { onClose: () => void }) => (
-  <Modal onClose={onClose} customClasses="p-6 relative">
-    <button
-      onClick={onClose}
-      className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 cursor-pointer"
-    >
-      <X size={24} />
-    </button>
-    <div className="p-4 text-center">
-      <h3 className="text-xl font-bold mb-3">Vận chuyển</h3>
-      <p className="md:text-lg text-sm text-gray-700 mb-3">
-        Đơn hàng được chuẩn bị và vận chuyển trong vòng
-        <strong> 2 ngày làm việc</strong>. Thời gian giao hàng phụ thuộc vào gói
-        bạn chọn
-      </p>
-      <div className="text-center space-y-4 md:text-base text-sm text-gray-700">
-        <p>
-          <strong>Giao hàng miễn phí cho các đơn hàng trên 500.000 VNĐ</strong>
-        </p>
-        <p>
-          <strong>Phí vận chuyển trong 1 ngày là thêm 10.000 VNĐ</strong>
-        </p>
-        <p>
-          <strong>Phí vận chuyển trong 2 ngày là thêm 20.000 VNĐ</strong>
-        </p>
-      </div>
-      <div className="mt-6 flex justify-center">
-        <button
-          onClick={onClose}
-          className="md:px-8 md:py-3 px-4 py-2 bg-teal-500 hover:bg-teal-700 text-white rounded-full font-semibold cursor-pointer"
-        >
-          Đồng ý, tôi đã hiểu
-        </button>
-      </div>
-    </div>
-  </Modal>
-);
-
 // Component Giỏ hàng chính (Cart)
 const Cart = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const { setLoading } = useLoading();
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
-  const [showShippingModal, setShowShippingModal] = useState(false);
   const [removingIds, setRemovingIds] = useState<number[]>([]);
   const [showShippingPage, setShowShippingPage] = useState(false);
   const [showPaymentPage, setShowPaymentPage] = useState(false);
@@ -304,9 +245,6 @@ const Cart = () => {
             isOpen={showSubscriptionModal}
             onClose={() => setShowSubscriptionModal(false)}
           />
-          {showShippingModal && (
-            <ShippingInfoModal onClose={() => setShowShippingModal(false)} />
-          )}
 
           <button
             onClick={() => navigate('/')}
@@ -532,11 +470,9 @@ const Cart = () => {
 
                     <div
                       className="flex justify-between items-center text-sm text-gray-600 mt-3 cursor-pointer"
-                      onClick={() => setShowShippingModal(true)}
                     >
                       <span className="flex items-center gap-2">
                         Vận chuyển{" "}
-                        <Info size={16} />
                       </span>
                       <span className="font-bold text-gray-800">
                         {shippingVND === 0
