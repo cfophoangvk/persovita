@@ -16,7 +16,7 @@ const writeDb = async (db) => {
 // POST /api/orders/create
 const createOrder = async (req, res) => {
   try {
-    const { shipping = null, payment = null } = req.body;
+    const { shipping = null, payment = null, items: bodyItems } = req.body;
     // allow unauthenticated (guest) orders: normalize undefined id to null
     const userId = typeof req.id === "undefined" ? null : req.id;
     const db = await readDb();
@@ -24,10 +24,24 @@ const createOrder = async (req, res) => {
     const { createShipping } = require("./shipping.controller");
     const { createPayment } = require("./payment.controller");
 
-    db.carts = db.carts || [];
-    const items = db.carts.filter((c) => c.userId === userId);
-    if (!items || items.length === 0) {
-      return res.status(400).json({ success: false, message: "Cart is empty" });
+    let items = [];
+    if (userId === null) {
+      // Guest order: expect items sent from frontend (e.g. localStorage persistCart)
+      items = Array.isArray(bodyItems) ? bodyItems : [];
+      if (!items || items.length === 0) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Cart is empty" });
+      }
+    } else {
+      // Authenticated user: use server-side cart and persist changes
+      db.carts = db.carts || [];
+      items = db.carts.filter((c) => c.userId === userId);
+      if (!items || items.length === 0) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Cart is empty" });
+      }
     }
 
     db.orders = db.orders || [];
@@ -53,42 +67,60 @@ const createOrder = async (req, res) => {
 
     // Persist shipping/payment using the centralized helpers (they mutate db)
     let shippingId = null;
-    if (shipping) {
-      // try to reuse an existing shipping record for this user
-      db.shipping = db.shipping || [];
-      const match = db.shipping.find(
-        (s) =>
-          s.userId === userId &&
-          ((shipping.address && s.address && s.address === shipping.address) ||
-            (shipping.city &&
-              s.city &&
-              s.city === shipping.city &&
-              shipping.country &&
-              s.country &&
-              s.country === shipping.country))
-      );
-      if (match) {
-        shippingId = match.id;
-      } else {
-        const shipRecord = createShipping(db, userId, shipping);
-        shippingId = shipRecord.id;
+    let paymentId = null;
+    if (userId !== null) {
+      if (shipping) {
+        // try to reuse an existing shipping record for this user
+        db.shipping = db.shipping || [];
+        const match = db.shipping.find(
+          (s) =>
+            s.userId === userId &&
+            ((shipping.address &&
+              s.address &&
+              s.address === shipping.address) ||
+              (shipping.city &&
+                s.city &&
+                s.city === shipping.city &&
+                shipping.country &&
+                s.country &&
+                s.country === shipping.country))
+        );
+        if (match) {
+          shippingId = match.id;
+        } else {
+          const shipRecord = createShipping(db, userId, shipping);
+          shippingId = shipRecord.id;
+        }
+      }
+
+      if (payment) {
+        // try to reuse existing payment record (match by method + info)
+        db.payment = db.payment || [];
+        const payMatch = db.payment.find(
+          (p) =>
+            p.userId === userId &&
+            p.method === payment.method &&
+            p.info === payment.info
+        );
+        if (payMatch) {
+          paymentId = payMatch.id;
+        } else {
+          const payRecord = createPayment(db, userId, payment);
+          paymentId = payRecord.id;
+        }
       }
     }
 
-    let paymentId = null;
-    if (payment) {
-      // try to reuse existing payment record (match by method + info)
+    // If guest and provided payment, persist a payment record with userId = null
+    if (userId === null && payment) {
       db.payment = db.payment || [];
       const payMatch = db.payment.find(
-        (p) =>
-          p.userId === userId &&
-          p.method === payment.method &&
-          p.info === payment.info
+        (p) => p.userId === null && p.method === payment.method && p.info === payment.info
       );
       if (payMatch) {
         paymentId = payMatch.id;
       } else {
-        const payRecord = createPayment(db, userId, payment);
+        const payRecord = createPayment(db, null, payment);
         paymentId = payRecord.id;
       }
     }
@@ -128,10 +160,20 @@ const createOrder = async (req, res) => {
       createdAt: new Date().toISOString(),
     };
 
+    // persist order for both authenticated and guest users
+    db.orders = db.orders || [];
+    // mark guest orders explicitly
+    if (userId === null) {
+      order.guest = true;
+      if (shipping) order.guestShipping = shipping;
+      if (payment) order.guestPayment = payment;
+    }
     db.orders.push(order);
 
-    // remove user's cart items
-    db.carts = (db.carts || []).filter((c) => c.userId !== userId);
+    // only remove server-side carts for authenticated users
+    if (userId !== null) {
+      db.carts = (db.carts || []).filter((c) => c.userId !== userId);
+    }
 
     await writeDb(db);
     return res.status(201).json({ success: true, order });

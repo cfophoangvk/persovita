@@ -24,7 +24,7 @@ const SHIPPING_METHODS: ShippingMethod[] = [
     id: "home_colis",
     title: "Giao hàng tận nhà",
     subtitle: "Giao hàng trong 24 giờ",
-    price: 40000, // 2.0 €
+    price: 40000,
   },
 ];
 

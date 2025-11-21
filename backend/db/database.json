@@ -2077,7 +2077,7 @@
   "shipping": [
     {
       "id": 1,
-      "userId": 1,
+      "userId": null,
       "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
       "email": "vanan123@email.com",
       "phone": "+84 901234567",
@@ -2087,146 +2087,47 @@
   "payment": [
     {
       "id": 1,
-      "userId": 1,
+      "userId": null,
       "method": "qr",
-      "info": "{\"merchant\":\"NOURI\",\"amount\":1031606,\"items\":1,\"shippingMethod\":\"pickup\",\"shippingMethodCost\":0,\"ts\":1761294356037}"
+      "info": "{\"merchant\":\"NOURI\",\"amount\":551000,\"items\":1,\"shippingMethod\":\"pickup\",\"shippingMethodCost\":0,\"ts\":1763739561737}"
     }
   ],
-  "carts": [
-    {
-      "userId": 1,
-      "productId": 1,
-      "name": "Hyaluronic Acid",
-      "price": 1001606,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-1/1.png"
-    },
-    {
-      "userId": 1,
-      "productId": 2,
-      "name": "Turmeric Capsules",
-      "price": 421576,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-2/1.png"
-    },
-    {
-      "userId": 1,
-      "productId": 3,
-      "name": "Boswellia Extract",
-      "price": 712104,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-3/1.png"
-    },
-    {
-      "userId": 2,
-      "productId": 1,
-      "name": "Hyaluronic Acid",
-      "price": 564000,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-1/1.png"
-    },
-    {
-      "userId": 2,
-      "productId": 2,
-      "name": "Turmeric Capsules",
-      "price": 286000,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-2/1.png"
-    },
-    {
-      "userId": 3,
-      "productId": 1,
-      "name": "Hyaluronic Acid",
-      "price": 564000,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-1/1.png"
-    },
-    {
-      "userId": 3,
-      "productId": 2,
-      "name": "Turmeric Capsules",
-      "price": 286000,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-2/1.png"
-    },
-    {
-      "userId": 4,
-      "productId": 1,
-      "name": "Hyaluronic Acid",
-      "price": 521000,
-      "quantity": 2,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-1/1.png"
-    },
-    {
-      "userId": 4,
-      "productId": 2,
-      "name": "Turmeric Capsules",
-      "price": 231000,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-2/1.png"
-    },
-    {
-      "userId": 4,
-      "productId": 8,
-      "name": "Biotin",
-      "price": 360000,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-8/1.png"
-    },
-    {
-      "userId": 4,
-      "productId": 3,
-      "name": "Boswellia Extract",
-      "price": 257000,
-      "quantity": 1,
-      "subscription": false,
-      "subscriptionMonths": 0,
-      "image": "/assets/product-3/1.png"
-    }
-  ],
+  "carts": [],
   "orders": [
     {
       "id": 1,
-      "userId": 1,
+      "userId": null,
       "items": [
         {
-          "productId": 1,
+          "productId": "1",
           "name": "Hyaluronic Acid",
-          "price": 1001606,
+          "price": 521000,
           "quantity": 1,
           "image": "/assets/product-1/1.png",
           "subscription": false,
           "subscriptionMonths": 0
         }
       ],
-      "shippingId": 1,
+      "shippingId": null,
       "shippingMethod": "pickup",
       "shippingMethodCost": 0,
       "shippingBase": 30000,
       "paymentId": 1,
-      "total": 1031606,
+      "total": 551000,
       "status": "success",
-      "createdAt": "2025-10-24T08:25:56.074Z"
+      "createdAt": "2025-11-21T15:39:21.764Z",
+      "guest": true,
+      "guestShipping": {
+        "address": "64, Ngõ Chùa Liên Phái, Tầng 2, căn hộ 201",
+        "city": "Hà Nội",
+        "country": "Việt Nam",
+        "method": "pickup",
+        "price": 0
+      },
+      "guestPayment": {
+        "method": "qr",
+        "info": "{\"merchant\":\"NOURI\",\"amount\":551000,\"items\":1,\"shippingMethod\":\"pickup\",\"shippingMethodCost\":0,\"ts\":1763739561737}"
+      }
     }
   ],
   "productReviews": [
