@@ -43,11 +43,6 @@ const AppFooter: React.FC = () => {
                   Tại sao cần bổ sung
                 </a>
               </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  Vận động viên của chúng tôi
-                </a>
-              </li>
             </ul>
           </div>
 

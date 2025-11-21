@@ -24,7 +24,7 @@ const MenuDialog = (props: IMenuDialogProps) => {
             className="px-4 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition duration-150"
             onClick={() => props.setIsOpen(false)}
           >
-            Làm bài kiểm tra
+            Làm bài khảo sát
           </Link>
           <Link
             to="/shop"

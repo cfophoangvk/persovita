@@ -20,19 +20,16 @@ const Page2 = (props: {
       <Badge text={props.title} />
       <Title text={`Xin chào ${props.name}!`} />
       <p className="md:text-lg text-base text-center leading-6">
-        Chúng tôi sẽ hỏi bạn một vài câu hỏi để có thể{" "}
-        <strong>cung cấp cho bạn một số loại thực phẩm bổ sung</strong> phù hợp
-        với nhu cầu của bạn.
+        Chúng tôi sẽ hỏi bạn một vài câu để có thể <strong>đề xuất những loại thực phẩm bổ sung</strong> phù hợp với nhu cầu của bạn.
       </p>
       <p className="md:text-lg text-base text-center leading-6 md:mt-8 mt-3">
-        Mục đích của bài kiểm tra này không phải là đưa ra chẩn đoán mà là đưa
-        ra cho bạn những khuyến nghị về cách giữ gìn sức khỏe tốt.
+        Những câu hỏi này <strong>không dùng để chẩn đoán bệnh, mà nhằm đưa ra khuyến nghị</strong> giúp bạn chăm sóc sức khỏe tốt hơn.
       </p>
       <p className="md:text-lg text-base text-center leading-6 md:mt-8 mt-3">
-        Để thực hiện việc này, chúng tôi sẽ <strong>thu thập dữ liệu cá nhân</strong> về bạn.
+        Để thực hiện việc này, chúng tôi cần <strong>thu thập một số dữ liệu cá nhân</strong> của bạn.
       </p>
 
-      <div className="md:mt-15 mt-3 flex gap-5 items-center">
+      <div className="md:mt-15 mt-3 flex gap-5 items-center p-4 rounded-lg border border-gray-600">
         <input
           type="checkbox"
           id="personalData"
@@ -41,9 +38,7 @@ const Page2 = (props: {
           onChange={handleAcceptPersonalData}
         />
         <label htmlFor="personalData">
-          Bằng cách đánh dấu vào ô này, tôi chấp nhận rằng dữ liệu cá nhân tôi
-          cung cấp cho Nouri sẽ được sử dụng để tạo ra thực phẩm bổ sung được cá
-          nhân hóa của tôi.
+          Khi đánh dấu vào ô này, tôi đồng ý để Nouri sử dụng dữ liệu cá nhân để tạo gói thực phẩm bổ sung phù hợp với nhu cầu của tôi.
         </label>
       </div>
 

@@ -144,7 +144,7 @@ const AboutPage: React.FC = () => {
               Cung cấp các giải pháp vitamin{" "}
               <strong className="text-teal-700">
                 {" "}
-                cá nhân hóa, tiện lợi, an toàn và bền vững
+                cá nhân hóa, tiện lợi, an toàn
               </strong>
               , giúp người tiêu dùng duy trì sức khỏe lâu dài và cải thiện chất
               lượng cuộc sống.
@@ -193,15 +193,15 @@ const AboutPage: React.FC = () => {
         <div className="mt-16 text-center">
           <p className="md:text-2xl text-lg font-semibold text-gray-700 mb-6">
             Bắt đầu hành trình chăm sóc sức khỏe{" "}
-            <strong className="text-teal-700">Tối Ưu và Tiện Lợi</strong> của
-            bạn ngay hôm nay.
+            <strong className="text-teal-700">Khoa Học và Tiện Lợi</strong> của
+            bạn ngay hôm nay!
           </p>
           <div className="flex justify-center gap-4">
             <Link
               to="/test/page1"
               className="md:px-8 md:py-4 px-4 py-2 bg-teal-500 text-white md:text-lg text-md rounded-full font-semibold transition duration-300 hover:bg-teal-600 shadow-xl transform hover:scale-105"
             >
-              Làm bài kiểm tra ngay 🚀
+              Làm bài khảo sát ngay 🚀
             </Link>
             <Link
               to="/contact"

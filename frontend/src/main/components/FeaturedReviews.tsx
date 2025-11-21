@@ -10,7 +10,7 @@ const FeaturedReviews: React.FC = () => {
   const reviews: Review[] = [
     {
       reviewBy: "Phương Linh, 34 tuổi - HR",
-      description: "“Làm test xong nhận được gói vitamin riêng cho mình thấy rất `wow`. Mọi thứ được đóng gói cẩn thận, giao nhanh và cảm giác tin tưởng ngay từ cách Nouri trình bày thông tin. Đây đúng là kiểu chăm sóc sức khỏe thông minh mà mình cần.”",
+      description: "“Làm test xong nhận được gói vitamin riêng cho mình thấy rất wow. Mọi thứ được đóng gói cẩn thận, giao nhanh và cảm giác tin tưởng ngay từ cách Nouri trình bày thông tin. Đây đúng là kiểu chăm sóc sức khỏe thông minh mà mình cần.”",
     },
     {
       reviewBy: "Trọng Khang, 38 tuổi - lập trình viên.",

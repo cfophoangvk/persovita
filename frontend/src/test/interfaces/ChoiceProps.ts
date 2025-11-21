@@ -7,4 +7,6 @@ export interface ChoiceProps {
   image?: string;
   items: ChoiceItem[];
   onSelect: (selectedItem: number) => void;
+  whyAskText?: string,
+  handleShowWhyAskDialog?: (text: string) => void;
 }

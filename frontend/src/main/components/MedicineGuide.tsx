@@ -6,10 +6,10 @@ const MedicineGuide: React.FC = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
       <div>
         <h2 className="md:text-3xl text-xl md:text-left text-center font-extrabold text-teal-700">
-          Cẩm nang hướng dẫn sử dụng thuốc an toàn
+          Cẩm nang hướng dẫn sử dụng thực phẩm bổ sung an toàn
         </h2>
         <p className="text-gray-600 mt-4 md:text-lg text-base md:text-left text-center">
-          Lời khuyên thiết yếu về liều lượng, thời điểm và cách bảo quản thuốc.
+          Lời khuyên thiết yếu về liều lượng, thời điểm và cách bảo quản thực phẩm bổ sung.
           Đảm bảo <b>hiệu quả điều trị tối ưu</b> và <b>giảm thiểu rủi ro</b>.
         </p>
         <div className="mt-8 flex md:justify-start justify-center">
@@ -36,14 +36,14 @@ const MedicineGuide: React.FC = () => (
           <li className="flex items-start">
             <span className="text-teal-600 font-extrabold mr-3 text-lg">•</span>
             <p>
-              <b>Đúng Thời Điểm:</b> Uống thuốc đúng thời điểm (trước/sau bữa
+              <b>Đúng Thời Điểm:</b> Uống thực phẩm bổ sung đúng thời điểm (trước/sau bữa
               ăn) theo hướng dẫn để đạt hiệu quả tốt nhất.
             </p>
           </li>
           <li className="flex items-start">
             <span className="text-teal-600 font-extrabold mr-3 text-lg">•</span>
             <p>
-              <b>Kiểm Tra Hạn Sử Dụng:</b> Không sử dụng thuốc đã hết hạn hoặc
+              <b>Kiểm Tra Hạn Sử Dụng:</b> Không sử dụng thực phẩm bổ sung đã hết hạn hoặc
               có dấu hiệu hư hỏng.
             </p>
           </li>

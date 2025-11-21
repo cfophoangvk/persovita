@@ -168,8 +168,7 @@ const Recommendation = (props: {
       <div className="bg-gray-50 p-8 pt-16 flex flex-col md:flex-row justify-between items-center relative overflow-hidden">
         <div className="text-left md:w-1/2 p-4">
           <h1 className="lg:text-5xl text-3xl md:text-left text-center font-semibold mb-4">
-            Đề xuất thuốc dành cho{" "}
-            <span className="font-bold">{testData.name}</span>
+            Đề xuất dành cho <span className="font-bold">{testData.name}</span>
           </h1>
           <p className="text-gray-700 text-lg md:text-left text-center leading-relaxed">
             Dựa trên nhu cầu của bạn:{" "}
@@ -188,11 +187,10 @@ const Recommendation = (props: {
 
       <div className="p-8 md:p-16">
         <h2 className="md:text-4xl text-2xl font-semibold mb-4 text-gray-800">
-          {recommendProducts.length} loại thuốc đã được đề xuất
+          {recommendProducts.length} đề xuất chính dành cho bạn
         </h2>
         <p className="text-gray-600 md:text-lg text-md mb-8">
-          Những yếu tố thiết yếu cho thói quen chăm sóc sức khỏe hàng ngày của
-          bạn. Chúng nhắm đến những nhu cầu ưu tiên của bạn.
+          Những sản phẩm cần thiết cho thói quen chăm sóc sức khỏe hằng ngày, tập trung vào các nhu cầu ưu tiên của bạn.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -240,11 +238,10 @@ const Recommendation = (props: {
         </div>
 
         <h2 className="text-4xl font-semibold mb-4 text-gray-800 mt-15">
-          Để hoàn thiện
+          Bổ sung thêm
         </h2>
         <p className="text-gray-600 text-lg mb-8">
-          đây là những gợi ý khác của chúng tôi để bổ sung cho thói quen của
-          bạn. Chúng cũng được điều chỉnh theo nhu cầu cụ thể của bạn.
+          Dưới đây là những đề xuất khác để hoàn thiện thói quen chăm sóc hằng ngày của bạn. Chúng cũng được điều chỉnh theo nhu cầu riêng của bạn.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

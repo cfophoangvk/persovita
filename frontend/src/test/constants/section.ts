@@ -3,23 +3,23 @@ import { ICON } from "./icon"
 export const SECTION = {
   GENERAL: "TỔNG QUAN",
   GOALS: "MỤC TIÊU",
-  BRAIN: "TRÍ NHỚ",
+  BRAIN: "NÃO BỘ",
   ENERGY: "NĂNG LƯỢNG",
-  HEART: "HỆ TIM MẠCH",
-  IMMUNITY: "HỆ MIỄN DỊCH",
-  SKIN: "CHĂM SÓC DA",
+  HEART: "TIM MẠCH & TUẦN HOÀN",
+  IMMUNITY: "MIỄN DỊCH",
+  SKIN: "DA",
   HAIR: "TÓC",
-  DIGESTION: "HỆ TIÊU HÓA",
-  STRESS: "STRESS",
-  BONES: "XƯƠNG",
+  DIGESTION: "TIÊU HÓA",
+  STRESS: "CĂNG THẲNG",
+  BONES: "XƯƠNG KHỚP",
   SLEEP: "GIẤC NGỦ",
-  SHAPE: "VÓC DÁNG",
-  WOMEN_HEALTH: "SỨC KHỎE PHỤ NỮ",
-  MEN_HEALTH: "SỨC KHỎE ĐÀN ÔNG",
-  SPORT: "THỂ THAO",
-  CONCEPTION_MATERNITY: "THỤ THAI & LÀM MẸ",
-  LONGEVITY: "TUỔI THỌ",
-  LIFESTYLE: "ĐỜI SỐNG"
+  SHAPE: "CÂN NẶNG & VÓC DÁNG",
+  WOMEN_HEALTH: "SỨC KHỎE NỮ GIỚI",
+  MEN_HEALTH: "SỨC KHỎE NAM GIỚI",
+  SPORT: "THỂ LỰC",
+  CONCEPTION_MATERNITY: "SINH SẢN VÀ MANG THAI",
+  LONGEVITY: "LÃO HÓA VÀ TUỔI THỌ",
+  LIFESTYLE: "LỐI SỐNG"
 }
 
 export const OBJECTIVE_ITEMS = [

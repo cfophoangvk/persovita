@@ -23,6 +23,7 @@ import axiosInstance from "../../utils/axios";
 import { ProductService } from "../../drugs/services/ProductService";
 import Popup from "../components/Popup";
 import { useLoading } from "../../common/hooks/useLoading";
+import WhyAskDialog from "../components/WhyAskDialog";
 
 const TestPage = () => {
   const defaultTestData: ITestStorage = {
@@ -45,6 +46,7 @@ const TestPage = () => {
   const [selectedMockItem, setSelectedMockItem] = useState<number[]>([]);
   const [currentProgress, setCurrentProgress] = useState<number>(0);
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [whyAskText, setWhyAskText] = useState<string>('');
   const [popupProduct, setPopupProduct] = useState<Product>();
   const { setLoading } = useLoading();
 
@@ -256,17 +258,17 @@ const TestPage = () => {
     switch (item) {
       case 1:
         setSupplementText(
-          "Bạn là chuyên gia? Chúng tôi sẽ cố gắng dạy bạn điều gì đó mới mẻ!"
+          "Bạn là chuyên gia? Chúng tôi vẫn sẽ cố gắng mang đến cho bạn thêm điều gì đó mới!"
         );
         break;
       case 2:
         setSupplementText(
-          "Hoàn hảo! Chúng tôi sẽ cố gắng thỏa mãn sự tò mò của bạn!"
+          "Tuyệt, chúng tôi sẽ cố gắng giải đáp sự tò mò của bạn!"
         );
         break;
       case 3:
         setSupplementText(
-          "Hoàn hảo! Chúng tôi thiết kế Nouri để thuyết phục những người hoài nghi!"
+          "Tuyệt, chúng tôi đã thiết kế trải nghiệm Nouri để thuyết phục cả những người còn phân vân."
         );
         break;
       default:
@@ -317,33 +319,41 @@ const TestPage = () => {
     }
   };
 
+  const handleToggleWhyAskModal = (text: string) => {
+    setWhyAskText(text);
+  }
+
   const getChoiceItems = (index: number): ChoiceItem[] => CHOICE_ITEMS[index];
 
   const testElements: JSX.Element[] = [
     <Input
       title={SECTION.GENERAL}
-      description="Bạn tên là gì?"
+      description="Trước tiên, tên của bạn là gì?"
       value={name}
       setValue={setName}
       hasError={hasError}
       errorMsg="Vui lòng nhập tên!"
       handleInput={handleNameInput}
+      whyAskText="Điều này giúp chúng tôi cá nhân hóa tên của bạn trên các gói vitamin hằng ngày."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Page2 title={SECTION.GENERAL} name={name} onNext={handleNext} />,
     <Choice
       title={SECTION.GENERAL}
-      header="Khi nói đến thực phẩm bổ sung, bạn:"
+      header="Khi nói đến thực phẩm bổ sung, bạn là người:"
       items={getChoiceItems(0)}
       onSelect={handleSelectSupplements}
+      whyAskText="Điều này giúp chúng tôi điều chỉnh cách giải thích và đề xuất sao cho phù hợp với mức độ hiểu biết của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <LabelAuto
       title={supplementText}
-      description="Đừng lo lắng, việc này chỉ mất chưa đầy 5 phút."
+      description="Đừng lo, bạn sẽ chỉ mất chưa đến 5 phút."
       onNext={handleNext}
     />,
     <Choice
       title={SECTION.GENERAL}
-      header="Bạn có đang dùng bất kỳ loại thực phẩm bổ sung nào không?"
+      header="Hiện tại bạn có đang dùng thực phẩm bổ sung nào không?"
       items={getChoiceItems(1)}
       onSelect={(response) => handleNext(response)}
     />,
@@ -355,30 +365,32 @@ const TestPage = () => {
     />,
     <Choice
       title={SECTION.GENERAL}
-      header="Bạn dùng thực phẩm bổ sung thường xuyên như thế nào?"
+      header="Trong một tuần, bạn dùng thực phẩm bổ sung bao nhiêu lần?"
       items={getChoiceItems(3)}
       onSelect={handleNext}
     />,
     <Choice
       title={SECTION.GENERAL}
-      header="Bạn đã từng dùng thực phẩm bổ sung trong quá khứ chưa?"
+      header="Trước đây bạn đã từng dùng thực phẩm bổ sung chưa?"
       items={getChoiceItems(4)}
       onSelect={handleNext}
     />,
     <Choice
       title={SECTION.GENERAL}
-      header="Giới tính của bạn là gì?"
+      header="Giới tính sinh học của bạn là gì?"
       items={getChoiceItems(5)}
       onSelect={handleNext}
     />,
     <Input
       title={SECTION.GENERAL}
-      description="Bạn bao nhiêu tuổi"
+      description="Bạn bao nhiêu tuổi?"
       value={age}
       setValue={setAge}
       hasError={hasError}
       errorMsg="Vui lòng nhập tuổi từ 12 đến 99!"
       handleInput={handleAgeInput}
+      whyAskText="Nhu cầu dinh dưỡng thay đổi theo tuổi. Biết bạn thuộc nhóm tuổi nào giúp chúng tôi đưa ra các đề xuất phù hợp với nhu cầu ở từng giai đoạn cuộc sống."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Input
       title={SECTION.GENERAL}
@@ -390,19 +402,21 @@ const TestPage = () => {
       handleInput={handleEmailInput}
     />,
     <LabelAuto
-      title="Tuyệt, bây giờ chúng ta đến với mục tiêu của bạn nhé!"
+      title="Tốt rồi, bây giờ chúng ta đến phần mục tiêu của bạn nhé!"
       onNext={handleNext}
     />,
     <Choice
       title={SECTION.GOALS}
-      header="Mục đích chính của bạn là gì?"
+      header="Hiện tại bạn đang mong muốn điều gì?"
       items={getChoiceItems(6)}
       onSelect={handleNext}
+      whyAskText="Câu hỏi này giúp chúng tôi hiểu rõ lý do chính và mong đợi của bạn, để có thể điều chỉnh phần đề xuất sao cho phù hợp nhất với mục tiêu cá nhân của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Page14
       title={SECTION.GOALS}
-      header="Bạn muốn cải thiện điều gì?"
-      description="Hãy chọn mục tiêu và nhu cầu hiện tại mà bạn muốn tập trung vào, chúng tôi sẽ xây dựng cho bạn một đề xuất phù hợp."
+      header="Bạn đang muốn cải thiện vấn đề nào?"
+      description="Hãy chọn những mục bạn ưu tiên lúc này, chúng tôi sẽ dựa vào đó để đưa ra đề xuất phù hợp nhất."
       objectiveIds={selectedObjectives}
       onToggle={handleToggleObjective}
       errorMsg="Vui lòng chọn ít nhất một mục!"
@@ -412,46 +426,59 @@ const TestPage = () => {
     <Choice
       title={SECTION.BRAIN}
       image={ICON.BRAIN}
-      header="Đôi khi bạn có gặp khó khăn trong việc tập trung không?"
+      header="Thỉnh thoảng bạn có thấy khó tập trung không?"
       items={getChoiceItems(7)}
       onSelect={handleNext}
+      whyAskText="Khó tập trung đôi khi cho thấy cơ thể đang cần nhiều hơn một số dưỡng chất quan trọng cho hoạt động của não bộ. Thông tin này giúp chúng tôi đưa ra đề xuất phù hợp hơn để hỗ trợ sự minh mẫn và sức khỏe tinh thần của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.BRAIN}
       image={ICON.BRAIN}
-      header="Bạn có đặc biệt chú ý tới trí nhớ ngắn hạn của mình không?"
+      header="Bạn có quan tâm đặc biệt đến trí nhớ ngắn hạn của mình không?"
       items={getChoiceItems(8)}
       onSelect={handleNext}
+      whyAskText="Vấn đề về trí nhớ có thể bị ảnh hưởng bởi nhiều yếu tố, trong đó có chế độ ăn uống và lối sống. Thông tin này giúp chúng tôi hiểu rõ hơn ưu tiên của bạn và điều chỉnh phần đề xuất cho phù hợp."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.ENERGY}
       image={ICON.ENERGY}
-      header="Bạn mô tả mức năng lượng của mình như thế nào?"
+      header="Tình trạng mệt mỏi của bạn như thế nào?"
       items={getChoiceItems(9)}
       onSelect={handleNext}
+      whyAskText="Tình trạng mệt mỏi có thể cho thấy cơ thể đang cần thêm một số chất dinh dưỡng giúp duy trì năng lượng và sức sống.
+ Hiểu rõ mức độ mệt của bạn giúp chúng tôi đưa ra gợi ý thực phẩm bổ sung phù hợp để hỗ trợ sức khỏe."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.ENERGY}
       image={ICON.ENERGY}
-      header="Bạn bắt đầu cảm thấy mệt mỏi vào thời điểm nào trong ngày?"
+      header="Bạn thường thấy mệt vào thời điểm nào trong ngày?"
       items={getChoiceItems(10)}
       onSelect={handleNext}
+      whyAskText="Biết bạn thường mệt vào thời điểm nào trong ngày giúp chúng tôi hiểu nguyên nhân có thể và điều chỉnh đề xuất thực phẩm bổ sung để hỗ trợ năng lượng của bạn đúng lúc."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.HEART}
       image={ICON.HEART}
-      header="Bạn có bệnh tim nào?"
+      header="Bạn đang quan tâm vấn đề nào liên quan đến tim mạch?"
       items={getChoiceItems(11)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Một số vấn đề về tim mạch có thể liên quan đến nhu cầu dinh dưỡng khác nhau. Biết bạn đang quan tâm điều gì giúp chúng tôi đưa ra đề xuất thực phẩm bổ sung phù hợp để hỗ trợ sức khỏe tim mạch của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.HEART}
       image={ICON.HEART}
-      header="Bạn có cảm giác nặng nề ở chân không?"
+      header="Bạn có hay cảm thấy nặng chân không?"
       items={getChoiceItems(12)}
       onSelect={handleNext}
+      whyAskText="Cảm giác nặng chân đôi khi liên quan đến việc máu lưu thông chưa tốt hoặc cơ thể thiếu một số vi chất. Biết điều này giúp chúng tôi điều chỉnh đề xuất thực phẩm bổ sung phù hợp hơn với bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.IMMUNITY}
@@ -459,170 +486,212 @@ const TestPage = () => {
       header="Bạn có muốn tăng cường hệ miễn dịch của mình không?"
       items={getChoiceItems(13)}
       onSelect={handleNext}
+      whyAskText="Hệ miễn dịch đóng vai trò quan trọng trong việc bảo vệ cơ thể trước các tác nhân gây bệnh. Biết bạn có muốn tăng cường hệ miễn dịch hay không giúp chúng tôi điều chỉnh đề xuất thực phẩm bổ sung phù hợp với mục tiêu chăm sóc sức khỏe của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.SKIN}
       image={ICON.SKIN}
-      header="Mối quan tâm chính của bạn về làn da là gì?"
+      header="Vấn đề về làn da bạn đang quan tâm điều gì nhất?"
       items={getChoiceItems(14)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Nhu cầu dinh dưỡng cho da thay đổi theo tình trạng và vấn đề bạn đang gặp. Biết điều bạn quan tâm giúp chúng tôi đề xuất thực phẩm bổ sung phù hợp để hỗ trợ làn da khỏe và cải thiện vẻ ngoài của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.HAIR}
       image={ICON.HAIR}
-      header="Mối quan tâm chính của bạn về tóc là gì?"
+      header="Vấn đề về tóc bạn đang quan tâm điều gì nhất?"
       items={getChoiceItems(15)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Tình trạng tóc có thể cho thấy cơ thể bạn đang thiếu một số dưỡng chất cần thiết để tóc mọc chắc và khỏe hơn. Biết bạn đang quan tâm điều gì giúp chúng tôi đưa ra đề xuất thực phẩm bổ sung phù hợp cho tóc của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.DIGESTION}
       image={ICON.DIGESTION}
-      header="Bạn muốn tập trung vào bộ phận nào của hệ tiêu hóa?"
+      header="Bạn muốn tập trung cải thiện phần nào của hệ tiêu hoá?"
       items={getChoiceItems(16)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Mỗi phần của hệ tiêu hoá có thể gặp những vấn đề khác nhau. Biết bạn đang khó chịu ở đâu giúp chúng tôi đưa ra đề xuất thực phẩm bổ sung phù hợp nhất cho vùng tiêu hoá bạn cần hỗ trợ."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.DIGESTION}
       image={ICON.DIGESTION}
-      header="Tần suất lượng phân của bạn là bao nhiêu?"
+      header="Bạn đi ngoài:"
       items={getChoiceItems(17)}
       onSelect={handleNext}
+      whyAskText="Tần suất đi ngoài cho thấy đường ruột của bạn hoạt động ra sao. Một số thực phẩm bổ sung như chất xơ hoặc men vi sinh có thể hỗ trợ khi bạn đi ngoài không đều"
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.STRESS}
       image={ICON.STRESS}
-      header="Sự căng thẳng của bạn được mô tả như sau:"
+      header="Căng thẳng của bạn được biểu hiện:"
       items={getChoiceItems(18)}
       onSelect={handleNext}
+      whyAskText="Căng thẳng có thể ảnh hưởng đến sức khỏe tổng thể và làm thay đổi nhu cầu về một số chất dinh dưỡng thiết yếu. Hiểu bạn căng thẳng như thế nào giúp chúng tôi đưa ra đề xuất thực phẩm bổ sung phù hợp để hỗ trợ cân bằng cả thể chất lẫn tinh thần."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.STRESS}
       image={ICON.STRESS}
-      header="Khi nào bạn cảm thấy stress?"
+      header="Bạn cảm thấy căng thẳng khi nào?"
       items={getChoiceItems(19)}
       onSelect={handleNext}
+      whyAskText="Những lúc bạn căng thẳng, cơ thể có thể cần nhiều dưỡng chất hơn để kiểm soát mệt mỏi và cảm xúc. Hiểu mức độ căng thẳng của bạn giúp chúng tôi tìm ra những giải pháp phù hợp nhất với tình trạng của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.BONES}
       image={ICON.BONE}
-      header="Bạn có đặc biệt chú ý tới xương và khớp của mình không?"
+      header="Bạn có quan tâm đặc biệt đến xương hay khớp của mình không?"
       items={getChoiceItems(20)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Một số người có nhu cầu riêng về xương hoặc khớp. Biết bạn đang quan tâm điều gì giúp chúng tôi đề xuất thực phẩm bổ sung phù hợp để hỗ trợ khớp linh hoạt và xương chắc khỏe hơn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.SLEEP}
       image={ICON.MOON}
-      header="Bạn có gặp khó khăn khi đi vào giấc ngủ không?"
+      header="Bạn có bị khó ngủ vào ban đêm không?"
       items={getChoiceItems(21)}
       onSelect={handleNext}
+      whyAskText="Các vấn đề về giấc ngủ có thể liên quan đến việc cơ thể mất cân bằng một số dưỡng chất tham gia vào quá trình thư giãn và điều hòa chu kỳ thức - ngủ."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.SLEEP}
       image={ICON.MOON}
-      header="Bạn có đôi khi cảm thấy mệt mỏi khi thức dậy không?"
+      header="Bạn có cảm thấy mệt mỏi khi thức dậy không?"
       items={getChoiceItems(22)}
       onSelect={handleNext}
+      whyAskText="Cảm giác mệt mỏi kéo dài khi thức dậy có thể là dấu hiệu của việc thiếu một số chất dinh dưỡng thiết yếu, không ngủ đủ hoặc lối sống mất cân bằng. Biết được điều này giúp chúng tôi hiểu rõ hơn nhu cầu của bạn để đề xuất giải pháp phù hợp"
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.SHAPE}
       image={ICON.APPLE}
-      header="Mục tiêu về cân nặng của bạn là gì?"
+      header="Mục tiêu của bạn về cân nặng là gì?"
       items={getChoiceItems(23)}
       onSelect={handleNext}
+      whyAskText="Mục tiêu về cân nặng của bạn sẽ ảnh hưởng đến nhu cầu dinh dưỡng và loại thực phẩm bổ sung chúng tôi đề xuất để đồng hành với bạn tốt hơn và hỗ trợ đạt được kết quả mong muốn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.SHAPE}
       image={ICON.APPLE}
-      header="Bạn có xu hướng..."
+      header="Bạn thường gặp tình trạng…"
       items={getChoiceItems(24)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Thói quen ăn uống và những khó chịu trong cơ thể có thể cho thấy một số mất cân bằng hoặc nhu cầu riêng của cơ thể. Hiểu những điều này giúp chúng tôi điều chỉnh đề xuất thực phẩm bổ sung phù hợp hơn để hỗ trợ sức khỏe tổng thể của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.SHAPE}
       image={ICON.APPLE}
-      header="Bạn có xu hướng..."
+      header="Bạn thường gặp tình trạng…"
       items={getChoiceItems(25)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Thói quen ăn uống và những khó chịu trong cơ thể có thể cho thấy một số mất cân bằng hoặc nhu cầu riêng của cơ thể. Hiểu những điều này giúp chúng tôi điều chỉnh đề xuất thực phẩm bổ sung phù hợp hơn để hỗ trợ sức khỏe tổng thể của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.WOMEN_HEALTH}
       image={ICON.WOMEN}
-      header="Bạn sẽ mô tả sự thoải mái khi đi tiểu của mình những ngày này như thế nào?"
+      header="Gần đây tình trạng đi tiểu của bạn thế nào?"
       items={getChoiceItems(26)}
       onSelect={handleNext}
+      whyAskText="Một số loại thảo dược và chất dinh dưỡng có thể hỗ trợ đường tiết niệu hoạt động tốt hơn. Câu hỏi này giúp chúng tôi xác định có cần hỗ trợ đặc biệt nào phù hợp cho bạn hay không."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.WOMEN_HEALTH}
       image={ICON.WOMEN}
-      header="Bạn có kinh nguyệt bao lâu một lần?"
+      header="Chu kỳ kinh nguyệt của bạn như thế nào?"
       items={getChoiceItems(27)}
       onSelect={handleNext}
+      whyAskText="Tần suất kinh nguyệt có thể ảnh hưởng đến nhu cầu của cơ thể với một số dưỡng chất. Hiểu chu kỳ của bạn giúp chúng tôi điều chỉnh đề xuất thực phẩm bổ sung sao cho phù hợp nhất với tình trạng của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.WOMEN_HEALTH}
       image={ICON.WOMEN}
       header="Bạn có bị hội chứng tiền kinh nguyệt không?"
-      description="Hội chứng tiền kinh nguyệt là một loạt các triệu chứng thể chất và tâm lý bắt đầu từ vài giờ đến vài ngày trước kỳ kinh nguyệt (đau, lo âu, khó chịu)."
+      description="Hội chứng tiền kinh nguyệt là một loạt các triệu chứng về thể chất và tinh thần xuất hiện từ vài giờ đến vài ngày trước kỳ kinh (đau bụng, căng ngực, lo âu, dễ cáu gắt)."
       items={getChoiceItems(28)}
       onSelect={handleNext}
+      whyAskText="Hội chứng tiền kinh nguyệt là những triệu chứng xảy ra trong vài ngày trước kỳ kinh và giảm dần khi bắt đầu có kinh. Một số dưỡng chất hoặc thảo dược có thể giúp làm dịu các triệu chứng này. Câu trả lời của bạn giúp chúng tôi xác định liệu bạn có cần hỗ trợ thêm hay không."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.WOMEN_HEALTH}
       image={ICON.WOMEN}
-      header="Bạn có muốn được giúp đỡ về vấn đề tình dục không?"
+      header="Bạn có cần hỗ trợ gì về sức khỏe sinh lý không?"
       items={getChoiceItems(29)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Một số vấn đề như giảm ham muốn hay khó thụ thai có thể được cải thiện nhờ bổ sung dinh dưỡng phù hợp. Biết nhu cầu của bạn giúp chúng tôi đưa ra những đề xuất thực sự cần thiết cho bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.MEN_HEALTH}
       image={ICON.MEN}
-      header="Bạn có muốn được giúp đỡ về vấn đề tình dục không?"
+      header="Bạn có cần hỗ trợ gì về sức khỏe sinh lý không?"
       items={getChoiceItems(30)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Hiểu rõ nhu cầu sinh lý của bạn giúp chúng tôi đưa ra những đề xuất phù hợp để hỗ trợ ham muốn, khả năng sinh sản hoặc chức năng cương dương tùy theo điều bạn đang quan tâm."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.SPORT}
       image={ICON.SPORT}
-      header="Bạn tập thể dục bao nhiêu lần một tuần?"
+      header="Một tuần bạn tập thể dục/chơi thể thao bao nhiêu lần?"
       items={getChoiceItems(31)}
       onSelect={handleNext}
+      whyAskText="Mức độ vận động ảnh hưởng đến nhu cầu các chất dinh dưỡng quan trọng như đạm, vitamin và khoáng chất. Biết bạn tập luyện nhiều hay ít giúp chúng tôi điều chỉnh đề xuất thực phẩm bổ sung phù hợp với cơ thể bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.SPORT}
       image={ICON.SPORT}
-      header="Bạn đang chuẩn bị cho một cuộc thi?"
+      header="Bạn có đang chuẩn bị cho một cuộc thi đấu thể thao không?"
       items={getChoiceItems(32)}
       onSelect={handleNext}
+      whyAskText="Khi bạn tập luyện để chuẩn bị thi đấu, cơ thể thường cần nhiều chất dinh dưỡng hơn, đặc biệt là các vi chất. Biết điều này giúp chúng tôi điều chỉnh đề xuất thực phẩm bổ sung để hỗ trợ hiệu suất và khả năng hồi phục của bạn tốt hơn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.SPORT}
       image={ICON.SPORT}
-      header="Bạn tập thể dục theo hình thức nào?"
+      header="Bạn thường tập loại hình thể thao nào?"
       items={getChoiceItems(33)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Việc bạn tập thể thao ảnh hưởng đến nhu cầu dinh dưỡng, đặc biệt là chất đạm, vitamin và khoáng chất. Biết bạn tập môn gì giúp chúng tôi điều chỉnh đề xuất thực phẩm bổ sung phù hợp hơn với bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.SPORT}
       image={ICON.SPORT}
-      header="Bạn có muốn cải thiện bất kỳ điều nào sau đây không?"
+      header="Bạn muốn cải thiện điều gì trong quá trình tập luyện?"
       items={getChoiceItems(34)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
@@ -631,103 +700,129 @@ const TestPage = () => {
     <Choice
       title={SECTION.CONCEPTION_MATERNITY}
       image={ICON.PREGNANT}
-      header="Tình huống hiện tại của bạn phù hợp nhất với mô tả nào dưới đây?"
+      header="Hiện tại bạn đang trong giai đoạn nào?"
       items={getChoiceItems(35)}
       onSelect={handleNext}
     />,
     <LabelAuto
-      title="Bây giờ hãy chuyển sang chủ đề về lối sống của bạn!"
+      title="Bây giờ chúng ta chuyển sang phần lối sống của bạn!"
       onNext={handleNext}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn có cho rằng mình có lối sống lành mạnh không?"
+      header="Bạn nghĩ hiện tại mình có lối sống lành mạnh không?"
       items={getChoiceItems(36)}
       onSelect={handleNext}
+      whyAskText="Lối sống của bạn ảnh hưởng trực tiếp đến nhu cầu về các chất dinh dưỡng. Biết bạn đánh giá lối sống của mình như thế nào giúp chúng tôi đưa ra những đề xuất phù hợp với tình trạng của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn ăn cá hoặc hải sản bao nhiêu lần một tuần?"
+      header="Trong một tuần, bạn ăn cá hoặc hải sản bao nhiêu lần?"
       items={getChoiceItems(37)}
       onSelect={handleNext}
+      whyAskText="Hải sản là nguồn cung cấp nhiều dưỡng chất quan trọng mà các thực phẩm khác thường ít có. Biết bạn ăn hải sản bao nhiêu lần giúp chúng tôi nhận diện những nhu cầu dinh dưỡng còn thiếu để bổ sung cho phù hợp."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
       header="Bạn ăn thịt hoặc trứng bao nhiêu lần một tuần?"
       items={getChoiceItems(38)}
       onSelect={handleNext}
+      whyAskText="Thịt và trứng là nguồn cung cấp nhiều protein và các chất dinh dưỡng thiết yếu. Biết bạn dùng chúng bao nhiêu giúp chúng tôi điều chỉnh phần đề xuất, để bù lại những thiếu hụt có thể xảy ra nếu khẩu phần chưa đủ."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn ăn bao nhiêu trái cây và rau quả mỗi ngày?"
+      header="Mỗi ngày bạn ăn rau và trái cây bao nhiêu lần?"
       items={getChoiceItems(39)}
       onSelect={handleNext}
+      whyAskText="Rau và trái cây là nguồn cung cấp nhiều vitamin, khoáng chất và chất chống oxy hóa quan trọng cho cơ thể. Nếu ăn không đủ có thể gây mất cân bằng dinh dưỡng, nên chúng tôi cần biết để đánh giá đúng nhu cầu của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn ăn bao nhiêu sản phẩm từ sữa mỗi ngày?"
+      header="Mỗi ngày bạn dùng các sản phẩm từ sữa bao nhiêu lần?"
       items={getChoiceItems(40)}
       onSelect={handleNext}
+      whyAskText="Các sản phẩm từ sữa cung cấp nhiều dưỡng chất quan trọng cho xương và cho nhiều chức năng khác của cơ thể. Biết lượng bạn dùng mỗi ngày giúp chúng tôi đánh giá xem khẩu phần ăn hiện tại có đáp ứng đủ nhu cầu dinh dưỡng hay không."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn có uống 3 hoặc nhiều lần đồ uống có cồn mỗi ngày không?"
+      header="Bạn có thường xuyên uống quá 3 ly đồ uống có cồn trong một ngày không?"
       items={getChoiceItems(41)}
       onSelect={handleNext}
+      whyAskText="Việc uống rượu, bia thường xuyên có thể làm giảm khả năng hấp thu một số dưỡng chất quan trọng và làm tăng nhu cầu dinh dưỡng của cơ thể. Thông tin này giúp chúng tôi điều chỉnh phần đề xuất cho phù hợp với lối sống của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn có uống 10 lần đồ uống có cồn trở lên mỗi tuần không?"
+      header="Bạn có thường xuyên uống hơn 10 ly đồ uống có cồn trong một tuần không?"
       items={getChoiceItems(42)}
       onSelect={handleNext}
+      whyAskText="Việc uống rượu, bia thường xuyên có thể làm giảm khả năng hấp thu một số dưỡng chất quan trọng và làm tăng nhu cầu dinh dưỡng của cơ thể. Thông tin này giúp chúng tôi điều chỉnh phần đề xuất cho phù hợp với lối sống của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn sẽ phải phơi nắng trong thời gian tới chứ?"
+      header="Hàng ngày bạn có hút thuốc không?"
       items={getChoiceItems(43)}
       onSelect={handleNext}
+      whyAskText="Thuốc lá có thể làm tăng nhu cầu của cơ thể với một số dưỡng chất, và một số loại lại không được khuyến khích dùng kèm. Biết thói quen của bạn giúp chúng tôi điều chỉnh khuyến nghị cho phù hợp với nhu cầu riêng của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn có dành hơn 3 giờ mỗi ngày để nhìn màn hình máy tính không?"
+      header="Trong tháng tới, bạn có định ở ngoài nắng nhiều không?"
       items={getChoiceItems(44)}
       onSelect={handleNext}
+      whyAskText="Trước khi ra nắng nhiều, cơ thể có thể được hỗ trợ tốt hơn bằng một số loại thực phẩm bổ sung. Thông tin này giúp chúng tôi điều chỉnh đề xuất cho phù hợp với nhu cầu của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn sẽ mô tả sự thoải mái của mắt mình như thế nào?"
+      header="Mỗi ngày bạn có nhìn màn hình máy tính hơn 3 tiếng không?"
       items={getChoiceItems(45)}
       onSelect={handleNext}
+      whyAskText="Nhìn màn hình quá lâu có thể gây mỏi mắt và làm tăng nhu cầu một số dưỡng chất hỗ trợ cho mắt dễ chịu hơn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bác sĩ có khuyên bạn nên bổ sung sắt không?"
+      header="Bạn cảm thấy mắt mình dạo này như thế nào?"
       items={getChoiceItems(46)}
       onSelect={handleNext}
+      whyAskText="Một số dưỡng chất có thể giúp mắt dễ chịu và khỏe hơn. Câu trả lời của bạn giúp chúng tôi xác định xem bạn có nhu cầu hỗ trợ đặc biệt nào để giữ gìn hoặc cải thiện thị lực hay không."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
+    />,
+    <Choice
+      title={SECTION.LIFESTYLE}
+      header="Bác sĩ có từng khuyên bạn bổ sung sắt không?"
+      items={getChoiceItems(47)}
+      onSelect={handleNext}
+      whyAskText="Một số người có nhu cầu sắt cao hơn bình thường. Chúng tôi cần biết bác sĩ đã từng khuyên bạn bổ sung sắt hay chưa để tránh nguy cơ dùng quá liều hoặc tiếp tục đề xuất thêm sản phẩm sắt không cần thiết."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <ChoiceCheckbox
       title={SECTION.LIFESTYLE}
-      header="Bạn có một trong các dị ứng sau đây không?"
-      items={getChoiceItems(47)}
+      header="Bạn có bị dị ứng với những loại thực phẩm nào dưới đây không?"
+      items={getChoiceItems(48)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
+      whyAskText="Để chúng tôi không đề xuất những sản phẩm có chứa thành phần mà bạn bị dị ứng hoặc không hợp, từ đó đảm bảo an toàn và sức khỏe cho bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
     <Choice
       title={SECTION.LIFESTYLE}
-      header="Bạn có đang thực hiện một chế độ ăn kiêng cụ thể nào không?"
-      items={getChoiceItems(48)}
-      onSelect={handleNext}
-    />,
-    <Choice
-      title={SECTION.LIFESTYLE}
-      header="Bạn cảm thấy thế nào về Y học cổ truyền phương Đông?"
+      header="Bạn có đang theo chế độ ăn uống đặc biệt nào không?"
       items={getChoiceItems(49)}
       onSelect={handleNext}
     />,
     <ChoiceCheckbox
       title={SECTION.LIFESTYLE}
-      header="Câu hỏi cuối cùng: Bạn biết chúng tôi qua đâu?"
+      header="Câu hỏi cuối cùng! Bạn biết chúng tôi qua đâu?"
       items={getChoiceItems(50)}
       onSelect={finishTest}
       selectedItems={selectedMockItem}
@@ -736,8 +831,9 @@ const TestPage = () => {
   ];
 
   return (
-    <div className="min-h-screen flex justify-center items-center w-full overflow-hidden relative">
+    <div className="min-h-screen flex justify-center items-center w-full overflow-hidden relative bg-[url('/assets/NOURI_SURVEY.png')] bg-center bg-[length:100%_100%] bg-no-repeat">
       <Popup isOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} product={popupProduct} />
+      <WhyAskDialog isOpen={whyAskText !== ''} setIsOpen={() => setWhyAskText('')} text={whyAskText} />
       <Header currentProgress={currentProgress} />
       <SwitchTransition mode="out-in">
         <CSSTransition

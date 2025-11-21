@@ -24,16 +24,10 @@ const SubscriptionOfferModal = ({ isOpen, onClose }: { isOpen: boolean, onClose:
         </button>
       </div>
       <div className="max-w-3xl mx-auto">
-        <p className="text-xl font-semibold">Giảm 10% cho mọi đơn hàng</p>
+        <p className="text-xl font-semibold">Tiết kiệm 10% cho mỗi đơn hàng</p>
         <p className="mt-3 font-semibold">Cá nhân hóa miễn phí</p>
         <p className="mt-3 font-semibold">
-          Chương trình khách hàng thân thiết hấp dẫn
-        </p>
-        <div className="md:mt-6 mt-3">***</div>
-        <p className="md:mt-6 mt-3 text-sm">
-          Gói đăng ký của chúng tôi linh hoạt 100% và không ràng buộc. Bạn có
-          thể hoãn, sửa đổi hoặc tạm dừng bất cứ lúc nào từ tài khoản trực tuyến
-          của bạn.
+          Chương trình khách hàng thân thiết nhiều ưu đãi
         </p>
       </div>
     </div>
@@ -268,7 +262,7 @@ const Cart = () => {
 
                 <div className="bg-[#FFF4DB] px-4 py-3 rounded-lg flex items-center justify-between mb-6">
                   <div className="text-[#7a5b2a] font-medium">
-                    Tiết kiệm 10%. Không ràng buộc.
+                    Tiết kiệm 10%.
                   </div>
                   <button
                     onClick={() => setShowSubscriptionModal(true)}
@@ -412,12 +406,12 @@ const Cart = () => {
                 style={{ backgroundColor: "#f7efe6" }}
               >
                 <h3 className="text-lg font-bold text-center tracking-wider text-teal-600">
-                  TỔNG KẾT ĐƠN HÀNG
+                  TÓM TẮT ĐƠN HÀNG
                 </h3>
 
                 <div className="mt-4 border-t border-gray-300 pt-4">
                   <div className="flex justify-between items-center lg:text-xs text-base font-semibold text-gray-600 pb-3 border-b border-gray-300">
-                    <span>SẢN PHẨM</span>
+                    <span>TỔNG GIÁ SẢN PHẨM</span>
                     <span>GIÁ</span>
                   </div>
 

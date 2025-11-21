@@ -2,6 +2,7 @@ import Badge from "../components/Badge"
 import Title from "./Title"
 import type { ChoiceProps } from "../interfaces/ChoiceProps"
 import ChoiceItem from "./ChoiceItem"
+import { Info } from "lucide-react"
 
 const Choice = (props: ChoiceProps) => {
   return (
@@ -15,6 +16,15 @@ const Choice = (props: ChoiceProps) => {
           <ChoiceItem onClick={() => props.onSelect(item.value)} text={item.text} description={item.description} image={item.image} key={index} />
         ))}
       </div>
+
+      {props.whyAskText && props.handleShowWhyAskDialog && (
+        <div
+          className="flex items-center text-gray-400 cursor-pointer mt-2 border-b border-gray-400"
+          onClick={() => props.handleShowWhyAskDialog?.(props.whyAskText!)}
+        >
+          <Info size={16} className="mr-2 fill-gray-400 stroke-white" /> Vì sao chúng tôi hỏi câu này?
+        </div>
+      )}
     </div>
   )
 }

@@ -8,4 +8,6 @@ export interface ChoiceCheckboxProps {
   onSelect: () => void;
   selectedItems: number[];
   setSelectedItems: (item: number[]) => void;
+  whyAskText?: string,
+  handleShowWhyAskDialog?: (text: string) => void;
 }

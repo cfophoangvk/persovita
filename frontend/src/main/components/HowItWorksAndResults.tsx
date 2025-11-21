@@ -32,45 +32,42 @@ const HowItWorksAndResults: React.FC = () => {
         <div className="grid grid-cols-1 gap-6 px-4 sm:grid-cols-3 sm:gap-3 md:px-10 lg:px-20">
           <div className="rounded-xl bg-white p-4 shadow-xl shadow-gray-100/50 transition duration-300 hover:shadow-2xl hover:shadow-gray-200/50">
             <h4 className="text-xl font-semibold text-gray-900 mb-4 md:text-left text-center">
-              1/ Làm bài kiểm tra trực tuyến
+              1/ Bài đánh giá nhu cầu dinh dưỡng
             </h4>
             <ImagePlaceholder
               src="/assets/1.png"
-              alt="Người dùng đang làm bài kiểm tra trực tuyến trên điện thoại"
+              alt="Người dùng đang làm bài khảo sát trực tuyến trên điện thoại"
             />
             <p className="text-base text-gray-600">
-              Chỉ mất <strong>5 phút</strong> để cho chúng tôi biết về nhu cầu
-              sức khỏe và mục tiêu của bạn.
+              Làm bài khảo sát nhanh về thực phẩm bổ sung để chia sẻ lối sống, chế độ ăn uống và mục tiêu sức khỏe của bạn.
             </p>
           </div>
 
           {/* Bước 2 */}
           <div className="rounded-xl bg-white p-4 shadow-xl shadow-gray-100/50 transition duration-300 hover:shadow-2xl hover:shadow-gray-200/50">
             <h4 className="text-xl font-semibold text-gray-900 mb-4 md:text-left text-center">
-              2/ Nhận gợi ý cá nhân hóa
+              2/ Nhận đề xuất liệu trình cá nhân hóa
             </h4>
             <ImagePlaceholder
               src="/assets/2.png"
               alt="Hộp bổ sung cá nhân và ly nước"
             />
             <p className="text-base text-gray-600">
-              Nhận đề xuất bổ sung cá nhân hóa từ{" "}
-              <strong>Hội đồng Khoa học</strong> của chúng tôi.
+              Chúng tôi sẽ thiết kế một liệu trình thực phẩm bổ sung dựa trên nhu cầu sức khỏe của bạn.
             </p>
           </div>
 
           {/* Bước 3 */}
           <div className="rounded-xl bg-white p-4 shadow-xl shadow-gray-100/50 transition duration-300 hover:shadow-2xl hover:shadow-gray-200/50">
             <h4 className="text-xl font-semibold text-gray-900 mb-4 md:text-left text-center">
-              3/ Bắt đầu và theo dõi tiến trình
+              3/ Sử dụng và cảm nhận sự cải thiện
             </h4>
             <ImagePlaceholder
               src="/assets/3.png"
               alt="Người dùng đang uống nước"
             />
             <p className="text-base text-gray-600">
-              Nhận hộp 30 gói bổ sung hàng ngày được cá nhân hóa và theo dõi{" "}
-              <strong>tiến trình</strong> của bạn.
+              Các gói thực phẩm bổ sung hằng ngày được cá nhân hóa và giao tận nhà, kèm hỗ trợ từ dược sĩ và đội ngũ Nouri khi bạn cần.
             </p>
           </div>
         </div>
@@ -80,7 +77,7 @@ const HowItWorksAndResults: React.FC = () => {
             href="/test/page1"
             className="inline-block rounded-lg bg-teal-500 lg:px-10 lg:py-3 px-5 py-2 md:text-lg text-base font-bold text-white shadow-xl transition duration-300 hover:bg-teal-600 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-teal-300"
           >
-            Làm bài kiểm tra
+            Làm bài khảo sát
           </a>
         </div>
       </div>
@@ -102,7 +99,7 @@ const HowItWorksAndResults: React.FC = () => {
                 KHÁCH HÀNG CỦA CHÚNG TÔI
               </p>
               <p className="md:text-lg text-base text-gray-700">
-                Ghi nhận cải thiện ở <strong>lĩnh vực trọng tâm</strong> của họ.
+                Ghi nhận cải thiện ở <strong>vấn đề sức khỏe trọng tâm</strong> của họ.
               </p>
             </div>
           </div>

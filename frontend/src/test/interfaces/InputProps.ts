@@ -5,5 +5,7 @@ export interface InputProps {
   setValue: (name: string) => void;
   handleInput: () => void,
   hasError: boolean,
-  errorMsg: string
+  errorMsg: string,
+  whyAskText?: string,
+  handleShowWhyAskDialog?: (text: string) => void;
 }

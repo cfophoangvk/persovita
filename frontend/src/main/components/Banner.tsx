@@ -18,7 +18,7 @@ const Banner: React.FC = () => {
 
       <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center lg:px-16 md:px-8 px-4 text-left">
         <h1 className="lg:text-7xl md:text-5xl text-3xl font-extrabold text-white leading-tight drop-shadow-2xl">
-          Sống khỏe hơn, <br className="hidden md:block" /> dễ dàng hơn.
+          Sống khỏe hơn, <br className="hidden md:block" /> dễ dàng hơn
         </h1>
 
         <p className="mt-8 lg:text-xl md:text-lg text-base text-gray-100 max-w-3xl leading-relaxed drop-shadow-md">
@@ -32,7 +32,7 @@ const Banner: React.FC = () => {
             href="/test/page1"
             className="md:px-10 md:py-4 px-5 py-2 border border-teal-400 text-white bg-teal-600/80 rounded-full font-semibold md:text-lg text-md shadow-md hover:bg-teal-600 transition-all duration-300"
           >
-            Làm bài kiểm tra
+            Làm bài khảo sát
           </a>
         </div>
       </div>
