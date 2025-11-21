@@ -828,6 +828,18 @@ const TestPage = () => {
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
     />,
+    <ChoiceCheckbox
+      title={SECTION.LIFESTYLE}
+      header="Bạn có đang thuộc một trong các trường hợp sau không?"
+      description="Chúng tôi chỉ liệt kê những tình trạng sức khỏe có thể cần thận trọng khi dùng thực phẩm bổ sung. Nếu bạn gặp trường hợp nào, chúng tôi sẽ điều chỉnh phần đề xuất cho phù hợp."
+      items={getChoiceItems(51)}
+      onSelect={finishTest}
+      selectedItems={selectedMockItem}
+      setSelectedItems={setSelectedMockItem}
+      whyAskText="Một số bệnh lý hoặc thuốc bạn đang dùng có thể chống chỉ định hoặc cần điều chỉnh khi sử dụng thực phẩm bổ sung. Câu hỏi này giúp chúng tôi đưa ra khuyến nghị phù hợp và an toàn cho sức khỏe của bạn."
+      handleShowWhyAskDialog={handleToggleWhyAskModal}
+    />,
+
   ];
 
   return (

@@ -120,18 +120,7 @@ const AppFooter: React.FC = () => {
 
             <div className="font-semibold text-sm mb-3">THANH TOÁN AN TOÀN</div>
             <div className="flex items-center justify-center md:justify-start gap-3">
-              <div className="w-10 h-6 bg-white flex items-center justify-center text-xs rounded shadow">
-                VISA
-              </div>
-              <div className="w-10 h-6 bg-white flex items-center justify-center text-xs rounded shadow">
-                MC
-              </div>
-              <div className="w-10 h-6 bg-white flex items-center justify-center text-xs rounded shadow">
-                AMEX
-              </div>
-              <div className="w-14 h-6 bg-white flex items-center justify-center text-xs rounded shadow">
-                PayPal
-              </div>
+              <img src="/assets/payment.png" className="w-50" alt="Payment Methods" />
             </div>
           </div>
         </div>

@@ -817,4 +817,38 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
     { value: 11, text: "BÁC SĨ / NHÂN VIÊN Y TẾ" },
     { value: 12, text: "BẠN BÈ, NGƯỜI QUEN GIỚI THIỆU" }
   ],
+  [//52
+    {
+      value: 0,
+      text: "KHÔNG THUỘC TRƯỜNG HỢP NÀO",
+    },
+    {
+      value: 1,
+      text: "ĐANG DÙNG THUỐC ỨC CHẾ MIỄN DỊCH"
+    }, {
+      value: 2,
+      text: "ĐANG ĐIỀU TRỊ UNG THƯ"
+    }, {
+      value: 3,
+      text: "ĐANG DÙNG THUỐC CHỐNG ĐÔNG MÁU"
+    }, {
+      value: 4,
+      text: "VẤN ĐỀ VỀ ĐƯỜNG MẬT"
+    }, {
+      value: 5,
+      text: "BỆNH LÝ TUYẾN GIÁP"
+    }, {
+      value: 6,
+      text: "VẤN ĐỀ VỀ GAN"
+    }, {
+      value: 7,
+      text: "ĐANG DÙNG THUỐC CHỐNG TRẦM CẢM"
+    }, {
+      value: 8,
+      text: "ĐANG DÙNG THUỐC GIẢM MỠ MÁU"
+    }, {
+      value: 9,
+      text: "ĐANG MANG THAI HOẶC CHO CON BÚ"
+    }
+  ]
 ];

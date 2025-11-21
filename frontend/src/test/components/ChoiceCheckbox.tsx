@@ -24,6 +24,7 @@ const ChoiceCheckbox = (props: ChoiceCheckboxProps) => {
     <div className="w-full flex flex-col items-center max-w-[90vw]">
       <Badge text={props.title} image={props.image} />
       <Title text={props.header} />
+      {props.description && <div className="text-lg my-2">{props.description}</div>}
 
       <div className="w-full flex justify-center flex-wrap gap-4">
         {props.items.map((item, index) => (

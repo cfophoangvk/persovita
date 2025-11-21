@@ -3,6 +3,7 @@ import type { ChoiceItem } from "./ChoiceItem";
 export interface ChoiceCheckboxProps {
   title: string;
   header: string;
+  description?: string;
   image?: string;
   items: ChoiceItem[];
   onSelect: () => void;
