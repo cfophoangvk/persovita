@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useAuthStore } from "../../auth/stores/useAuthStore";
 import type { PaymentProps } from "../interfaces";
 import { Link } from "react-router-dom";
 import { Home } from "lucide-react";
@@ -40,14 +41,43 @@ const Payment: React.FC<PaymentProps> = ({
       import("../services/paymentService"),
     ])
       .then(([{ createOrder }, { clearCartServer }]) => {
-        createOrder({
+        // prepare payload: include items from localStorage for guest users
+        const { user } = useAuthStore.getState();
+        let payload: any = {
           shipping: shippingSummary,
           payment: { method: "qr", info: data },
-        })
+        };
+
+        if (!user) {
+          const raw = localStorage.getItem("persistCart") || "[]";
+          try {
+            const list = JSON.parse(raw || "[]");
+            // map to server-expected shape
+            payload.items = (list || []).map((item: any) => ({
+              productId: item.productId,
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity || 1,
+              image: item.image || "",
+              subscription: item.subscription || false,
+              subscriptionMonths: item.subscriptionMonths || 0,
+            }));
+          } catch (e) {
+            payload.items = [];
+          }
+        }
+
+        createOrder(payload)
           .then((res) => {
             // expect { success: true, order }
             if (res && res.success) {
-              clearCartServer().catch(() => {});
+              if (user) {
+                clearCartServer().catch(() => {});
+              } else {
+                // guest: clear local persistCart and notify app
+                localStorage.removeItem("persistCart");
+                window.dispatchEvent(new CustomEvent("cart:updated"));
+              }
             }
           })
           .catch((err) => {

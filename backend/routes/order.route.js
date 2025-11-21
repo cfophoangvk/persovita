@@ -5,7 +5,8 @@ const {
 } = require("../controllers/order.controller.js");
 const verifyToken = require("../middleware/verifyToken.js");
 
-router.post("/create", verifyToken, createOrder);
-router.get("/", verifyToken, getOrders);
+// allow guest users to create orders without authentication
+router.post("/create", createOrder);
+router.get("/", getOrders);
 
 module.exports = router;

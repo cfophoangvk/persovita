@@ -1,33 +1,27 @@
-import type { AxiosResponse } from "axios";
 import axiosInstance from "../../utils/axios";
-
-async function handleResponse(res: AxiosResponse) {
-  if (res.status === 401) {
-    return { success: false, status: 401, message: "Unauthorized" } as any;
-  }
-  return res.data;
-}
 
 export async function fetchCart() {
   const res = await axiosInstance.get("cart");
-  return handleResponse(res);
+  return res.data;
 }
 
 // smart fetch: if server returns 401 (not logged), return cart from localStorage
 export async function fetchCartSmart() {
   try {
     const res = await axiosInstance.get("cart", {
-      withCredentials: true
+      withCredentials: true,
     });
     if (res.status === 401) {
       const persist = localStorage.getItem("persistCart") || "[]";
       const cart = JSON.parse(persist || "[]");
       return { success: true, cart } as any;
     }
-    return handleResponse(res);
+    return res.data;
   } catch (e) {
     // fallback to local
-    console.log("Giỏ hàng chưa có vì sao? Vì bạn chưa đăng nhập! Đang lấy giỏ hàng từ localStorage");
+    console.log(
+      "Giỏ hàng chưa có vì sao? Vì bạn chưa đăng nhập! Đang lấy giỏ hàng từ localStorage"
+    );
     const persist = localStorage.getItem("persistCart") || "[]";
     const cart = JSON.parse(persist || "[]");
     return { success: true, cart } as any;
@@ -38,9 +32,9 @@ export async function addToCart(payload: any) {
   try {
     const res = await axiosInstance.post("cart/add", payload, {
       withCredentials: true,
-      headers: { "Content-Type": "application/json" }
-    })
-    return handleResponse(res);
+      headers: { "Content-Type": "application/json" },
+    });
+    return res.data;
   } catch (err) {
     return { success: false, message: err };
   }
@@ -68,8 +62,8 @@ export async function syncLocalCartToServer() {
       };
       const res = await axiosInstance.post("cart/add", payload, {
         withCredentials: true,
-        headers: { "Content-Type": "application/json" }
-      })
+        headers: { "Content-Type": "application/json" },
+      });
       if (res.status === 200 || res.status === 201) {
         synced++;
       }
@@ -87,30 +81,38 @@ export async function syncLocalCartToServer() {
 export async function updateCart(payload: any) {
   const res = await axiosInstance.post("cart/update", payload, {
     withCredentials: true,
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   });
-  return handleResponse(res);
+  return res.data;
 }
 
 export async function updateSubscriptionMonths(payload: any) {
   const res = await axiosInstance.put("cart/updateSubMonth", payload, {
     withCredentials: true,
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   });
-  return handleResponse(res);
+  return res.data;
 }
 
 export async function removeFromCart(id: number) {
-  const res = await axiosInstance.post("cart/remove", { productId: id }, {
-    withCredentials: true,
-    headers: { "Content-Type": "application/json" }
-  });
-  return handleResponse(res);
+  const res = await axiosInstance.post(
+    "cart/remove",
+    { productId: id },
+    {
+      withCredentials: true,
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+  return res.data;
 }
 
 export async function clearCart() {
-  const res = await axiosInstance.post("cart/clear", {}, {
-    withCredentials: true
-  });
-  return handleResponse(res);
+  const res = await axiosInstance.post(
+    "cart/clear",
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return res.data;
 }
