@@ -824,7 +824,7 @@ const TestPage = () => {
       title={SECTION.LIFESTYLE}
       header="Câu hỏi cuối cùng! Bạn biết chúng tôi qua đâu?"
       items={getChoiceItems(50)}
-      onSelect={finishTest}
+      onSelect={handleNext}
       selectedItems={selectedMockItem}
       setSelectedItems={setSelectedMockItem}
     />,
