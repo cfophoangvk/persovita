@@ -440,7 +440,7 @@ export const CHOICE_ITEMS: ChoiceItem[][] = [
     },
     {
       value: 2,
-      text: "HỖ TRỢ KHẢ NĂNG THỤ THAIN",
+      text: "HỖ TRỢ KHẢ NĂNG THỤ THAI",
     },
     {
       value: 0,

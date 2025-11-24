@@ -3,6 +3,7 @@ import Title from "./Title";
 import Button from "../components/Button";
 import type { InputProps } from "../interfaces/InputProps";
 import { Info } from "lucide-react";
+import { ICON_SIZE } from "../constants/section";
 
 const Input = (props: InputProps) => {
 
@@ -28,10 +29,10 @@ const Input = (props: InputProps) => {
 
       {props.whyAskText && props.handleShowWhyAskDialog && (
         <div
-          className="flex items-center text-gray-400 cursor-pointer mt-2 border-b border-gray-400"
+          className="flex items-center text-gray-400 cursor-pointer mt-2 border-b border-gray-400 text-sm"
           onClick={() => props.handleShowWhyAskDialog?.(props.whyAskText!)}
         >
-          <Info size={16} className="mr-2 fill-gray-400 stroke-white" /> Vì sao chúng tôi hỏi câu này?
+          <Info size={ICON_SIZE} className="mr-2 fill-gray-400 stroke-white" /> Vì sao chúng tôi hỏi câu này?
         </div>
       )}
       <Button text="Tiếp tục" onClick={props.handleInput} />

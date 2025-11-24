@@ -4,6 +4,7 @@ import Badge from "./Badge"
 import Button from "./Button"
 import ChoiceCheckboxItem from "./ChoiceCheckboxItem"
 import Title from "./Title"
+import { ICON_SIZE } from "../constants/section"
 
 const ChoiceCheckbox = (props: ChoiceCheckboxProps) => {
 
@@ -34,10 +35,10 @@ const ChoiceCheckbox = (props: ChoiceCheckboxProps) => {
 
       {props.whyAskText && props.handleShowWhyAskDialog && (
         <div
-          className="flex items-center text-gray-400 cursor-pointer mt-2 border-b border-gray-400"
+          className="flex items-center text-gray-400 cursor-pointer mt-2 border-b border-gray-400 text-sm"
           onClick={() => props.handleShowWhyAskDialog?.(props.whyAskText!)}
         >
-          <Info size={16} className="mr-2 fill-gray-400 stroke-white" /> Vì sao chúng tôi hỏi câu này?
+          <Info size={ICON_SIZE} className="mr-2 fill-gray-400 stroke-white" /> Vì sao chúng tôi hỏi câu này?
         </div>
       )}
       <Button disabled={props.selectedItems.length === 0} text="Tiếp tục" onClick={props.onSelect} />

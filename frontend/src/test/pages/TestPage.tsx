@@ -843,7 +843,7 @@ const TestPage = () => {
   ];
 
   return (
-    <div className="min-h-screen flex justify-center items-center w-full overflow-hidden relative bg-[url('/assets/NOURI_SURVEY.png')] bg-center bg-[length:100%_100%] bg-no-repeat">
+    <div className="min-h-screen flex justify-center items-center w-full overflow-hidden relative bg-[url('/assets/NOURI_SURVEY.png')] bg-bottom md:bg-[length:100%_auto] bg-no-repeat">
       <Popup isOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} product={popupProduct} />
       <WhyAskDialog isOpen={whyAskText !== ''} setIsOpen={() => setWhyAskText('')} text={whyAskText} />
       <Header currentProgress={currentProgress} />

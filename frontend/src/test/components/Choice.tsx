@@ -3,6 +3,7 @@ import Title from "./Title"
 import type { ChoiceProps } from "../interfaces/ChoiceProps"
 import ChoiceItem from "./ChoiceItem"
 import { Info } from "lucide-react"
+import { ICON_SIZE } from "../constants/section"
 
 const Choice = (props: ChoiceProps) => {
   return (
@@ -19,10 +20,10 @@ const Choice = (props: ChoiceProps) => {
 
       {props.whyAskText && props.handleShowWhyAskDialog && (
         <div
-          className="flex items-center text-gray-400 cursor-pointer mt-2 border-b border-gray-400"
+          className="flex items-center text-gray-400 cursor-pointer mt-2 border-b border-gray-400 text-sm"
           onClick={() => props.handleShowWhyAskDialog?.(props.whyAskText!)}
         >
-          <Info size={16} className="mr-2 fill-gray-400 stroke-white" /> Vì sao chúng tôi hỏi câu này?
+          <Info size={ICON_SIZE} className="mr-2 fill-gray-400 stroke-white" /> Vì sao chúng tôi hỏi câu này?
         </div>
       )}
     </div>

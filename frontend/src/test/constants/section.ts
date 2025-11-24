@@ -22,6 +22,8 @@ export const SECTION = {
   LIFESTYLE: "LỐI SỐNG"
 }
 
+export const ICON_SIZE = 12;
+
 export const OBJECTIVE_ITEMS = [
   {
     id: 1,
