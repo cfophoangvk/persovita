@@ -1,16 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import FadeInSection from "./components/FadeInSection";
+import { toast } from "react-hot-toast";
 
 const ContactPage: React.FC = () => {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form gửi:", form);
+    toast.success("Đã gửi thông tin liên hệ!");
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [])
+  }, []);
+
   return (
-    <div className="max-w-4xl mx-auto mt-10 px-6 py-16">
+    <div className="max-w-6xl mx-auto mt-10 px-6 py-16">
       <FadeInSection>
         <h1 className="text-3xl font-extrabold text-teal-600 mb-6">Liên hệ</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* LEFT CONTENT */}
           <div className="space-y-4">
             <p className="text-gray-700">
               Nếu bạn cần hỗ trợ, tư vấn dược phẩm, hay có câu hỏi về đơn hàng,
@@ -57,13 +78,69 @@ const ContactPage: React.FC = () => {
             </div>
           </div>
 
+          {/* RIGHT SIDE: CONTACT FORM */}
           <div>
-            <div className="mt-4 text-sm text-gray-600">
+            <h3 className="font-semibold text-lg mb-3">
+              Gửi tin nhắn cho chúng tôi
+            </h3>
+
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-4 bg-white p-6 rounded-lg shadow"
+            >
+              <div>
+                <label className="text-sm font-medium">Tên của bạn</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded mt-1"
+                  placeholder="Nhập tên..."
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded mt-1"
+                  placeholder="Email của bạn..."
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Nội dung</label>
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full p-2 border rounded mt-1"
+                  placeholder="Bạn muốn nhắn gì?"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition"
+              >
+                Gửi liên hệ
+              </button>
+            </form>
+
+            <div className="mt-6 text-sm text-gray-600">
               <p className="font-semibold">Kênh hỗ trợ khác</p>
               <ul className="mt-2 space-y-2">
                 <li>
                   <a
-                    href="https://www.facebook.com/nourivitamin?mibextid=wwXIfr&rdid=m52VXaWSXFqD3Yfp&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DCgNiC9HG%2F%3Fmibextid%3DwwXIfr#"
+                    href="https://www.facebook.com/nourivitamin?mibextid=wwXIfr"
                     target="_blank"
                     rel="noreferrer"
                     className="text-teal-600"
