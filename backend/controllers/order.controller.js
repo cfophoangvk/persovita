@@ -115,7 +115,10 @@ const createOrder = async (req, res) => {
     if (userId === null && payment) {
       db.payment = db.payment || [];
       const payMatch = db.payment.find(
-        (p) => p.userId === null && p.method === payment.method && p.info === payment.info
+        (p) =>
+          p.userId === null &&
+          p.method === payment.method &&
+          p.info === payment.info
       );
       if (payMatch) {
         paymentId = payMatch.id;
