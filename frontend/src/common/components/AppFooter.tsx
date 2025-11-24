@@ -35,7 +35,7 @@ const AppFooter: React.FC = () => {
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Sức khỏe Toàn diện (Integrative Health)
+                  Sức khỏe Toàn diện
                 </a>
               </li>
               <li>
@@ -120,7 +120,11 @@ const AppFooter: React.FC = () => {
 
             <div className="font-semibold text-sm mb-3">THANH TOÁN AN TOÀN</div>
             <div className="flex items-center justify-center md:justify-start gap-3">
-              <img src="/assets/payment.png" className="w-50" alt="Payment Methods" />
+              <img
+                src="/assets/payment.png"
+                className="w-50"
+                alt="Payment Methods"
+              />
             </div>
           </div>
         </div>
