@@ -6,7 +6,6 @@ import type { Product } from "../interfaces";
 import Payment from "./Payment.tsx";
 import {
   fetchCartSmart,
-  updateCart,
   removeFromCart as svcRemoveFromCart,
   updateSubscriptionMonths,
 } from "../services/cartService";
@@ -14,10 +13,24 @@ import type { PersistCart } from "../interfaces/PersistCart.ts";
 import { CircleQuestionMark, Home, X } from "lucide-react";
 import { useLoading } from "../../common/hooks/useLoading.tsx";
 
-const SubscriptionOfferModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => (
-  <div className={`fixed inset-0 z-50 flex flex-col justify-end transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+const SubscriptionOfferModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => (
+  <div
+    className={`fixed inset-0 z-50 flex flex-col justify-end transition-opacity duration-300 ${
+      isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+    }`}
+  >
     <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-    <div className={`bg-teal-400 text-white w-full rounded-t-2xl md:p-10 p-5 text-center z-1 transform transition-transform duration-300 ease-out ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}>
+    <div
+      className={`bg-teal-400 text-white w-full rounded-t-2xl md:p-10 p-5 text-center z-1 transform transition-transform duration-300 ease-out ${
+        isOpen ? "translate-y-0" : "translate-y-full"
+      }`}
+    >
       <div className="flex justify-end">
         <button onClick={onClose} className="text-white cursor-pointer">
           <X size={24} />
@@ -39,6 +52,9 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const { setLoading } = useLoading();
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [showBoxModal, setShowBoxModal] = useState(false);
+  const [showBoxChildren, setShowBoxChildren] = useState(true);
+  const [boxCount, setBoxCount] = useState<number>(1);
   const [removingIds, setRemovingIds] = useState<number[]>([]);
   const [showShippingPage, setShowShippingPage] = useState(false);
   const [showPaymentPage, setShowPaymentPage] = useState(false);
@@ -74,6 +90,8 @@ const Cart = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  console.log(setBoxCount);
+
   const computeItemTotals = (it: Product) => {
     const price = it.price ?? 0;
     const qty = it.quantity ?? 1;
@@ -90,15 +108,32 @@ const Cart = () => {
       };
     }
     const gross = price * qty * months;
-    const multiplier = months === 1 ? 0.9 : 0.8; // 1 month => 0.9, 3/6/9/12 => 0.8
+    const multiplier = months === 2 ? 0.9 : months === 3 ? 0.8 : 1;
     const net = gross * multiplier;
     return { gross, net, multiplier, months };
   };
 
-  const totalVND = cartItems.reduce(
+  // total should not be multiplied by boxCount because the box is free
+  const itemNetTotal = cartItems.reduce(
     (s, it) => s + computeItemTotals(it).net,
     0
   );
+  const totalVND = itemNetTotal;
+
+  // totals for the box (aggregate of child products, per-box and multiplied by selected count)
+  // box-level aggregate (per-box values). Box is free so totals shown here are per-order, not multiplied by boxCount
+  const boxGross = cartItems.reduce(
+    (s, it) => s + computeItemTotals(it).gross,
+    0
+  );
+  const boxNet = cartItems.reduce((s, it) => s + computeItemTotals(it).net, 0);
+  const boxGrossTotal = boxGross;
+  const boxNetTotal = boxNet;
+  const boxDiscountAmount = Math.max(0, boxGrossTotal - boxNetTotal);
+  const boxDiscountPercent =
+    boxGrossTotal > 0
+      ? Math.round((boxDiscountAmount / boxGrossTotal) * 100)
+      : 0;
 
   const handleRemove = (id: number) => {
     setRemovingIds((s) => [...s, id]);
@@ -110,7 +145,9 @@ const Cart = () => {
       const persistCart = localStorage.getItem("persistCart");
       if (persistCart) {
         let persistCartItems: PersistCart[] = JSON.parse(persistCart);
-        persistCartItems = persistCartItems.filter(item => item.productId !== id.toString());
+        persistCartItems = persistCartItems.filter(
+          (item) => item.productId !== id.toString()
+        );
 
         localStorage.setItem("persistCart", JSON.stringify(persistCartItems));
       }
@@ -119,50 +156,53 @@ const Cart = () => {
     window.dispatchEvent(new CustomEvent("cart:updated"));
   };
 
-  const handleSetQuantity = (id: number, qty: number) => {
-    setCartItems((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, quantity: qty } : p))
-    );
+  // const handleSetQuantity = (id: number, qty: number) => {
+  //   setCartItems((prev) =>
+  //     prev.map((p) => (p.id === id ? { ...p, quantity: qty } : p))
+  //   );
 
-    if (user) {
-      updateCart({ id, quantity: qty });
-    } else {
-      const persistCart = localStorage.getItem("persistCart");
-      if (persistCart) {
-        let persistCartItems: PersistCart[] = JSON.parse(persistCart);
-        persistCartItems = persistCartItems.map(item => {
-          return {
-            ...item,
-            quantity: qty
-          }
-        })
+  //   if (user) {
+  //     updateCart({ id, quantity: qty });
+  //   } else {
+  //     const persistCart = localStorage.getItem("persistCart");
+  //     if (persistCart) {
+  //       let persistCartItems: PersistCart[] = JSON.parse(persistCart);
+  //       persistCartItems = persistCartItems.map((item) => {
+  //         return {
+  //           ...item,
+  //           quantity: qty,
+  //         };
+  //       });
 
-        localStorage.setItem("persistCart", JSON.stringify(persistCartItems));
-      }
-    }
-  };
+  //       localStorage.setItem("persistCart", JSON.stringify(persistCartItems));
+  //     }
+  //   }
+  // };
 
   const handleSetSubscriptionMonths = (months: number) => {
     const isSub = months > 0;
     setCartItems((prev) =>
       prev.map((p) => {
-        return { ...p, subscription: isSub, subscriptionMonths: months }
+        return { ...p, subscription: isSub, subscriptionMonths: months };
       })
     );
 
     if (user) {
-      updateSubscriptionMonths({ subscription: isSub, subscriptionMonths: months })
+      updateSubscriptionMonths({
+        subscription: isSub,
+        subscriptionMonths: months,
+      });
     } else {
       const persistCart = localStorage.getItem("persistCart");
       if (persistCart) {
         let persistCartItems: PersistCart[] = JSON.parse(persistCart);
-        persistCartItems = persistCartItems.map(item => {
+        persistCartItems = persistCartItems.map((item) => {
           return {
             ...item,
             subscription: isSub,
-            subscriptionMonths: months
-          }
-        })
+            subscriptionMonths: months,
+          };
+        });
 
         localStorage.setItem("persistCart", JSON.stringify(persistCartItems));
       }
@@ -174,22 +214,21 @@ const Cart = () => {
 
   const productValueVND = cartItems.length > 0 ? totalVND : 0;
 
-  // Tính chi phí vận chuyển bằng VNĐ
-  const shippingVND = productValueVND > 0 ? 30000 : 0;
-
-  const totalVND_Final = productValueVND + shippingVND;
+  // Shipping removed — box and shipping are free in UI/price summary
+  const totalVND_Final = productValueVND;
 
   // tính toán giá trị gộp (chưa giảm giá đăng ký) và chiết khấu (bằng VNĐ)
   const grossVND = cartItems.reduce(
     (s, it) => s + computeItemTotals(it).gross,
     0
   );
-  const discountsVND = grossVND - totalVND; // dương khi có chiết khấu
+  const grossVNDTotal = grossVND;
+  const discountsVND = grossVNDTotal - totalVND; // dương khi có chiết khấu
   const subtotalVND = totalVND;
 
   useEffect(() => {
     try {
-      const persistCartItems: PersistCart[] = cartItems.map(item => {
+      const persistCartItems: PersistCart[] = cartItems.map((item) => {
         return {
           userId: null,
           productId: item.id.toString(),
@@ -197,9 +236,9 @@ const Cart = () => {
           price: item.price ?? 0,
           quantity: item.quantity ?? 1,
           subscription: item.subscription ?? false,
-          image: item.images?.[0] ?? '',
-          subscriptionMonths: item.subscriptionMonths ?? 0
-        }
+          image: item.images?.[0] ?? "",
+          subscriptionMonths: item.subscriptionMonths ?? 0,
+        };
       });
 
       if (cartItems.length > 0) {
@@ -212,6 +251,50 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-white relative">
+      {/* Box detail modal */}
+      {showBoxModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setShowBoxModal(false)}
+          />
+          <div className="bg-white rounded-lg max-w-xl w-[90%] p-6 z-10">
+            <div className="flex items-start gap-4">
+              <div className="w-24 h-24 bg-[#fbf7f5] rounded-md p-2 flex items-center justify-center">
+                <img
+                  src="/assets/LMĐ.png"
+                  alt="Hộp Cá Nhân Hóa"
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold">Hộp Cá Nhân Hóa</h3>
+                <p className="mt-3 text-sm text-gray-700">
+                  Các hộp của chúng tôi được cá nhân hóa 100% và chuẩn bị riêng
+                  cho bạn.
+                </p>
+                <p className="mt-3 text-sm text-gray-700">
+                  Sau khi bạn đặt hàng, bạn sẽ nhận được 1 hộp gồm 30 gói dùng
+                  hằng ngày, in tên của bạn và chứa các thực phẩm bổ sung mà bạn
+                  đã chọn.
+                </p>
+                <p className="mt-3 text-sm text-gray-700">
+                  Dịch vụ cá nhân hóa được miễn phí khi bạn đăng ký gói.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => setShowBoxModal(false)}
+                className="px-6 py-2 rounded-full bg-teal-500 text-white font-semibold hover:bg-teal-600"
+              >
+                Ok, tôi hiểu
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {showPaymentPage ? (
         <Payment
           productCount={cartItems.length}
@@ -221,7 +304,6 @@ const Cart = () => {
         />
       ) : showShippingPage ? (
         <Shipping
-          productCount={cartItems.length}
           totalVND={totalVND_Final}
           onBack={() => setShowShippingPage(false)}
           onProceed={(summary: {
@@ -241,7 +323,7 @@ const Cart = () => {
           />
 
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="absolute left-4 top-4 p-2 text-gray-600 hover:text-gray-800 z-40 cursor-pointer"
           >
             <Home />
@@ -249,7 +331,12 @@ const Cart = () => {
 
           <div className="md:w-[95vw] w-[85vw] mx-auto py-5">
             <header className="flex items-center justify-center mb-8">
-              <img src="assets/logo.png" alt="Nouri" className="w-32 cursor-pointer" onClick={() => location.href = '/'} />
+              <img
+                src="assets/logo.png"
+                alt="Nouri"
+                className="w-32 cursor-pointer"
+                onClick={() => (location.href = "/")}
+              />
             </header>
 
             <div className="flex lg:flex-row flex-col gap-8">
@@ -273,17 +360,24 @@ const Cart = () => {
                 </div>
 
                 <div className="flex gap-3 md:flex-row flex-col md:justify-center items-center">
-                  <label htmlFor="subscription" className="md:text-lg">Tần suất đăng ký:</label>
-                  <select id="subscription" className="px-3 py-1 border border-gray-200 rounded-full text-sm w-36 disabled:opacity-50"
-                    value={cartItems.length > 0 ? cartItems[0].subscriptionMonths : 0}
+                  <label htmlFor="subscription" className="md:text-lg">
+                    Tần suất đăng ký:
+                  </label>
+                  <select
+                    id="subscription"
+                    className="px-3 py-1 border border-gray-200 rounded-full text-sm w-36 disabled:opacity-50"
+                    value={
+                      cartItems.length > 0 ? cartItems[0].subscriptionMonths : 0
+                    }
                     disabled={cartItems.length === 0}
-                    onChange={e => handleSetSubscriptionMonths(Number(e.target.value))}>
+                    onChange={(e) =>
+                      handleSetSubscriptionMonths(Number(e.target.value))
+                    }
+                  >
                     <option value={0}>Không đăng ký</option>
                     <option value={1}>1 tháng</option>
+                    <option value={2}>2 tháng</option>
                     <option value={3}>3 tháng</option>
-                    <option value={6}>6 tháng</option>
-                    <option value={9}>9 tháng</option>
-                    <option value={12}>1 năm</option>
                   </select>
                 </div>
 
@@ -296,96 +390,148 @@ const Cart = () => {
                   </div>
                 ) : (
                   <ul className="space-y-6">
-                    {cartItems.map((item) => (
-                      <li key={item.id}>
-                        <div
-                          className={`bg-white rounded-xl p-6 shadow-sm flex items-center relative transition-transform duration-200 ${removingIds.includes(item.id)
-                            ? "opacity-0 scale-95"
-                            : ""
-                            }`}
-                        >
-                          <button
-                            onClick={() => handleRemove(item.id)}
-                            className="absolute right-4 top-4 bg-white rounded-full w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 shadow"
-                          >
-                            <X size={16} />
-                          </button>
-
-                          <div className="w-24 h-24 bg-[#fbf7f5] rounded-md p-3 flex items-center justify-center mr-6">
-                            <img
-                              src={item.images?.[0]}
-                              alt={item.name}
-                              className="max-w-full max-h-full object-contain"
-                            />
-                          </div>
-
-                          <div className="flex-1">
-                            <div className="flex sm:flex-row flex-col justify-between sm:items-end items-start">
-                              <div>
-                                <p className="font-semibold text-gray-800 text-lg">
-                                  {item.name}
-                                </p>
-                                <p className="text-sm text-gray-500">
-                                  {item.description ?? "Dùng trong 30 ngày"}
-                                </p>
-                                {item.subscription && (
-                                  <div className="inline-block mt-2 px-2 py-1 text-xs bg-teal-100 text-teal-700 rounded">
-                                    Đăng ký hàng tháng
-                                  </div>
-                                )}
+                    {/* Box parent item */}
+                    <li key="box-parent">
+                      <div
+                        onClick={() => setShowBoxModal(true)}
+                        role="button"
+                        tabIndex={0}
+                        className="cursor-pointer bg-white rounded-xl p-4 shadow-sm flex items-center gap-4"
+                      >
+                        <div className="w-20 h-20 flex items-center justify-center bg-[#fbf7f5] rounded-md p-2">
+                          <img
+                            src="/assets/LMĐ.png"
+                            alt="Hộp"
+                            className="max-w-full max-h-full object-contain"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="font-semibold text-lg">
+                                Hộp Cá Nhân Hóa
+                              </div>
+                              <div className="text-sm text-gray-600 mt-1">
+                                30 gói dùng hằng ngày
                               </div>
 
-                              <div className="flex sm:flex-row flex-col items-center md:gap-4">
-                                {(() => {
-                                  const t = computeItemTotals(item);
-                                  return (
-                                    <div className="flex sm:flex-row flex-col space-x-2">
-                                      <div className="text-gray-400 line-through">
-                                        {formatVND(
-                                          (item.price ?? 0) *
-                                          (item.quantity ?? 1) *
-                                          (t.months || 1)
-                                        )}
-                                      </div>
-                                      <div className="font-semibold text-gray-900">
-                                        {formatVND(t.net)}
-                                      </div>
-                                    </div>
-                                  );
-                                })()}
+                              <div className="mt-2">
+                                <div
+                                  className="px-2 py-1 border border-gray-200 rounded-full text-sm inline-flex items-center text-gray-700"
+                                  title="Số lượng hộp"
+                                >
+                                  1 hộp
+                                </div>
+                              </div>
+
+                              <div className="text-sm text-gray-700 mt-3">
+                                <span className="font-medium">Bao gồm:</span>{" "}
+                                <span className="text-gray-700">
+                                  {cartItems.length} sản phẩm
+                                </span>
                               </div>
                             </div>
 
-                            <div className="mt-4 flex sm:flex-row flex-col sm:items-center items-start justify-between gap-2">
-                              <div className="flex items-center space-x-3">
-                                <label className="text-gray-500 block mb-1">
-                                  Số lượng:
-                                </label>
-                                <select
-                                  value={item.quantity}
-                                  onChange={(e) =>
-                                    handleSetQuantity(
-                                      item.id,
-                                      Number(e.target.value)
-                                    )
-                                  }
-                                  className="px-3 py-1 border border-gray-200 rounded-full text-sm w-20 text-center"
+                            <div className="flex flex-col items-end">
+                              <div>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowBoxChildren((s) => !s);
+                                  }}
+                                  className="px-3 py-1 border rounded-full text-sm"
+                                  aria-label="Toggle box contents"
                                 >
-                                  {Array.from(
-                                    { length: 10 },
-                                    (_, i) => i + 1
-                                  ).map((n) => (
-                                    <option key={n} value={n}>
-                                      {n}
-                                    </option>
-                                  ))}
-                                </select>
+                                  {showBoxChildren ? "▾" : "▸"}
+                                </button>
+                              </div>
+
+                              <div className="mt-3 text-right">
+                                {boxDiscountAmount > 0 && (
+                                  <div className="text-gray-400 line-through text-sm">
+                                    {formatVND(boxGrossTotal)}
+                                  </div>
+                                )}
+                                <div className="font-semibold text-lg">
+                                  {formatVND(boxNetTotal)}
+                                </div>
+                                {boxDiscountAmount > 0 && (
+                                  <div className="text-sm text-red-600 font-medium">
+                                    -{formatVND(boxDiscountAmount)} (
+                                    {boxDiscountPercent}%)
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
                         </div>
-                      </li>
-                    ))}
+                      </div>
+                    </li>
+
+                    {/* Box children (actual products) */}
+                    {showBoxChildren &&
+                      cartItems.map((item) => (
+                        <li key={item.id} className="pl-6">
+                          <div
+                            className={`bg-white rounded-xl p-6 shadow-sm flex items-center relative transition-transform duration-200 ${
+                              removingIds.includes(item.id)
+                                ? "opacity-0 scale-95"
+                                : ""
+                            }`}
+                          >
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemove(item.id);
+                              }}
+                              className="absolute right-4 top-4 bg-white rounded-full w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 shadow"
+                            >
+                              <X size={16} />
+                            </button>
+
+                            <div className="w-24 h-24 bg-[#fbf7f5] rounded-md p-3 flex items-center justify-center mr-6">
+                              <img
+                                src={item.images?.[0]}
+                                alt={item.name}
+                                className="max-w-full max-h-full object-contain"
+                              />
+                            </div>
+
+                            <div className="flex-1">
+                              <div className="flex sm:flex-row flex-col justify-between sm:items-end items-start">
+                                <div>
+                                  <p className="font-semibold text-gray-800 text-lg">
+                                    {item.name}
+                                  </p>
+                                  <p className="text-sm text-gray-500">
+                                    {item.description ?? "Dùng trong 30 ngày"}
+                                  </p>
+                                  {item.subscription && (
+                                    <div className="inline-block mt-2 px-2 py-1 text-xs bg-teal-100 text-teal-700 rounded">
+                                      Đăng ký hàng tháng
+                                    </div>
+                                  )}
+                                </div>
+
+                                {/* price moved down to avoid overlap with close button */}
+                              </div>
+
+                              <div className="mt-4 flex sm:flex-row flex-col sm:items-center items-start justify-between gap-2">
+                                <div />
+
+                                <div className="text-right ml-4">
+                                  <div className="font-semibold text-gray-900">
+                                    {formatVND(item.price ?? 0)}
+                                  </div>
+                                  <div className="text-xs text-gray-500">
+                                    Đơn giá
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
 
                     <li>
                       <div className="mt-6 flex justify-center">
@@ -416,38 +562,42 @@ const Cart = () => {
                   </div>
 
                   <div className="py-3">
-                    {cartItems.map((it) => {
-                      const t = computeItemTotals(it);
-                      return (
-                        <div
-                          key={it.id}
-                          className="flex justify-between items-center py-2 border-b border-gray-300"
-                        >
-                          <div className="lg:text-sm text-base text-gray-800">
-                            {it.name}
-                            {it.subscription && (
-                              <div className="inline-block ml-2 px-2 py-0.5 text-xs bg-teal-100 text-teal-700 rounded">
-                                Đăng ký {t.months} tháng
-                              </div>
-                            )}
-                          </div>
-                          <div className="text-right text-sm">
-                            <div className="text-gray-400 text-sm line-through">
-                              {formatVND(t.gross)}
-                            </div>
-                            <div className="font-semibold text-gray-900">
-                              {t.net === 0 ? "Miễn phí" : formatVND(t.net)}
-                            </div>
-                          </div>
+                    {/* Show single box summary instead of individual products */}
+                    <div className="flex justify-between items-center py-2 border-b border-gray-300">
+                      <div className="lg:text-sm text-base text-gray-800">
+                        Hộp Cá Nhân Hóa
+                        <div className="inline-block ml-2 px-2 py-0.5 text-xs bg-teal-100 text-teal-700 rounded">
+                          {boxCount} hộp
                         </div>
-                      );
-                    })}
+                      </div>
+
+                      <div className="text-right text-sm">
+                        <div>
+                          {boxDiscountAmount > 0 && (
+                            <div className="text-gray-400 line-through text-sm">
+                              {formatVND(boxGrossTotal)}
+                            </div>
+                          )}
+                          <div className="font-semibold text-gray-900">
+                            {formatVND(boxNetTotal)}
+                          </div>
+                          {boxDiscountAmount > 0 && (
+                            <div className="text-sm text-red-600">
+                              -{formatVND(boxDiscountAmount)} (
+                              {boxDiscountPercent}%)
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="pt-4">
                     <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
                       <span className="font-semibold">GIÁ TRỊ SẢN PHẨM</span>
-                      <span className="font-bold">{formatVND(grossVND)}</span>
+                      <span className="font-bold">
+                        {formatVND(grossVNDTotal)}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
                       <span>Giảm giá</span>
@@ -462,18 +612,7 @@ const Cart = () => {
                       </span>
                     </div>
 
-                    <div
-                      className="flex justify-between items-center text-sm text-gray-600 mt-3 cursor-pointer"
-                    >
-                      <span className="flex items-center gap-2">
-                        Vận chuyển{" "}
-                      </span>
-                      <span className="font-bold text-gray-800">
-                        {shippingVND === 0
-                          ? "Miễn phí"
-                          : formatVND(shippingVND)}
-                      </span>
-                    </div>
+                    {/* Shipping removed from summary */}
 
                     <div className="flex justify-between items-center border-t border-gray-300 pt-4 mt-4">
                       <span className="font-bold text-gray-800">TỔNG CỘNG</span>

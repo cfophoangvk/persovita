@@ -6,30 +6,29 @@ import { toast } from "react-hot-toast";
 // Hàm định dạng VNĐ
 const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";
 
-// Phương thức vận chuyển (Giữ giá gốc Euro để chuyển đổi)
+// Phương thức vận chuyển theo yêu cầu
 const SHIPPING_METHODS: ShippingMethod[] = [
   {
-    id: "pickup",
-    title: "Nhận hàng tại điểm thu hộ",
-    subtitle: "Nhấn để chọn điểm nhận hàng",
-    price: "Free",
-  },
-  {
-    id: "home_priv",
-    title: "Giao hàng tận nhà",
-    subtitle: "Giao hàng trong 48 giờ",
+    id: "hn_std",
+    title: "Giao hàng tiêu chuẩn (Nội thành Hà Nội)",
+    subtitle: "Giao trong 2–3 ngày làm việc",
     price: 30000,
   },
   {
-    id: "home_colis",
-    title: "Giao hàng tận nhà",
-    subtitle: "Giao hàng trong 24 giờ",
+    id: "prov_std",
+    title: "Giao hàng tiêu chuẩn (Các tỉnh thành khác)",
+    subtitle: "Giao trong 3–5 ngày làm việc",
+    price: 40000,
+  },
+  {
+    id: "hn_fast",
+    title: "Giao hàng nhanh (Nội thành Hà Nội)",
+    subtitle: "Giao trong 24 giờ",
     price: 40000,
   },
 ];
 
 const Shipping: React.FC<{
-  productCount?: number;
   totalVND?: number;
   onBack?: () => void;
   onProceed?: (summary: {
@@ -37,28 +36,59 @@ const Shipping: React.FC<{
     city?: string;
     country?: string;
   }) => void;
-}> = ({ productCount = 0, totalVND = 0, onBack, onProceed }) => {
-  // Thông tin mặc định đã chuyển sang Hà Nội
-  const [email, setEmail] = useState("vanan123@email.com");
-  const [firstName, setFirstName] = useState("Nguyễn");
-  const [lastName, setLastName] = useState("Văn An");
-  const [address1, setAddress1] = useState("64, Ngõ Chùa Liên Phái");
-  const [address2, setAddress2] = useState("Tầng 2, căn hộ 201");
-  const [zipcode, setZipcode] = useState("10000"); // Mã bưu chính Hà Nội
-  const [city, setCity] = useState("Hà Nội");
+}> = ({ totalVND = 0, onBack, onProceed }) => {
+  // Personalization (from survey) — try to load from localStorage key `testData`
+  const loadPersonalFromStorage = () => {
+    try {
+      const raw = localStorage.getItem("testData");
+      if (!raw) return { name: "", email: "" };
+      const parsed = JSON.parse(raw);
+      return {
+        name: (parsed && parsed.name) || "",
+        email: (parsed && parsed.email) || "",
+      };
+    } catch (e) {
+      return { name: "", email: "" };
+    }
+  };
+
+  const initialPersonal = loadPersonalFromStorage();
+  const [personalName, setPersonalName] = useState(initialPersonal.name);
+  const [personalEmail, setPersonalEmail] = useState(initialPersonal.email);
+
+  // Shipping address fields — intentionally empty and use placeholders
+  const [addrFirstName, setAddrFirstName] = useState("");
+  const [addrLastName, setAddrLastName] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [city, setCity] = useState("");
   const [country, setCountry] = useState("Việt Nam");
-  const [phone, setPhone] = useState("+84 901234567");
-  const [method, setMethod] = useState<string>("pickup");
+  const [phone, setPhone] = useState("");
+  const [method, setMethod] = useState<string>("hn_std");
+
+  console.log(setPersonalEmail);
+  console.log(setPersonalName);
+  console.log(setCountry);
+
+  // compute selected shipping price and total including shipping for display
+  const selectedMethod = SHIPPING_METHODS.find((m) => m.id === method);
+  const selectedShippingPrice = selectedMethod
+    ? (selectedMethod.price as number)
+    : 0;
+  const totalWithShipping = (totalVND || 0) + (selectedShippingPrice || 0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const handleProceed = () => {
-    if (!email || !firstName || !lastName || !address1 || !zipcode || !city) {
+    // require basic shipping fields
+    if (!addrFirstName || !addrLastName || !address1 || !zipcode || !city) {
       toast.error("Vui lòng điền đầy đủ các trường bắt buộc.");
       return;
     }
+
     const summary: any = {
       address: `${address1}${address2 ? ", " + address2 : ""}`,
       city,
@@ -68,16 +98,19 @@ const Shipping: React.FC<{
 
     // find selected method's price
     const sel = SHIPPING_METHODS.find((m) => m.id === method);
-    const price = sel && sel.price !== "Free" ? (sel.price as number) : 0;
-    // attach price in VND
+    const price = sel ? (sel.price as number) : 0;
     summary["price"] = price;
 
-    // Gọi API (giữ nguyên logic gốc)
+    // phone: prefix +84 when sending if user provided number
+    const phoneToSend = phone ? `+84${phone}` : "";
+
     import("../services/shippingService").then(({ addShipping }) => {
       addShipping({
         address: summary.address,
-        email,
-        phone,
+        name: personalName,
+        email: personalEmail,
+        alternativeName: addrFirstName + " " + addrLastName,
+        phone: phoneToSend,
         method,
         price,
       })
@@ -85,7 +118,6 @@ const Shipping: React.FC<{
           if (onProceed) onProceed(summary);
         })
         .catch(() => {
-          // Xử lý lỗi hoặc tiếp tục
           if (onProceed) onProceed(summary);
         });
     });
@@ -113,10 +145,10 @@ const Shipping: React.FC<{
           <div className="flex sm:flex-row flex-col justify-between">
             <div className="text-lg font-bold">
               1. Giỏ hàng của bạn{" "}
-              <span className="text-gray-400">({productCount} sản phẩm)</span>
+              <span className="text-gray-400">(1 sản phẩm)</span>
             </div>
             <div className="sm:text-base text-lg font-semibold">
-              {formatVND(totalVND)}
+              {formatVND(totalWithShipping)}
             </div>
           </div>
         </div>
@@ -126,37 +158,37 @@ const Shipping: React.FC<{
 
           <div className="mb-6">
             <h3 className="text-sm font-bold text-teal-600 mb-3">
-              THÔNG TIN LIÊN HỆ
+              CÁ NHÂN HÓA GÓI DÙNG HÀNG NGÀY
             </h3>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-              className="w-full p-3 rounded-full bg-[#fbf7f5] border-none mb-2"
-              required
+              value={personalName}
+              readOnly
+              className="w-full p-3 rounded-full bg-[#fbf7f5] border-none mb-2 text-gray-700"
+            />
+            <input
+              value={personalEmail}
+              readOnly
+              className="w-full p-3 rounded-full bg-[#fbf7f5] border-none mb-2 text-gray-700"
             />
           </div>
 
-          {/* Địa chỉ giao hàng */}
+          {/* Địa chỉ giao hàng (trống, placeholder) */}
           <div className="mb-6">
             <h3 className="text-sm font-bold text-teal-600 mb-3">
               ĐỊA CHỈ GIAO HÀNG
             </h3>
             <div className="grid grid-cols-2 gap-3 mb-3">
               <input
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                value={addrFirstName}
+                onChange={(e) => setAddrFirstName(e.target.value)}
                 placeholder="Tên"
                 className="p-3 rounded-full bg-[#fbf7f5]"
-                required
               />
               <input
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                value={addrLastName}
+                onChange={(e) => setAddrLastName(e.target.value)}
                 placeholder="Họ"
                 className="p-3 rounded-full bg-[#fbf7f5]"
-                required
               />
             </div>
             <input
@@ -164,12 +196,11 @@ const Shipping: React.FC<{
               onChange={(e) => setAddress1(e.target.value)}
               placeholder="Địa chỉ (Số nhà, đường...)"
               className="w-full p-3 rounded-full bg-[#fbf7f5] mb-3"
-              required
             />
             <input
               value={address2}
               onChange={(e) => setAddress2(e.target.value)}
-              placeholder="Địa chỉ Dòng 2 (Tên tòa nhà, căn hộ...)"
+              placeholder="Thông tin bổ sung (Tầng, căn hộ...)"
               className="w-full p-3 rounded-full bg-[#fbf7f5] mb-3"
             />
 
@@ -179,34 +210,27 @@ const Shipping: React.FC<{
                 onChange={(e) => setZipcode(e.target.value)}
                 placeholder="Mã bưu chính"
                 className="p-3 rounded-full bg-[#fbf7f5] col-span-1"
-                required
               />
               <input
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Thành phố/Tỉnh"
                 className="p-3 rounded-full bg-[#fbf7f5] col-span-2"
-                required
               />
             </div>
 
-            <select
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              className="w-full p-3 rounded-full bg-[#fbf7f5] mb-3 appearance-none"
-            >
-              <option>Việt Nam</option>
-              <option>Pháp</option>
-              <option>Đức</option>
-              <option>Vương quốc Anh</option>
-            </select>
+            <input
+              value={"Việt Nam"}
+              readOnly
+              className="w-full p-3 rounded-full bg-[#fbf7f5] mb-3"
+            />
 
             <div className="flex gap-3 items-center">
-              <div className="text-sm min-w-[100px]">Số điện thoại di động</div>
+              <div className="text-sm min-w-[48px] text-right">+84</div>
               <input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="+84 901234567"
+                placeholder="901234567"
                 className="flex-1 p-3 rounded-full bg-[#fbf7f5]"
               />
             </div>

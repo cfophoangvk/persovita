@@ -410,8 +410,7 @@ const AppHeader: React.FC = () => {
                         (s, a) => s + (a.price || 0) * (a.quantity || 1),
                         0
                       );
-                      const shippingVND = v > 0 ? 30000 : 0;
-                      const totalVND = v + shippingVND;
+                      const totalVND = v; // shipping removed from preview totals
 
                       return (
                         <>
@@ -424,13 +423,6 @@ const AppHeader: React.FC = () => {
                             <span>Giảm giá</span>
                             <span>{formatVND(0)}</span>
                           </div>
-
-                          {cartItems && cartItems.length > 0 && (
-                            <div className="flex justify-between">
-                              <span>Vận chuyển</span>
-                              <span>{formatVND(shippingVND)}</span>
-                            </div>
-                          )}
 
                           <div className="flex justify-between font-bold mt-2 pt-2 border-t border-gray-200 text-base text-gray-900">
                             <span>TỔNG CỘNG</span>

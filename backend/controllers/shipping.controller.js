@@ -19,34 +19,51 @@ const getShipping = async (req, res) => {
 };
 
 const addShipping = async (req, res) => {
-  const { address, email, phone, method } = req.body;
+  const { address, name, email, alternativeName, phone, method, price } =
+    req.body;
+
   try {
     const raw = await fs.promises.readFile(dbPath, "utf-8");
     const db = JSON.parse(raw);
     const userId = typeof req.id === "undefined" ? null : req.id;
+
     db.shipping = db.shipping || [];
+
     // normalize for comparison
     const norm = (s) => (s || "").toString().trim().toLowerCase();
+
     const existing = db.shipping.find(
       (s) =>
         s.userId === userId &&
         ((address && s.address && norm(s.address) === norm(address)) ||
-          (s.email && email && norm(s.email) === norm(email)) ||
-          (s.phone && phone && norm(s.phone) === norm(phone)))
+          (email && s.email && norm(s.email) === norm(email)) ||
+          (phone && s.phone && norm(s.phone) === norm(phone)))
     );
 
     let record;
+
     if (existing) {
+      // update existing
+      existing.name = name;
+      existing.alternativeName = alternativeName;
+      existing.method = method;
+      existing.price = price;
       record = existing;
     } else {
+      // create new
       record = createShipping(db, userId, {
         address,
+        name,
         email,
+        alternativeName,
         phone,
         method,
+        price,
       });
     }
+
     await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2));
+
     return res.status(201).json({ success: true, shipping: record });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
