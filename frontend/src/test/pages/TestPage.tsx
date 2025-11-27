@@ -46,7 +46,7 @@ const TestPage = () => {
   const [selectedMockItem, setSelectedMockItem] = useState<number[]>([]);
   const [currentProgress, setCurrentProgress] = useState<number>(0);
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
-  const [whyAskText, setWhyAskText] = useState<string>('');
+  const [whyAskText, setWhyAskText] = useState<string>("");
   const [popupProduct, setPopupProduct] = useState<Product>();
   const { setLoading } = useLoading();
 
@@ -57,7 +57,11 @@ const TestPage = () => {
   const productService = new ProductService();
 
   useEffect(() => {
-    if (!name && location.pathname.startsWith("/test/page") && location.pathname !== "/test/page1") {
+    if (
+      !name &&
+      location.pathname.startsWith("/test/page") &&
+      location.pathname !== "/test/page1"
+    ) {
       navigate("/test/page1");
     }
   }, []);
@@ -93,11 +97,14 @@ const TestPage = () => {
 
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
     }
 
     return shuffledArray.slice(0, 5);
-  }
+  };
 
   const objectiveMapping = [
     {
@@ -212,7 +219,7 @@ const TestPage = () => {
             activeIngredients: product.activeIngredients,
             additiveIngredients: product.additiveIngredients,
             usage: product.usage,
-            contraindication: product.contraindication
+            contraindication: product.contraindication,
           };
         });
       });
@@ -321,7 +328,7 @@ const TestPage = () => {
 
   const handleToggleWhyAskModal = (text: string) => {
     setWhyAskText(text);
-  }
+  };
 
   const getChoiceItems = (index: number): ChoiceItem[] => CHOICE_ITEMS[index];
 
@@ -386,6 +393,7 @@ const TestPage = () => {
       description="Bạn bao nhiêu tuổi?"
       value={age}
       setValue={setAge}
+      isNumber
       hasError={hasError}
       errorMsg="Vui lòng nhập tuổi từ 12 đến 99!"
       handleInput={handleAgeInput}
@@ -839,13 +847,20 @@ const TestPage = () => {
       whyAskText="Một số bệnh lý hoặc thuốc bạn đang dùng có thể chống chỉ định hoặc cần điều chỉnh khi sử dụng thực phẩm bổ sung. Câu hỏi này giúp chúng tôi đưa ra khuyến nghị phù hợp và an toàn cho sức khỏe của bạn."
       handleShowWhyAskDialog={handleToggleWhyAskModal}
     />,
-
   ];
 
   return (
     <div className="min-h-screen flex justify-center items-center w-full overflow-hidden relative bg-[url('/assets/NOURI_SURVEY.png')] bg-bottom md:bg-[length:100%_auto] bg-no-repeat">
-      <Popup isOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} product={popupProduct} />
-      <WhyAskDialog isOpen={whyAskText !== ''} setIsOpen={() => setWhyAskText('')} text={whyAskText} />
+      <Popup
+        isOpen={isPopupOpen}
+        setIsPopupOpen={setIsPopupOpen}
+        product={popupProduct}
+      />
+      <WhyAskDialog
+        isOpen={whyAskText !== ""}
+        setIsOpen={() => setWhyAskText("")}
+        text={whyAskText}
+      />
       <Header currentProgress={currentProgress} />
       <SwitchTransition mode="out-in">
         <CSSTransition
@@ -870,7 +885,15 @@ const TestPage = () => {
       </SwitchTransition>
       <Routes>
         <Route path="result" element={<TestResult />} />
-        <Route path="recommendation" element={<Recommendation setIsPopupOpen={setIsPopupOpen} setProduct={setPopupProduct} />} />
+        <Route
+          path="recommendation"
+          element={
+            <Recommendation
+              setIsPopupOpen={setIsPopupOpen}
+              setProduct={setPopupProduct}
+            />
+          }
+        />
       </Routes>
     </div>
   );

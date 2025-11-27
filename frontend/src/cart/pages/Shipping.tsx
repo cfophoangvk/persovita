@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { ShippingMethod } from "../interfaces/shipping";
-import { Home } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 // Hàm định dạng VNĐ
@@ -129,7 +129,7 @@ const Shipping: React.FC<{
         onClick={onBack}
         className="absolute left-4 top-4 mt-1 mr-0 p-2 text-gray-600 hover:text-gray-800"
       >
-        <Home className="w-6 h-6" />
+        <ArrowLeft className="w-6 h-6" />
       </button>
       <div className="max-w-3xl mx-auto">
         <header className="flex items-center justify-center mb-6 relative">
