@@ -37,10 +37,17 @@ const SubscriptionOfferModal = ({
         </button>
       </div>
       <div className="max-w-3xl mx-auto">
-        <p className="text-xl font-semibold">Tiết kiệm 10% cho mỗi đơn hàng</p>
-        <p className="mt-3 font-semibold">Cá nhân hóa miễn phí</p>
-        <p className="mt-3 font-semibold">
-          Chương trình khách hàng thân thiết nhiều ưu đãi
+        <p className="text-xl">
+          <span className="font-bold">Tiết kiệm 10%</span> cho mỗi đơn hàng
+        </p>
+
+        <p className="mt-3 text-xl">
+          <span className="font-bold">Cá nhân hóa</span> miễn phí
+        </p>
+
+        <p className="mt-3 text-xl">
+          <span className="font-bold">Chương trình khách hàng thân thiết</span>{" "}
+          nhiều ưu đãi
         </p>
       </div>
     </div>
@@ -54,7 +61,6 @@ const Cart = () => {
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
   const [showBoxModal, setShowBoxModal] = useState(false);
   const [showBoxChildren, setShowBoxChildren] = useState(true);
-  const [boxCount, setBoxCount] = useState<number>(1);
   const [removingIds, setRemovingIds] = useState<number[]>([]);
   const [showShippingPage, setShowShippingPage] = useState(false);
   const [showPaymentPage, setShowPaymentPage] = useState(false);
@@ -89,8 +95,6 @@ const Cart = () => {
       })
       .finally(() => setLoading(false));
   }, []);
-
-  console.log(setBoxCount);
 
   const computeItemTotals = (it: Product) => {
     const price = it.price ?? 0;
@@ -224,7 +228,6 @@ const Cart = () => {
   );
   const grossVNDTotal = grossVND;
   const discountsVND = grossVNDTotal - totalVND; // dương khi có chiết khấu
-  const subtotalVND = totalVND;
 
   useEffect(() => {
     try {
@@ -258,36 +261,42 @@ const Cart = () => {
             className="absolute inset-0 bg-black/50"
             onClick={() => setShowBoxModal(false)}
           />
-          <div className="bg-white rounded-lg max-w-xl w-[90%] p-6 z-10">
-            <div className="flex items-start gap-4">
-              <div className="w-24 h-24 bg-[#fbf7f5] rounded-md p-2 flex items-center justify-center">
+          <div className="bg-white rounded-lg max-w-4xl w-[95%] md:w-3/4 p-8 z-10 overflow-auto">
+            <div className="flex flex-col md:flex-row items-start gap-6">
+              <div className="w-40 h-40 md:w-48 md:h-48 bg-[#fbf7f5] rounded-md p-3 flex items-center justify-center">
                 <img
                   src="/assets/LMĐ.png"
                   alt="Hộp Cá Nhân Hóa"
                   className="max-w-full max-h-full object-contain"
                 />
               </div>
-              <div>
-                <h3 className="text-xl font-bold">Hộp Cá Nhân Hóa</h3>
-                <p className="mt-3 text-sm text-gray-700">
+              <div className="flex-1">
+                <h3 className="text-2xl md:text-3xl font-bold">
+                  Hộp Cá Nhân Hóa
+                </h3>
+                <p className="mt-4 text-base text-gray-700">
                   Các hộp của chúng tôi được cá nhân hóa 100% và chuẩn bị riêng
                   cho bạn.
                 </p>
-                <p className="mt-3 text-sm text-gray-700">
-                  Sau khi bạn đặt hàng, bạn sẽ nhận được 1 hộp gồm 30 gói dùng
-                  hằng ngày, in tên của bạn và chứa các thực phẩm bổ sung mà bạn
-                  đã chọn.
+                <p className="mt-4 text-base text-gray-700">
+                  Sau khi bạn đặt hàng, bạn sẽ nhận được{" "}
+                  <strong>
+                    {" "}
+                    1 hộp gồm 30 gói dùng hằng ngày, in tên của bạn và chứa các
+                    thực phẩm bổ sung
+                  </strong>{" "}
+                  mà bạn đã chọn.
                 </p>
-                <p className="mt-3 text-sm text-gray-700">
+                <p className="mt-4 text-base text-gray-700">
                   Dịch vụ cá nhân hóa được miễn phí khi bạn đăng ký gói.
                 </p>
               </div>
             </div>
 
-            <div className="mt-6 flex justify-end">
+            <div className="mt-8 flex justify-end">
               <button
                 onClick={() => setShowBoxModal(false)}
-                className="px-6 py-2 rounded-full bg-teal-500 text-white font-semibold hover:bg-teal-600"
+                className="px-8 py-3 rounded-full bg-teal-500 text-white font-semibold hover:bg-teal-600"
               >
                 Ok, tôi hiểu
               </button>
@@ -361,20 +370,21 @@ const Cart = () => {
 
                 <div className="flex gap-3 md:flex-row flex-col md:justify-center items-center">
                   <label htmlFor="subscription" className="md:text-lg">
-                    Tần suất đăng ký:
+                    Đăng ký:
                   </label>
                   <select
                     id="subscription"
                     className="px-3 py-1 border border-gray-200 rounded-full text-sm w-36 disabled:opacity-50"
                     value={
-                      cartItems.length > 0 ? cartItems[0].subscriptionMonths : 0
+                      cartItems.length > 0
+                        ? cartItems[0].subscriptionMonths || 1
+                        : 1
                     }
                     disabled={cartItems.length === 0}
                     onChange={(e) =>
                       handleSetSubscriptionMonths(Number(e.target.value))
                     }
                   >
-                    <option value={0}>Không đăng ký</option>
                     <option value={1}>1 tháng</option>
                     <option value={2}>2 tháng</option>
                     <option value={3}>3 tháng</option>
@@ -506,11 +516,6 @@ const Cart = () => {
                                   <p className="text-sm text-gray-500">
                                     {item.description ?? "Dùng trong 30 ngày"}
                                   </p>
-                                  {item.subscription && (
-                                    <div className="inline-block mt-2 px-2 py-1 text-xs bg-teal-100 text-teal-700 rounded">
-                                      Đăng ký hàng tháng
-                                    </div>
-                                  )}
                                 </div>
 
                                 {/* price moved down to avoid overlap with close button */}
@@ -551,30 +556,40 @@ const Cart = () => {
                 className="lg:w-1/3 rounded-xl lg:p-6 p-3"
                 style={{ backgroundColor: "#f7efe6" }}
               >
-                <h3 className="text-lg font-bold text-center tracking-wider text-teal-600">
+                <h3 className="text-xl font-extrabold text-center tracking-wider text-teal-600">
                   TÓM TẮT ĐƠN HÀNG
                 </h3>
 
                 <div className="mt-4 border-t border-gray-300 pt-4">
-                  <div className="flex justify-between items-center lg:text-xs text-base font-semibold text-gray-600 pb-3 border-b border-gray-300">
-                    <span>TỔNG GIÁ SẢN PHẨM</span>
-                    <span>GIÁ</span>
+                  <div className="flex justify-between items-center lg:text-xs text-base font-semibold text-black-600 pb-3 border-gray-300">
+                    <span className="text-xl font-extrabold">SẢN PHẨM</span>
+                    <span className="text-xl font-extrabold">GIÁ</span>
                   </div>
 
                   <div className="py-3">
                     {/* Show single box summary instead of individual products */}
                     <div className="flex justify-between items-center py-2 border-b border-gray-300">
-                      <div className="lg:text-sm text-base text-gray-800">
-                        Hộp Cá Nhân Hóa
-                        <div className="inline-block ml-2 px-2 py-0.5 text-xs bg-teal-100 text-teal-700 rounded">
-                          {boxCount} hộp
+                      <div className="lg:text-lg text-base font-semibold text-gray-800">
+                        1 Hộp Cá Nhân Hóa
+                        <div className="inline-block px-2 py-0.5 text-lg rounded text-gray-700">
+                          ({cartItems.length} loại)
+                        </div>
+                        <div className="mt-2 flex items-center gap-2">
+                          <div className="inline-block px-2 py-0.5 text-xs bg-teal-100 text-teal-700 rounded">
+                            {cartItems.length > 0
+                              ? cartItems[0].subscriptionMonths &&
+                                cartItems[0].subscriptionMonths > 0
+                                ? `Đăng ký ${cartItems[0].subscriptionMonths} tháng`
+                                : "Đăng ký"
+                              : ""}
+                          </div>
                         </div>
                       </div>
 
-                      <div className="text-right text-sm">
+                      <div className="text-right text-lg">
                         <div>
                           {boxDiscountAmount > 0 && (
-                            <div className="text-gray-400 line-through text-sm">
+                            <div className="text-gray-400 line-through text-lg">
                               {formatVND(boxGrossTotal)}
                             </div>
                           )}
@@ -593,29 +608,25 @@ const Cart = () => {
                   </div>
 
                   <div className="pt-4">
-                    <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
-                      <span className="font-semibold">GIÁ TRỊ SẢN PHẨM</span>
-                      <span className="font-bold">
+                    <div className="flex justify-between items-center text-sm text-black-700 mb-2">
+                      <span className="text-xl font-extrabold">
+                        TỔNG GIÁ SẢN PHẨM
+                      </span>
+                      <span className="text-xl font-extrabold">
                         {formatVND(grossVNDTotal)}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center text-sm text-gray-700 mb-2">
-                      <span>Giảm giá</span>
-                      <span className="text-sm text-gray-700">
+                    <div className="flex justify-between items-center text-lg text-gray-700 mb-2">
+                      <span className="font-semibold">Giảm giá</span>
+                      <span className="text-lg text-gray-700 font-semibold">
                         -{formatVND(discountsVND)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center border-t border-gray-300 pt-3 mt-2">
-                      <span className="font-semibold">TỔNG PHỤ</span>
-                      <span className="font-bold text-gray-900">
-                        {formatVND(subtotalVND)}
                       </span>
                     </div>
 
                     {/* Shipping removed from summary */}
 
                     <div className="flex justify-between items-center border-t border-gray-300 pt-4 mt-4">
-                      <span className="font-bold text-gray-800">TỔNG CỘNG</span>
+                      <span className="text-xl font-extrabold">TỔNG CỘNG</span>
                       <span className="text-xl font-extrabold">
                         {formatVND(totalVND_Final)}
                       </span>
@@ -633,7 +644,7 @@ const Cart = () => {
                     </div>
                     <button
                       onClick={() => setShowShippingPage(true)}
-                      className="w-full mt-6 py-4 text-white font-bold rounded-full shadow-lg"
+                      className="w-full mt-6 py-4 text-white font-bold rounded-full shadow-lg cursor-pointer"
                       style={{ backgroundColor: "#449286" }}
                     >
                       Tiến hành thanh toán

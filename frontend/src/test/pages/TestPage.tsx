@@ -393,7 +393,6 @@ const TestPage = () => {
       description="Bạn bao nhiêu tuổi?"
       value={age}
       setValue={setAge}
-      isNumber
       hasError={hasError}
       errorMsg="Vui lòng nhập tuổi từ 12 đến 99!"
       handleInput={handleAgeInput}

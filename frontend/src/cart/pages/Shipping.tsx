@@ -56,6 +56,31 @@ const Shipping: React.FC<{
   const [personalName, setPersonalName] = useState(initialPersonal.name);
   const [personalEmail, setPersonalEmail] = useState(initialPersonal.email);
 
+  // Load shipping info saved in localStorage so the form persists across pages
+  const loadShippingFromStorage = () => {
+    try {
+      const raw = localStorage.getItem("shippingData");
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      // If savedAt exists, expire after 5 minutes
+      if (parsed && parsed.savedAt) {
+        const age = Date.now() - parsed.savedAt;
+        const FIVE_MIN = 5 * 60 * 1000;
+        if (age > FIVE_MIN) {
+          try {
+            localStorage.removeItem("shippingData");
+          } catch (err) {
+            // ignore
+          }
+          return null;
+        }
+      }
+      return parsed;
+    } catch (e) {
+      return null;
+    }
+  };
+
   // Shipping address fields — intentionally empty and use placeholders
   const [addrFirstName, setAddrFirstName] = useState("");
   const [addrLastName, setAddrLastName] = useState("");
@@ -65,7 +90,8 @@ const Shipping: React.FC<{
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("Việt Nam");
   const [phone, setPhone] = useState("");
-  const [method, setMethod] = useState<string>("hn_std");
+  const [method, setMethod] = useState<string>("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   console.log(setPersonalEmail);
   console.log(setPersonalName);
@@ -82,10 +108,115 @@ const Shipping: React.FC<{
     window.scrollTo(0, 0);
   }, []);
 
+  // On mount, populate form from saved shippingData (if any)
+  useEffect(() => {
+    const saved = loadShippingFromStorage();
+    // If nothing saved (expired or absent), ensure form stays/returns empty
+    if (!saved) {
+      setAddrFirstName("");
+      setAddrLastName("");
+      setAddress1("");
+      setAddress2("");
+      setZipcode("");
+      setCity("");
+      setCountry("Việt Nam");
+      setPhone("");
+      setMethod("");
+      // do not override personalization fields if absent; keep initial personal
+      return;
+    }
+    if (saved.addrFirstName) setAddrFirstName(saved.addrFirstName);
+    if (saved.addrLastName) setAddrLastName(saved.addrLastName);
+    if (saved.address1) setAddress1(saved.address1);
+    if (saved.address2) setAddress2(saved.address2);
+    if (saved.zipcode) setZipcode(saved.zipcode);
+    if (saved.city) setCity(saved.city);
+    if (saved.country) setCountry(saved.country || "Việt Nam");
+    if (saved.phone) {
+      // store phone in state without +84 prefix
+      setPhone(saved.phone.replace(/^\+84/, ""));
+    }
+    if (saved.method) setMethod(saved.method);
+    if (saved.personalName) setPersonalName(saved.personalName);
+    if (saved.personalEmail) setPersonalEmail(saved.personalEmail);
+  }, []);
+
+  // Persist shipping fields to localStorage whenever they change
+  useEffect(() => {
+    const data = {
+      addrFirstName,
+      addrLastName,
+      address1,
+      address2,
+      zipcode,
+      city,
+      country,
+      phone: phone ? `+84${phone}` : "",
+      method,
+      personalName,
+      personalEmail,
+      savedAt: Date.now(),
+    };
+    try {
+      localStorage.setItem("shippingData", JSON.stringify(data));
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [
+    addrFirstName,
+    addrLastName,
+    address1,
+    address2,
+    zipcode,
+    city,
+    country,
+    phone,
+    method,
+    personalName,
+    personalEmail,
+  ]);
+
   const handleProceed = () => {
-    // require basic shipping fields
-    if (!addrFirstName || !addrLastName || !address1 || !zipcode || !city) {
-      toast.error("Vui lòng điền đầy đủ các trường bắt buộc.");
+    // validate fields with stronger rules
+    const newErrors: Record<string, string> = {};
+
+    const isEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+    const isDigits = (s: string) => /^\d+$/.test(s);
+
+    if (!addrFirstName || addrFirstName.trim().length < 2) {
+      newErrors.addrFirstName = "Tên phải có ít nhất 2 ký tự";
+    }
+    if (!addrLastName || addrLastName.trim().length < 2) {
+      newErrors.addrLastName = "Họ phải có ít nhất 2 ký tự";
+    }
+    if (!address1 || address1.trim().length < 5) {
+      newErrors.address1 = "Vui lòng nhập địa chỉ đầy đủ";
+    }
+    if (
+      !zipcode ||
+      !isDigits(zipcode) ||
+      zipcode.length < 3 ||
+      zipcode.length > 6
+    ) {
+      newErrors.zipcode = "Mã bưu chính không hợp lệ";
+    }
+    if (!city || city.trim().length < 2) {
+      newErrors.city = "Vui lòng nhập thành phố/tỉnh";
+    }
+    if (!personalEmail || !isEmail(personalEmail)) {
+      newErrors.personalEmail = "Email không hợp lệ";
+    }
+    if (!phone || !isDigits(phone) || phone.length < 7 || phone.length > 11) {
+      newErrors.phone = "Số điện thoại không hợp lệ";
+    }
+    if (!method) {
+      newErrors.method = "Vui lòng chọn phương thức vận chuyển";
+    }
+
+    setErrors(newErrors);
+    const firstError = Object.values(newErrors)[0];
+    if (firstError) {
+      toast.error(firstError);
       return;
     }
 
@@ -181,18 +312,36 @@ const Shipping: React.FC<{
               Tên người nhận
             </label>
             <div className="grid grid-cols-2 gap-3 mb-3">
-              <input
-                value={addrFirstName}
-                onChange={(e) => setAddrFirstName(e.target.value)}
-                placeholder="Tên"
-                className="p-3 rounded-full bg-[#fbf7f5]"
-              />
-              <input
-                value={addrLastName}
-                onChange={(e) => setAddrLastName(e.target.value)}
-                placeholder="Họ"
-                className="p-3 rounded-full bg-[#fbf7f5]"
-              />
+              <div>
+                <input
+                  value={addrFirstName}
+                  onChange={(e) => setAddrFirstName(e.target.value)}
+                  placeholder="Tên"
+                  className={`p-3 rounded-full bg-[#fbf7f5] w-full ${
+                    errors.addrFirstName ? "border border-red-500" : ""
+                  }`}
+                />
+                {errors.addrFirstName && (
+                  <div className="text-xs text-red-600 mt-1">
+                    {errors.addrFirstName}
+                  </div>
+                )}
+              </div>
+              <div>
+                <input
+                  value={addrLastName}
+                  onChange={(e) => setAddrLastName(e.target.value)}
+                  placeholder="Họ"
+                  className={`p-3 rounded-full bg-[#fbf7f5] w-full ${
+                    errors.addrLastName ? "border border-red-500" : ""
+                  }`}
+                />
+                {errors.addrLastName && (
+                  <div className="text-xs text-red-600 mt-1">
+                    {errors.addrLastName}
+                  </div>
+                )}
+              </div>
             </div>
 
             <label className="text-sm font-bold mb-2 block">Địa chỉ</label>
@@ -200,8 +349,13 @@ const Shipping: React.FC<{
               value={address1}
               onChange={(e) => setAddress1(e.target.value)}
               placeholder="Địa chỉ (Số nhà, đường...)"
-              className="w-full p-3 rounded-full bg-[#fbf7f5] mb-3"
+              className={`w-full p-3 rounded-full bg-[#fbf7f5] mb-3 ${
+                errors.address1 ? "border border-red-500" : ""
+              }`}
             />
+            {errors.address1 && (
+              <div className="text-xs text-red-600 mt-1">{errors.address1}</div>
+            )}
 
             <label className="text-sm font-bold mb-2 block">
               Thông tin bổ sung
@@ -217,18 +371,34 @@ const Shipping: React.FC<{
               Mã bưu chính & Thành phố
             </label>
             <div className="grid grid-cols-3 gap-3 mb-3">
-              <input
-                value={zipcode}
-                onChange={(e) => setZipcode(e.target.value)}
-                placeholder="Mã bưu chính"
-                className="p-3 rounded-full bg-[#fbf7f5] col-span-1"
-              />
-              <input
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="Thành phố/Tỉnh"
-                className="p-3 rounded-full bg-[#fbf7f5] col-span-2"
-              />
+              <div>
+                <input
+                  value={zipcode}
+                  onChange={(e) => setZipcode(e.target.value)}
+                  placeholder="Mã bưu chính"
+                  className={`p-3 rounded-full bg-[#fbf7f5] col-span-1 w-full ${
+                    errors.zipcode ? "border border-red-500" : ""
+                  }`}
+                />
+                {errors.zipcode && (
+                  <div className="text-xs text-red-600 mt-1">
+                    {errors.zipcode}
+                  </div>
+                )}
+              </div>
+              <div>
+                <input
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="Thành phố/Tỉnh"
+                  className={`p-3 rounded-full bg-[#fbf7f5] col-span-2 w-full ${
+                    errors.city ? "border border-red-500" : ""
+                  }`}
+                />
+                {errors.city && (
+                  <div className="text-xs text-red-600 mt-1">{errors.city}</div>
+                )}
+              </div>
             </div>
 
             <label className="text-sm font-bold mb-2 block">Quốc gia</label>
@@ -243,12 +413,21 @@ const Shipping: React.FC<{
             </label>
             <div className="flex gap-3 items-center">
               <div className="text-sm min-w-[48px] text-right">+84</div>
-              <input
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="901234567"
-                className="flex-1 p-3 rounded-full bg-[#fbf7f5]"
-              />
+              <div className="flex-1">
+                <input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="901234567"
+                  className={`w-full p-3 rounded-full bg-[#fbf7f5] ${
+                    errors.phone ? "border border-red-500" : ""
+                  }`}
+                />
+                {errors.phone && (
+                  <div className="text-xs text-red-600 mt-1">
+                    {errors.phone}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -291,13 +470,24 @@ const Shipping: React.FC<{
                         type="radio"
                         name="shipping"
                         checked={method === m.id}
-                        onChange={() => setMethod(m.id)}
+                        onChange={() => {
+                          setMethod(m.id);
+                          // clear method error when user selects
+                          setErrors((prev) => {
+                            const copy = { ...prev };
+                            delete copy.method;
+                            return copy;
+                          });
+                        }}
                         className="h-4 w-4 text-teal-600 border-gray-300 focus:ring-teal-500"
                       />
                     </div>
                   </label>
                 );
               })}
+              {errors.method && (
+                <div className="text-xs text-red-600 mt-1">{errors.method}</div>
+              )}
             </div>
           </div>
 

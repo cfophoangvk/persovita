@@ -12,7 +12,6 @@ const Payment: React.FC<PaymentProps> = ({
   shippingSummary = null,
 }) => {
   // format helper
-  const formatVND = (v: number) => v.toLocaleString("vi-VN") + " VNĐ";
   const [qrUrl, setQrUrl] = useState<string | null>(null);
   const [payload, setPayload] = useState<string>("");
 
@@ -121,18 +120,36 @@ const Payment: React.FC<PaymentProps> = ({
         </header>
 
         <div className="mb-6 border-b pb-6">
-          <div className="flex sm:flex-row flex-col justify-between">
+          <div className="flex justify-between items-center">
             <div className="text-lg font-bold">
               1. Giỏ hàng của bạn{" "}
               <span className="text-gray-400">(1 sản phẩm)</span>
             </div>
-            <div className="sm:text-base text-lg font-semibold">
-              {formatVND(
+            <div className="text-base font-semibold">
+              {Number(totalVND).toLocaleString("vi-VN")} ₫
+            </div>
+          </div>
+          <div className="mt-3 flex justify-between items-center">
+            <div className="text-sm text-gray-700">Phí vận chuyển</div>
+            <div className="text-base font-semibold">
+              {Number(
+                (shippingSummary as any) && (shippingSummary as any).price
+                  ? (shippingSummary as any).price
+                  : 0
+              ).toLocaleString("vi-VN")}{" "}
+              ₫
+            </div>
+          </div>
+          <div className="mt-3 flex justify-between items-center font-bold">
+            <div>Tổng cộng</div>
+            <div>
+              {Number(
                 Number(totalVND) +
-                  (shippingSummary && (shippingSummary as any).price
-                    ? Number((shippingSummary as any).price)
+                  ((shippingSummary as any) && (shippingSummary as any).price
+                    ? (shippingSummary as any).price
                     : 0)
-              )}
+              ).toLocaleString("vi-VN")}{" "}
+              ₫
             </div>
           </div>
         </div>
