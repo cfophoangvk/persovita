@@ -829,7 +829,7 @@ const TestPage = () => {
     />,
     <ChoiceCheckbox
       title={SECTION.LIFESTYLE}
-      header="Câu hỏi cuối cùng! Bạn biết chúng tôi qua đâu?"
+      header="Câu hỏi cuối cùng! \n Bạn biết chúng tôi qua đâu?"
       items={getChoiceItems(50)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}

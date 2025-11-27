@@ -117,15 +117,6 @@ const AppFooter: React.FC = () => {
                 </a>
               </li>
             </ul>
-
-            <div className="font-semibold text-sm mb-3">THANH TOÁN AN TOÀN</div>
-            <div className="flex items-center justify-center md:justify-start gap-3">
-              <img
-                src="/assets/payment.png"
-                className="w-50"
-                alt="Payment Methods"
-              />
-            </div>
           </div>
         </div>
 
