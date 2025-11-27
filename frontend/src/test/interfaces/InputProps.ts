@@ -4,7 +4,6 @@ export interface InputProps {
   value: string;
   setValue: (name: string) => void;
   handleInput: () => void;
-  isNumber?: boolean;
   hasError: boolean;
   errorMsg: string;
   whyAskText?: string;

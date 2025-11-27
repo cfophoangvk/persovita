@@ -56,6 +56,31 @@ const Shipping: React.FC<{
   const [personalName, setPersonalName] = useState(initialPersonal.name);
   const [personalEmail, setPersonalEmail] = useState(initialPersonal.email);
 
+  // Load shipping info saved in localStorage so the form persists across pages
+  const loadShippingFromStorage = () => {
+    try {
+      const raw = localStorage.getItem("shippingData");
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      // If savedAt exists, expire after 5 minutes
+      if (parsed && parsed.savedAt) {
+        const age = Date.now() - parsed.savedAt;
+        const FIVE_MIN = 5 * 60 * 1000;
+        if (age > FIVE_MIN) {
+          try {
+            localStorage.removeItem("shippingData");
+          } catch (err) {
+            // ignore
+          }
+          return null;
+        }
+      }
+      return parsed;
+    } catch (e) {
+      return null;
+    }
+  };
+
   // Shipping address fields — intentionally empty and use placeholders
   const [addrFirstName, setAddrFirstName] = useState("");
   const [addrLastName, setAddrLastName] = useState("");
@@ -82,6 +107,74 @@ const Shipping: React.FC<{
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // On mount, populate form from saved shippingData (if any)
+  useEffect(() => {
+    const saved = loadShippingFromStorage();
+    // If nothing saved (expired or absent), ensure form stays/returns empty
+    if (!saved) {
+      setAddrFirstName("");
+      setAddrLastName("");
+      setAddress1("");
+      setAddress2("");
+      setZipcode("");
+      setCity("");
+      setCountry("Việt Nam");
+      setPhone("");
+      setMethod("");
+      // do not override personalization fields if absent; keep initial personal
+      return;
+    }
+    if (saved.addrFirstName) setAddrFirstName(saved.addrFirstName);
+    if (saved.addrLastName) setAddrLastName(saved.addrLastName);
+    if (saved.address1) setAddress1(saved.address1);
+    if (saved.address2) setAddress2(saved.address2);
+    if (saved.zipcode) setZipcode(saved.zipcode);
+    if (saved.city) setCity(saved.city);
+    if (saved.country) setCountry(saved.country || "Việt Nam");
+    if (saved.phone) {
+      // store phone in state without +84 prefix
+      setPhone(saved.phone.replace(/^\+84/, ""));
+    }
+    if (saved.method) setMethod(saved.method);
+    if (saved.personalName) setPersonalName(saved.personalName);
+    if (saved.personalEmail) setPersonalEmail(saved.personalEmail);
+  }, []);
+
+  // Persist shipping fields to localStorage whenever they change
+  useEffect(() => {
+    const data = {
+      addrFirstName,
+      addrLastName,
+      address1,
+      address2,
+      zipcode,
+      city,
+      country,
+      phone: phone ? `+84${phone}` : "",
+      method,
+      personalName,
+      personalEmail,
+      savedAt: Date.now(),
+    };
+    try {
+      localStorage.setItem("shippingData", JSON.stringify(data));
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [
+    addrFirstName,
+    addrLastName,
+    address1,
+    address2,
+    zipcode,
+    city,
+    country,
+    phone,
+    method,
+    personalName,
+    personalEmail,
+  ]);
 
   const handleProceed = () => {
     // validate fields with stronger rules

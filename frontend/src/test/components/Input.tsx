@@ -17,7 +17,7 @@ const Input = (props: InputProps) => {
       <Badge text={props.title} />
       <Title text={props.description} />
       <input
-        type={props.isNumber ? "number" : "text"}
+        type="text"
         placeholder="Nhập vào đây..."
         className={`p-4 w-64 rounded-md ${
           props.hasError ? "border-2 border-red-500" : "border border-gray-300"
