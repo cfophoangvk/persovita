@@ -177,6 +177,9 @@ const Shipping: React.FC<{
             <h3 className="text-sm font-bold text-teal-600 mb-3">
               ĐỊA CHỈ GIAO HÀNG
             </h3>
+            <label className="text-sm font-bold mb-2 block">
+              Tên người nhận
+            </label>
             <div className="grid grid-cols-2 gap-3 mb-3">
               <input
                 value={addrFirstName}
@@ -191,12 +194,18 @@ const Shipping: React.FC<{
                 className="p-3 rounded-full bg-[#fbf7f5]"
               />
             </div>
+
+            <label className="text-sm font-bold mb-2 block">Địa chỉ</label>
             <input
               value={address1}
               onChange={(e) => setAddress1(e.target.value)}
               placeholder="Địa chỉ (Số nhà, đường...)"
               className="w-full p-3 rounded-full bg-[#fbf7f5] mb-3"
             />
+
+            <label className="text-sm font-bold mb-2 block">
+              Thông tin bổ sung
+            </label>
             <input
               value={address2}
               onChange={(e) => setAddress2(e.target.value)}
@@ -204,6 +213,9 @@ const Shipping: React.FC<{
               className="w-full p-3 rounded-full bg-[#fbf7f5] mb-3"
             />
 
+            <label className="text-sm font-bold mb-2 block">
+              Mã bưu chính & Thành phố
+            </label>
             <div className="grid grid-cols-3 gap-3 mb-3">
               <input
                 value={zipcode}
@@ -219,12 +231,16 @@ const Shipping: React.FC<{
               />
             </div>
 
+            <label className="text-sm font-bold mb-2 block">Quốc gia</label>
             <input
               value={"Việt Nam"}
               readOnly
               className="w-full p-3 rounded-full bg-[#fbf7f5] mb-3"
             />
 
+            <label className="text-sm font-bold mb-2 block">
+              Số điện thoại
+            </label>
             <div className="flex gap-3 items-center">
               <div className="text-sm min-w-[48px] text-right">+84</div>
               <input
