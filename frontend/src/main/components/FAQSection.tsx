@@ -50,6 +50,7 @@ const FAQSection: React.FC = () => {
   return (
     <section className="py-10 px-4 md:px-6 max-w-4xl mx-auto">
       <h2
+        id="faq"
         className="md:text-4xl text-xl font-bold text-center mb-8 sm:mb-10 tracking-tight"
         style={{ color: "#449286" }}
       >

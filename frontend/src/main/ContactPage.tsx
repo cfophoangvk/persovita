@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FadeInSection from "./components/FadeInSection";
 import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const ContactPage: React.FC = () => {
   const [form, setForm] = useState({
@@ -28,7 +29,19 @@ const ContactPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto mt-10 px-6 py-16">
       <FadeInSection>
-        <h1 className="text-3xl font-extrabold text-teal-600 mb-6">Liên hệ</h1>
+        <div className="flex flex-col items-center">
+          <h1 className="text-3xl font-extrabold text-teal-600 mb-6">Liên Hệ Với Chúng Tôi</h1>
+          <p>Bạn có câu hỏi? Xem ngay mục</p>
+          <Link
+            to="/"
+            onClick={() => {
+              setTimeout(() => location.hash = "faq", 100);
+            }}
+            className="md:px-8 px-4 py-2 my-2 bg-teal-500 text-white md:text-lg text-md rounded-full font-semibold transition duration-300 hover:bg-teal-600 shadow-xl transform hover:scale-105 cursor-pointer"
+          >
+            Câu hỏi thường gặp
+          </Link>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* LEFT CONTENT */}
@@ -134,32 +147,6 @@ const ContactPage: React.FC = () => {
                 Gửi liên hệ
               </button>
             </form>
-
-            <div className="mt-6 text-sm text-gray-600">
-              <p className="font-semibold">Kênh hỗ trợ khác</p>
-              <ul className="mt-2 space-y-2">
-                <li>
-                  <a
-                    href="https://www.facebook.com/nourivitamin?mibextid=wwXIfr"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-teal-600"
-                  >
-                    Fanpage
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.tiktok.com/@nourivitamin"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-teal-600"
-                  >
-                    Tiktok
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </FadeInSection>

@@ -5,4 +5,5 @@ export interface ITestStorage {
   email: string;
   selectedCategories: string[];
   selectedProducts: Product[];
+  hasMultiVitamins: boolean;
 }
