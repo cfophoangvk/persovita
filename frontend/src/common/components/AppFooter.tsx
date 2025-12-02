@@ -46,7 +46,7 @@ const AppFooter: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
+                <a href="/contact" className="hover:underline">
                   Liên hệ hỗ trợ
                 </a>
               </li>
@@ -83,10 +83,18 @@ const AppFooter: React.FC = () => {
             <div className="font-semibold mb-4">LIÊN HỆ VỚI CHÚNG TÔI</div>
             <div className="flex justify-center md:justify-start gap-3">
               <a href="https://www.facebook.com/nourivitamin?mibextid=wwXIfr">
-                <img src="/assets/fb.png" className="w-10 h-10" title="Facebook" />
+                <img
+                  src="/assets/fb.png"
+                  className="w-10 h-10"
+                  title="Facebook"
+                />
               </a>
               <a href="https://www.tiktok.com/@nourivitamin">
-                <img src="/assets/tt.png" className="w-10 h-10" title="Facebook" />
+                <img
+                  src="/assets/tt.png"
+                  className="w-10 h-10"
+                  title="Facebook"
+                />
               </a>
             </div>
           </div>
@@ -96,17 +104,29 @@ const AppFooter: React.FC = () => {
             <ul className="text-sm text-gray-700 space-y-2 mb-4">
               <li>
                 <div className="hover:underline flex items-center gap-3">
-                  <div><Phone size={16} className="stroke-orange-400"/></div> Hotline: 0394 914 881
+                  <div>
+                    <Phone size={16} className="stroke-orange-400" />
+                  </div>{" "}
+                  Hotline: 0394 914 881
                 </div>
               </li>
               <li>
                 <div className="hover:underline flex items-center gap-3">
-                  <div><Mail size={16} className="stroke-orange-400" /></div> Email: nourivitamin@gmail.com
+                  <div>
+                    <Mail size={16} className="stroke-orange-400" />
+                  </div>{" "}
+                  Email: nourivitamin@gmail.com
                 </div>
               </li>
               <li>
                 <div className="hover:underline flex items-center gap-3">
-                  <div><MapPin size={16} className="stroke-orange-400" /></div> <div className="text-left">Địa chỉ: Số 26 KCN Trường An, xã An Khánh, huyện Hoài Đức, Hà Nội, Việt Nam</div>
+                  <div>
+                    <MapPin size={16} className="stroke-orange-400" />
+                  </div>{" "}
+                  <div className="text-left">
+                    Địa chỉ: Số 26 KCN Trường An, xã An Khánh, huyện Hoài Đức,
+                    Hà Nội, Việt Nam
+                  </div>
                 </div>
               </li>
               <li>
