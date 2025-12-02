@@ -31,6 +31,7 @@ const TestPage = () => {
     email: "",
     selectedCategories: [],
     selectedProducts: [],
+    hasMultiVitamins: false
   };
   const [_, setTestData] = useLocalStorage<ITestStorage>(
     "testData",
@@ -42,7 +43,7 @@ const TestPage = () => {
   const [age, setAge] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [selectedObjectives, setSelectedObjectives] = useState<number[]>([]);
-  const [saveObjectives, setSaveObjectives] = useState<number[]>([]);
+  const [saveObjectives, setSaveObjectives] = useState<number[]>([1,2,3,4]);
   const [selectedMockItem, setSelectedMockItem] = useState<number[]>([]);
   const [currentProgress, setCurrentProgress] = useState<number>(0);
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
@@ -77,7 +78,7 @@ const TestPage = () => {
   };
 
   const finishTest = () => {
-    handleAddCartProducts(saveObjectives).then((products) => {
+    handleAddCartProducts(saveObjectives).then(result => {
       setTestData({
         name: name,
         email: email,
@@ -85,7 +86,8 @@ const TestPage = () => {
           (objective) =>
             OBJECTIVE_ITEMS.find((obj) => obj.id == objective)?.text ?? ""
         ),
-        selectedProducts: getRandomProducts(products),
+        selectedProducts: result.products,
+        hasMultiVitamins: result.hasMultivitamins
       });
 
       window.location.href = "/test/result";
@@ -195,34 +197,40 @@ const TestPage = () => {
     features = features.filter((feature) => feature !== 0);
 
     let products: Product[] = [];
+    let multiVitaminId = 5;
 
-    await axiosInstance
-      .get("/products/filter?featureIds=" + features.join(","))
-      .then((res) => {
-        const productFeatures = res.data.products.map((product: any) => {
-          for (let i = 0; i < product.features.length; i++) {
-            if (features.includes(product.features[i].id)) {
-              return product.features[i].title;
-            }
-          }
-        });
+    const productRes = await axiosInstance.get("/products/filter?featureIds=" + features.join(","));
+    const productData = productRes.data.products;
 
-        products = res.data.products.map((product: any, index: number) => {
-          return {
-            id: product.id,
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            subscription: false,
-            feature: productFeatures[index],
-            amount: product.amount,
-            activeIngredients: product.activeIngredients,
-            additiveIngredients: product.additiveIngredients,
-            usage: product.usage,
-            contraindication: product.contraindication,
-          };
-        });
-      });
+    if (!productData.some((product: any) => product.id === multiVitaminId)) {
+      const multiVitaminRes = await axiosInstance.get("/products/" + multiVitaminId); //Multivitamins
+      const multiVitaminData = multiVitaminRes.data.product;
+      productData.push(multiVitaminData);
+    }
+
+    const productFeatures = productData.map((product: any) => {
+      for (let i = 0; i < product.features.length; i++) {
+        if (features.includes(product.features[i].id)) {
+          return product.features[i].title;
+        }
+      }
+    });
+
+    products = productData.map((product: any, index: number) => {
+      return {
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        subscription: false,
+        feature: productFeatures[index],
+        amount: product.amount,
+        activeIngredients: product.activeIngredients,
+        additiveIngredients: product.additiveIngredients,
+        usage: product.usage,
+        contraindication: product.contraindication,
+      };
+    });
 
     for (let i = 0; i < products.length; i++) {
       const image = await productService.getProductImages(products[i].id);
@@ -230,7 +238,16 @@ const TestPage = () => {
     }
 
     setLoading(false);
-    return products;
+    const result = getRandomProducts(products);
+    if (!result.some(product => product.id === multiVitaminId)) {
+      const multiVitaminProduct = products.find(product => product.id === multiVitaminId);
+      if (multiVitaminProduct) {
+        result.push(multiVitaminProduct);
+      }
+      return { products: result, hasMultivitamins: true }
+    }
+
+    return { products: result, hasMultivitamins: false };
   };
 
   const handleNameInput = () => {
@@ -829,7 +846,7 @@ const TestPage = () => {
     />,
     <ChoiceCheckbox
       title={SECTION.LIFESTYLE}
-      header="Câu hỏi cuối cùng! \n Bạn biết chúng tôi qua đâu?"
+      header="Câu hỏi cuối cùng! <br/> Bạn biết chúng tôi qua đâu?"
       items={getChoiceItems(50)}
       onSelect={handleNext}
       selectedItems={selectedMockItem}

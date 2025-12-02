@@ -70,10 +70,10 @@ export const Partners = () => {
       <div className="overflow-hidden relative">
         <div
           className="flex w-max animate-slide"
-          style={{ animationDuration: "30s" }}
+          style={{ animationDuration: "60s" }}
         >
           {allLogos.map((logo, idx) => (
-            <div key={idx} className="flex-shrink-0 flex items-center justify-center h-20 md:w-80 w-30">
+            <div key={idx} className="flex-shrink-0 flex items-center justify-center h-30 md:w-80 w-50">
               <img src={logo.src} alt={logo.alt} className="max-h-20 max-w-full mx-auto object-contain" />
             </div>
           ))}

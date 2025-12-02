@@ -18,10 +18,11 @@ const Recommendation = (props: {
     email: "",
     selectedCategories: [],
     selectedProducts: [],
+    hasMultiVitamins: false
   };
 
   const [recommendProducts, setRecommendProducts] = useState<Product[]>([]);
-  const [toCompleteProduct, setToCompleteProduct] = useState<Product>();
+  const [toCompleteProducts, setToCompleteProducts] = useState<Product[]>([]);
   const [recommendObjectives, setRecommendObjectives] = useState<string[]>();
   const [testData] = useLocalStorage<ITestStorage>("testData", defaultTestData);
   const [persistCart, setPersistCart] = useLocalStorage<PersistCart[]>(
@@ -33,11 +34,12 @@ const Recommendation = (props: {
 
   useEffect(() => {
     let products = testData.selectedProducts;
-    let productsRecommend = products.slice(0, products.length - 1);
-    let productToComplete = products[products.length - 1];
+    let toCompleteProductCount = testData.hasMultiVitamins ? 2 : 1;
+    let productsRecommend = products.slice(0, products.length - toCompleteProductCount);
+    let productToComplete = products.slice(products.length - toCompleteProductCount, products.length);
 
     setRecommendProducts(productsRecommend);
-    setToCompleteProduct(productToComplete);
+    setToCompleteProducts(productToComplete);
 
     setRecommendObjectives(
       testData.selectedCategories.map(
@@ -245,31 +247,31 @@ const Recommendation = (props: {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {toCompleteProduct && (
-            <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col items-start text-left border border-gray-100 relative">
+          {toCompleteProducts.map((product, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-sm p-4 flex flex-col items-start text-left border border-gray-100 relative">
               <div className="absolute top-3 left-3 lg:right-auto md:right-3 right-auto">
                 <div className="px-2 py-1 border border-black bg-white lg:rounded-full rounded-md lg:text-base text-sm flex items-center justify-center gap-1">
-                  <div>{toCompleteProduct.feature}</div>
+                  <div>{product.feature}</div>
                 </div>
               </div>
 
               <img
-                src={toCompleteProduct.image}
-                alt={toCompleteProduct.name}
+                src={product.image}
+                alt={product.name}
                 className="h-48 object-cover mx-auto mb-4"
               />
 
               <h3 className="text-lg font-semibold text-gray-800 mb-1">
-                {toCompleteProduct.name}
+                {product.name}
               </h3>
               <p className="text-gray-500 text-sm leading-tight mb-4 line-clamp-2">
-                {toCompleteProduct.description}
+                {product.description}
               </p>
               <a
                 className="text-sm text-gray-500 underline cursor-pointer"
                 onClick={() => {
                   props.setIsPopupOpen(true);
-                  props.setProduct(toCompleteProduct);
+                  props.setProduct(product);
                 }}
               >
                 Tìm hiểu thêm
@@ -277,12 +279,12 @@ const Recommendation = (props: {
 
               <div className="flex lg:flex-row md:flex-col flex-row justify-between items-center w-full mt-auto gap-3 pt-4 border-t border-gray-100">
                 <p className="text-gray-800 text-base font-semibold">
-                  {toCompleteProduct.price.toLocaleString("vi-VN")} VND
+                  {product.price.toLocaleString("vi-VN")} VND
                 </p>
-                <AddToCartButton product={toCompleteProduct} />
+                <AddToCartButton product={product} />
               </div>
             </div>
-          )}
+          ))}
         </div>
       </div>
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2">
