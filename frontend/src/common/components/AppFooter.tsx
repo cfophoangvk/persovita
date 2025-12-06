@@ -105,7 +105,7 @@ const AppFooter: React.FC = () => {
               <li>
                 <div className="hover:underline flex items-center gap-3">
                   <div>
-                    <Phone size={16} className="stroke-orange-400" />
+                    <Phone size={16} className="stroke-teal-400" />
                   </div>{" "}
                   Hotline: 0394 914 881
                 </div>
@@ -113,7 +113,7 @@ const AppFooter: React.FC = () => {
               <li>
                 <div className="hover:underline flex items-center gap-3">
                   <div>
-                    <Mail size={16} className="stroke-orange-400" />
+                    <Mail size={16} className="stroke-teal-400" />
                   </div>{" "}
                   Email: nourivitamin@gmail.com
                 </div>
@@ -121,7 +121,7 @@ const AppFooter: React.FC = () => {
               <li>
                 <div className="hover:underline flex items-center gap-3">
                   <div>
-                    <MapPin size={16} className="stroke-orange-400" />
+                    <MapPin size={16} className="stroke-teal-400" />
                   </div>{" "}
                   <div className="text-left">
                     Địa chỉ: Số 26 KCN Trường An, xã An Khánh, huyện Hoài Đức,

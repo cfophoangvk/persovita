@@ -7,6 +7,7 @@ const ContactPage: React.FC = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
 
@@ -49,11 +50,13 @@ const ContactPage: React.FC = () => {
           {/* LEFT CONTENT */}
           <div>
             <div className="bg-white rounded-lg p-6 shadow-md h-full">
-              <h3 className="font-semibold text-xl mb-4">Thông Tin Cơ Bản</h3>
+              <h3 className="font-bold text-xl mb-6 text-gray-900">
+                Thông Tin Liên Hệ
+              </h3>
 
-              <ul className="text-gray-800 space-y-3 text-sm">
+              <ul className="text-gray-700 space-y-4 text-sm">
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 text-teal-500 mt-1">
+                  <span className="flex-shrink-0 text-teal-400 mt-0.5">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -76,17 +79,17 @@ const ContactPage: React.FC = () => {
                     </svg>
                   </span>
                   <div>
-                    <div className="text-sm text-black-500 font-bold">
-                      Giờ mở cửa
-                    </div>
-                    <div className="text-sm font-medium">
-                      8:00 - 17:00 (Thứ 2 - Thứ 7)
+                    <div className="font-bold text-gray-900 mb-0.5">
+                      Giờ làm việc:{" "}
+                      <span className="font-normal">
+                        8:00 - 17:00 (Thứ 2 - Thứ 7)
+                      </span>
                     </div>
                   </div>
                 </li>
 
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 text-teal-500 mt-1">
+                  <span className="flex-shrink-0 text-teal-400 mt-0.5">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -98,24 +101,19 @@ const ContactPage: React.FC = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M3 5h2l2 7-1 2a11 11 0 005 5l2-1 7 2v2H3V5z"
+                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                       />
                     </svg>
                   </span>
                   <div>
-                    <div className="text-sm text-black-500 font-bold">
-                      Hotline
-                    </div>
-                    <div className="text-sm font-medium">
-                      <a href="tel:0394914881" className="text-teal-600">
-                        0394 914 881
-                      </a>
+                    <div className="font-bold text-gray-900 mb-0.5">
+                      Hotline: <span className="font-normal">0394 914 881</span>
                     </div>
                   </div>
                 </li>
 
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 text-teal-500 mt-1">
+                  <span className="flex-shrink-0 text-teal-400 mt-0.5">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -127,33 +125,22 @@ const ContactPage: React.FC = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M16 12a4 4 0 01-8 0 4 4 0 018 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                       />
                     </svg>
                   </span>
                   <div>
-                    <div className="text-sm text-black-500 font-bold">
-                      Email
-                    </div>
-                    <div className="text-sm font-medium">
-                      <a
-                        href="mailto:nourivitamin@gmail.com"
-                        className="text-teal-600"
-                      >
+                    <div className="font-bold text-gray-900 mb-0.5">
+                      Email:{" "}
+                      <span className="font-normal">
                         nourivitamin@gmail.com
-                      </a>
+                      </span>
                     </div>
                   </div>
                 </li>
 
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 text-teal-500 mt-1">
+                  <span className="flex-shrink-0 text-teal-400 mt-0.5">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -165,69 +152,37 @@ const ContactPage: React.FC = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M17.657 16.657L13.414 12l4.243-4.243M6.343 7.343L10.586 12l-4.243 4.243"
-                      />
-                    </svg>
-                  </span>
-                  <div>
-                    <div className="text-sm text-black-500 font-bold">
-                      Địa chỉ
-                    </div>
-                    <div className="text-sm font-medium">
-                      Số 26 KCN Trường An, xã An Khánh, huyện Hoài Đức, Hà Nội,
-                      Việt Nam
-                    </div>
-                  </div>
-                </li>
-
-                <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 text-teal-500 mt-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 2a10 10 0 100 20 10 10 0 000-20z"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
                       />
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M2 12h20"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
                   </span>
                   <div>
-                    <div className="text-sm text-black-500 font-bold">
-                      Website
-                    </div>
-                    <div className="text-sm font-medium">
-                      <a
-                        href="https://nourivitamin.com/"
-                        className="text-teal-600"
-                      >
-                        www.nourivitamin.com
-                      </a>
+                    <div className="font-bold text-gray-900 mb-0.5">
+                      Địa chỉ:{" "}
+                      <span className="font-normal">
+                        Số 26 KCN Trường An, xã An Khánh, huyện Hoài Đức, Hà
+                        Nội, Việt Nam
+                      </span>
                     </div>
                   </div>
                 </li>
               </ul>
 
-              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center gap-3">
-                <span className="text-sm text-black-500 font-bold">
+              <div className="mt-6 pt-4 border-t border-gray-200">
+                <div className="font-bold text-gray-900 mb-3">
                   Kết nối với chúng tôi
-                </span>
-                <div className="flex gap-3 ml-2">
+                </div>
+                <div className="flex gap-3">
                   <a
                     href="https://www.facebook.com/nourivitamin?mibextid=wwXIfr"
                     aria-label="Facebook"
-                    className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center text-teal-600"
+                    className="w-9 h-9 rounded-full bg-teal-50 flex items-center justify-center text-teal-500 hover:bg-teal-100 transition"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -241,15 +196,15 @@ const ContactPage: React.FC = () => {
                   <a
                     href="https://www.tiktok.com/@nourivitamin"
                     aria-label="TikTok"
-                    className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center text-teal-600"
+                    className="w-9 h-9 rounded-full bg-teal-50 flex items-center justify-center text-teal-500 hover:bg-teal-100 transition"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-4 w-4"
-                      viewBox="0 0 256 256"
+                      viewBox="0 0 24 24"
                       fill="currentColor"
                     >
-                      <path d="M168.1 32c3.8 22.4 18.8 36.9 39.9 39V96c-14.5.2-27.4-3.9-39-12v60.6c0 39.3-27.3 74.4-73 74.4C60.5 219 32 184.2 32 142.8 32 101.4 60.4 66.6 96 66.6c6.9 0 13.5 1 19.7 3v36.3c-5.8-2.9-12.3-4.5-19.1-4.5-22.4 0-40 19-40 41.7 0 22.6 17.5 41.6 40 41.6 24.1 0 38.4-16.9 38.4-37.8V32h33.1z" />
+                      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
                     </svg>
                   </a>
                 </div>
@@ -259,52 +214,85 @@ const ContactPage: React.FC = () => {
 
           {/* RIGHT SIDE: CONTACT FORM */}
           <div className="bg-white rounded-lg p-6 shadow-md w-full h-full">
-            <h3 className="font-semibold text-xl mb-3 ">
-              Gửi tin nhắn cho NOURI
+            <h3 className="font-semibold text-2xl mb-6 text-gray-700">
+              Gửi Tin Nhắn
             </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-4 ">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Họ và tên <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent"
+                    placeholder="Nhập họ và tên của bạn"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent"
+                    placeholder="Nhập địa chỉ email"
+                  />
+                </div>
+              </div>
+
               <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Chủ đề
+                </label>
                 <input
                   type="text"
-                  name="name"
-                  value={form.name}
+                  name="subject"
+                  value={form.subject}
                   onChange={handleChange}
-                  required
-                  className="w-full h-12 px-4 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-300"
-                  placeholder="Họ và tên"
+                  className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent"
+                  placeholder="Chủ đề tin nhắn"
                 />
               </div>
 
               <div>
-                <input
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full h-12 px-4 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-300"
-                  placeholder="Email"
-                />
-              </div>
-
-              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Tin nhắn <span className="text-red-500">*</span>
+                </label>
                 <textarea
                   name="message"
                   value={form.message}
                   onChange={handleChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-300"
-                  placeholder="Nội dung"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent resize-none"
+                  placeholder="Nhập nội dung tin nhắn của bạn..."
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3 bg-teal-500 text-white font-semibold rounded-md hover:bg-teal-600 transition"
+                className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold rounded-lg hover:from-teal-600 hover:to-teal-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
               >
-                Gửi tin nhắn
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                </svg>
+                Gửi Tin Nhắn
               </button>
             </form>
           </div>
