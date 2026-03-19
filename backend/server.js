@@ -5,6 +5,7 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth.route.js");
 const productRoutes = require("./routes/product.route.js");
@@ -34,12 +35,15 @@ app.use("/api/features", featureRoutes);
 app.use("/api/brands", brandRoutes);
 
 app.get("/api/check", (req, res) => {
-  fs.readFile("db/database.json", "utf8", (err, data) => {
+  const dbPath = path.join(process.cwd(), "db", "database.json");
+
+  fs.readFile(dbPath, "utf8", (err, data) => {
     if (err) {
-      res.send("Cannot read database.json");
+      console.error("Lỗi đọc file:", err);
+      res.status(500).send(`Lỗi: ${err.message}`);
       return;
     }
-    res.send(JSON.parse(data));
+    res.json(JSON.parse(data));
   });
 });
 
