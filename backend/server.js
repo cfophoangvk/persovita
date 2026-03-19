@@ -33,6 +33,16 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/features", featureRoutes);
 app.use("/api/brands", brandRoutes);
 
+app.get("/api/check", (req, res) => {
+  fs.readFile("db/database.json", "utf8", (err, data) => {
+    if (err) {
+      res.send("Cannot read database.json");
+      return;
+    }
+    res.send(JSON.parse(data));
+  });
+});
+
 const PORT = 6789;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
