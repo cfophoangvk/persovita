@@ -35,16 +35,17 @@ app.use("/api/features", featureRoutes);
 app.use("/api/brands", brandRoutes);
 
 app.get("/api/check", (req, res) => {
-  const dbPath = path.join(process.cwd(), "db", "database.json");
-
-  fs.readFile(dbPath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Lỗi đọc file:", err);
-      res.status(500).send(`Lỗi: ${err.message}`);
-      return;
-    }
-    res.json(JSON.parse(data));
-  });
+  try {
+    const data = require("./db/database.json");
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Không thể đọc file",
+      detail: err.message,
+      path: __dirname,
+    });
+  }
 });
 
 const PORT = 6789;
