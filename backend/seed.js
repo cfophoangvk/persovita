@@ -5,7 +5,7 @@
  *   node seed.js
  *
  * Script sẽ:
- * 1. Kết nối tới MongoDB (đọc MONGO_URI từ .env)
+ * 1. Kết nối tới MongoDB (đọc MONGODB_URI từ .env)
  * 2. Xóa toàn bộ dữ liệu cũ trong các collection
  * 3. Import lại toàn bộ dữ liệu từ database.json
  */
@@ -37,7 +37,7 @@ const data = JSON.parse(rawData);
 const seed = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("✅ Đã kết nối MongoDB");
 
     // Clear all existing data
@@ -111,7 +111,9 @@ const seed = async () => {
       console.log(`✅ Đã import ${data.payment.length} payment records`);
     }
 
-    console.log("\n🎉 Seed hoàn tất! Tất cả dữ liệu đã được import vào MongoDB.");
+    console.log(
+      "\n🎉 Seed hoàn tất! Tất cả dữ liệu đã được import vào MongoDB.",
+    );
   } catch (error) {
     console.error("❌ Lỗi khi seed:", error);
   } finally {
