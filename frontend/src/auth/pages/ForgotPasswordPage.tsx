@@ -26,7 +26,11 @@ const ForgotPasswordPage: React.FC = () => {
         <div className="flex flex-col items-center">
           <div className="text-4xl font-extrabold tracking-widest text-teal-400 mb-4">
             <Link to="/" className="inline-flex items-center">
-              <img src="/assets/logo.png" alt="NOURI" className={isMobile ? 'w-20' : 'h-8'} />
+              <img
+                src="/assets/logo.png"
+                alt="NOURI"
+                className={isMobile ? "w-20" : "h-8"}
+              />
             </Link>
           </div>
           <p className="text-sm text-gray-600 mb-8 px-4 text-center">
@@ -37,11 +41,6 @@ const ForgotPasswordPage: React.FC = () => {
             onSubmit={onSubmit}
             className="w-full bg-white/60 backdrop-blur-sm p-6 rounded-xl shadow-sm"
           >
-            {message.length > 0 && (
-              <div className="mb-4 text-sm text-red-600 bg-red-50 p-2 rounded">
-                {message}
-              </div>
-            )}
             {success && (
               <div className="mb-4 text-sm text-green-700 bg-green-50 p-2 rounded break-words">
                 {message}
