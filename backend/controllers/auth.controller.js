@@ -249,7 +249,7 @@ const resetPassword = async (req, res) => {
       (u) =>
         u.resetToken === token &&
         u.resetTokenExpires &&
-        u.resetTokenExpires > Date.now()
+        u.resetTokenExpires > Date.now(),
     );
 
     if (userIndex === -1) {
@@ -271,7 +271,7 @@ const resetPassword = async (req, res) => {
       res,
       db.users[userIndex].id,
       db.users[userIndex].email,
-      db.users[userIndex].role
+      db.users[userIndex].role,
     );
 
     const { password: _p, ...userSafe } = db.users[userIndex];
@@ -340,12 +340,12 @@ const updateProfile = async (req, res) => {
 // Google OAuth: redirect to Google's consent screen
 const googleAuthRedirect = (req, res) => {
   const redirectUri = encodeURIComponent(
-    `${req.protocol}s://${req.get("host")}/api/auth/google/callback`
+    `${req.protocol}s://${req.get("host")}/api/auth/google/callback`,
   );
   const scope = encodeURIComponent("openid email profile");
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(
-    clientId
+    clientId,
   )}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
   res.redirect(url);
 };
@@ -365,7 +365,7 @@ const googleAuthCallback = async (req, res) => {
         client_id: process.env.GOOGLE_CLIENT_ID,
         client_secret: process.env.GOOGLE_CLIENT_SECRET,
         redirect_uri: `${req.protocol}s://${req.get(
-          "host"
+          "host",
         )}/api/auth/google/callback`,
         grant_type: "authorization_code",
       }),
@@ -379,7 +379,7 @@ const googleAuthCallback = async (req, res) => {
       "https://www.googleapis.com/oauth2/v2/userinfo",
       {
         headers: { Authorization: `Bearer ${tokenJson.access_token}` },
-      }
+      },
     );
     const profile = await profileRes.json();
 
@@ -413,7 +413,7 @@ const googleAuthCallback = async (req, res) => {
       user.id,
       user.email,
       user.role,
-      rememberFlag
+      rememberFlag,
     );
 
     const redirectTo =

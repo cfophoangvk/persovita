@@ -1,12 +1,16 @@
-const fs = require("fs");
 const path = require("path");
-
-const dbPath = path.resolve(process.cwd(), "db/database.json");
 
 const getBrands = async (req, res) => {
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
+    // Tạo đường dẫn tuyệt đối từ thư mục gốc
+    const dbPath = path.resolve(process.cwd(), "db/database.json");
+
+    // Xóa cache để chắc chắn lấy dữ liệu mới nhất (Cực kỳ quan trọng)
+    delete require.cache[require.resolve(dbPath)];
+
+    // Đọc file
+    const db = require(dbPath);
+
     return res.status(200).json({
       success: true,
       brands: db.brands || [],
@@ -14,7 +18,10 @@ const getBrands = async (req, res) => {
     });
   } catch (err) {
     console.error("getBrands error:", err);
-    return res.status(500).json({ success: false, message: err.message });
+    return res.status(500).json({
+      success: false,
+      message: "Không tìm thấy hoặc không đọc được file database.json",
+    });
   }
 };
 
