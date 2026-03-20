@@ -5,6 +5,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const connectDB = require("./db/connect.js");
 const authRoutes = require("./routes/auth.route.js");
 const productRoutes = require("./routes/product.route.js");
 const cartRoutes = require("./routes/cart.route.js");
@@ -33,21 +34,16 @@ app.use("/api/features", featureRoutes);
 app.use("/api/brands", brandRoutes);
 
 app.get("/api/check", (req, res) => {
-  try {
-    const data = require("./db/database.json");
-    res.json(data);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Không thể đọc file",
-      detail: err.message,
-      path: __dirname,
-    });
-  }
+  res.json({ status: "OK", message: "Server is running with MongoDB" });
 });
 
 const PORT = 6789;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+
+// Connect to MongoDB then start server
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
 });
+
 module.exports = app;

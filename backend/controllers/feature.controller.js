@@ -1,16 +1,12 @@
-const fs = require("fs");
-const path = require("path");
-
-const dbPath = path.resolve(process.cwd(), "db/database.json");
+const Feature = require("../models/Feature");
 
 const getFeatures = async (req, res) => {
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
+    const features = await Feature.find().lean();
     return res.status(200).json({
       success: true,
-      features: db.features || [],
-      count: (db.features || []).length,
+      features,
+      count: features.length,
     });
   } catch (err) {
     console.error("getFeatures error:", err);

@@ -1,15 +1,15 @@
-const fs = require("fs");
-const path = require("path");
+const Shipping = require("../models/Shipping");
 
-const dbPath = path.resolve(process.cwd(), "db/database.json");
+// Helper: get next auto-increment id
+const getNextShippingId = async () => {
+  const last = await Shipping.findOne().sort({ id: -1 }).lean();
+  return last ? last.id + 1 : 1;
+};
 
 const getShipping = async (req, res) => {
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
-    // If the request is unauthenticated, treat userId as null for guest addresses
     const userId = typeof req.id === "undefined" ? null : req.id;
-    const shipping = (db.shipping || []).filter((s) => s.userId === userId);
+    const shipping = await Shipping.find({ userId }).lean();
     return res
       .status(200)
       .json({ success: true, shipping, count: shipping.length });
@@ -23,35 +23,33 @@ const addShipping = async (req, res) => {
     req.body;
 
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
     const userId = typeof req.id === "undefined" ? null : req.id;
 
-    db.shipping = db.shipping || [];
-
-    // normalize for comparison
     const norm = (s) => (s || "").toString().trim().toLowerCase();
 
-    const existing = db.shipping.find(
-      (s) =>
-        s.userId === userId &&
-        ((address && s.address && norm(s.address) === norm(address)) ||
-          (email && s.email && norm(s.email) === norm(email)) ||
-          (phone && s.phone && norm(s.phone) === norm(phone)))
-    );
+    const existing = await Shipping.findOne({
+      userId,
+      $or: [
+        ...(address ? [{ address: { $regex: new RegExp(`^${norm(address).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } }] : []),
+        ...(email ? [{ email: { $regex: new RegExp(`^${norm(email).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } }] : []),
+        ...(phone ? [{ phone: { $regex: new RegExp(`^${norm(phone).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } }] : []),
+      ],
+    });
 
     let record;
 
     if (existing) {
-      // update existing
       existing.name = name;
       existing.alternativeName = alternativeName;
       existing.method = method;
       existing.price = price;
-      record = existing;
+      await existing.save();
+      record = existing.toObject();
     } else {
-      // create new
-      record = createShipping(db, userId, {
+      const newId = await getNextShippingId();
+      record = await Shipping.create({
+        id: newId,
+        userId,
         address,
         name,
         email,
@@ -60,9 +58,8 @@ const addShipping = async (req, res) => {
         method,
         price,
       });
+      record = record.toObject();
     }
-
-    await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2));
 
     return res.status(201).json({ success: true, shipping: record });
   } catch (err) {
@@ -73,33 +70,28 @@ const addShipping = async (req, res) => {
 const removeShipping = async (req, res) => {
   const { address } = req.body;
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
     const userId = typeof req.id === "undefined" ? null : req.id;
-    db.shipping = (db.shipping || []).filter(
-      (item) => !(item.userId === userId && item.address === address)
-    );
-    await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2));
+    await Shipping.deleteOne({ userId, address });
     return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
 
+// Helper function: create a shipping record (used by order controller)
+async function createShippingRecord(userId, shipping) {
+  const newId = await getNextShippingId();
+  const record = await Shipping.create({
+    id: newId,
+    userId,
+    ...shipping,
+  });
+  return record.toObject();
+}
+
 module.exports = {
   getShipping,
   addShipping,
   removeShipping,
-  createShipping,
+  createShipping: createShippingRecord,
 };
-
-// Helper function: create a shipping record inside an existing db object and return it
-function createShipping(db, userId, shipping) {
-  db.shipping = db.shipping || [];
-  const newId = db.shipping.length
-    ? Math.max(...db.shipping.map((s) => s.id || 0)) + 1
-    : 1;
-  const record = { id: newId, userId, ...shipping };
-  db.shipping.push(record);
-  return record;
-}

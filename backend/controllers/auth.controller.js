@@ -1,16 +1,19 @@
-const fs = require("fs");
-const path = require("path");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
-const dbPath = path.resolve(process.cwd(), "db/database.json");
+const User = require("../models/User");
 const { sendMail } = require("../utils/mailer");
 
 const dotenv = require("dotenv");
-const { addToCart } = require("./cart.controller");
 dotenv.config();
 
 const FRONTEND_URL = process.env.FRONTEND_URL;
+
+// Helper: generate next auto-increment id
+const getNextUserId = async () => {
+  const last = await User.findOne().sort({ id: -1 }).lean();
+  return last ? last.id + 1 : 1;
+};
 
 const login = async (req, res) => {
   const { email, password, remember = false } = req.body;
@@ -22,13 +25,18 @@ const login = async (req, res) => {
   }
 
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
-    const user = db.users.find((u) => u.email === email);
+    const user = await User.findOne({ email }).lean();
     if (!user)
       return res
         .status(401)
         .json({ success: false, message: "Thông tin đăng nhập không hợp lệ" });
+
+    // If user has no password (Google OAuth), block password login
+    if (!user.password) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Thông tin đăng nhập không hợp lệ" });
+    }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match)
@@ -36,18 +44,9 @@ const login = async (req, res) => {
         .status(401)
         .json({ success: false, message: "Thông tin đăng nhập không hợp lệ" });
 
-    // block login if email not verified
-    // if (!user.isVerified) {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message:
-    //       "Email chưa được xác thực. Vui lòng kiểm tra email để xác thực hoặc gửi lại email xác thực.",
-    //   });
-    // }
-
     generateTokenAndSetCookie(res, user.id, user.email, user.role, remember);
 
-    const { password: _storedPassword, ...userSafe } = user;
+    const { password: _storedPassword, __v, _id, ...userSafe } = user;
     return res.status(200).json({
       success: true,
       message: "Đăng nhập thành công",
@@ -58,6 +57,7 @@ const login = async (req, res) => {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
+
 const signup = async (req, res) => {
   const { email, password, role, fullName, phone, address, picture } = req.body;
 
@@ -73,10 +73,7 @@ const signup = async (req, res) => {
   }
 
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
-
-    const existing = db.users.find((u) => u.email === email);
+    const existing = await User.findOne({ email });
     if (existing) {
       return res
         .status(409)
@@ -84,15 +81,9 @@ const signup = async (req, res) => {
     }
 
     const hashed = await bcrypt.hash(password, 12);
-    const newId = db.users.length
-      ? Math.max(...db.users.map((u) => u.id)) + 1
-      : 1;
+    const newId = await getNextUserId();
 
-    // generate email verification token
-    const verifyToken = crypto.randomBytes(32).toString("hex");
-    const verifyExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-
-    const newUser = {
+    const newUser = await User.create({
       id: newId,
       fullName: fullName || "",
       email,
@@ -101,49 +92,15 @@ const signup = async (req, res) => {
       picture: picture || "",
       phone: phone || "",
       address: address || "",
-      createdAt: new Date().toISOString(),
-      // email verification fields
-      // isVerified: false,
-      // emailVerifyToken: verifyToken,
-      // emailVerifyExpires: verifyExpires,
-    };
-
-    db.users.push(newUser);
-    await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
-
-    // send verification email (best-effort)
-    // const verifyUrl = `${FRONTEND_URL}/verify-email/${verifyToken}`;
-    // const subject = "Xác thực email - PERSOVITA";
-    // const html = `
-    //   <div style="font-family: Arial, Helvetica, sans-serif; color: #333;">
-    //     <h2 style="color:#f28d3d">PERSOVITA — Xác thực email</h2>
-    //     <p>Xin chào ${newUser.fullName || ""},</p>
-    //     <p>Vui lòng xác thực email bằng cách nhấn nút bên dưới. Liên kết có hiệu lực trong 24 giờ.</p>
-    //     <p style="text-align:center; margin: 24px 0;">
-    //       <a href="${verifyUrl}" style="background:#f28d3d; color:white; padding:12px 20px; text-decoration:none; border-radius:6px;">Xác thực email</a>
-    //     </p>
-    //     <p>Nếu nút không hoạt động, sao chép đường dẫn sau vào trình duyệt:</p>
-    //     <pre style="background:#f7f7f7; padding:10px; border-radius:6px;">${verifyUrl}</pre>
-    //     <p>Trân trọng,<br/>Đội ngũ PERSOVITA</p>
-    //   </div>
-    // `;
-    // try {
-    //   await sendMail({ to: email, subject, html });
-    // } catch (mailErr) {
-    //   console.error(
-    //     "Failed to send verification email:",
-    //     mailErr?.message || mailErr
-    //   );
-    //   // do not fail signup if email sending fails
-    // }
+    });
 
     generateTokenAndSetCookie(res, newUser.id, newUser.email, newUser.role);
 
-    const { password: _storedPassword, ...userSafe } = newUser;
+    const userObj = newUser.toObject();
+    const { password: _storedPassword, __v, _id, ...userSafe } = userObj;
     return res.status(201).json({
       success: true,
-      message:
-        "Tạo tài khoản thành công." /**. Vui lòng kiểm tra email để xác thực tài khoản.**/,
+      message: "Tạo tài khoản thành công.",
       user: userSafe,
     });
   } catch (err) {
@@ -165,11 +122,8 @@ const forgotPassword = async (req, res) => {
       .json({ success: false, message: "Email là bắt buộc" });
 
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
-    const userIndex = db.users.findIndex((u) => u.email === email);
-    if (userIndex === -1) {
-      // Don't reveal whether email exists
+    const user = await User.findOne({ email });
+    if (!user) {
       return res.status(400).json({
         success: false,
         message:
@@ -180,10 +134,9 @@ const forgotPassword = async (req, res) => {
     const token = crypto.randomBytes(32).toString("hex");
     const expires = Date.now() + 60 * 60 * 1000; // 1 hour
 
-    db.users[userIndex].resetToken = token;
-    db.users[userIndex].resetTokenExpires = expires;
-
-    await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
+    user.resetToken = token;
+    user.resetTokenExpires = expires;
+    await user.save();
 
     const resetUrl = `${FRONTEND_URL}/reset-password/${token}`;
 
@@ -208,7 +161,6 @@ const forgotPassword = async (req, res) => {
       await sendMail({ to: email, subject, html });
     } catch (mailErr) {
       console.error("Failed to send reset email:", mailErr.message || mailErr);
-      // still return generic success so we don't reveal account existence
       return res.status(200).json({
         success: true,
         message:
@@ -243,16 +195,12 @@ const resetPassword = async (req, res) => {
   }
 
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
-    const userIndex = db.users.findIndex(
-      (u) =>
-        u.resetToken === token &&
-        u.resetTokenExpires &&
-        u.resetTokenExpires > Date.now(),
-    );
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpires: { $gt: Date.now() },
+    });
 
-    if (userIndex === -1) {
+    if (!user) {
       return res.status(400).json({
         success: false,
         message: "Token không hợp lệ hoặc đã hết hạn",
@@ -260,21 +208,15 @@ const resetPassword = async (req, res) => {
     }
 
     const hashed = await bcrypt.hash(newPassword, 12);
-    db.users[userIndex].password = hashed;
-    delete db.users[userIndex].resetToken;
-    delete db.users[userIndex].resetTokenExpires;
+    user.password = hashed;
+    user.resetToken = undefined;
+    user.resetTokenExpires = undefined;
+    await user.save();
 
-    await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
+    generateTokenAndSetCookie(res, user.id, user.email, user.role);
 
-    // Optionally sign user in after reset
-    generateTokenAndSetCookie(
-      res,
-      db.users[userIndex].id,
-      db.users[userIndex].email,
-      db.users[userIndex].role,
-    );
-
-    const { password: _p, ...userSafe } = db.users[userIndex];
+    const userObj = user.toObject();
+    const { password: _p, __v, _id, ...userSafe } = userObj;
     return res.status(200).json({
       success: true,
       message: "Đặt lại mật khẩu thành công.",
@@ -288,17 +230,14 @@ const resetPassword = async (req, res) => {
 
 const checkAuth = async (req, res) => {
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
-
-    const user = db.users.find((u) => u.id === req.id);
+    const user = await User.findOne({ id: req.id }).lean();
     if (!user) {
       return res
         .status(400)
         .json({ success: false, message: "User not found" });
     }
 
-    const { password, ...userSafe } = user;
+    const { password, __v, _id, ...userSafe } = user;
     res.status(200).json({ success: true, user: userSafe });
   } catch (error) {
     console.log("Lỗi ở checkAuth controller", error);
@@ -309,23 +248,21 @@ const checkAuth = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { fullName, phone, address } = req.body;
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
-    const userIndex = db.users.findIndex((u) => u.id === req.id);
-    if (userIndex === -1) {
+    const user = await User.findOne({ id: req.id });
+    if (!user) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
 
-    // Update only allowed fields
-    if (typeof fullName === "string") db.users[userIndex].fullName = fullName;
-    if (typeof phone === "string") db.users[userIndex].phone = phone;
-    if (typeof address === "string") db.users[userIndex].address = address;
+    if (typeof fullName === "string") user.fullName = fullName;
+    if (typeof phone === "string") user.phone = phone;
+    if (typeof address === "string") user.address = address;
 
-    await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
+    await user.save();
 
-    const { password, ...userSafe } = db.users[userIndex];
+    const userObj = user.toObject();
+    const { password, __v, _id, ...userSafe } = userObj;
     return res.status(200).json({
       success: true,
       message: "Cập nhật hồ sơ thành công",
@@ -383,15 +320,10 @@ const googleAuthCallback = async (req, res) => {
     );
     const profile = await profileRes.json();
 
-    // Read DB and create/find user
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
-    let user = db.users.find((u) => u.email === profile.email);
+    let user = await User.findOne({ email: profile.email });
     if (!user) {
-      const newId = db.users.length
-        ? Math.max(...db.users.map((u) => u.id)) + 1
-        : 1;
-      user = {
+      const newId = await getNextUserId();
+      user = await User.create({
         id: newId,
         fullName: profile.name || "",
         email: profile.email,
@@ -399,14 +331,9 @@ const googleAuthCallback = async (req, res) => {
         picture: profile.picture || "",
         phone: "",
         address: "",
-        createdAt: new Date().toISOString(),
-      };
-      db.users.push(user);
-      await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
+      });
     }
 
-    // generate token and set cookie
-    // honor optional remember flag (e.g. /api/auth/google?remember=true)
     const rememberFlag = String(req.query.remember || "false") === "true";
     generateTokenAndSetCookie(
       res,
@@ -429,10 +356,6 @@ const googleAuthCallback = async (req, res) => {
 
 const verifyEmail = async (req, res) => {
   try {
-    const raw = await fs.promises.readFile(dbPath, "utf-8");
-    const db = JSON.parse(raw);
-
-    //Treat as verification callback: token param or query
     const token = req.params.token || req.query.token;
     if (!token) {
       return res
@@ -440,29 +363,24 @@ const verifyEmail = async (req, res) => {
         .json({ success: false, message: "Token là bắt buộc" });
     }
 
-    const userIndex = db.users.findIndex((u) => u.emailVerifyToken === token);
-    if (userIndex === -1) {
+    const user = await User.findOne({ emailVerifyToken: token });
+    if (!user) {
       return res
         .status(400)
         .json({ success: false, message: "Token không hợp lệ" });
     }
 
-    if (
-      !db.users[userIndex].emailVerifyExpires ||
-      db.users[userIndex].emailVerifyExpires < Date.now()
-    ) {
+    if (!user.emailVerifyExpires || user.emailVerifyExpires < Date.now()) {
       return res
         .status(400)
         .json({ success: false, message: "Token đã hết hạn" });
     }
 
-    db.users[userIndex].isVerified = true;
-    delete db.users[userIndex].emailVerifyToken;
-    delete db.users[userIndex].emailVerifyExpires;
+    user.isVerified = true;
+    user.emailVerifyToken = undefined;
+    user.emailVerifyExpires = undefined;
+    await user.save();
 
-    await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2), "utf-8");
-
-    // redirect to frontend success page
     const redirectTo = `${FRONTEND_URL || "/"}?verify=success`;
     return res.redirect(redirectTo);
   } catch (err) {
