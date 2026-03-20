@@ -1,24 +1,10 @@
-const fs = require("fs");
-const path = require("path");
-
-const dbPath = path.resolve(process.cwd(), "db/database.json");
-
-const readDb = async () => {
-  const raw = await fs.promises.readFile(dbPath, "utf-8");
-  return JSON.parse(raw || "{}");
-};
-
-const writeDb = async (db) => {
-  await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2));
-};
+const Cart = require("../models/Cart");
 
 // GET /api/cart
 const getCart = async (req, res) => {
   try {
-    const db = await readDb();
-    const all = db.carts || [];
     const userId = req.id;
-    const cart = all.filter((c) => c.userId === userId);
+    const cart = await Cart.find({ userId }).lean();
     return res.status(200).json({ success: true, cart });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
@@ -26,7 +12,6 @@ const getCart = async (req, res) => {
 };
 
 // POST /api/cart/add -> body: { productId, name, price, quantity, image, subscription, subscriptionMonths }
-// If item exists by productId for the user -> increment quantity, otherwise push
 const addToCart = async (req, res) => {
   const {
     productId,
@@ -44,20 +29,16 @@ const addToCart = async (req, res) => {
       .status(400)
       .json({ success: false, message: "productId (or id) is required" });
   try {
-    const db = await readDb();
-    db.carts = db.carts || [];
     const userId = req.id;
-    // Find item for this user by product id
-    const existing = db.carts.find(
-      (c) => c.userId === userId && c.productId === pid
-    );
+    const existing = await Cart.findOne({ userId, productId: pid });
     if (existing) {
       existing.quantity = (Number(existing.quantity) || 0) + Number(quantity);
       if (subscription !== undefined) existing.subscription = !!subscription;
       if (subscriptionMonths !== undefined)
         existing.subscriptionMonths = Number(subscriptionMonths) || 0;
+      await existing.save();
     } else {
-      db.carts.push({
+      await Cart.create({
         userId,
         productId: pid,
         name,
@@ -68,8 +49,7 @@ const addToCart = async (req, res) => {
         image,
       });
     }
-    await writeDb(db);
-    const cart = db.carts.filter((c) => c.userId === userId);
+    const cart = await Cart.find({ userId }).lean();
     return res.status(201).json({ success: true, cart });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
@@ -86,12 +66,8 @@ const updateCartItem = async (req, res) => {
       .status(400)
       .json({ success: false, message: "productId (or id) is required" });
   try {
-    const db = await readDb();
-    db.carts = db.carts || [];
     const userId = req.id;
-    const item = db.carts.find(
-      (c) => c.userId === userId && c.productId === pid
-    );
+    const item = await Cart.findOne({ userId, productId: pid });
     if (!item)
       return res
         .status(404)
@@ -100,36 +76,13 @@ const updateCartItem = async (req, res) => {
     if (subscription !== undefined) item.subscription = subscription;
     if (subscriptionMonths !== undefined)
       item.subscriptionMonths = Number(subscriptionMonths) || 0;
-    await writeDb(db);
-    const cart = db.carts.filter((c) => c.userId === userId);
+    await item.save();
+    const cart = await Cart.find({ userId }).lean();
     return res.status(200).json({ success: true, cart });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
-
-const updateCartSubscriptionMonth = async (req, res) => {
-  try {
-    const userId = req.id;
-    const { subscription, subscriptionMonths } = req.body;
-    const db = await readDb();
-    db.carts = db.carts || [];
-
-    db.carts.filter((c) => c.userId === userId)
-      .map(item => {
-        return {
-          ...item,
-          subscription: subscription,
-          subscriptionMonths: Number(subscriptionMonths) || 0
-        }
-      })
-    await writeDb(db);
-    const cart = db.carts.filter((c) => c.userId === userId);
-    return res.status(200).json({ success: true, cart });
-  } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
-  }
-}
 
 // POST /api/cart/remove -> body: { id }
 const removeFromCart = async (req, res) => {
@@ -140,13 +93,9 @@ const removeFromCart = async (req, res) => {
       .status(400)
       .json({ success: false, message: "productId (or id) is required" });
   try {
-    const db = await readDb();
     const userId = req.id;
-    db.carts = (db.carts || []).filter(
-      (c) => !(c.userId === userId && c.productId === pid)
-    );
-    await writeDb(db);
-    const cart = db.carts.filter((c) => c.userId === userId);
+    await Cart.deleteOne({ userId, productId: pid });
+    const cart = await Cart.find({ userId }).lean();
     return res.status(200).json({ success: true, cart });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
@@ -156,10 +105,8 @@ const removeFromCart = async (req, res) => {
 // POST /api/cart/clear
 const clearCart = async (req, res) => {
   try {
-    const db = await readDb();
     const userId = req.id;
-    db.carts = (db.carts || []).filter((c) => c.userId !== userId);
-    await writeDb(db);
+    await Cart.deleteMany({ userId });
     return res.status(200).json({ success: true, cart: [] });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });

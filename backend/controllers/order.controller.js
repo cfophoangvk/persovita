@@ -1,32 +1,24 @@
-const fs = require("fs");
-const path = require("path");
-const { toASCII } = require("punycode");
+const Order = require("../models/Order");
+const Cart = require("../models/Cart");
+const Shipping = require("../models/Shipping");
+const Payment = require("../models/Payment");
+const { createShipping } = require("./shipping.controller");
+const { createPayment } = require("./payment.controller");
 
-const dbPath = path.resolve(process.cwd(), "db/database.json");
-
-const readDb = async () => {
-  const raw = await fs.promises.readFile(dbPath, "utf-8");
-  return JSON.parse(raw || "{}");
-};
-
-const writeDb = async (db) => {
-  await fs.promises.writeFile(dbPath, JSON.stringify(db, null, 2));
+// Helper: get next auto-increment id
+const getNextOrderId = async () => {
+  const last = await Order.findOne().sort({ id: -1 }).lean();
+  return last ? last.id + 1 : 1;
 };
 
 // POST /api/orders/create
 const createOrder = async (req, res) => {
   try {
     const { shipping = null, payment = null, items: bodyItems } = req.body;
-    // allow unauthenticated (guest) orders: normalize undefined id to null
     const userId = typeof req.id === "undefined" ? null : req.id;
-    const db = await readDb();
-
-    const { createShipping } = require("./shipping.controller");
-    const { createPayment } = require("./payment.controller");
 
     let items = [];
     if (userId === null) {
-      // Guest order: expect items sent from frontend (e.g. localStorage persistCart)
       items = Array.isArray(bodyItems) ? bodyItems : [];
       if (!items || items.length === 0) {
         return res
@@ -34,9 +26,8 @@ const createOrder = async (req, res) => {
           .json({ success: false, message: "Cart is empty" });
       }
     } else {
-      // Authenticated user: use server-side cart and persist changes
-      db.carts = db.carts || [];
-      items = db.carts.filter((c) => c.userId === userId);
+      const cartItems = await Cart.find({ userId }).lean();
+      items = cartItems;
       if (!items || items.length === 0) {
         return res
           .status(400)
@@ -44,86 +35,73 @@ const createOrder = async (req, res) => {
       }
     }
 
-    db.orders = db.orders || [];
-    const newId = db.orders.length
-      ? Math.max(...db.orders.map((o) => o.id)) + 1
-      : 1;
-    // compute items total respecting subscriptionMonths and discounts
+    const newId = await getNextOrderId();
+
+    // compute items total
     const itemsTotal = items.reduce((s, it) => {
       const price = Number(it.price || 0);
       const qty = Number(it.quantity || 1);
       const months = Number(it.subscriptionMonths || 0);
       if (months <= 0) return s + price * qty;
       const gross = price * qty * months;
-      const multiplier = months === 1 ? 0.9 : 0.8; // 1 month -> 0.9, >=3 -> 0.8
+      const multiplier = months === 1 ? 0.9 : 0.8;
       const net = gross * multiplier;
       return s + net;
     }, 0);
 
-    // determine shipping costs: method cost (if provided) plus a base shipping fee
     const methodCost = shipping && shipping.price ? Number(shipping.price) : 0;
-    const baseShipping = 30000; // default base fee
+    const baseShipping = 30000;
     const total = itemsTotal + methodCost + baseShipping;
 
-    // Persist shipping/payment using the centralized helpers (they mutate db)
+    // Persist shipping/payment
     let shippingId = null;
     let paymentId = null;
+
     if (userId !== null) {
       if (shipping) {
-        // try to reuse an existing shipping record for this user
-        db.shipping = db.shipping || [];
-        const match = db.shipping.find(
-          (s) =>
-            s.userId === userId &&
-            ((shipping.address &&
-              s.address &&
-              s.address === shipping.address) ||
-              (shipping.city &&
-                s.city &&
-                s.city === shipping.city &&
-                shipping.country &&
-                s.country &&
-                s.country === shipping.country))
-        );
+        const match = await Shipping.findOne({
+          userId,
+          $or: [
+            ...(shipping.address ? [{ address: shipping.address }] : []),
+            ...(shipping.city && shipping.country
+              ? [{ city: shipping.city, country: shipping.country }]
+              : []),
+          ],
+        });
         if (match) {
           shippingId = match.id;
         } else {
-          const shipRecord = createShipping(db, userId, shipping);
+          const shipRecord = await createShipping(userId, shipping);
           shippingId = shipRecord.id;
         }
       }
 
       if (payment) {
-        // try to reuse existing payment record (match by method + info)
-        db.payment = db.payment || [];
-        const payMatch = db.payment.find(
-          (p) =>
-            p.userId === userId &&
-            p.method === payment.method &&
-            p.info === payment.info
-        );
+        const payMatch = await Payment.findOne({
+          userId,
+          method: payment.method,
+          info: payment.info,
+        });
         if (payMatch) {
           paymentId = payMatch.id;
         } else {
-          const payRecord = createPayment(db, userId, payment);
+          const payRecord = await createPayment(userId, payment);
           paymentId = payRecord.id;
         }
       }
     }
 
-    // If guest and provided payment, persist a payment record with userId = null
+    // guest payment
     if (userId === null && payment) {
-      db.payment = db.payment || [];
-      const payMatch = db.payment.find(
-        (p) =>
-          p.userId === null &&
-          p.method === payment.method &&
-          p.info === payment.info
-      );
+      const payMatch = await Payment.findOne({
+        userId: null,
+        method: payment.method,
+        info: payment.info,
+      });
       if (payMatch) {
         paymentId = payMatch.id;
       } else {
-        const payRecord = createPayment(db, null, payment);
+        const payRecord = await createPayment(null, payment);
         paymentId = payRecord.id;
       }
     }
@@ -138,7 +116,6 @@ const createOrder = async (req, res) => {
         subscription: it.subscription,
         subscriptionMonths: it.subscriptionMonths || 0,
       };
-      // compute subscription end date if subscriptionMonths > 0
       if (item.subscription && (item.subscriptionMonths || 0) > 0) {
         const start = new Date().toISOString();
         const end = new Date(start);
@@ -149,7 +126,7 @@ const createOrder = async (req, res) => {
       return item;
     });
 
-    const order = {
+    const orderData = {
       id: newId,
       userId,
       items: orderItems,
@@ -160,26 +137,22 @@ const createOrder = async (req, res) => {
       paymentId,
       total,
       status: "success",
-      createdAt: new Date().toISOString(),
     };
 
-    // persist order for both authenticated and guest users
-    db.orders = db.orders || [];
-    // mark guest orders explicitly
     if (userId === null) {
-      order.guest = true;
-      if (shipping) order.guestShipping = shipping;
-      if (payment) order.guestPayment = payment;
+      orderData.guest = true;
+      if (shipping) orderData.guestShipping = shipping;
+      if (payment) orderData.guestPayment = payment;
     }
-    db.orders.push(order);
 
-    // only remove server-side carts for authenticated users
+    const order = await Order.create(orderData);
+
+    // clear cart for authenticated users
     if (userId !== null) {
-      db.carts = (db.carts || []).filter((c) => c.userId !== userId);
+      await Cart.deleteMany({ userId });
     }
 
-    await writeDb(db);
-    return res.status(201).json({ success: true, order });
+    return res.status(201).json({ success: true, order: order.toObject() });
   } catch (err) {
     console.error("createOrder error", err);
     return res.status(500).json({ success: false, message: err.message });
@@ -189,11 +162,8 @@ const createOrder = async (req, res) => {
 // GET /api/orders
 const getOrders = async (req, res) => {
   try {
-    // allow unauthenticated (guest) orders: normalize undefined id to null
     const userId = typeof req.id === "undefined" ? null : req.id;
-    const db = await readDb();
-    db.orders = db.orders || [];
-    const orders = db.orders.filter((o) => o.userId === userId);
+    const orders = await Order.find({ userId }).lean();
     return res.status(200).json({ success: true, orders });
   } catch (err) {
     console.error("getOrders error", err);
